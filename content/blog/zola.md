@@ -10,3 +10,6 @@ date = "2025-12-16"
 figuring out zola with the ability to use my git folders and update remotely hosting on giyhub pages
 
 test test test
+
+had to add:
+git config --global --add safe.directory /github/workspace
