@@ -28,4 +28,18 @@ first git init
 then run
 `gh repo create destratified.github.io --public --source=.
 `
+this command creates the public version of the repo, syncing it and allowing you to work in your local folders. you might have to download another git prog to run the above command, mine didn't, but i remember trying to do that on my server.  you also will likely need to authorize and sign into your github account.  there are lots of little steps, you can choose https or ssh, i did https and a token but once you have that going it will setup the repo and you can verify with your githib repo list.
 
+next i did a quick `zola init force`  in the root of that directory.  the --force allows it to move past the .git files in the dir and create the dir structure needed.
+
+you can do as much syncing as you like throughout this process or wait until the end.  
+add a `.gitignore` file with the contents public/ to prevent syncing the public dir to github, it will create its own later.
+
+this pretty much gets ya up and running
+
+## content
+
+here I had some files stored in my ~forge/blog that i wanted to move over to the new dir/contents
+I just copied using cp -r from directory to directory
+i had been building zola before i decided to go this route, so i had the other `_index.md` file s sorted out. 
+my dir structure was contents with and about.md _index.md_
