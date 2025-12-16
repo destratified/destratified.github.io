@@ -38,8 +38,8 @@ this pretty much gets ya up and running
 
 here I had some files stored in my ~forge/blog that i wanted to move over to the new dir/contents
 I just copied using cp -r from directory to directory
-i had been building zola before i decided to go this route, so i had the other `_index.md` file s sorted out. 
-my dir structure was contents with and `about.md _index.md`and a /blog folder.  the `_index.md` file has the contents below:
+i had been building zola before i decided to go this route, so i had all the other `_index.md` files sorted out. 
+my dir structure was contents/ with an `about.md _index.md`and a /blog folder.  the `_index.md` file has the contents below:
 
 ```
 +++
@@ -109,4 +109,11 @@ now you have pretty much everything you need.  add a final file that helps to sk
 
 `touch .nojekyll`
 
+if you wanna check and make sure it all looks good...you can also do a `zola serve` and follow the link to the local webpage before you upload everything to git hub.  if you like how it all looks
+
+```
+git add . 
+git commit -m "update"
+git push
+```
 # github stuff
