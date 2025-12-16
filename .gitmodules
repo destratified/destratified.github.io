@@ -1,6 +1,1 @@
-[submodule "themes/terminus"]
-	path = themes/terminus
-	url = https://github.com/ebkalderon/terminus.git
-[submodule "themes/hyde"]
-	path = themes/hyde
-	url = https://github.com/getzola/hyde.git
+
