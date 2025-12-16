@@ -1,0 +1,7 @@
+# action.yaml
+name: 'ACTION_NAME'
+description: 'DESC'
+author: 'NAME'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
