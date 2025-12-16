@@ -17,7 +17,7 @@ i wanted to simplify my website currently at blog.destratify.pro to get away fro
 - change the source for the deployment to gh-pages
 - add a new file and watch it go!
 
-## init
+## downloading and init
 
 first i created a new directory in my laptops ~/forge folder in the way recommended by github
 `sudo mkdir -p ~/forge/<user>.github.io`
@@ -37,19 +37,38 @@ add a `.gitignore` file with the contents public/ to prevent syncing the public 
 
 this pretty much gets ya up and running
 
-## content
+## content and index files
 
 here I had some files stored in my ~forge/blog that i wanted to move over to the new dir/contents
 I just copied using cp -r from directory to directory
 i had been building zola before i decided to go this route, so i had the other `_index.md` file s sorted out. 
 my dir structure was contents with and `about.md _index.md`and a /blog folder.  the `_index.md` file has the contents below:
 
-+++
-title = "home"
+`+++`
+`title = "home"`
 
-[extra]
-section_path = "blog/_index.md"  # Where to find your posts.
-max_posts = 5  # Show 5 posts and a link to blog section on home page.
-+++
+`[extra]`
+`section_path = "blog/_index.md"  # Where to find your posts.`
+`max_posts = 5  # Show 5 posts and a link to blog section on home page.`
+`+++`
 
-the +++ enclose the contents of the instructions like a .yaml file and obviously the title instructs the builc how to orient things in the index.html file it builds in the /public folder later
+the +++ enclose the contents of the instructions like a .yaml file and obviously the title instructs the zola build command how to orient things in the index.html file it builds in the /public folder later
+all my .md files are in the /blog folder so I also need another files this index file points the homepage to pull info from the blog directory
+
+in the /blog folder i have all the posts i want to publish, each has a front-matter that is similar to below...i use a template for a webpost in obsidian, which i am still using to write posts, and update the git repos locally, syncing to the github repo main branch
+
+`+++`
+`title = "after proxmox reboot, found a couple issues"`
+`date = 2025-08-11`
+`+++`
+
+so the next thing that was necessary was to add that index.md file to the blog/ folder so that the zola build command understands how to handle the files in the directory.  for now i settled on some sorting by date and thus needed the front-matter in each .md file to aid in that.  the blog/index.md file looks like this:
+
+`+++`
+`title = "blog"`
+`paginate_by = 5`
+`sort_by = "date"`
+`+++`
+
+now that we have essentially got all of the content stuff together, the config.toml file in the root directory needed some tweaks:
+
