@@ -22,5 +22,10 @@ i wanted to simplify my website currently at blog.destratify.pro to get away fro
 first i created a new directory in my laptops ~/forge folder in the way recommended by github
 `sudo mkdir -p ~/forge/<user>.github.io`
 
-then you want to download your necessary programs: for me this was git and zola.  some installs will require another git program when you run the following command, but on arch mine just worked, or id done it at some point in the past
+then you want to download your necessary programs: for me this was git and zola.  some installs will require another git program when you run the following command, but on arch mine just worked, or id done it at some point in the past.
+
+first git init
+then run
+`gh repo create destratified.github.io --public --source=.
+`
 
