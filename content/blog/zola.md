@@ -42,4 +42,14 @@ this pretty much gets ya up and running
 here I had some files stored in my ~forge/blog that i wanted to move over to the new dir/contents
 I just copied using cp -r from directory to directory
 i had been building zola before i decided to go this route, so i had the other `_index.md` file s sorted out. 
-my dir structure was contents with and about.md _index.md_
+my dir structure was contents with and `about.md _index.md`and a /blog folder.  the `_index.md` file has the contents below:
+
++++
+title = "home"
+
+[extra]
+section_path = "blog/_index.md"  # Where to find your posts.
+max_posts = 5  # Show 5 posts and a link to blog section on home page.
++++
+
+the +++ enclose the contents of the instructions like a .yaml file and obviously the title instructs the builc how to orient things in the index.html file it builds in the /public folder later
