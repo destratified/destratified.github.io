@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "obsidian_templates/blog_template.md",
+                "file": "content/blog/_index.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "blog_template"
+              "title": "_index"
             }
           }
         ]
@@ -196,8 +196,9 @@
   },
   "active": "f25f07ce684b60aa",
   "lastOpenFiles": [
-    "content/blog/zola_pt2.md",
+    "content/_index.md",
     "content/blog/zola_pt3.md",
+    "content/blog/zola_pt2.md",
     "obsidian_templates/blog_template.md",
     "content/tag-listing.md",
     "content/blog/zola.md",
