@@ -117,3 +117,59 @@ git commit -m "update"
 git push
 ```
 # github stuff
+
+now with all that done and everything pushed to the repo, lets do another few things to get this going...now with that said I had this fuckered up for a while before i realized my mistake, so hopefully this will help you also.
+
+right now you should just have a "main" branch.  if you have more than that, delete the second branch...this is also how you can start over if something goes wrong.  you will need two things done.
+
+- create a token (classic) with repo access
+- create a github action
+
+first create the token by going to user > settings > developer settings > personal access tokens > tokens classic and create a token i used the name webpage, it doesnt really matter, just copy it before you navigate away from the page.
+
+then goto your repo you setup > settings > Secrets and variables > actions > new repo secret
+set the name to TOKEN and add the token into the field below and save
+
+next you will setup an action.  go back to the repo main page > actions
+
+here lots of options, but i just pick the simple basic and then delete everything in it and copy the code in below:
+
+```
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+      - name: Build and deploy
+        uses: shalzz/zola-deploy-action@v0.21.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+```
+click commit and the repo will start the commit, update and build the webpage
+
+the last thing you need to do is goto settings > pages
+there you will need to edit the the branch from main to gh-pages and click save.
+from this point on, every update to main should trigger the action to rebuild the static site from scratch, by posting this its confirmation of it working!
+
+next up zola pt2...adding tags, section pages and an about, blog, and tags menu on the homepage
