@@ -211,6 +211,14 @@
   },
   "active": "6de20a6542d831fd",
   "lastOpenFiles": [
+    "static/icons/web-app-manifest-512x512.png",
+    "static/icons/web-app-manifest-192x192.png",
+    "static/icons/site.webmanifest",
+    "static/icons/favicon-96x96.png",
+    "static/icons/favicon.svg",
+    "static/icons/favicon.ico",
+    "static/icons/apple-touch-icon.png",
+    "static/icons",
     "templates/Untitled.md",
     "content/tag-listing.md",
     "content/blog/zola_pt2.md",
@@ -238,16 +246,9 @@
     "public/images/social_icons/steam.svg",
     "public/images/social_icons/stackoverflow.svg",
     "public/images/social_icons/stackexchange.svg",
-    "public/images/social_icons/spotify.svg",
-    "public/images/social_icons/signal.svg",
-    "public/images/social_icons/rss.svg",
-    "public/images/social_icons/reddit.svg",
     "public/images/social_icons/LICENSE",
     "public/images/social_icons",
     "public/images",
-    "public/fonts/LICENSE",
-    "public/fonts/FiraCode-Regular.woff2",
-    "public/fonts/FiraCode-Bold.woff2",
     "().md"
   ]
 }
