@@ -1,7 +1,6 @@
 +++
 title = "{{title}}"
-date = "{{date}}"
-time = "{{time}}"
+date = "{{date}}:{{time}}"
 [taxonomies]
 tags = ["tag1", "tag2"]
 +++
