@@ -1,3 +1,4 @@
+
 # The URL the site will be built for
 base_url = "https://destratified.github.io"
 
@@ -23,11 +24,21 @@ highlight_code = true
 [extra]
 # Put all your custom variables here
 
-
+#main menu tabs for pages blog, all tags listed in front-matter and about
 main_menu = [
     { name = "blog", url = "blog", trailing_slash = true },
     { name = "tags", url = "tags", trailing_slash = true },
     { name = "about", url = "about", trailing_slash = true },
-
 ]
 
+# Author name: when specified, modifies the default
+# copyright text. Apart from author, it will
+# contain current year and a link to the theme.
+author = "970uts1d3"
+
+# Optional: Global favicon URL and mimetype.
+#           Mimetype defaults to "image/x-icon".
+#           The URL should point at a file located
+#           in your site's "static" directory.
+favicon = "icons/favicon.png"
+favicon_mimetype = "image/png"
