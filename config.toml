@@ -36,9 +36,4 @@ main_menu = [
 # contain current year and a link to the theme.
 author = "970uts1d3"
 
-# Optional: Global favicon URL and mimetype.
-#           Mimetype defaults to "image/x-icon".
-#           The URL should point at a file located
-#           in your site's "static" directory.
-favicon = "/static/icons/favicon.png"
-favicon_mimetype = "image/png"
+
