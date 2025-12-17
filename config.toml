@@ -31,9 +31,3 @@ main_menu = [
 
 ]
 
-[extra.favicon]
-favicon_96x96 = "/icons/favicon-96x96.png"
-apple_touch_icon = "/icons/apple-touch-icon.png"
-safari_pinned_tab = "/icons/safari-pinned-tab.svg"
-webmanifest = "/icons/site.webmanifest"   
-
