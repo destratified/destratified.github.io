@@ -40,5 +40,5 @@ author = "970uts1d3"
 #           Mimetype defaults to "image/x-icon".
 #           The URL should point at a file located
 #           in your site's "static" directory.
-favicon = "/favicon.png"
+favicon = "/static/icons/favicon.png"
 favicon_mimetype = "image/png"
