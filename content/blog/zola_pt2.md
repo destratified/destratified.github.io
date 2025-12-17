@@ -7,7 +7,7 @@ date = "2025-12-17"
 the next step i was having a hard time finding out how to do, so i went to the creator of the  themes github...
 [https://github.com/ebkalderon/terminus]()
 
-there, i took a peak at their config.toml and was able to discern that the  menu needed added to the [extra] section.  this was the code block i needed:
+there, i took a peak at their config.toml and was able to discern that the  menu needed added to the `extra` section.  this was the code block i needed:
 ```
 [extra]
 close_responsive_menu_on_resize = true
