@@ -4,7 +4,8 @@ date = "2025-12-16"
 +++
 # zola
 
-i wanted to simplify my website currently at blog.destratify.pro to get away from all the bullshit that comes along with wordpress.  also i was already using a github repo to do the site serving so i started poking aroung and found zola. first i tried using zola with a forgejo repo and then mirroring to codeberg...codeberg pages was a bust, buggy, kept fucking up the formatting.  i then tried multiple ways of getting github to work and finally found a way to make it all happen. this enabled me to use a local repo and then "serve" it to github.  github actions would always rebuild the static site on boot.  now that i have it working i'm going to play around with formatting, adding tabs, pages, getting the about page to show up and cross-referencing with tags.  one of the nice features of zola is that you can always test before you push to github with the local zola serve feature.  so here is what this looks like:
+i wanted to simplify my website currently at blog.destratify.pro to get away from all the bullshit that comes along with wordpress.  also i was already using a github repo to do the site serving so i started poking aroung and found zola. first i tried using zola with a forgejo repo and then mirroring to codeberg...codeberg pages was a bust, buggy, kept fucking up the formatting.  i then tried multiple ways of getting github to work and finally found a way to make it all happen. this enabled me to use a local repo and then "serve" it to github.  github actions would always rebuild the static site on update.  now that i have it working i'm going to play around with formatting, adding tags, a menu and getting the about page to show up.  one of the nice features of zola is that you can always test before you push to github with the local zola serve feature.  so here is what this looks like:
+
 - setup a directory to work in
 - download zola and git programs
 - init the repo
@@ -172,4 +173,4 @@ the last thing you need to do is goto settings > pages
 there you will need to edit the the branch from main to gh-pages and click save.
 from this point on, every update to main should trigger the action to rebuild the static site from scratch, by posting this its confirmation of it working!
 
-next up zola pt2...adding tags, section pages and an about, blog, and tags menu on the homepage
+next up zola pt2...adding tags, section pages and an about, blog, and tags menu on the homepage.  also i want my favicon in the webtab, so i'll have to figure that out too.
