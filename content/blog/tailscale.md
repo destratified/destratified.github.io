@@ -1,6 +1,8 @@
 +++
 title = "some useful shit you can do with tailscale"
 date = "2025-08-29"
+[taxonomies]
+tags = ["proxmox", "tailscale"]
 +++
 
 

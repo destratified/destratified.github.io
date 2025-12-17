@@ -1,6 +1,8 @@
 +++
 title = "bloggy101"
 date = "2025-10-11"
+[taxonomies]
+tags = ["blog", "proxmox"]
 +++
 
 ## Testing, testing

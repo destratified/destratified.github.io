@@ -1,6 +1,8 @@
 +++
 title = "now through obsidian"
 date = "2025-10-13"
+[taxonomies]
+tags = ["obsidian", "android", "proxmox"]
 +++
 
 

@@ -1,6 +1,8 @@
 +++
 title="getting backup to work on desktop via PVE"
 date = "2025-09-11"
+[taxonomies]
+tags = ["PVE", "backup", "proxmox"]
 +++
 
 

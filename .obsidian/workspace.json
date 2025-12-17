@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/blog/zola.md",
+                "file": "content/blog/after-install.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "zola"
+              "title": "after-install"
             }
           }
         ],
@@ -211,6 +211,17 @@
   },
   "active": "6de20a6542d831fd",
   "lastOpenFiles": [
+    "content/blog/ansible-setup-pt1.md",
+    "content/blog/backup-with-pve.md",
+    "content/blog/bloggy101.md",
+    "content/blog/codeberg-pt1.md",
+    "content/blog/forgejo-migrations.md",
+    "content/blog/gitea-depricated.md",
+    "content/blog/obsidian-setup-pt1.md",
+    "content/blog/obsidian-setup-pt2.md",
+    "content/blog/obsidian-setup-pt3.md",
+    "content/blog/tailscale.md",
+    "content/blog/zola.md",
     "content/blog/zola_pt2.md",
     "obsidian_templates/Untitled.md",
     "public/js/theme-switcher.js",
@@ -234,7 +245,6 @@
     "public/fonts/FiraCode-Regular.woff2",
     "public/fonts/FiraCode-Bold.woff2",
     "content/tag-listing.md",
-    "().md",
-    "content/blog/zola.md"
+    "().md"
   ]
 }

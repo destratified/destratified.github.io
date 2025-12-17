@@ -1,6 +1,8 @@
 +++
 title = "obsidian git repo sync android app"
 date = "2025-10-14"
+[taxonomies]
+tags = ["obsidian", "android", "proxmox"]
 +++
 
 so the basics of this is the app setup essentially has the same access to the git community repository, so the setup between android and linux is pretty much the same, yet different enough that you have to follow the below procedure - this specifically seems to be the way that you have to do it imho

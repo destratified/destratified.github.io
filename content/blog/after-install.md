@@ -1,6 +1,8 @@
 +++
 title = "after proxmox reboot, found a couple issues"
 date = 2025-08-11
+[taxonomies]
+tags = ["proxmox"]
 +++
 
 had some kernel updates go through on my latest dist upgrade for my proxmox host.

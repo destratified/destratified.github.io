@@ -1,6 +1,8 @@
 +++
 title = "forgejo migrations"
 date = "2025-11-26"
+[taxonomies]
+tags = ["forgejo", "proxmox"]
 +++
 
 so, just for shits and giggles I switched to FOSS forgejo from gitea. process was basically this:

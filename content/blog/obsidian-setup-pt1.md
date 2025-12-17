@@ -1,6 +1,8 @@
 +++
 title="howto create repos and install Obsidian using git remote folders"
 date = "2025-10-12"
+[taxonomies]
+tags = ["obsidian", "android", "proxmox"]
 +++
 
 

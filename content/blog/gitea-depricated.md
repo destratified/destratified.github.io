@@ -1,6 +1,8 @@
 +++
 title = "gitea sync (depricated)"
 date = "2025-09-10"
+[taxonomies]
+tags = ["gitea", "proxmox"]
 +++
 
 

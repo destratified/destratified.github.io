@@ -1,6 +1,8 @@
 +++
 title = "codeberg pt1"
 date = "2025-12-01"
+[taxonomies]
+tags = ["codeberg", "proxmox"]
 +++
 
 
