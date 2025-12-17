@@ -1,5 +1,5 @@
 +++
-title = "zola pt1"
+title = "zola_pt1"
 date = "2025-12-16"
 [taxonomies]
 tags = ["zola", "webdev"]

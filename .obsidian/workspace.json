@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "obsidian_templates/blog_template.md",
+                "file": "content/blog/zola_pt3.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "blog_template"
+              "title": "zola_pt3"
             }
           }
         ]
@@ -196,10 +196,11 @@
   },
   "active": "f25f07ce684b60aa",
   "lastOpenFiles": [
-    "content/blog/Untitled.md",
     "obsidian_templates/blog_template.md",
+    "content/blog/zola_pt3.md",
     "content/tag-listing.md",
     "content/blog/zola_pt2.md",
+    "content/blog/zola.md",
     "static/icons/web-app-manifest-512x512.png",
     "static/icons/web-app-manifest-192x192.png",
     "static/icons/site.webmanifest",
@@ -221,7 +222,6 @@
     "content/blog/obsidian-setup-pt2.md",
     "content/blog/obsidian-setup-pt3.md",
     "content/blog/tailscale.md",
-    "content/blog/zola.md",
     "public/js/theme-switcher.js",
     "public/js/copy-code-to-clipboard.js",
     "public/js/auto-close-popover-on-resize.js",
