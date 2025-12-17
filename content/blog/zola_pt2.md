@@ -1,6 +1,8 @@
 +++
 title = "zola pt2"
 date = "2025-12-17"
+[taxonomies]
+tags = ["zola", "webdev"]
 +++
 
 # zola_pt2
@@ -26,7 +28,9 @@ main_menu = [
     { name = "github", url = "https://github.com/ebkalderon/terminus", new_tab = true },
 ]
 ```
+
 i pruned that down, so i could test things one at a time
+
 ```
 [extra]
 # Put all your custom variables here
@@ -39,4 +43,6 @@ main_menu = [
 
 
 ```
+
 so far working great...i have the tags to figure out yet, but the blog and about work fine...
+
