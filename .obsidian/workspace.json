@@ -194,8 +194,10 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "f25f07ce684b60aa",
+  "active": "e2aae20ad6ceafa0",
   "lastOpenFiles": [
+    "static/icons/favicon.png",
+    "static/icons/Unconfirmed 241998.crdownload",
     "obsidian_templates/blog_template.md",
     "content/blog/proxmox.md",
     "content/blog/zola_pt2.md",
@@ -236,7 +238,6 @@
     "public/images/social_icons/stackoverflow.svg",
     "public/images/social_icons/LICENSE",
     "public/images/social_icons",
-    "public/images",
     "().md"
   ]
 }
