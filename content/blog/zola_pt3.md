@@ -1,6 +1,6 @@
 +++
 title = "zola_pt3"
-date = "2025-12-17:14:01"
+date = "2025-12-17"
 [taxonomies]
 tags = ["zola", "webdev"]
 +++
