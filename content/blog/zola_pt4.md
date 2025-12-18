@@ -1,10 +1,8 @@
 +++
 title = "zola_pt4"
-date = "2025-12-17:14:21"
+date = "2025-12-17 : 17:31"
 [taxonomies]
-tags = ["tag1", "tag2"]
+tags = ["zola", "webdev"]
 +++
-
-# zola_pt4
-
-heres a tester
+# time and date for zola
+ tester
