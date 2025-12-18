@@ -37,3 +37,5 @@ main_menu = [
 author = "970uts1d3"
 
 
+favicon = "/favicon-96x96.png"
+favicon_mimetype = "image/png"   
