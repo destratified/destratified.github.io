@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/blog/zola_pt2.md",
+                "file": "content/blog/proxmox.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "zola_pt2"
+              "title": "proxmox"
             }
           }
         ]
@@ -196,11 +196,15 @@
   },
   "active": "f25f07ce684b60aa",
   "lastOpenFiles": [
+    "static/icons/botanical.jpg",
+    "static/icons/Unconfirmed 886509.crdownload",
+    "content/blog/zola_pt2.md",
+    "static/icons/viking.JPG",
+    "static/icons/Unconfirmed 736247.crdownload",
     "content/blog/proxmox.md",
     "static/icons/favicon.png",
     "static/icons/Unconfirmed 241998.crdownload",
     "obsidian_templates/blog_template.md",
-    "content/blog/zola_pt2.md",
     "content/blog/zola_pt4.md",
     "content/blog/zola_pt3.md",
     "content/blog/zola.md",
@@ -234,9 +238,6 @@
     "public/images/social_icons/youtube.svg",
     "public/images/social_icons/x.svg",
     "public/images/social_icons/telegram.svg",
-    "public/images/social_icons/steam.svg",
-    "public/images/social_icons/LICENSE",
-    "public/images/social_icons",
     "().md"
   ]
 }
