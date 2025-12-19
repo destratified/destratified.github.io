@@ -27,7 +27,7 @@ one of the most fun parts of the initial boot, which took me about 1 month to pr
 
 # to be continued...
 
-so the first thing to create was a bash script that runs every minute monitoring the ipmi values for cpu.  enable the ipmi in your bios so you can talk to the interface. then create a simple bash script.  i websearched the dell 73-xd fan problem, found a base of code to start with and resolved the code to the below:
+so the first thing to create was a bash script that runs every minute monitoring the ipmi values for cpu.  enable the ipmi in your bios so you can talk to the interface. then create a simple bash script.  i websearched the dell 730-xd fan problem, found a base of code to start with and resolved the code to the below:
 ```
 #!/bin/bash
 
@@ -102,4 +102,4 @@ chmod this to an executable and start a new crontab `crontab -e` and add a new l
 */1 * * * * /bin/bash /home/scripts/fan_speed.sh > /dev/null 2>&1
 ```
 
-this lets it run every hour.  with this initial setup done, its time to get to work.  i made sure all server updates were applied, updated the os and started to monkey around with installing vms, lxcs and whatnot
+this lets it run every minute.  with this initial setup done, its time to get to work.  i made sure all server updates were applied, updated the os and started to monkey around with installing vms, lxcs and whatnot
