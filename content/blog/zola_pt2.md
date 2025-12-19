@@ -150,3 +150,10 @@ tags = ["tag1", "tag2"]
 i just edit the tags and away i go.  i followed the link below to figure out how to setup the templates folder in my vault, remember keep it simple!
 
 <https://obsidian.rocks/getting-started-with-templates-in-obsidian/>
+
+also for funzies.  if you have a favicon you'd like to use...add it to the static/icons folder, named as `favicon.png` and include the code below after the `[extra]` section of the `config.toml` file:
+
+```
+favicon = "/icons/favicon.png"
+favicon_mimetype = "image/png"
+```
