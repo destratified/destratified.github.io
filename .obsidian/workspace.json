@@ -194,8 +194,10 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "e79c7ece009c644e",
+  "active": "e2aae20ad6ceafa0",
   "lastOpenFiles": [
+    "templates/shortcodes/image.html",
+    "templates/shortcodes",
     "static/img/Screenshotzfs.png",
     "content/blog/zfs.md",
     "static/img",
@@ -238,7 +240,6 @@
     "content/blog/obsidian-setup-pt1.md",
     "content/blog/obsidian-setup-pt3.md",
     "content/blog/tailscale.md",
-    "public/js/theme-switcher.js",
     "public/images/social_icons/youtube.svg",
     "().md"
   ]
