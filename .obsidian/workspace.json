@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/blog/proxmox.md",
+                "file": "content/blog/inktheghost.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "proxmox"
+              "title": "inktheghost"
             }
           }
         ]
@@ -196,13 +196,14 @@
   },
   "active": "f25f07ce684b60aa",
   "lastOpenFiles": [
+    "content/blog/proxmox.md",
+    "content/blog/inktheghost.md",
     "static/CNAME",
     "static/icons/botanical.jpg",
     "static/icons/Unconfirmed 886509.crdownload",
     "content/blog/zola_pt2.md",
     "static/icons/viking.JPG",
     "static/icons/Unconfirmed 736247.crdownload",
-    "content/blog/proxmox.md",
     "static/icons/favicon.png",
     "static/icons/Unconfirmed 241998.crdownload",
     "obsidian_templates/blog_template.md",
@@ -235,7 +236,6 @@
     "public/js/theme-switcher.js",
     "public/js/copy-code-to-clipboard.js",
     "public/js/auto-close-popover-on-resize.js",
-    "public/js",
     "public/images/social_icons/youtube.svg",
     "public/images/social_icons/x.svg",
     "().md"
