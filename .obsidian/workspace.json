@@ -196,6 +196,7 @@
   },
   "active": "f25f07ce684b60aa",
   "lastOpenFiles": [
+    "static/CNAME",
     "static/icons/botanical.jpg",
     "static/icons/Unconfirmed 886509.crdownload",
     "content/blog/zola_pt2.md",
@@ -237,7 +238,6 @@
     "public/js",
     "public/images/social_icons/youtube.svg",
     "public/images/social_icons/x.svg",
-    "public/images/social_icons/telegram.svg",
     "().md"
   ]
 }
