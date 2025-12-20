@@ -47,4 +47,4 @@ zpool online -e vmpool nvme0n1
 
 after this command everything showed up correctly using the status command:
 
-![this is a screenshot](/img/Screenshotzfs.png)
+![this is a screenshot](/img/screenshotzfs.png)

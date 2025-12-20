@@ -194,12 +194,13 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "e2aae20ad6ceafa0",
+  "active": "e79c7ece009c644e",
   "lastOpenFiles": [
+    "static/img/Screenshotzfs.png",
+    "static/img/screenshotzfs.png",
+    "content/blog/zfs.md",
     "templates/shortcodes/image.html",
     "templates/shortcodes",
-    "static/img/Screenshotzfs.png",
-    "content/blog/zfs.md",
     "static/img",
     "img/screenshot.png.md",
     "img",
@@ -228,7 +229,6 @@
     "static/icons/favicon.svg",
     "static/icons/favicon.ico",
     "static/icons/apple-touch-icon.png",
-    "static/icons",
     "templates/Untitled.md",
     "content/blog/after-install.md",
     "content/blog/ansible-setup-pt1.md",
