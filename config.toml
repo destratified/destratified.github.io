@@ -1,6 +1,6 @@
 
 # The URL the site will be built for
-base_url = "https://destratified.github.io"
+base_url = "https://inktheghost.com"
 
 theme = "terminus"
 title = "ink the ghost"
