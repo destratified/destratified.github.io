@@ -9,12 +9,11 @@ tags = ["zola", "webdev"]
 # inktheghost.com
  ## 17:53
 
-wanting to move my blog to a domain name i have setup instead of the name github pages give me i did a little searching.  borrowing from the excerpt from <https://thedataquarry.com/blog/static-site-zola/> which i've pulled some random zola information before...i setup a name cheap domain to match my webpage - holiday discounts out rn! i found inktheghost.com was not taken. yay. and proceeded to pay and setup as shown by <thedataquarry.com>
+wanting to move my blog to a domain name i have setup instead of the name github pages give me i did a little searching.  borrowing from the excerpt from <https://thedataquarry.com/blog/static-site-zola/> from which i've pulled some random zola information before...i setup a name cheap domain to match my webpage - holiday discounts out rn! i found inktheghost.com was not taken. yay. and proceeded to pay and setup as shown by <thedataquarry.com>
 
 following his namecheap directions...i already have a namecheap account so that part was easy. i did the below:
-```
-I created the list of A records to point my apex domain to the IP addresses for the GitHub Page, as per the docs. Note the `CNAME Record` on the last line (this is important). On the Zola side, I simply create a file called `CNAME` in the `static` folder, and add the following line to it:
-```
+
+"I created the list of A records to point my apex domain to the IP addresses for the GitHub Page, as per the docs. Note the `CNAME Record` on the last line (this is important). On the Zola side, I simply create a file called `CNAME` in the `static` folder, and add the following line to it:"
 
 ```
 inktheghost.com
