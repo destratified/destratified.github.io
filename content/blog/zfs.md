@@ -48,3 +48,7 @@ zpool online -e vmpool nvme0n1
 after this command everything showed up correctly using the status command:
 
 ![this is a screenshot](/img/screenshotzfs.png)
+
+https://ostechnix.com/move-proxmox-containers-vms-to-different-disk/
+
+this looks like a pretty good guide, and will update as i go through the process of redoing the storage for my vms and lxc containers.
