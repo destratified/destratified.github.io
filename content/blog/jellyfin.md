@@ -3,10 +3,10 @@ title = "jellyfin"
 date = "2025-12-21"
 
 [taxonomies]
-tags = ["jellyfin", "arch", "proxmox"]
+tags = ["jellyfin", "arch", "proxmox", "docker"]
 +++
 
-# jellyfin 
+# jellyfin - destroy and rebuild 
  ## 08:49
  well i've had the unfortunate luxury of arch trying to break my jellyfin instance...this coupled with my adding of an nvme drive that i've wanted to use for transcoding and fully breaking the install by removing the transcode dir/files for jellyfin and not copying them :/  i was left with a half day trying to get the jellyfin instance back online before i hit the wall.  
  
@@ -38,7 +38,7 @@ sudo nvidia-ctk config --in-place --set nvidia-container-runtime.mode=cdi
 sudo systemctl restart docker
 ```
 
-i also needed to add my user to dockerr so i could issue the next command without sudo:
+i also needed to add my user to docker so i could issue future docker commands without sudo:
 
 ```
 sudo usermod -aG docker $USER   
