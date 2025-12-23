@@ -40,7 +40,7 @@
             "state": {
               "type": "file-explorer",
               "state": {
-                "sortOrder": "alphabetical",
+                "sortOrder": "byCreatedTime",
                 "autoReveal": false
               },
               "icon": "lucide-folder-closed",
@@ -196,12 +196,12 @@
   },
   "active": "5ed46369a9a740b1",
   "lastOpenFiles": [
+    "2025-12-21.md",
+    "content/blog/jellyfin.md",
     "static/img/screenshotjellyfin3.png",
     "static/img/screenshotjellyfin2.png",
     "static/img/screenshotjellyfin1.png",
     "content/blog/zfs.md",
-    "content/blog/jellyfin.md",
-    "2025-12-21.md",
     "static/img/Screenshotzfs.png",
     "static/img/screenshotzfs.png",
     "templates/shortcodes/image.html",
@@ -230,7 +230,6 @@
     "static/icons/web-app-manifest-512x512.png",
     "static/icons/web-app-manifest-192x192.png",
     "static/icons/site.webmanifest",
-    "static/icons/favicon-96x96.png",
     "static/icons/favicon.ico",
     "templates/Untitled.md",
     "content/blog/after-install.md",
