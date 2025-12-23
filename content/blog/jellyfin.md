@@ -95,3 +95,19 @@ docker exec jellyfin nvidia-smi
 ![this is a screenshot](/img/screenshotjellyfin2.png)
 
 i find it interesting that the output of the docker exec comman shows the fan speed and total gpu% outputs, yet does't show the call for ffmpeg, in fact no processes at all.  i chalking that up to ffmpeg actually executing on the host and not within the docker containers as it is all a passthough.
+
+## Update - block nvidia-open
+
+so the most recent pacman -Syu broke my system - this is probable what caused the problem in the first place ;) 
+
+```
+sudo nano /etc/pacman.conf
+```
+
+uncomment the IgnorePkg = and add the below
+
+```
+IgnorePkg = nvidia-open   
+```
+
+after another pacman -Syu the upgrade said it had nothing to do, so hopefully this will by me time to sort out how to negotiate the nvida-open dilemma
