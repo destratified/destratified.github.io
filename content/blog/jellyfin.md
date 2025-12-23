@@ -110,4 +110,6 @@ uncomment the IgnorePkg = and add the below
 IgnorePkg = nvidia-open   
 ```
 
-after another pacman -Syu the upgrade said it had nothing to do, so hopefully this will by me time to sort out how to negotiate the nvida-open dilemma
+after another pacman -Syu the upgrade said it had nothing to do, so hopefully this will by me time to sort out how to negotiate the nvida-open dilemma.
+
+the AI search in duckduckgo says that the nvidia-open drivers wont work with older cards like maxwell and pascal, but i haven't dug into it at all
