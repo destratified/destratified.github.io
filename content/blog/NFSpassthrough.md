@@ -76,11 +76,9 @@ now, some people may have multiple users on the client and the server.  you need
 ### notes
 at this point all should be ready to copy files.  i used a rsync command on my synology NAS that I was ssh'd into to move all my files over to the server.  i followed trashguides directory structure when i originally setup the *arrs* on the nas so it looks like this:
 ```
----storage
-   - data
-     - media
-       |- books
-       |- movies
-       |- music
-       |- tv
+   /storage/data/media
+       /books
+       /movies
+       /music
+       /tv
 ```
