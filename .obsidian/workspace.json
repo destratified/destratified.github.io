@@ -194,8 +194,9 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "a398f08118a042a9",
+  "active": "e2aae20ad6ceafa0",
   "lastOpenFiles": [
+    "templates/archive.html.tera",
     "content/archive.md",
     "content/tag-listing.md",
     "content/archive/_index.md",
@@ -240,7 +241,6 @@
     "content/blog/ansible-setup-pt1.md",
     "content/blog/backup-with-pve.md",
     "content/blog/codeberg-pt1.md",
-    "content/blog/bloggy101.md",
-    "content/blog/forgejo-migrations.md"
+    "content/blog/bloggy101.md"
   ]
 }

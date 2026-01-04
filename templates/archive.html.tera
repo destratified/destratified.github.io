@@ -1,0 +1,20 @@
+{% set title = "Archive" %}
+{% extends "base.html.tera" %}
+
+{% block content %}
+<h1>{{ title }}</h1>
+<ul>
+    {% for page in pagination.items %}
+        <li>
+            <a href="{{ page.permalink }}">{{ page.title }}</a> - {{ page.date | date("%B %d, %Y") }}
+        </li>
+    {% endfor %}
+</ul>
+
+{% if pagination.next %}
+    <a href="{{ pagination.next }}">Next Page</a>
+{% endif %}
+{% if pagination.prev %}
+    <a href="{{ pagination.prev }}">Previous Page</a>
+{% endif %}
+{% endblock %}
