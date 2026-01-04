@@ -6,6 +6,7 @@
     | sort(attribute="date")
     | reverse
     | group_by(attribute="year") %}
+  {% endfor %}
   {% set posts_by_year = section.pages | group_by(attribute="year") %} 
   {% set_global years = [] %}
   {% for year, ignored in posts_by_year %}
