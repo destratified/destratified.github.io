@@ -14,3 +14,4 @@ i got tired of netflix, amazon and other streaming services. i wanted what i pur
 i began to run out of storage and setup the jellyfin instance to be available on the www . connection was working, but the video sucked, jittery AF playback, entirely unusable.
 ...what? my synobox has no ability to transcode?
 
+970uts1d3
