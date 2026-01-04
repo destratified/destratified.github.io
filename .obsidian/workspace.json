@@ -196,6 +196,7 @@
   },
   "active": "a398f08118a042a9",
   "lastOpenFiles": [
+    "content/archive.md",
     "content/archive/_index.md",
     "content/archive",
     "templates/archive.html",
@@ -240,7 +241,6 @@
     "content/blog/backup-with-pve.md",
     "content/blog/codeberg-pt1.md",
     "content/blog/bloggy101.md",
-    "content/blog/forgejo-migrations.md",
-    "content/blog/gitea-depricated.md"
+    "content/blog/forgejo-migrations.md"
   ]
 }
