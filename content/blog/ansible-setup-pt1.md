@@ -1,5 +1,5 @@
 +++
-title = "this ones a doozy - gitea sync ansible update playbooks for proxmox host - pt.1"
+title = "ansible playbooks for proxmox host - pt.1"
 date = "2025-10-31"
 [taxonomies]
 tags = ["ansible", "backup", "proxmox"]

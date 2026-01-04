@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/tag-listing.md",
+                "file": "content/blog/ansible-setup-pt1.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "tag-listing"
+              "title": "ansible-setup-pt1"
             }
           }
         ]
@@ -194,13 +194,13 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "e2aae20ad6ceafa0",
+  "active": "a398f08118a042a9",
   "lastOpenFiles": [
+    "content/tag-listing.md",
     "templates/archive.html",
     "templates/archive.html.bak",
     "content/archive.md",
     "templates/archive.html.tera",
-    "content/tag-listing.md",
     "content/archive/_index.md",
     "content/archive",
     "templates/Untitled.md",
@@ -226,7 +226,6 @@
     "static/icons/Unconfirmed 886509.crdownload",
     "content/blog/zola_pt2.md",
     "static/icons/viking.JPG",
-    "static/icons/Unconfirmed 736247.crdownload",
     "static/icons/favicon.png",
     "obsidian_templates/blog_template.md",
     "content/blog/zola_pt4.md",
