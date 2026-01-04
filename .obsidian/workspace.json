@@ -196,8 +196,8 @@
   },
   "active": "e2aae20ad6ceafa0",
   "lastOpenFiles": [
-    "templates/archive.html.tera",
     "content/archive.md",
+    "templates/archive.html.tera",
     "content/tag-listing.md",
     "content/archive/_index.md",
     "content/archive",
@@ -227,7 +227,6 @@
     "static/icons/viking.JPG",
     "static/icons/Unconfirmed 736247.crdownload",
     "static/icons/favicon.png",
-    "static/icons/Unconfirmed 241998.crdownload",
     "obsidian_templates/blog_template.md",
     "content/blog/zola_pt4.md",
     "content/blog/zola_pt3.md",
