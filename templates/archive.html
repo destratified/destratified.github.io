@@ -12,21 +12,4 @@
   {% endfor %}
 {% endblock content %}
 
-# {% extends "base.html" %}
-# {% block content %}
-# <header>
-#    <h2>Tags</h2>
-# </header>
-# {% set blogtags = get_taxonomy(kind="tags") %}
-# {% for tag in blogtags.items %}
-#    <h3 id="{{ tag.name | slugify }}">{{ tag.name }}</h3>
-#    <ul>
-#        {% for post in tag.pages %}
-#            <li>
-#                <time datetime="{{ post.date }}">{{ post.date }}</time> –
-#                <a href="{{ post.permalink | safe }}">{{ post.title }}</a>
-#            </li>
-#        {% endfor %}
-#    </ul>
-# {% endfor %}
-# {% endblock content %}  
+
