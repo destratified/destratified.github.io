@@ -12,7 +12,7 @@ tags = ["zola", "webdev"]
 
 i was attempting to follow the procedure for adding an archive to the tabs on my homepage for grouping by year in decending order.
 
-i was following the example by Peter Babic from his page < https://peterbabic.dev/blog/add-archive-into-zola/> the below code is saved as /templates/archive.html
+i was following the example by Peter Babic from his page <https://peterbabic.dev/blog/add-archive-into-zola/> the below code is saved as /templates/archive.html
 
 the code snippet was close:
 ```

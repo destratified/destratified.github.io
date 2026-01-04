@@ -196,8 +196,9 @@
   },
   "active": "a398f08118a042a9",
   "lastOpenFiles": [
-    "content/archive.md",
+    "content/blog/jellyfin.md",
     "content/blog/archive tab for zola.md",
+    "content/archive.md",
     "content/blog/ansible-setup-pt1.md",
     "content/tag-listing.md",
     "templates/archive.html",
@@ -207,7 +208,6 @@
     "content/archive",
     "templates/Untitled.md",
     "content/blog/NFSpassthrough.md",
-    "content/blog/jellyfin.md",
     "2025-12-21.md",
     "static/img/screenshotjellyfin3.png",
     "static/img/screenshotjellyfin2.png",
