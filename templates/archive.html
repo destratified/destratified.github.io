@@ -5,7 +5,7 @@
 <ul>
     {% for page in pagination.items %}
         <li>
-            <a href="{{ page.permalink }}">{{ page.title }}</a> - {{ page.date | date('%B %d, %Y') }}
+            <a href="{{ page.permalink }}">{{ page.title }}</a> - {{ page.date | format_date('%B %d, %Y') }}
         </li>
     {% endfor %}
 </ul>
