@@ -1,21 +1,32 @@
 {% extends "base.html" %}
 
 {% block content %}
+<header>
+    <h2>Tags</h2>
+</header>
   {% set section = get_section(path="blog/_index.md") %}
   {% for month, posts in section.pages
     | sort(attribute="date")
     | reverse
     | group_by(attribute="month") %}
-  <div class="archive">
-    <h2>{{ month }}</h2>
-    <ul>
-      {% for post in posts %}
-      <li>
-        <time>{{ post.date | date(format="%d-%h") }}</time>
-        <a href="{{ post.permalink }}">{{ post.title }}</a>
-      </li>
-      {% endfor %}
-    </ul>
-  </div>
   {% endfor %}
 {% endblock content %}
+
+#{% extends "base.html" %}
+#{% block content %}
+#<header>
+#    <h2>Tags</h2>
+#</header>
+#{% set blogtags = get_taxonomy(kind="tags") %}
+#{% for tag in blogtags.items %}
+#    <h3 id="{{ tag.name | slugify }}">{{ tag.name }}</h3>
+#    <ul>
+#        {% for post in tag.pages %}
+#            <li>
+#                <time datetime="{{ post.date }}">{{ post.date }}</time> –
+#                <a href="{{ post.permalink | safe }}">{{ post.title }}</a>
+#            </li>
+#        {% endfor %}
+#    </ul>
+#{% endfor %}
+#{% endblock content %}  
