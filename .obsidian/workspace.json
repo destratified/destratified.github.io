@@ -196,8 +196,8 @@
   },
   "active": "e2aae20ad6ceafa0",
   "lastOpenFiles": [
-    "templates/archive.html.bak",
     "templates/archive.html",
+    "templates/archive.html.bak",
     "content/archive.md",
     "templates/archive.html.tera",
     "content/tag-listing.md",
