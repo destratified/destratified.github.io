@@ -1,3 +1,5 @@
+{% extends "section.html" %}
+
 {% block content %}
   {% set section = get_section(path="blog/_index.md") %}
   {% for year, posts in section.pages
