@@ -1,0 +1,21 @@
+{% extends "index.html" %}
+
+{% block content %}
+  {% set section = get_section(path="blog/_index.md") %}
+  {% for month, posts in section.pages
+    | sort(attribute="date")
+    | reverse
+    | group_by(attribute="month") %}
+  <div class="archive">
+    <h2>{{ month }}</h2>
+    <ul>
+      {% for post in posts %}
+      <li>
+        <time>{{ post.date | date(format="%d-%h") }}</time>
+        <a href="{{ post.permalink }}">{{ post.title }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endfor %}
+{% endblock content %}

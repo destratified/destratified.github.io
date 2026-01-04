@@ -27,6 +27,7 @@ highlight_code = true
 #main menu tabs for pages blog, all tags listed in front-matter and about
 main_menu = [
     { name = "blog", url = "blog", trailing_slash = true },
+    { name = "archive", url = "archive", trailing_slash = true },
     { name = "tags", url = "tags", trailing_slash = true },
     { name = "about", url = "about", trailing_slash = true },
 ]

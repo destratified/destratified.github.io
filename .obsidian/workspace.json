@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/blog/NFSpassthrough.md",
+                "file": "content/tag-listing.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "NFSpassthrough"
+              "title": "tag-listing"
             }
           }
         ]
@@ -194,8 +194,13 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "7e52069fcfa3aa74",
+  "active": "a398f08118a042a9",
   "lastOpenFiles": [
+    "content/archive/_index.md",
+    "content/archive",
+    "templates/archive.html",
+    "templates/Untitled.md",
+    "content/tag-listing.md",
     "content/blog/NFSpassthrough.md",
     "content/blog/Untitled.md",
     "content/blog/jellyfin.md",
@@ -228,19 +233,14 @@
     "content/blog/obsidian-setup-pt2.md",
     "content/blog/_index.md",
     "content/_index.md",
-    "content/tag-listing.md",
     "static/icons/web-app-manifest-512x512.png",
     "static/icons/web-app-manifest-192x192.png",
-    "static/icons/site.webmanifest",
-    "static/icons/favicon.ico",
-    "templates/Untitled.md",
     "content/blog/after-install.md",
     "content/blog/ansible-setup-pt1.md",
     "content/blog/backup-with-pve.md",
     "content/blog/codeberg-pt1.md",
     "content/blog/bloggy101.md",
     "content/blog/forgejo-migrations.md",
-    "content/blog/gitea-depricated.md",
-    "content/blog/obsidian-setup-pt1.md"
+    "content/blog/gitea-depricated.md"
   ]
 }
