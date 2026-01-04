@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% block main %}
   {% set section = get_section(path="blog/_index.md") %}
   {% for year, posts in section.pages
     | sort(attribute="date")
     | reverse
     | group_by(attribute="year") %}
   {% endfor %}
-{% endblock content %}
+{% endblock main %}
