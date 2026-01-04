@@ -1,13 +1,20 @@
-{% extends "index.html" %}
+{% extends "base.html" %}
 
-{% set section = get_section(path="blog/_index.md") %}
-
-{% for year, posts in section.pages | group_by(attribute="year") %}
-    <h2>{{ year }}</h2>
-
-    <ul>
-    {% for post in posts %}
-        <li><a href="{{ post.permalink }}">{{ post.title }}</a></li>
+{% block content %}
+    {% set section = get_section(path="blog/_index.md") %} 
+    {% for year, posts in section.pages | group_by(attribute="year") %}
+        <h2>{{ year }}</h2>
+        {% if posts | length > 0 %}
+            <ul>
+                {% for post in posts %}
+                    <li>
+                        <a href="{{ post.permalink }}" title="{{ post.title }}">{{ post.title }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No posts available for this year.</p>
+        {% endif %}
     {% endfor %}
-    </ul>
-{% endfor %}
+{% endblock %}
+
