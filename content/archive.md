@@ -1,4 +1,4 @@
 +++
 title = "Archive"
-template = "archive.html.tera"
+template = "archive.html"
 +++
