@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/blog/ansible-setup-pt1.md",
+                "file": "content/blog/archive tab for zola.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ansible-setup-pt1"
+              "title": "archive tab for zola"
             }
           }
         ]
@@ -196,16 +196,17 @@
   },
   "active": "a398f08118a042a9",
   "lastOpenFiles": [
+    "content/archive.md",
+    "content/blog/archive tab for zola.md",
+    "content/blog/ansible-setup-pt1.md",
     "content/tag-listing.md",
     "templates/archive.html",
     "templates/archive.html.bak",
-    "content/archive.md",
     "templates/archive.html.tera",
     "content/archive/_index.md",
     "content/archive",
     "templates/Untitled.md",
     "content/blog/NFSpassthrough.md",
-    "content/blog/Untitled.md",
     "content/blog/jellyfin.md",
     "2025-12-21.md",
     "static/img/screenshotjellyfin3.png",
@@ -237,7 +238,6 @@
     "static/icons/web-app-manifest-512x512.png",
     "static/icons/web-app-manifest-192x192.png",
     "content/blog/after-install.md",
-    "content/blog/ansible-setup-pt1.md",
     "content/blog/backup-with-pve.md",
     "content/blog/codeberg-pt1.md",
     "content/blog/bloggy101.md"
