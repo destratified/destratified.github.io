@@ -1,4 +1,3 @@
-{% set title = "Archive" %}
 {% extends "base.html" %}
 
 {% block content %}
@@ -14,6 +13,7 @@
 {% if pagination.next %}
     <a href="{{ pagination.next }}">Next Page</a>
 {% endif %}
+
 {% if pagination.prev %}
     <a href="{{ pagination.prev }}">Previous Page</a>
 {% endif %}
