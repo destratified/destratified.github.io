@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/about.md",
+                "file": "content/blog/archive tab for zola.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "about"
+              "title": "archive tab for zola"
             }
           }
         ]
@@ -196,6 +196,8 @@
   },
   "active": "a398f08118a042a9",
   "lastOpenFiles": [
+    "content/blog/NFSpassthrough.md",
+    "content/about.md",
     "content/blog/archive tab for zola.md",
     "content/blog/jellyfin.md",
     "content/archive.md",
@@ -207,7 +209,6 @@
     "content/archive/_index.md",
     "content/archive",
     "templates/Untitled.md",
-    "content/blog/NFSpassthrough.md",
     "2025-12-21.md",
     "static/img/screenshotjellyfin3.png",
     "static/img/screenshotjellyfin2.png",
