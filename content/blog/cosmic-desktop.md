@@ -8,7 +8,7 @@ tags = ["arch", "desktop"]
 
 # cosmic-desktop install and experience
  ## 11:37
- so...ive grown a little tired of garuda on the desktop.  it was time to change things up a bit.  I made sure to keep my btrfs sdd current and copied all necessary /home files etc before taking the plunge.  i decided i was going to make it my only DE and so I needed to start completely over from scratch.  some things are easier than others and i found that i'll need some work arounds to get things working with my server connections etc. booting it up will tell me alot.  
+ so...ive grown a little tired of garuda on the desktop.  it was time to change things up a bit.  i made sure to keep my btrfs sdd current and copied all necessary /home files etc before taking the plunge.  i decided i was going to make it my only DE and so i needed to start completely over from scratch.  some things are easier than others and i found that i'll need some work arounds to get things working with my server connections etc. booting it up will tell me alot.  
 
 so i started with the most recent arch iso, pulled from their repo, i found the below to download at about 10Mb/s which took like 4 min,  not bad for an iso mirror.
 <https://losangeles.mirror.pkgbuild.com/iso/2026.01.01/archlinux-2026.01.01-x86_64.iso>
