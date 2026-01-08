@@ -13,7 +13,7 @@ tags = ["arch", "desktop"]
 so i started with the most recent arch iso, pulled from their repo, i found the below to download at about 10Mb/s which took like 4 min,  not bad for an iso mirror.
 <https://losangeles.mirror.pkgbuild.com/iso/2026.01.01/archlinux-2026.01.01-x86_64.iso>
 
-i used gnome-disk-utility to copy the iso to the USB and make it bootable...just restore use the restore function and select  the .iso file and it'll take a couple minutes.
+i used gnome-disk-utility to copy the iso to the USB and make it bootable...just use the restore function and select  the .iso file and it'll take a couple minutes.
 
 i booted the OS into my bios, setup the USB boot first, and restarted. the MSI board i have also has a boot disk menu, i just wanted to make sure secure boot was off.
 
