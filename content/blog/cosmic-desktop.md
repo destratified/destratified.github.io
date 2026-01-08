@@ -52,5 +52,6 @@ sudo btrfs balance start /home
 ```
 
 i redid all the git mounts to my forgejo server and setup obsidian to folder (notes).
+i also installed yay and use it for building trivalent-bin, which is a FOSS browser (chromium-based) hardened and borrowing heavily from graphene OS vanadium browser and originally built for fedora secureBLUE.  try it out if you have a chance.  way better than Brave broswer.
 
 that's it for now! so far smooth sailing and i might even redo the laptop at some point.  the virt-manager and rustdesk solutions were probably the most difficult part of getting back to where I was.  overall i had probably a 1/2 doing setup.
