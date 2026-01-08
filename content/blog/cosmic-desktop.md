@@ -19,7 +19,7 @@ i booted the OS into my bios, setup the USB boot first, and restarted. the MSI b
 
 on boot, the desktop, which is pretty fast, got to a prompt in about 30s.  as I always do, i typed in `archinstall --advanced`
 
-i went through the usual items, setup Partitioning to recommended layout and used btrfs here, and also left off the 7tb ssd so files wouldn't be overwritten.  in the type menu, i selected cosmic and made sure to setup cosmic-greeter as the 'login manager'.  i also selected nvidia since my 4070ti was detected. i used the new 'open' drivers 590.xx which is the general direction we are moving with that stuff. no additional packages needed as i wanted to see what would come installed.  
+i went through the usual items, setup partitioning to recommended layout and used btrfs here, and also left off the 7tb ssd so files wouldn't be overwritten.  in the type menu, i selected cosmic and made sure to setup cosmic-greeter as the 'login manager'.  i also selected nvidia since my 4070ti was detected. i used the new 'open' drivers 590.xx which is the general direction we are moving with that stuff. no additional packages needed as i wanted to see what would come installed.  
 
 after setting up password, user and static IP, i was ready to boot.  total install time from first arch prompt was about 5 min to done.  reboot option selected and away we go. cosmic-greeter was nice, and set to default background both monitors came up and i entered my password i setup.  i was greeted by an informational bubble to walk me through some cosmic nuances.  i just clicked through it as i would rather just poke around.  some main differences off the bat:
 
