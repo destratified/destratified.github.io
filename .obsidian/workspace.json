@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/blog/test.md",
+                "file": "content/blog/laptop_cosmic.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "test"
+              "title": "laptop_cosmic"
             }
           }
         ]
@@ -197,7 +197,7 @@
   "active": "a398f08118a042a9",
   "lastOpenFiles": [
     "content/blog/cosmic-desktop.md",
-    "content/blog/test.md",
+    "content/blog/laptop_cosmic.md",
     "content/blog/archive tab for zola.md",
     "content/blog/NFSpassthrough.md",
     "content/about.md",
