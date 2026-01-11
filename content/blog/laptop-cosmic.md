@@ -29,3 +29,25 @@ workarounds:
 - trivalent: build direct from git
 - dont install yay or paru (probably shouldnt anyways)
 - forgejo mirror to my github repo stopped pushing (403 error) - likely unrelated
+
+### rustdeck:
+
+i've tried teamviewer, remmina and was having no love connecting to my win11 vm remotely via any of them.  teamviewer and remmina were buggy and slow, and i ran across rustdeck online and thought id give it a try.  at first go it worked flawlessly connecting out to the win11 vm.  i was able to setup permanent passwords.  it wouldn't connect to the laptop running wayland from win11, they were pretty clear it was still experimental, but it dd connect to windows, which is what i needed anyways. there was a ready indication for the connection at the bottom which recommended self-hosting.  i tried the rustdesk option for the server creating my own lxc w? debian 13 on my homelab and installing with the script:
+
+```
+wget https://raw.githubusercontent.com/techahold/rustdeskinstall/master/install.sh
+sudo chmod +x install.sh
+sudo ./install.sh
+```
+
+this didnt work at all for me, the webpage wasn't showing any useable info, couldnt get the terminals to connect.  i did notice a small blurb during the rustdesk server install that said that there was an alternative FOSS version put out by <https://github.com/infiniteremote/installer> 
+
+the README.md states:
+```
+### Why Infinite Remote?
+
+[](https://github.com/infiniteremote/installer?tab=readme-ov-file#why-infinite-remote)
+
+We have started our own project due to the lack of transparency of the RustDesk project and intend on forking and maintaining our own servers and clients, the vulnerabilities in the RustDesk client is too much for business use so we will be working hard on improving the codebase and security.
+```
+
