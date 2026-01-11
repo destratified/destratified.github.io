@@ -51,3 +51,10 @@ the README.md states:
 We have started our own project due to the lack of transparency of the RustDesk project and intend on forking and maintaining our own servers and clients, the vulnerabilities in the RustDesk client is too much for business use so we will be working hard on improving the codebase and security.
 ```
 
+this install went fine.  the webportal signin brought me to a more usable and understandable interface, the copy links didn't work in the installer page, but the important parts, API webpage and key were easy to see and copy.  the portal indicated the logins from each instance, with relevant details and the api login worked ok on the win11, i could use the addressbook showing the opensource api was working great! what a nice free add-on.
+
+### trivalent - secureBLUE browser
+a pretty long history of being a brave browser user.  the gimmicky shit with rewards etc were annoying and the founder was a shithead so i started looking for alternatives.  i wanted to keep with chrome (albeit a hardened version) and mainly for use of extensions - i like functionality of bit-warden since i have a self-hosted instance, and privacy badger doesnt hurt either.  i wish there was a true graphene vanadium port for linux, but the secureBLUE chromium port from Fedora is hardened and uses vanadium patches for additional tightening.  you will have to enable extensions from settings and all pop-ups blocked automagically.  here's the code for the install from git:
+
+```
+```
