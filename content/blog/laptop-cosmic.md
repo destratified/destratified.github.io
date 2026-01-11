@@ -17,7 +17,7 @@ it installed in about 3 min and was ready to reboot.  startup was un-eventful, b
 ```
 sudo chmod 4755 /usr/lib/polkit-1/polkit-agent-helper-1
 ```
-and back in business.  this assisted in setting up nearest city for time management.
+and back in business.  this assisted me in setting up nearest city for time settings.
 
 installer assisted with the internet connection as well (i chose network manager)
 
