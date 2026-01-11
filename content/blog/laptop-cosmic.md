@@ -8,7 +8,7 @@ tags = ["laptop", "arch", "cosmic"]
 
 # laptop cosmic installation
  ## 17:26
- since the last time i'd attempted to install arch on my laptop, i opted for the garuda arch variation because it took figuring out the iwctl protocol off the table and just worked.  well, i found it kinda bloaty and many things i didnt need, so i though i'd test out the cosmic desktop experience.  used it for a while on my desktop and now it was time to try installing it again.  plus, its now out of alpha and is included in the archinstall desktops options.
+ since the last time i'd attempted to install arch on my laptop, i opted for the garuda arch variation because it took figuring out the iwctl protocol off the table and just worked.  well, i found garuda kinda bloaty and many things i didnt need, so i though i'd test out the cosmic desktop experience.  i've used it for a while on my desktop and now it was time to try installing it on my laptop.  plus, its now out of alpha and is included in the archinstall desktops options.
 ## so what is new?
 the archinstall included the wifi setup at initial prompt, its buggy, kept closing...then working, but saying it didn't, after a couple trys, on the third archinstall command, the installer started pulling repos, indicating it actually had worked. archinsttall itself was pretty much the same, just selected cosmic in the type menu and left pretty much barebones.
 
