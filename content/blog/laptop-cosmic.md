@@ -25,7 +25,7 @@ installer assisted with the internet connection as well (i chose network manager
 so i had a bitch of a time installing all my  usual shit and after having the laptop mostly working, yay or paru would cause a change in required files by pacman and tanked my reflector command operation and fucked up my rustdesk and trivalent pulls from chaotic AUR.
 
 workarounds:
-- rustdesk build from git
-- trivalent build from git
+- rustdesk: download the pkg file
+- trivalent: build direct from git
 - dont install yay or paru (probably shouldnt anyways)
 - forgejo mirror to my github repo stopped pushing (403 error) - likely unrelated
