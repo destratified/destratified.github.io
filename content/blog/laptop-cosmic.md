@@ -54,8 +54,12 @@ this install went fine.  the webportal signin brought me to a more usable and un
 i have a pretty long history of being a brave browser user, since it first was in alpha.  the gimmicky shit with rewards etc were annoying and the founder turned out to be a big shithead so i started looking for alternatives.  i wanted to keep with chrome (albeit a hardened version) and mainly for use of extensions - i like functionality of bit-warden since i have a self-hosted instance, and privacy badger doesnt hurt either.  i wish there was a true graphene vanadium port for linux, but the secureBLUE chromium port from Fedora is hardened and uses vanadium patches for additional tightening.  you will have to enable extensions from settings and all pop-ups blocked automagically.  here's the code for the install from git:
 
 ```
-git clone https://github.com/secureblue/Trivalent.git
-cd 
+sudo pacman -S --needed git base-devel
+cd ~
+git clone https://aur.archlinux.org/trivalent-bin.git
+cd trivalent-bin
+makepkg -si
 ```
 
 read the deep wiki for more build info <https://deepwiki.com/secureblue/Trivalent>
+
