@@ -196,6 +196,9 @@
   },
   "active": "a398f08118a042a9",
   "lastOpenFiles": [
+    "content/blog/after-install.md",
+    "content/blog/backup-with-pve.md",
+    "obsidian_templates/blog_template.md",
     "content/blog/laptop-cosmic.md",
     "content/blog/cosmic-desktop.md",
     "content/blog/archive tab for zola.md",
@@ -231,7 +234,6 @@
     "content/blog/zola_pt2.md",
     "static/icons/viking.JPG",
     "static/icons/favicon.png",
-    "obsidian_templates/blog_template.md",
     "content/blog/zola_pt4.md",
     "content/blog/zola_pt3.md",
     "content/blog/zola.md",
@@ -239,8 +241,6 @@
     "content/blog/_index.md",
     "content/_index.md",
     "static/icons/web-app-manifest-512x512.png",
-    "static/icons/web-app-manifest-192x192.png",
-    "content/blog/after-install.md",
-    "content/blog/backup-with-pve.md"
+    "static/icons/web-app-manifest-192x192.png"
   ]
 }
