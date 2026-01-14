@@ -12,32 +12,7 @@ so i ended up having some issues getting the proxmox-backup-client command to ru
 
 heres the updated file i saved in the /root/ directory:
 ```
-#!/bin/bash
 
-##Setting environmental variables
-export PBS_USER=archy
-export PBS_PASSWORD=<urpasswd>
-export PBS_REPOSITORY=archy@pbs@192.168.50.3:8007:not-server2
-
-##Checking network connectivity
-ping -c 1 192.168.50.3 | grep "bytes from" > /dev/null
-if [ $? -eq 0 ]; then
-    echo "$(date '+%Y-%m-%d %H:%M:%S') - Network is connected" >> /home/joe/backup.log
-else
-    echo "$(date '+%Y-%m-%d %H:%M:%S') - Network is not connected" >> /home/joe/backup.log
-    echo "$(date '+%Y-%m-%d %H:%M:%S') - Backup failed" >> /home/joe/backup.log
-    exit 1
-fi
-
-##Sudo command with -E to preserve the env variables
-proxmox-backup-client backup root.pxar:/ --include-dev /home
-
-#testing backup error loop
-if [ $? -eq 0 ]; then
-    echo "$(date '+%Y-%m-%d %H:%M:%S') - Backup completed successfully" >> /home/joe/backup.log
-else
-    echo "$(date '+%Y-%m-%d %H:%M:%S') - Backup failed" >> /home/joe/backup.log
-fi  
 ```
 
 you can test by running the script backup.sh to make sure it works without erroring out with the above changes.
