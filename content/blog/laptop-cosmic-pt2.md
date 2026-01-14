@@ -1,6 +1,6 @@
 +++
 title = "laptop-cosmic-pt2"
-date = "2026-01-13"
+date = "2026-01-14"
 
 [taxonomies]
 tags = ["laptop", "arch", "cosmic"]
