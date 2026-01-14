@@ -13,8 +13,8 @@ so i've been doing alot of configuring since the laptop's come back online, some
 
 - bash
 - snapper/btrfs-assistant
-- backing up to PBS server [[backup-with-pve-updated]]
-- obsidian (again)
+- [[backup-with-pve-updated]] (again)
+- [[obsidian-setup-pt3]] (again)
 - bash backup and /builds to git repo for easier install
 
 ### bash 
