@@ -1,21 +1,34 @@
 +++
 title="getting backup to work on desktop via PVE"
-date = "2025-09-11"
+
 [taxonomies]
 tags = ["PVE", "backup", "proxmox"]
 +++
 
 
 
-# Update TL;DR
+# Update 1-13-2006 TL;DR
 so i ended up having some issues getting the proxmox-backup-client command to run, using sudo and after getting into the forums realized that i could su to root, move the file there, and append changes, chmod to execute and add the cronjob under the root user.  this eliminates the need all together for the sudo command!
 
 heres the updated file i saved in the /root/ directory:
 ```
+#!/bin/bash
 
+##Setting environmental variables
+
+export PBS_USER=joe
+export PBS_PASSWORD=@!Moksha00
+export PBS_REPOSITORY=joe@pbs@192.168.50.3:8007:not-server
+
+## backup command
+proxmox-backup-client backup root.pxar:/ --include-dev /home
+
+echo "$(date +"%Y-%m-%d %H:%M:%S") - Backup executed" >> /home/joe/backup_to_PVB.log
 ```
+my cron command is also set to push any errors to a debug.log file, so between the above and that i've got a fail bit of debug info if i need it.
 
 you can test by running the script backup.sh to make sure it works without erroring out with the above changes.
+
 
 # OG text
 
