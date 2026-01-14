@@ -13,7 +13,7 @@ so i've been doing alot of configuring since the laptop's come back online, some
 
 - bash
 - snapper/btrfs-assistant
-- backing up (see )
+- backing up to PBS server [Link Text](backup-with-pve-updated.md)
 - obsidian (again)
 - bash backup and /builds to git repo for easier install
 
@@ -223,3 +223,112 @@ i also installed paleofetch and added that to the $PATH and `.bashrc ` in place 
 <https://github.com/ss7m/paleofetch.git>
 
 ### snapper and btrfs-assistant
+
+this is obviously only applicable to those using btrfs, which i recomend for this purpose.
+
+install snapper, snap-pac and btrfs-assistant:
+```
+sudo pacman -S snapper btrfs-assistant
+```
+
+we will install snap-pac after setting up the root and home configs:
+```
+sudo snapper -c root create-config /
+sudo snapper -c home create-config /home
+```
+
+this is assuming you have a /home partition thats on separate media, which i do and highly recommend, otherwise, the root partition could do it all in that scenario. or you could run:
+```
+sudo btrfs subvolume create /home
+```
+
+the idea being that you can setup different config and thus backup schedules for /home or /, the /home partition does not need regular backups.  however, root benefits from many per day, or per hour, or per pacman install if you add the below command. if you have a desktop, install use btrfs-assistant and tweak the snapshot and retention policies for the config(s) you have, then install the below: 
+```
+sudo pacman -S snap-pac
+```
+
+after creation and setup of the root and home configs, now on execution of the pacman routine, you will see a snapshot happens both before and after the install.
+
+caveats:  I am running system-d boot and as of right now, it doesn't allow snapshots in the menu, at least easily.  will work fine with grub.  this means that if you absolutely hose your system, you will at least need a prompt to get back in and restore a previous snapshot - just FYI
+
+### backing up bash, installing cronie and git-submodules
+
+i am trying to make it so all my important data and work is stored locally, in a repo i have direct control of, also on codeberg for the 3x backup method.
+
+this means writing little scripts with nano editor and executing them on a schedule. the systemd method i find a little cumbersome, its probably more robust, and secure, but cron does the job and its faster IMHO to create and implement. arch doesn't have cron natively, so install the cronie package:
+
+```
+sudo pacman -S cronie
+sudo systemctl start croniie 
+sudo systemctl enable --now cronie
+```
+
+that is all you need for backend stuff. if you have editors like VIM, you won't need to do much as it will default to open in that app when editing with `crontab -e`, but if you prefer nano...you need to specify the $VISUAL and $EDITOR variables in your `.bashrc.` or set them via command line everytime before executing the cron command. this varies as well, shell to shell, but for bash i added the lines below:
+
+```
+##Set some $ENVIRONMENTAL variable
+export VISUAL=nano
+export EDITOR=nano
+```
+
+this was also above in my `.bashrc` output, look in there for some extra goodies floating around ;)
+
+anyways, with all that setup, here's my current backup for my user, and i also run another one within the root user.
+
+```
+###[Min][HR][Day][Mth][DOW]###
+
+#run bash backup @ 2am daily
+* 2 * * * ~/backup_bash.sh
+
+#run git update 2x daily @3, and @15 hrs
+* 3,15 * * * ~/forge/scripts/forge.update.sh
+```
+
+backup_bash.sh is as follows:
+```
+#!/bin/bash
+
+#backup bash
+cd ~
+cp .bashrc ~/forge/scripts/bash/.bashrc.bak
+cp .bash_history ~/forge/scripts/bash/.bash_history.bak
+
+#backup starship
+cd .config
+cp starship.toml ~/forge/scripts/bash/starship.toml.bak
+
+#sync with forgejo
+cd ~
+~/forge/scripts/forge.update.sh
+~/forge/scripts/forge.push.sh
+
+echo "Backup completed - $(date)" >> .bash_bak
+```
+
+i have a little logging going on as well, but this puts all the work i did in bash prompt and my starship setup into my repo for easy retrieval later.  now i can copy and stick in any computer for the flow i like. 
+
+the ~/forge/scripts/forge.update.sh command also executes the git update on a 2x day schedule, here's that executable:
+```
+#!/bin/bash
+
+# Change to the gitea directory
+cd ~/forge
+
+# Loop through all directories and subdirectories
+for dir in */; do
+    # Check if it's a directory
+    if [ -d "$dir" ]; then
+        # If so, navigate into it and update the repository
+        cd $dir && echo "Moving into $dir" && git pull
+        # Navigate back to the parent directory
+        cd ..
+    fi
+done
+
+cd ~
+```
+
+i also have an alias setup in `.bashrc.` if you look closely, i use gitup to do the same and execute the above simply anywhere in my /dir to update all my repos.
+
+last but not least, i wanted to backup my /build directory to my ~/forge/scripts directory and had some errors when doing that. since they are all pulled off github, you will throw an error saying that direct copy will not find the source. simple solution, just use the git submodule command. it will then sync those to the latest updated repo version anytime you git clone your repo into a new system. a little bit extra work, but its nice to know if i rebuild that system, i can have the updated repo already. i may write a script to help with that so its a little simpler, but that's plenty for now.
