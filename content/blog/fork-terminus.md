@@ -19,7 +19,7 @@ i had to open up base.html for editing in the github editor and then pasted it i
 this was done by:
 ```
 nano .gitmodules
-rm .gitmodules #i had no other submoodules so i deleted whole file
+rm .gitmodules #i had no other submodules so i deleted whole file
 nano .git/config #i had no refs to the submodule here so exited
 git rm --cached themes/terminus
 rm -rf themes/terminus
