@@ -8,7 +8,7 @@ tags = ["webdev", "zola", "github"]
 
 # fork-terminus 
  ## 15:52
- trying to fork themes/terminus with an edit in base.html allowing umami to check webpage stats...see how this goes. so not sure if anyone even looks at this. haha...but anyway. 
+trying to fork themes/terminus with an edit in base.html allowing umami to check webpage stats...see how this goes. so not sure if anyone even looks at this. haha...but anyway. 
 
 fork the [terminus](https://github.com/ebkalderon/terminus) github repo with an edit in main branch to themes/terminus/base.html
 
