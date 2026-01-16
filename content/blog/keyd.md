@@ -8,11 +8,12 @@ tags = ["arch", "keyboard_remapping"]
 
 # keyd 
  ## 08:31
-so i definately started over here...forgot entirely how i modded the keymappings for my laptop. the lemur13 from system76 is a smaller 13" laptop and thus a small keyboard. in addition to a few smaller keys, the caplock i never use and hit often. and the page up/page down are both 1/2 key above the arrows. objectives:
+so i definately started over here...forgot entirely how i modded the keymappings for my laptop. the lemur13 from system76 is a smaller 13" laptop and thus a small keyboard. in addition to a few smaller keys, the caplock i never use and hit often. and the page up/page down are both 1/2 key above the 1/2 key left/right arrows. 
 
-map caplocks to shift
-map page up/ page down to left/right
-map left ctrl + page up/page down to page up/page down
+objectives:
+- map caplocks to leftshift
+- map page up/page down to left/right
+- map left ctrl + page up/page down to page up/page down
 
 first theres a few commands to pull the github repo and install thanks to [Kari Martilla Blog](https://www.karimarttila.fi/keyboard/2023/11/16/linux-keyboard-configuration-with-keyd.html)
 ```
