@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/blog/fork-terminus.md",
+                "file": "content/blog/keyd.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "fork-terminus"
+              "title": "keyd"
             }
           }
         ]
@@ -196,8 +196,9 @@
   },
   "active": "4ed8f4d9ef379511",
   "lastOpenFiles": [
-    "content/blog/laptop-cosmic-pt2.md",
     "content/blog/fork-terminus.md",
+    "content/blog/keyd.md",
+    "content/blog/laptop-cosmic-pt2.md",
     "themes/terminus/theme.toml",
     "themes/terminus/templates/partials/menu.html",
     "themes/terminus/templates/partials/logo.html",
@@ -240,7 +241,6 @@
     "templates/Untitled.md",
     "2025-12-21.md",
     "content/blog/zfs.md",
-    "img/screenshot.png.md",
-    "content/blog/inktheghost.md"
+    "img/screenshot.png.md"
   ]
 }
