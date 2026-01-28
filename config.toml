@@ -54,7 +54,6 @@ socials = [
 #    { name = "keyoxide", url = "https://keyoxide.org/d5ad5bd47835b0f0b0c3046c00ab4c0942dcba25" },
 ]
 
-
 favicon = "/icons/favicon.png"
 favicon_mimetype = "image/png"   
 layout = "center"
