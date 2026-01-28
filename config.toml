@@ -50,7 +50,7 @@ socials = [
 #    { name = "email", url = "mailto:hello@example.com" },
 #    { name = "github", url = "https://github.com/ebkalderon" },
 #    { name = "linkedin", url = "https://www.linkedin.com/in/ebkalderon" },
-    { name = "mastodon", url = "https://hachyderm.io/@ebkalderon" },
+    { name = "mastodon", url = "https://defcon.social/@970uts1d3" },
 #    { name = "keyoxide", url = "https://keyoxide.org/d5ad5bd47835b0f0b0c3046c00ab4c0942dcba25" },
 ]
 
