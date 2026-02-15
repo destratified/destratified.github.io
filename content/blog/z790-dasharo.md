@@ -14,3 +14,9 @@ looking forward to giving it a shot. hope the RAM works too as RAM is hella expe
 
 research the EFF and total ownership of your devices!
 
+(UPDATE 02/25/2026)
+installed and working! i had to switch ram to a different one on the dasharo HCl. then change bios to XMP#1 profile and do a CMOS reset to get to post. happily my 4070ti GPU works out of the box! only small issue is that the fan profile doesnt work from bios, but a quick install of lm_sensors and using pwmconfig i was able to get control. after a little more fooling around i installed the fancontrol app from the cosmic apps and setup a profile with targets for a little better GUI control and responsiveness. everything else works as expected. 
+
+now i'm going to try and setup my ollama instance again and try using podman this time, was having issues getting docker to utilize the gpu passthru.  
+
+i also was able to restore my win11 vmm in virt-manager so i have access to my work stuff remotely again.
