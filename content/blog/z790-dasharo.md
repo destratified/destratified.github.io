@@ -13,3 +13,4 @@ well i'm looking at throwing in the towel on devices that aren't fully free soft
 looking forward to giving it a shot. hope the RAM works too as RAM is hella expensive rn. there is another question of whether the dGPU i have, NVIDIA 4070ti will work. thankfully i should be able to use some other options AMD6950 etc and different RAM if needed. but looking to get near to the same capability i have rn with existing box. we shall see (im)patiently till the packages arrive.
 
 research the EFF and total ownership of your devices!
+
