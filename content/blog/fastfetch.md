@@ -170,3 +170,10 @@ fastfetch -h {modulename}-format
 ```
 
 this gave me the details so i could insert it into the json.  it will then do that for any disks
+```
+    {
+            "type": "disk",
+            "key": "├─{mount-from}-{mountpoint}",
+            "keyColor": "red"
+        },
+```
