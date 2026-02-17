@@ -76,4 +76,6 @@ With GPU Support**: Utilize GPU resources by running the following command:
 docker run -d -p 3000:8080 --gpus=all -v ollama:/root/.ollama -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:ollama
 ```
 
-that came up after a couple minutes and i was able to access off mu 
+that came up after a couple minutes and i was able to access off my nginxed web address...or <http://localhost:3000>
+
+
