@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/blog/jellyfin.md",
+                "file": "content/blog/fastfetch.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "jellyfin"
+              "title": "fastfetch"
             }
           }
         ]
@@ -197,6 +197,7 @@
   "active": "4ed8f4d9ef379511",
   "lastOpenFiles": [
     "content/blog/z790-dasharo-cont.md",
+    "content/blog/jellyfin.md",
     "content/blog/fastfetch.md",
     "README.md",
     "content/blog/z790-dasharo.md",
@@ -230,7 +231,6 @@
     "themes/terminus/content/_index.md",
     "themes/terminus/README.md",
     "content/blog/backup-with-pve-updated.md",
-    "content/blog/jellyfin.md",
     "content/blog/after-install.md",
     "obsidian_templates/blog_template.md",
     "content/blog/laptop-cosmic.md",

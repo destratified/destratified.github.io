@@ -14,7 +14,7 @@ following the instructions from above, the install was easy
 `sudo pacman -Syu fastfetch`
 the config file is a default so if you wanna start editing you can use the `fastfetch --gen-config` or using one of the examples in the example folder of the repo.
 i liked the 07.jsonc and based the below off of that:
-```
+```shell
 // Load with --config examples/2.jsonc
 // Note that you must replace the image path to an existing image to display it.
 
@@ -165,12 +165,12 @@ i liked the 07.jsonc and based the below off of that:
 deleted the item i didnt care about, set icons and words to help readibility and got rid of the cachyos logo in place of the arch default
 
 i spent a good amount of time futzing with the Disk(s) section as it would just print without telling me the disk or mountpoint...if you need to see what the format options are you can use the following command:
-```
+```shell
 fastfetch -h {modulename}-format
 ```
 
 this gave me the details so i could insert it into the json.  it will then do that for any disks
-```
+```shell
     {
             "type": "disk",
             "key": "├─{mount-from}-{mountpoint}",
