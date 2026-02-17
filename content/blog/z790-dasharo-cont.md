@@ -32,14 +32,22 @@ i am running cachyos on my laptop, so it looks a little different, but it should
 next i followed along on my jellyfin tutorial to set those up, handy since the other inscance i used this for needed the same drivers.
 
 <https://inktheghost.com/blog/jellyfin/>
+### Installing Open WebUI with Bundled Ollama Support
 
-```
-#install docker first
+[](https://github.com/open-webui/open-webui?tab=readme-ov-file#installing-open-webui-with-bundled-ollama-support)
+
+This installation method uses a single container image that bundles Open WebUI with Ollama, allowing for a streamlined setup via a single command. Choose the appropriate command based on your hardware setup:
+
+install docker first:
+```shell
 sudo pacman -S docker docker-compose
 sudo systemctl enable --now docker
 sudo systemctl start docker
+```
 
-#then install more nvidia stuff and setup configs
+then install more nvidia stuff and setup configs:
+
+```shell
 paru -S nvidia-container-toolkit
 sudo nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml
 sudo nvidia-ctk config --in-place --set nvidia-container-runtime.mode=cdi
@@ -49,7 +57,7 @@ sudo systemctl restart docker
 
 i also needed to add my user to docker so i could issue future docker commands without sudo and setup the docker runtime
 
-```
+```Shell
 sudo usermod -aG docker $USER   
 sudo nvidia-ctk runtime configure --runtime=docker
 ```
@@ -63,8 +71,9 @@ i struggled with many different versions of the docker-compose method vs cli and
 
 This installation method uses a single container image that bundles Open WebUI with Ollama, allowing for a streamlined setup via a single command. Choose the appropriate command based on your hardware setup:
 
-- **With GPU Support**: Utilize GPU resources by running the following command:
-    
-    ```shell
-		docker run -d -p 3000:8080 --gpus=all -v ollama:/root/.ollama -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:ollama
-    ```
+With GPU Support**: Utilize GPU resources by running the following command:
+```shell
+docker run -d -p 3000:8080 --gpus=all -v ollama:/root/.ollama -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:ollama
+```
+
+that came up after a couple minutes and i was able to access off mu 
