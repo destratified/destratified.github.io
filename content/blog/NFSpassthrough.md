@@ -14,17 +14,17 @@ continuing my proxmox install saga...
 
 i got the fans running quietly, now it was time to sort out a few things.  i wanted to migrate my nas container manager data to the new server.  this meant creating a zfs file system raidz1-0 with my big disks (18TBx6) giving me roughly 80gb usable space with redundancy.  i made the zfs /storage with the 6 disks selected and voila!  storage.  now i needed to move files to my server.  for this to work i needed to do a couple things.  i needed nfs on my proxmox, so i could serve the folders to both my nas and my future jellyfin instance.  i created a single disk zfs with my 4tb nvme for just transcoding and setup the nfs server on pve host:
 
-```
+```shell
 apt install nfs-common
 ```
 this downloads the drivers to host, then edit exports file
 
-```
+```shell
 nano /etc/exports
 ```
 
 then add your directories in the file:
-```
+```shell
 # /etc/exports: the access control list for filesystems which may be exported
 #               to NFS clients.  See exports(5).
 #
@@ -40,13 +40,13 @@ then add your directories in the file:
 ```
 
 then i reload nfs with systemctl and export the directories:
-```
+```shell
 systemctl daemon-reload
 exportfs -arv
 ```
 
 next you need to chmod and chown your directories:
-```
+```shell
 chmod 775 -R /transcode/ /storage/
 chown -R joe:nfsgroup /transcode/ /storage/
 ```
@@ -54,16 +54,16 @@ chown -R joe:nfsgroup /transcode/ /storage/
 the chmod sets to uid1000 basically and i had to create an nfs group nfsgroup and adduser joe so i had gid1000 so the permissions match the export details...this allows easy read writes on jellyfin and all other apps have same permission structure.  the arrs have the storage dir mapped on the client side as well.
 
 now for the arch client, you have to add the nfs-utils package:
-```
+```shell
 sudo pacman -Syu nfs-utils
 ```
 
 then you can add the dirs and edit the etc/fstab with `nano /etc/fstab/`:
-```
+```shell
 mkdir -p /transcode /storage
 ```
 
-```
+```shell
 192.168.50.2:/storage /storage nfs rw,defaults,nofail  0 0
 192.168.50.2:/transcode/ /transcode nfs rw,defaults,nofail  0 0
 ```

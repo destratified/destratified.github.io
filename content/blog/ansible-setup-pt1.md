@@ -24,13 +24,13 @@ the ansible lxc creation was probably the easiest of all these things to do.  i 
 Deb13, 2gb RAM, 8GB disk, network etc...this can be really much smaller than i went with
 
 boot into LXC login with root and:
-```
+```shell
 apt update && apt upgrade && apt install curl wget ansible sudo 
 ```
 
 most of these will already be installed, but its good to check, with ansible installed, now i had to figure out how to use it.
 ansible will run from any folder, so its up to you how to configure your folder structure and where.  i went with a new ansible folder off of root:
-```
+```shell
 mkdir -p /ansible /ansible/playbooks /ansible/inventory /ansible/roles
 chmod 775 -R /ansible
 touch /ansible/inventory/hosts
@@ -41,7 +41,7 @@ touch /ansible/playbooks/playbook.yml
 this was a basic folder structure i found on the internet, and is probably fine for most applications, some others have set this up for projects using /ansible/<project_name>/playbooks etc, i just needed it for writing playbooks for my proxmox host, so a single dir is fine
 with the basic folder structure in place, i wanted to get that structure and files all synced with a gitea repo.
 for me, i created a new private ansible repo on gitea, with a readme and nothing else, then followed the instructions to add files/folders and sync remotely with a previous gitea token, results will vary, but it looked something like this:
-```
+```shell
 git init
 git checkout -b main
 git add .
@@ -59,7 +59,7 @@ so at this point, we have ansible, we have have a directory synced with git (i u
 so the first things to do are to create a hosts file.  we have a placeholder so you can just nano into that from the /ansible folder
 nano /ansible/inverntory/hosts
 this can follow either ini syntax or yaml...i went with ini, as it was the format i was borrowing from some guide i can't find again.  here's what mine looks like:
-```
+```shell
 #hosts file
 
 [ubuntu]
@@ -95,19 +95,22 @@ from my host gui, enter console the console using root login.  edit the /etc/ssh
 find the commented line, #PermitRootLogin and uncomment and change to yes
 save and exit and reboot - i had some problems getting it to work sometimes with a systemctl deamon-reload and systemctl restart sshd so it was just easier to reboot as i went.
 next setup a key on the ansible machine.  
-```
+```shell
 ssh-keygen -t rsa -b 4096
 ```
 be mindful if you are logged in as something else besides root, i found you just need to be consistent as the dir it gets saved in is the home ~ for the logged in user.  and once that key  is saved you can use ssh-copy-id in the following format:
 
+
+```shell
 ssh-copy-id root@192.168.50.5 
+```
 
 this will ask to accept fingerprint, say yes. the password (root user pass in my case) is needed for the machine you are ssh-ing into, after that it should so you the key was added and try logging in....now do that like 17 times ;)
 
 after all that you should be able to use the hosts file to talk to all the machines that you wanna update/upgrade. 
 
 next is the ansible.cfg file, here's mine:
-```
+```shell
 #ansible config file
 [defaults]
 inventory = ./inventory
@@ -130,7 +133,7 @@ now here's the meat and potatoes.  had lotsa ssh issues, troubleshooting was ted
 https://www.jacob-swanson.com/posts/automating-proxmox-maintenance-with-ansible/
 with a simple command to test connections to all lxcx vms etc in the host file.
 
-```
+```shell
 - name: Ping
   hosts: all
   tasks:
@@ -140,7 +143,7 @@ with a simple command to test connections to all lxcx vms etc in the host file.
 
 for me this was saved as ping.yml in the /ansible/playbooks dir
 execute it with the following command
-```
+```shell
 ansible-playbook playbooks/ping.yaml
 ```
 now why did i break my hosts file up with [ubuntu][arch][pve][pvb]?
@@ -148,7 +151,7 @@ so that when i built out the following playbooks i could run individual playbook
 
 heres the playbooks i have: 
 update-ubuntu.yml
-```
+```shell
 #update ubuntu lxc, vms
 ---
 - hosts: [ubuntu]
@@ -197,7 +200,7 @@ update-ubuntu.yml
 nothing too crazy here.  i have serial: 1 commented out, if you uncomment that, it will step through each IP one-at-a-time.  you should be using dist-upgrade for these, and especially the host and pvb.
 
 update-arch.yml
-```
+```shell
 #update arch
 ---
 - hosts: [arch]
@@ -212,7 +215,7 @@ update-arch.yml
 nothing unusual here
 
 update-pvs.yml
-```
+```shell
 #update pve,pvb
 ---
 - hosts: [pvb, pve]
@@ -258,7 +261,7 @@ here serial: 1 is un-commented to step through each proxmox server individually.
 since my ansible instance is on proxmox, if its kernal is updated, the host will reboot and kill the ansible program.  this doesnt happen often - last time my uptime was 59 days.  you could just reboot ita nd run it again. however, i placed the pvb first in the hosts: [pvb][pve] so that does the proxmox host last, so everything is completed before a reboot JIC
 
 update-all.yml
-```
+```shell
 #update whole shebang
 ---
 - import_playbook: update-ubuntu.yml
@@ -275,7 +278,7 @@ apt update && apt install just
 then make a justfile, mine lives in the /ansible directory
 nano justfile
 here's how mine looks:
-```
+```shell
 # Show help
 help:
     @just --list --unsorted
