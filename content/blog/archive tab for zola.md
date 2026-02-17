@@ -15,7 +15,7 @@ i was attempting to follow the procedure for adding an archive to the tabs on my
 i was following the example by Peter Babic from his page <https://peterbabic.dev/blog/add-archive-into-zola/> the below code is saved as /templates/archive.html
 
 the code snippet was close:
-```
+```shell
 {% extends "index.html" %}
 
 {% block content %}
@@ -43,7 +43,7 @@ mine kept bonking out even after id sorted out all the other things i needed....
 
 perhaps a quirk of zola and terminus, i found that if i changed Peter's code, the `{% block content %}` was the source of my issue.  looking at the /themes/terminus/index.html code the `block content` i was referring to was called `{% block main %}`.  makes sense as it was doing the right work, but had no place to put the content.  a quick code change allowed it to populate properly.
 
-```
+```shell
 {% extends "index.html" %}
 
 {% block main %}
@@ -71,7 +71,7 @@ perhaps a quirk of zola and terminus, i found that if i changed Peter's code, th
 the other tidbits that were needed to get this working:
 
 i had to adjust my main menu section in my config.toml in /:
-```
+```shell
 #main menu tabs for pages blog, all tags listed in front-matter and about
 main_menu = [
     { name = "blog", url = "blog", trailing_slash = true },
@@ -82,7 +82,7 @@ main_menu = [
 ```
 
 and similar to my tag-listing.md, i had to create a /blog/archive.md file with the following code:
-```
+```shell
 +++
 title = "Archive"
 template = "archive.html"
