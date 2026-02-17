@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/blog/archive tab for zola.md",
+                "file": "content/blog/backup-with-pve-updated.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "archive tab for zola"
+              "title": "backup-with-pve-updated"
             }
           }
         ]
@@ -196,6 +196,7 @@
   },
   "active": "4ed8f4d9ef379511",
   "lastOpenFiles": [
+    "content/blog/archive tab for zola.md",
     "content/blog/keyd.md",
     "README.md",
     "content/blog/ansible-setup-pt1.md",
@@ -237,7 +238,6 @@
     "obsidian_templates/blog_template.md",
     "content/blog/laptop-cosmic.md",
     "content/blog/cosmic-desktop.md",
-    "content/blog/archive tab for zola.md",
     "content/about.md",
     "content/archive.md",
     "content/tag-listing.md",
