@@ -14,7 +14,7 @@ tags = ["jellyfin", "arch", "proxmox", "docker"]
 
 first i had to remove everything that came before, i entered these commands line by line that you see in the code block below:
 
-```
+```shell
 sudo pacman -Rscn jellyfin-web jellyfin-server jellyfin-ffmpeg
 sudo rm -R /var/lib/jellyfin
 sudo rm -R /var/cache/jellyfin
@@ -24,7 +24,7 @@ sudo systemctl disable jellyfin
 
 just for good measure i did a reboot after that, and then ran `nvidia-smi` to make sure the card was working still.  it was, so i went ahead and got into my portainer instance to start working on the docker-compose.  i pulled a few examples from the internet, including the jellyfin recommended one, but kept getting runtime and cdi errors during build.  trying a docker run command i was able to see that i needed to build the container toolkit and so i used yay for that.
 
-```
+```shell
 yay -S nvidia-container-toolkit
 ```
 
@@ -32,7 +32,7 @@ a little into it, it broke on a dependency....wont bother you with the details h
 
 so it seemed I was good, tried to deploy the stack again and had a couple more issues: errors for CDI and for runtime call.  i went out on the internet and found a couple solutions.  i needed to tell docker about the runtime:nvidia call in the docker-compose and have it built before i spun up the container.  used the following commands below:
 
-```
+```shell
 sudo nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml
 sudo nvidia-ctk config --in-place --set nvidia-container-runtime.mode=cdi
 sudo systemctl restart docker
@@ -40,14 +40,14 @@ sudo systemctl restart docker
 
 i also needed to add my user to docker so i could issue future docker commands without sudo:
 
-```
+```shell
 sudo usermod -aG docker $USER   
 sudo nvidia-ctk runtime configure --runtime=docker
 ```
 
 finally after this i was able to get the docker jellyfin container to build and was able to bring up the jellyfin server instance back to the boot splash.  the last few details are setting up the transcoding options and directories.  the final docker-compose.yml is:
 
-```
+```shell
 services:
   jellyfin:
     image: lscr.io/linuxserver/jellyfin
@@ -88,7 +88,7 @@ after this i spun up a movie.  here's the output from `nvidia-smi` both on the h
 
 and using this command to see within the docker container:
 
-```
+```shell
 docker exec jellyfin nvidia-smi
 ```
 
@@ -100,13 +100,13 @@ i find it interesting that the output of the docker exec comman shows the fan sp
 
 so the most recent pacman -Syu broke my system - this is probable what caused the problem in the first place ;) 
 
-```
+```shell
 sudo nano /etc/pacman.conf
 ```
 
 uncomment the IgnorePkg = and add the below
 
-```
+```shell
 IgnorePkg = nvidia-open   
 ```
 
