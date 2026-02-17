@@ -66,5 +66,5 @@ This installation method uses a single container image that bundles Open WebUI w
 - **With GPU Support**: Utilize GPU resources by running the following command:
     
     ```shell
-docker run -d -p 3000:8080 --gpus=all -v ollama:/root/.ollama -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:ollama
+		docker run -d -p 3000:8080 --gpus=all -v ollama:/root/.ollama -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:ollama
     ```
