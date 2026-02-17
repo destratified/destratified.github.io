@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/blog/fastfetch.md",
+                "file": "content/blog/z790-dasharo-cont.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "fastfetch"
+              "title": "z790-dasharo-cont"
             }
           }
         ]
@@ -196,8 +196,9 @@
   },
   "active": "4ed8f4d9ef379511",
   "lastOpenFiles": [
-    "content/blog/z790-dasharo.md",
     "content/blog/fastfetch.md",
+    "content/blog/z790-dasharo-cont.md",
+    "content/blog/z790-dasharo.md",
     "content/blog/keyd.md",
     "content/blog/fork-terminus.md",
     "content/blog/laptop-cosmic-pt2.md",
@@ -240,7 +241,6 @@
     "content/blog/ansible-setup-pt1.md",
     "content/tag-listing.md",
     "content/archive/_index.md",
-    "templates/Untitled.md",
-    "2025-12-21.md"
+    "templates/Untitled.md"
   ]
 }
