@@ -16,7 +16,7 @@ objectives:
 - map left ctrl + page up/page down to page up/page down
 
 first theres a few commands to pull the github repo and install thanks to [Kari Martilla Blog](https://www.karimarttila.fi/keyboard/2023/11/16/linux-keyboard-configuration-with-keyd.html)
-```
+```shell
 git clone https://github.com/rvaiya/keyd
 cd keyd
 make && sudo make install
@@ -25,13 +25,13 @@ sudo systemctl enable keyd && sudo systemctl start keyd
 
 this gets everything loaded. i remember last time that i used `sudo keyd monitor` to get all the keystroke names sorted for the keys i wanted to map, left control, pageup pagedown, left right etc so i could begin adding to the configuration file and testing the changes. i also had this on the desktop clackity keyboard since i kept fat fingering the capslock - at least there it gave me an led indicatior capslock was on ;)
 
-```
+```shell
 sudo nano /etc/keyd/default.conf
 ```
 
 and here's my final config...who the fuck uses capslock anyways???
 
-```
+```shell
 # NOTE: The panic sequence *<backspace>+<escape>+<enter>* will force keyd to terminate.
 
 ### NOTE:
