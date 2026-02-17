@@ -57,6 +57,17 @@ sudo nvidia-ctk runtime configure --runtime=docker
 i struggled with many different versions of the docker-compose method vs cli and finally settled on the simple solution...duh, found on the open-webui github
 <https://github.com/open-webui/open-webui#troubleshooting>
 
+### Installing Open WebUI with Bundled Ollama Support
+
+[](https://github.com/open-webui/open-webui?tab=readme-ov-file#installing-open-webui-with-bundled-ollama-support)
+
+This installation method uses a single container image that bundles Open WebUI with Ollama, allowing for a streamlined setup via a single command. Choose the appropriate command based on your hardware setup:
+
+- **With GPU Support**: Utilize GPU resources by running the following command:
+    
+    ```shell
+    docker run -d -p 3000:8080 --gpus=all -v ollama:/root/.ollama -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:ollama
+    ```
 ```
 
 ```
