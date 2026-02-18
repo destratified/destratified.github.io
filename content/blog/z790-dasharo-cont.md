@@ -3,7 +3,7 @@ title = "z790-dasharo-cont"
 date = "2026-02-17"
 
 [taxonomies]
-tags = ["tag1", "tag2"]
+tags = ["z790", "dasharo"]
 +++
 
 # z790-dasharo-continued...ollama and gpu passthru

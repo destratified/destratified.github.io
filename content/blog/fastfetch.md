@@ -3,7 +3,7 @@ title = "fastfetch"
 date = "2026-02-16"
 
 [taxonomies]
-tags = ["tag1", "tag2"]
+tags = ["arch"]
 +++
 
 # fastfetch 
