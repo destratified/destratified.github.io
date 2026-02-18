@@ -17,9 +17,9 @@ heres the updated file i saved in the /root/ directory:
 
 ##Setting environmental variables
 
-export PBS_USER=joe
-export PBS_PASSWORD=@!Moksha00
-export PBS_REPOSITORY=joe@pbs@192.168.50.3:8007:not-server
+export PBS_USER=jeff
+export PBS_PASSWORD=XXXXXXXX
+export PBS_REPOSITORY=jeff@pbs@192.168.50.3:8007:not-server
 
 ## backup command
 proxmox-backup-client backup root.pxar:/ --include-dev /home

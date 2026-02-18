@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/blog/fastfetch.md",
+                "file": "content/blog/backup-with-pve-updated.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "fastfetch"
+              "title": "backup-with-pve-updated"
             }
           }
         ]
@@ -196,6 +196,7 @@
   },
   "active": "4ed8f4d9ef379511",
   "lastOpenFiles": [
+    "content/blog/fastfetch.md",
     "content/blog/backup-with-pve-updated.md",
     "content/blog/archive tab for zola.md",
     "content/blog/keyd.md",
@@ -203,7 +204,6 @@
     "content/blog/ansible-setup-pt1.md",
     "content/blog/after-install.md",
     "content/blog/NFSpassthrough.md",
-    "content/blog/fastfetch.md",
     "content/blog/z790-dasharo-cont.md",
     "content/blog/jellyfin.md",
     "content/blog/z790-dasharo.md",
