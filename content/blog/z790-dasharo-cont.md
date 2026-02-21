@@ -23,7 +23,7 @@ now according to this, and the issue being corrected with a work-around, i dont 
 
 so you have to reinstall nvidia drivers...here's what i did to get that going
 
-```
+```shell
 sudo pacman -S nvidia nvidia-settings nvidia-utils cuda
 ```
 
