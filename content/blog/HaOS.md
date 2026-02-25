@@ -25,13 +25,13 @@ then i couldn't get it to work. i was able to access the ratgdo32 interface via 
 
 eventually making it back to the settings > apps page i went to the tailscale app and configuration tab, (which somehow i'd overlooked many times before) and found a buncha semi-hidden HaOs specific tailscale settings. to see all options toggle the "Show unused optional configuration options" to on. i tried a few options in there, one at a time, with reboots in between and finally found one that worked. the following settings worked:
 
-> Source NAT subnet routes (this was off and i set to ON)
+> >Source NAT subnet routes (this was off and I set to ON)
 >
-This option allows subnet devices to see the traffic originating from the subnet router, and this simplifies routing configuration. To support advanced Site-to-site networking (eg. to traverse multiple networks), you can disable this functionality. When not set, this option is enabled by default.
+> This option allows subnet devices to see the traffic originating from the subnet router, and this simplifies routing configuration. To support advanced Site-to-site networking (eg. to traverse multiple networks), you can disable this functionality. When not set, this option is enabled by default.
 >
-Userspace networking mode (this was off, and i left it off)
->
-This option allows you to enable userspace networking mode. If you need to access other clients on your tailnet from your Home Assistant instance, disable userspace networking mode, which will create a `tailscale0` network interface on your host. When not set, this option is enabled by default.
+> >Userspace networking mode (this was off, and I left it off)
+> >
+> This option allows you to enable userspace networking mode. If you need to access other clients on your tailnet from your Home Assistant instance, disable userspace networking mode, which will create a `tailscale0` network interface on your host. When not set, this option is enabled by default.
 
 the "Source NAT subnet routes" description is confusing...sounds like it wasn't supposed to be off, by default, but it was and when i enabled and rebooted, and the userspace netwerking name description wasnt any better. but with the two changed, and a reboot of haOS i was finally able to ping my esphome ratgdo32 devices on the separate network and add them to my configuration/dashboard.
 
