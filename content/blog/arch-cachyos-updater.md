@@ -6,7 +6,7 @@ date = "2026-02-27"
 tags = ["pacman", "arch", "cachyos"]
 +++
 
-# arch-cachyos-updater 
+# arch-cachyos-updater scripts
  ## 20:01
 
 two scripts i've setup for updating arch or cachyos respectively.
@@ -145,7 +145,7 @@ echo -e "${bold_cyan}[Done]${reset}"
 ```
 
 commenting out the arch repo section in the cachyos-rate-mirror script 
-found at /usr/bin
+usually found at /usr/bin/cachyos-rate-mirrors
 
 ```shell
 whereis cachyos-rate-mirrors
@@ -156,6 +156,13 @@ cachyos-rate-mirror
 ```shell
 # Rate Arch Linux mirrors anyway
 #rate_repository_mirrors arch "${MIRRORS_DEFAULT_DIR}/mirrorlist"
+
+# Always insert CDN77 mirror to the start, unless RU and CN region is detected
+#if [ "$country" != "RU" ] && [ "$country" != "CN" ]; then
+#    sed -i '1iServer = https://archlinux.cachyos.org/repo/$repo/os/$arch' "${MIRRORS_DEFAULT_DIR}/mirrorlist"
+#fi
 ```
+
+and comment out the CDN77 shit or it'll keep adding to your reflector mirrorlist for arch. took me a minute to see where that was coming from
 
 seems to do the trick...
