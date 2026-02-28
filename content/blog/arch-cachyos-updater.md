@@ -45,7 +45,7 @@ if [[ -f "$timestamp_file" ]]; then
         echo -e "${bold_cyan}:: ${bold_white}Reflector mirrors < 12hr old...${reset}"
         cat /etc/pacman.d/mirrorlist
         echo -e "${bold_cyan}==> ${bold_white}Starting pacman -Syu...${reset}"
-        sudo pacman -Syu --noconfirm
+        sudo pacman -Syu 
         echo -e "${bold_cyan}[Done]${reset}"
         exit 0
     else
@@ -55,7 +55,7 @@ if [[ -f "$timestamp_file" ]]; then
         echo -e "${bold_cyan}:: ${bold_white}Selected Servers:${reset}"
         cat /etc/pacman.d/mirrorlist
         echo -e "${bold_cyan}==> ${bold_white}Starting pacman -Syu...${reset}"
-        sudo pacman -Syu --noconfirm
+        sudo pacman -Syu 
     fi
 else
     echo -e "${bold_cyan}:: ${bold_white}Timestamp file does not exist...${reset}"
@@ -64,7 +64,7 @@ else
     echo -e "${bold_cyan}:: ${bold_white}Selected Servers:${reset}"
     cat /etc/pacman.d/mirrorlist
     echo -e "${bold_cyan}==> ${bold_white}Starting pacman -Syu...${reset}"
-    sudo pacman -Syu --noconfirm
+    sudo pacman -Syu
     # Create the timestamp file
     echo -e "${bold_cyan}==> ${bold_white}Saving timestamp file...${reset}"
     touch "$timestamp_file"
@@ -111,7 +111,7 @@ if [[ -f "$timestamp_file" ]]; then
 	    echo -e "${bold_cyan}:: ${bold_white}Arch Servers:${reset}"
         cat /etc/pacman.d/mirrorlist
         echo -e "${bold_cyan}==> ${bold_white}Starting pacman -Syu...${reset}"
-        sudo pacman -Syu --noconfirm
+        sudo pacman -Syu
         echo -e "${bold_cyan} [Done]${reset}"
         exit 0
     else
@@ -124,7 +124,7 @@ if [[ -f "$timestamp_file" ]]; then
         echo -e "${bold_cyan}:: ${bold_white}Selected Servers:${reset}"
         cat /etc/pacman.d/mirrorlist
         echo -e "${bold_cyan}==> ${bold_white}Starting pacman -Syu...${reset}"
-        sudo pacman -Syu --noconfirm
+        sudo pacman -Syu
     fi
 else
     echo -e "${bold_cyan}:: ${bold_white}Timestamp file does not exist...${reset}"
@@ -136,7 +136,7 @@ else
     echo -e "${bold_cyan}:: ${bold_white}Selected Servers:${reset}"
     cat /etc/pacman.d/mirrorlist
     echo -e "${bold_cyan}==> ${bold_white}Starting pacman -Syu...${reset}"
-    sudo pacman -Syu --noconfirm
+    sudo pacman -Syu 
     # Create the timestamp file
     echo -e "${bold_cyan}==> ${bold_white}Saving timestamp file...${reset}"
     touch "$timestamp_file"
