@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/blog/arch-cachyos-updater.md",
+                "file": "content/blog/cachyos-updater-options-pt2.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "arch-cachyos-updater"
+              "title": "cachyos-updater-options-pt2"
             }
           }
         ]
@@ -196,8 +196,9 @@
   },
   "active": "4ed8f4d9ef379511",
   "lastOpenFiles": [
-    "content/blog/HaOS.md",
     "content/blog/arch-cachyos-updater.md",
+    "content/blog/cachyos-updater-options-pt2.md",
+    "content/blog/HaOS.md",
     "content/blog/z790-dasharo-cont.md",
     "content/blog/z790-dasharo.md",
     "content/blog/fastfetch.md",
@@ -240,7 +241,6 @@
     "obsidian_templates/blog_template.md",
     "content/blog/laptop-cosmic.md",
     "content/blog/cosmic-desktop.md",
-    "content/about.md",
-    "content/archive.md"
+    "content/about.md"
   ]
 }
