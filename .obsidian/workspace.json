@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "ghostmirror.md",
+                "file": "content/blog/ghostmirror.md",
                 "mode": "source",
                 "source": false
               },
@@ -196,8 +196,8 @@
   },
   "active": "4ed8f4d9ef379511",
   "lastOpenFiles": [
-    "content/blog/ghostmirror.md",
     "ghostmirror.md",
+    "content/blog/ghostmirror.md",
     "content/blog/cachyos-updater-options-pt2.md",
     "content/blog/arch-cachyos-updater.md",
     "content/blog/HaOS.md",
