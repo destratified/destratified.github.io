@@ -202,5 +202,24 @@ also there is the bottom of the file chmod and sed commands that if you use rate
 ## the rate-mirror option
 
 ```shell
+#!/bin/bash
 
+MIRRORS_DEFAULT_DIR=/etc/pacman.d
+
+rate-mirrors --disable-comments cachyos | sudo tee /etc/pacman.d/cachyos-mirrorlist
+
+rate-mirrors --disable-comments arch | sudo tee /etc/pacman.d/mirrorlist
+
+sudo cp -f --backup=simple --suffix="-backup" "${MIRRORS_DEFAULT_DIR}/cachyos-mirrorlist" \
+    "${MIRRORS_DEFAULT_DIR}/cachyos-v3-mirrorlist"
+sudo cp -f --backup=simple --suffix="-backup" "${MIRRORS_DEFAULT_DIR}/cachyos-mirrorlist" \
+    "${MIRRORS_DEFAULT_DIR}/cachyos-v4-mirrorlist"
+
+sudo sed -i 's|/$arch/|/$arch_v3/|g' "${MIRRORS_DEFAULT_DIR}/cachyos-v3-mirrorlist"
+sudo sed -i 's|/$arch/|/$arch_v4/|g' "${MIRRORS_DEFAULT_DIR}/cachyos-v4-mirrorlist"
+
+sudo pacman -Syu
 ```
+
+this is what i would call a work in progress...
+
