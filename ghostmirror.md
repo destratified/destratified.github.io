@@ -3,13 +3,14 @@ title = "ghostmirror"
 date = "2026-03-01"
 
 [taxonomies]
-tags = ["cachyos", "mirrors"]
+tags = ["ghostmirror", "cachyos"]
 +++
 
 # ghostmirror 
- ## 15:33
+ ## 16:51
+ 
+so i've been playing around with ghostmirror a bit, first i got my rate-mirror script working with the help of CSCS at cachyos forum, this was used to test the command in the update.sh script
 
-playing around with this a bit, first i got my rate-mirror script working with the help of CSCS at cachyos forum:
 update-mirrors.sh
 ```shell
 !/bin/bash
