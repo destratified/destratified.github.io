@@ -104,3 +104,5 @@ echo -e "${bold_cyan}==> Updating timestamp file now...${reset}"
 touch "$timestamp_file"
 echo -e "${bold_cyan}[Done]${reset}"
 ```
+
+works fine. polished a bit with a conversion to functions to keep the language simp
