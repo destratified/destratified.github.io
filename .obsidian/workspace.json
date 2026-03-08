@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/blog/keyd.md",
+                "file": "content/blog/ghostmirror-pt2.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "keyd"
+              "title": "ghostmirror-pt2"
             }
           }
         ]
@@ -197,6 +197,8 @@
   "active": "4ed8f4d9ef379511",
   "lastOpenFiles": [
     "content/blog/ghostmirror.md",
+    "content/blog/ghostmirror-pt2.md",
+    "content/blog/keyd.md",
     "ghostmirror.md",
     "content/blog/cachyos-updater-options-pt2.md",
     "content/blog/arch-cachyos-updater.md",
@@ -206,7 +208,6 @@
     "content/blog/fastfetch.md",
     "content/blog/backup-with-pve-updated.md",
     "content/blog/archive tab for zola.md",
-    "content/blog/keyd.md",
     "README.md",
     "content/blog/ansible-setup-pt1.md",
     "content/blog/after-install.md",
@@ -240,7 +241,6 @@
     "themes/terminus/content/blog/_index.md",
     "themes/terminus/content/_index.md",
     "themes/terminus/README.md",
-    "obsidian_templates/blog_template.md",
-    "content/blog/laptop-cosmic.md"
+    "obsidian_templates/blog_template.md"
   ]
 }
