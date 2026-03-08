@@ -105,4 +105,96 @@ touch "$timestamp_file"
 echo -e "${bold_cyan}[Done]${reset}"
 ```
 
-works fine. polished a bit with a conversion to functions to keep the language simp
+works fine. polished a bit with a conversion to functions to keep the language simpler:
+
+```shell
+#!/bin/bash
+
+set -x
+
+# Colors
+bold_cyan="\e[1;36m"
+bold_white="\e[1;37m"
+reset="\e[0m"
+
+# Path to the timestamp file
+timestamp_file="$HOME/update_timestamp"
+
+# Current time in seconds since epoch
+current_time=$(date +%s)
+
+# Function to run rate-mirrors
+run_rate_mirrors() {
+  echo -e "${bold_cyan}==> ${bold_white}Starting Rate-mirrors...${reset}"
+  rate-mirrors --disable-comments cachyos | sudo tee /etc/pacman.d/cachyos-mirrorlist
+
+  # Add corrections for proper pacman.conf formatting
+  sudo cp -f --backup=simple --suffix="-backup" "/etc/pacman.d/cachyos-mirrorlist" "/etc/pacman.d/cachyos-v3-mirrorlist"
+  sudo sed -i 's|/$arch/|/$arch_v3/|g' "/etc/pacman.d/cachyos-v3-mirrorlist"
+}
+
+# Function to run ghostmirror
+run_ghostmirror() {
+  echo -e "${bold_cyan}==> ${bold_white}Ranking mirrorlist with Ghostmirror...${reset}"
+  sudo ghostmirror -PomulsS /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist light state,uptodate,speed,estimated
+}
+
+# Function to run reflector
+run_reflector() {
+  echo -e "${bold_cyan}==> ${bold_white}Starting Reflector...${reset}"
+  sudo reflector --verbose -c CA -c MX -c US --protocol https --sort rate --number 50 --download-timeout 5 --save /etc/pacman.d/mirrorlist
+}
+
+# Function to run pacman-syu
+run_pacman_syu() {
+  echo -e "${bold_cyan}==> ${bold_white}Starting pacman -Syu...${reset}"
+  sudo pacman -Syu
+}
+
+# Function to run pacman-syyu
+run_pacman_syyu() {
+  echo -e "${bold_cyan}==> ${bold_white}Starting pacman -Syyu...${reset}"
+  sudo pacman -Syyu
+}
+
+#Function to update timestamp
+run_update_ts() {
+  echo -e "${bold_cyan}==> Updating timestamp file now...${reset}"
+  touch "$timestamp_file"
+}
+
+# Check if the file exists
+if [[ -f "$timestamp_file" ]]; then
+    # Get the last modified time of the timestamp file
+    file_mod_time=$(stat -c %Y "$timestamp_file")
+    # Compute the age of the file
+    file_age=$((current_time - file_mod_time))
+
+    # Check if the file age is < than 24 hours (86400 seconds)
+    if [[ $file_age -lt 86400 ]]; then
+        echo -e "${bold_cyan}:: ${bold_white}Mirrors < 24 hrs old...${reset}"
+
+        echo -e "${bold_cyan}:: ${bold_white}Current CachyOS Servers:${reset}"
+        cat /etc/pacman.d/cachyos-mirrorlist
+
+	echo -e "${bold_cyan}:: ${bold_white}Current Arch Servers:${reset}"
+        cat /etc/pacman.d/mirrorlist
+        run_pacman_syu
+    else
+        echo -e "${bold_cyan}:: ${bold_white}Mirrors older than 24 hours, updating...${reset}"
+        run_rate_mirrors
+        run_ghostmirror
+        run_pacman_syyu
+        run_update_ts
+   fi
+else
+    echo -e "${bold_cyan}:: ${bold_white}Timestamp file does not exist...${reset}"
+    run_rate_mirrors
+    run_reflector
+    run_ghostmirror
+    run_pacman_syyu
+    run_update_ts
+fi
+
+echo  -e "${bold_cyan}[Done]${reset}"
+```
