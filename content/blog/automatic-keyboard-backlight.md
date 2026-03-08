@@ -83,4 +83,5 @@ sudo systemctl enable --now keyboard_backlight
 sudo systemctl start keyboard_backlight
 ```
 
-now i tested it all with a reboot. i think its obvious that you have to have the backlights actually on to check operation, but its working well on stops and restarts and if im suspending. fixes that pesky workaround and reminds me how my old macbook pro worked. simple fix, thanks Alex!
+now i tested it all with a reboot. i think its obvious that you have to have the backlights actually on to check operation, but its working well on stops and restarts if i'm suspending, sleeping, whatever. 
+for shits and giggles i'm gunna leave the laptop unplugged and lid open overnight and see how it changes the battery use, will report back on that. for now, it fixes that pesky workaround and reminds me how my old macbook pro worked. simple fix, thanks Alex!
