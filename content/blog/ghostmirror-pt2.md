@@ -163,6 +163,8 @@ run_update_ts() {
   touch "$timestamp_file"
 }
 
+### Main script ###
+
 # Check if the file exists
 if [[ -f "$timestamp_file" ]]; then
     # Get the last modified time of the timestamp file
