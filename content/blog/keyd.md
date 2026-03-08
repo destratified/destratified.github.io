@@ -1,13 +1,13 @@
 +++
 title = "keyd"
-date = "2026-01-16"
+date = "2026-03-07"
 
 [taxonomies]
 tags = ["arch", "keyboard_remapping"]
 +++
 
 # keyd 
- ## 08:31
+ ## 17:31 - UPDATED
 so i definately started over here...forgot entirely how i modded the keymappings for my laptop. the lemur13 from system76 is a smaller 13" laptop and thus a small keyboard. in addition to a few smaller keys, the caplock i never use and hit often. and the page up/page down are both 1/2 key above the 1/2 key left/right arrows. 
 
 objectives:
@@ -98,6 +98,12 @@ rightcontrol = layer(returnpageupdown)
 [returnpageupdown]
 pageup = pageup
 pagedown = pagedown
+
+#poured coffee on keyboard, only del doesnt worl, remap to leftatl + backspace
+leftalt = overload(leftalt, esc)
+
+[alt:C]
+backspace = delete
 ```
 
-this does exactly what i needed
+this does exactly what i needed. added the coffee spill fix to update the blog.
