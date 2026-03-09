@@ -82,3 +82,24 @@ at this point all should be ready to copy files.  i used a rsync command on my s
        /music
        /tv
 ```
+
+## UPDATE: 03/09/2026 07:39
+
+nfs file mounts in /etc/fstab:
+
+the options declarations in the man page state that rw, and defaults are not necessary options...unless you have no other options stated. defaults is a placeholder for the string, and rw is a default.
+
+so for the mounting of the nfs folders from my server above:
+```shell
+192.168.50.2:/storage /storage nfs rw,defaults,nofail  0 0
+192.168.50.2:/transcode/ /transcode nfs rw,defaults,nofail  0 0
+```
+
+these can be simplified to:
+```shell
+192.168.50.2:/storage /storage nfs nofail  0 0
+192.168.50.2:/transcode/ /transcode nfs nofail  0 0
+```
+
+as the rw *is* a default, and defaults is redundant with nofail.
+

@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/blog/automatic-keyboard-backlight.md",
+                "file": "content/blog/NFSpassthrough.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "automatic-keyboard-backlight"
+              "title": "NFSpassthrough"
             }
           }
         ]
@@ -196,8 +196,8 @@
   },
   "active": "4ed8f4d9ef379511",
   "lastOpenFiles": [
-    "content/blog/ghostmirror-pt2.md",
     "content/blog/automatic-keyboard-backlight.md",
+    "content/blog/ghostmirror-pt2.md",
     "content/blog/ghostmirror.md",
     "content/blog/keyd.md",
     "ghostmirror.md",
