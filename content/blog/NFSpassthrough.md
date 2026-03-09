@@ -101,5 +101,5 @@ these can be simplified to:
 192.168.50.2:/transcode/ /transcode nfs nofail  0 0
 ```
 
-as the rw *is* a default, and defaults is redundant with nofail.
+as the rw *is* a default, and defaults is redundant with nofail. if for some reason you did not want to use nofail (though it will save you someday - ask me how i know), you could just enter defaults and rw is implied.
 
