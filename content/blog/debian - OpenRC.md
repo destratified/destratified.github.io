@@ -23,4 +23,42 @@ and some references to the openRC conversion in the debian docs <https://wiki.de
 so the simplistic take debian states is not how to really get this working, and is also implemented in CyberSecGuru's guide so i just followed that. 
 ### getting started
 
-now will this work for you? maybe. it seemed like everytime i went through this
+now will this work for you? maybe. it seemed like every time i went through this i ended up using a different command, but first off, get the debian netinstall iso and boot from it, install the barebones system only, you can just add the other stuff after.  
+
+***network settings should remain after the boot, its using the ifupdown package, so lookup whatever you may need to do to get that working (again on a laptop - so i manually set a network and password in /etc/network/interfaces file).
+
+i had on multiple occasions the need to set ifdown and bring it back up to get apt update working.
+
+boot from the clean install, login as root and starting at the prompt, 
+enter some iteration of the below:
+```shell
+apt update && apt upgrade
+apt remove --allow-remove-essential systemd && apt install openrc sysvinit-core orphan-sysvinit-scripts 
+```
+
+essentially, just add and remove stuff that keeps bonking on the dependencies until you get a y/n prompt and boom.
+
+now the installer will tell you the following line to type in, you don't have any GUI or copy and paste ability from tty1, so just be careful typing things in and double check before hitting enter:
+```shell
+for file in /etc/rc0.d/K*; do s=`basename $(readlink "$file")` ; /etc/init.d/$s stop; done
+```
+
+it should reboot after that. i had to force shutdown with the power button, but it booted up ok and then you are able to start adding packages.
+
+the next few steps i just followed CyberSecGuru guys guide, and then started adding packages, your needs maybe different, but my apt command was roughly as follows...
+```shell
+apt install build-essential git curl wget kde-plasma network-manager openssh 
+```
+
+you can add others later, but that basically pulls 700 some odd packages and with a reboot gets you into the login prompt in kde.
+### nuances 
+things that i consider essential are as follows:
+
+- tailscale
+- remmina -with rdp
+- obsidian
+- power-profile-daemon
+- kitty terminal
+- ssh (which worked out of the box)
+
+tailscale was a bitch to get working, and the takeaways i have from my limited workings with 
