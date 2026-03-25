@@ -1,6 +1,6 @@
 {
-  "commitMessage": "zola webpage - lappy",
-  "autoCommitMessage": "zola webpage - lappy",
+  "commitMessage": "lappy - {{date}}",
+  "autoCommitMessage": "lappy - {{date}}",
   "commitMessageScript": "",
   "commitDateFormat": "YYYY-MM-DD HH:mm:ss",
   "autoSaveInterval": 10,
@@ -13,7 +13,7 @@
   "disablePopups": false,
   "showErrorNotices": true,
   "disablePopupsForNoChanges": false,
-  "listChangedFilesInMessageBody": false,
+  "listChangedFilesInMessageBody": true,
   "showStatusBar": true,
   "updateSubmodules": false,
   "syncMethod": "merge",
