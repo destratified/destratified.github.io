@@ -33,7 +33,7 @@ boot from the clean install, login as root and starting at the prompt,
 enter some iteration of the below:
 ```shell
 apt update && apt upgrade
-apt remove --allow-remove-essential systemd && apt install openrc sysvinit-core orphan-sysvinit-scripts 
+apt purge --allow-remove-essential systemd-sysv && apt install openrc sysvinit-core 
 ```
 
 essentially, just add and remove stuff that keeps bonking on the dependencies until you get a y/n prompt and boom.
