@@ -20,7 +20,7 @@ found an article by CyberSecGuru that helped lead me in the right direction <htt
 
 and some references to the openRC conversion in the debian docs <https://wiki.debian.org/OpenRC>
 
-so the simplistic take debian states is not how to really get this working, and is also implemented in CyberSecGuru's guide so i just followed that. 
+so the simplistic take debian states is not helpful in getting this working, and is also partially implemented in CyberSecGuru's guide anyways, so i just followed that. 
 ### getting started
 
 now will this work for you? maybe. it seemed like every time i went through this i ended up using a different command, but first off, get the debian netinstall iso and boot from it, install the barebones system only, you can just add the other stuff after.  
