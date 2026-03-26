@@ -52,7 +52,14 @@ apt install build-essential git curl wget kde-plasma network-manager openssh
 
 you can add others later, but that basically pulls 700 some odd packages and with a reboot gets you into the login prompt in kde.
 ### nuances 
-things that i consider essential are as follows:
+
+after boot, ifupdown and network-manager were conflicting.
+```shell
+apt purge ifupdown
+```
+after that comment out everything in the /etc/network/interfaces file and reboot.
+
+other things that i consider essential are as follows:
 
 - tailscale
 - remmina -with rdp
@@ -61,4 +68,89 @@ things that i consider essential are as follows:
 - kitty terminal
 - ssh (which worked out of the box)
 
-tailscale was a bitch to get working, and the takeaways i have from my limited workings with 
+tailscale was a bitch to get working, and the takeaways i have from my limited workings with openRC is if its a package that runs as a service, install it from the command line, setup a file in /etc/init.d/"whatever" and add the instructions there. i loosely followed this using a few different methods, and openRC converter on the web and was able to get it working after tweaking the init file (depends- net wasnt working for network-manger, it might for ifupdown but i wasn't on an eth connection).
+
+so here's my working /etc/init.d/tailscale file...
+```shell
+#!/sbin/openrc-run
+
+name=Tailscale
+description="Tailscale node agent"
+supervisor="supervise-daemon"
+command="/usr/bin/tailscaled"
+command_args="--statedir /var/lib/tailscale"
+
+depend() {
+	after network-online 
+	use network-online 
+}
+
+start() {
+    ebegin "Starting Tailscale"
+    /usr/sbin/tailscaled --state=/var/lib/tailscale/tailscaled.state
+    eend $?
+}
+
+stop() {
+    ebegin "Stopping Tailscale"
+    killall tailscaled
+    eend $?
+}
+
+status() {
+    if pgrep tailscaled > /dev/null; then
+        ebegin "Tailscale is running"
+        eend 0
+    else
+        ebegin "Tailscale is not running"
+        eend 1
+    fi
+}
+```
+
+if i remember correctly, some of this was borrowed from tailscale-openrc script in Alpine, some of it was digested using the <http://openrc.run/> website and i was really skeptical that it would even work, but it did!
+
+lastly you need to chmod it, add to openrc-run with the following command and start it, or reboot up to you.
+```shell
+sudo chmod +x /etc/init.d/tailscale
+sudo rc-update add tailscale default
+sudo rc-service tailscale start
+```
+
+then, give it a shot with `sudo tailscale up` and you should get the login prompt if everything went ok. those last commands came from <https://peet.io/blog/0004-tailscale-on-alpine-linux> which i'd referenced in getting the init script up and running, but kept having the net-depends error...
+
+tested it out over numerous reboots and running a remote remmina from a phone hotspot to make sure it actually worked with the home network connection and all was well.
+
+the power-profile-daemon also was non-functional on boot and that was a little easier guide to follow that i pulled from Alpine linux:
+<https://github.com/h8d13/ppd-openrc>
+
+i cloned the repo and followed the instructions, replacing apk and doas lingo as needed:
+```shell
+sudo apt install power-profile-daemon
+```
+
+this downloads the daemon, possibly re-installs, if its already there, then i confirmed the file location with the whereis command:
+```shell
+whereis power-profile-daemon
+```
+
+knowing that location matched the instructions in the github directions i just followed the rest of the guide:
+```shell
+sudo cp power-profiles-daemon.initd /etc/init.d/power-profiles-daemon
+sudo chmod +x /etc/init.d/power-profiles-daemon
+
+sudo cp power-profiles-daemon.confd /etc/conf.d/power-profiles-daemon
+sudo chmod +x /etc/conf.d/power-profiles-daemon
+
+sudo cp ppd-profile /usr/bin/ppd-profile
+sudo chmod +x /usr/bin/ppd-profile
+
+sudo rc-update add power-profiles-daemon default
+sudo rc-service power-profiles-daemon start
+
+sudo ppd-profile balanced
+```
+
+on reboot the power profiles was no longer greyed out in the settings
+
+remmina, kitty, ssh all worked outta the box, obsidian i installed the deb file from the obsidian website, and the only thing i seem to have to troubleshoot is getting sound to play over bluetooth (wireless bluetooth headphones do not appear under sounds > outputs, but play fine over the speakers). i will update once i get that working...
