@@ -70,7 +70,7 @@ other things that i consider essential are as follows:
 
 tailscale was a bitch to get working, and the takeaways i have from my limited workings with openRC is if its a package that runs as a service, install it from the command line, setup a file in /etc/init.d/"whatever" and add the instructions there. i loosely followed this using a few different methods, and openRC converter on the web and was able to get it working after tweaking the init file (depends- net wasnt working for network-manger, it might for ifupdown but i wasn't on an eth connection).
 
-get the 
+get the tailsca
 
 so here's my working /etc/init.d/tailscale file...
 ```shell
