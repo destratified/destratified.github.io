@@ -70,9 +70,12 @@ other things that i consider essential are as follows:
 
 tailscale was a bitch to get working, and the takeaways i have from my limited workings with openRC is if its a package that runs as a service, install it from the command line, setup a file in /etc/init.d/"whatever" and add the instructions there. i loosely followed this using a few different methods, and openRC converter on the web and was able to get it working after tweaking the init file (depends- net wasnt working for network-manger, it might for ifupdown but i wasn't on an eth connection).
 
-get the tailsca
+get the tailscale scripts from here:
+```shell
+curl -fsSL https://tailscale.com/install.sh | sh
+```
 
-so here's my working /etc/init.d/tailscale file...
+create a rc-service init.d file - here's my working /etc/init.d/tailscale file...
 ```shell
 #!/sbin/openrc-run
 
@@ -155,10 +158,7 @@ sudo ppd-profile balanced
 
 on reboot the power profiles was no longer greyed out in the settings
 
-remmina, kitty, ssh all worked outta the box, obsidian i installed the deb file from the obsidian website, and the only thing i seem to have to troubleshoot is getting sound to play over bluetooth (wireless bluetooth headphones do not appear under sounds > outputs, but play fine over the speakers). i will update once i get that working...
-
-key takeaways? holy shit does the same system boot way faster! digestible output in the boot sequence, systemd is a monolith and the memory footprint is huge comparatively. little bit of work to get it all done, but you have the advantages of the full debian repos over the limited proprietary ones in Devuan for instance. i'd love to see an arch distro just up and tell systemd to fuckoff. the artix linux is lacking (cant boot video on my laptop without the nomodeset kernel line variable) and has a proprietary repo scenario as well, so i think i might dig into that next, but arch is significantly intertwined with systemd it appears. which is a major bummer, as pacman is by far the best package manager in linux oses, but whatever...also Cosmic-Desktop (system76) if you are listening, get off systemd.
-
+remmina, kitty, ssh all worked outta the box, obsidian i installed the deb file from the obsidian website~~, and the only thing i seem to have to troubleshoot is getting sound to play over bluetooth (wireless bluetooth headphones do not appear under sounds > outputs, but play fine over the speakers). i will update once i get that working...~~
 ## bluetooth fix...not hard
 thanks to a forum recommending the debian forums ;) i went to <https://wiki.debian.org/BluetoothUser/a2dp> and under pre-configuration step one did the following:
 ```bash
@@ -166,5 +166,8 @@ sudo apt install pulseaudio-module-bluetooth
 ```
 
 with a quick system reboot i was listening to audio on my wireless bluetooth Sony WH1000-XM5! booyah.
+### takeaways?
 
-now i need to figure out why my media / play buttons have disappeared in my browser
+holy shit does the same system boot way faster! digestible output in the boot sequence, systemd is a monolith and the memory footprint is huge comparatively. little bit of work to get it all done, but you have the advantages of the full debian repos over the limited proprietary ones in Devuan for instance. i'd love to see an arch distro just up and tell systemd to fuckoff. the artix linux is lacking (cant boot video on my laptop without the nomodeset kernel line variable) and has a proprietary repo scenario as well, so i think i might dig into that next, but arch is significantly intertwined with systemd it appears. which is a major bummer, as pacman is by far the best package manager in linux oses, but whatever...also Cosmic-Desktop (system76) if you are listening, get off systemd.
+
+now i need to figure out why my media / play buttons have disappeared in my browser - likely a site setting blocked in librewolf
