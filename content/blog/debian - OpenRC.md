@@ -47,7 +47,7 @@ it should reboot after that. i had to force shutdown with the power button, but 
 
 the next few steps i just followed CyberSecGuru guys guide, and then started adding packages, your needs maybe different, but my apt command was roughly as follows...
 ```shell
-apt install build-essential git curl wget kde-plasma network-manager openssh 
+apt install build-essential git curl wget kde-plasma-desktop network-manager openssh 
 ```
 
 you can add others later, but that basically pulls 700 some odd packages and with a reboot gets you into the login prompt in kde.
