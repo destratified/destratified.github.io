@@ -25,10 +25,6 @@ so the simplistic take debian states is not helpful in getting this working, and
 
 now will this work for you? maybe. it seemed like every time i went through this i ended up using a different command, but first off, get the debian netinstall iso and boot from it, install the barebones system only, you can just add the other stuff after.  
 
-***network settings should remain after the boot, its using the ifupdown package, so lookup whatever you may need to do to get that working (again on a laptop - so i manually set a network and password in /etc/network/interfaces file).
-
-i had on multiple occasions the need to set ifdown and bring it back up to get apt update working.
-
 boot from the clean install, login as root and starting at the prompt, 
 enter some iteration of the below:
 ```shell
@@ -45,6 +41,15 @@ for file in /etc/rc0.d/K*; do s=`basename $(readlink "$file")` ; /etc/init.d/$s 
 
 it should reboot after that. i had to force shutdown with the power button, but it booted up ok and then you are able to start adding packages.
 
+***network settings should remain after the boot, its using the ifupdown package, so lookup whatever you may need to do to get that working (again on a laptop - so i manually set a network and password in /etc/network/interfaces file).***
+for me this looked like:
+```shell 
+ifdown wlp0s20f3
+ifup wlp0s20f3
+```
+
+i had on multiple occasions the need to set ifdown and bring it back up to get apt update working while i was in the same session, but it works.
+
 the next few steps i just followed CyberSecGuru guys guide, and then started adding packages, your needs maybe different, but my apt command was roughly as follows...
 ```shell
 apt install build-essential git curl wget kde-plasma-desktop network-manager ssh 
@@ -53,11 +58,12 @@ apt install build-essential git curl wget kde-plasma-desktop network-manager ssh
 you can add others later, but that basically pulls 700 some odd packages and with a reboot gets you into the login prompt in kde.
 ### nuances 
 
-after boot, ifupdown and network-manager were conflicting.
+after boot, ifupdown and network-manager were conflicting. remove ifupdown completely:
 ```shell
 apt purge ifupdown
 ```
-after that comment out everything in the /etc/network/interfaces file and reboot.
+
+after that comment out everything in the /etc/network/interfaces file and reboot. this is what was throwing off network-manager.
 
 other things that i consider essential are as follows:
 
