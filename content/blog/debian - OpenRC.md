@@ -52,14 +52,12 @@ i had on multiple occasions the need to set ifdown and bring it back up to get a
 
 after hosing a previous installation with a dual boot issue, i started wondering if there would be a good point in this process to change the repos to debian testing, and it seemed like while there were just a few packages installed that would be a good time. i made sure to add the package blocker for systemd in /etc/apt/preferences.d/systemd and made sure none of the systemd packages were brought in during the update/upgrade process.
 
-i changed the repos to testing from trixie in /etc/apt/sources.list and commented out the update repos as per the debian instructions for upgrading to the testing repos and did a quick `apt update and apt dist upgrade` adding the programs recommended by Cybersecguru as a test before pu
-
-the next few steps i just followed CyberSecGuru guys guide, and then started adding packages, your needs maybe different, but my apt command was roughly as follows...
+i changed the repos to testing from trixie in /etc/apt/sources.list and commented out the update repos as per the debian instructions for upgrading to the testing repos and did a quick `apt update and apt dist upgrade` adding the programs recommended by Cybersecguru, your needs maybe different. i did a reboot after those and then started pulling more with my apt command as follows...
 ```shell
 apt install build-essential git curl wget kde-plasma-desktop network-manager ssh 
 ```
 
-you can add others later, but that basically pulls 700 some odd packages and with a reboot gets you into the login prompt in kde.
+you can add others later, but that basically pulls like 1100 some odd packages and with a reboot gets you into the login prompt in kde.
 ### nuances 
 
 after boot, ifupdown and network-manager were conflicting. remove ifupdown completely:
