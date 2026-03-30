@@ -6,7 +6,7 @@ date = "2026-03-25"
 tags = ["debian", "openRC", "OS"]
 +++
 
-# debian - OpenRC install and tweaks, also 
+# debian - OpenRC install and tweaks, also debian 
  ## 15:58
 so poking around on the internet, i was trying to find some distros that are sans systemd - i didn't like the maintainer, Lennart Poettering, just pushing through the merge request from the one guy who decided he would accept the verify ID laws as truth, without consulting anyone else, and interlock it with systemd. bad move, and i think it both caught alot of developers off guard and has raised hackles on many in the community who'd disagree that this is even legal (as its yet to be decided in court whats even enforcable)...i could go on, maybe that's why you are here, maybe not.
 
