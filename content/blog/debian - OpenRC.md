@@ -62,6 +62,13 @@ apt install build-essential git curl wget kde-plasma-desktop network-manager ssh
 you can add others later, but that basically pulls like 1100 some odd packages and with a reboot gets you into the login prompt in kde.
 ### nuances 
 
+### ***update 
+with kde-plasma-desktop installed using debian testing repos, there is a weird quirk that doesn't let you reboot or shutdown from the menu. i traced this back to /etc/init.d/turnstile hanging the reboot and shutdown process. looking like it just duplicates the sddm login manager functions (believe its a pre-cursor to kde-plasma-loginmanager), i just removed it from the init sequence with:
+```shell
+sudo rc-update del turnstile
+```
+so far i have not had any issues and menu buttons are working fine again.*** 
+
 after boot, ifupdown and network-manager were conflicting. remove ifupdown completely:
 ```shell
 apt purge ifupdown
