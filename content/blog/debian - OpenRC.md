@@ -6,7 +6,7 @@ date = "2026-03-25"
 tags = ["debian", "openRC", "OS"]
 +++
 
-# debian - OpenRC install and tweaks, also debian 
+# debian - OpenRC install and tweaks, also debian testing repos work
  ## 15:58
 so poking around on the internet, i was trying to find some distros that are sans systemd - i didn't like the maintainer, Lennart Poettering, just pushing through the merge request from the one guy who decided he would accept the verify ID laws as truth, without consulting anyone else, and interlock it with systemd. bad move, and i think it both caught alot of developers off guard and has raised hackles on many in the community who'd disagree that this is even legal (as its yet to be decided in court whats even enforcable)...i could go on, maybe that's why you are here, maybe not.
 
@@ -49,6 +49,10 @@ ifup wlp0s20f3
 ```
 
 i had on multiple occasions the need to set ifdown and bring it back up to get apt update working while i was in the same session, but it works.
+
+after hosing a previous installation with a dual boot issue, i started wondering if there would be a good point in this process to change the repos to debian testing, and it seemed like while there were just a few packages installed that would be a good time. i made sure to add the package blocker for systemd in /etc/apt/preferences.d/systemd and made sure none of the systemd packages were brought in during the update/upgrade process.
+
+i changed the repos to testing from trixie in /etc/apt/sources.list and commented out the update repos as per the debian instructions for upgrading to the testing repos and did a quick `apt update and apt dist upgrade` adding the programs recommended by Cybersecguru as a test before pu
 
 the next few steps i just followed CyberSecGuru guys guide, and then started adding packages, your needs maybe different, but my apt command was roughly as follows...
 ```shell
