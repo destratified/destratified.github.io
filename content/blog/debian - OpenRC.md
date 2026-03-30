@@ -50,7 +50,9 @@ ifup wlp0s20f3
 
 i had on multiple occasions the need to set ifdown and bring it back up to get apt update working while i was in the same session, but it works.
 
-after hosing a previous installation with a dual boot issue, i started wondering if there would be a good point in this process to change the repos to debian testing, and it seemed like while there were just a few packages installed that would be a good time. i made sure to add the package blocker for systemd in /etc/apt/preferences.d/systemd and made sure none of the systemd packages were brought in during the update/upgrade process.
+after hosing a previous installation with a dual boot issue, i started wondering if there would be a good point in this process to change the repos to debian testing, and it seemed like while there were just a few packages installed that would be a good time. i made sure to add the package blocker for systemd in /etc/apt/preferences.d/systemd and made sure none of the systemd packages were brought in during the update/upgrade process. 
+
+***the below works, but i would recommend the debian testing netinstall iso as the greatest difficulty i've had was if the kernel would update properly, and with the testing iso you don't have to worry about that***
 
 i changed the repos to testing from trixie in /etc/apt/sources.list and commented out the update repos as per the debian instructions for upgrading to the testing repos and did a quick `apt update and apt dist upgrade` adding the programs recommended by Cybersecguru, your needs maybe different. i did a reboot after those and then started pulling more with my apt command as follows...
 ```shell
