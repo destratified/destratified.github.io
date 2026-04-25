@@ -28,6 +28,16 @@ here's what i have left to do, nfs access to local file server, when at home (sh
 
 #### starting off
 ____________________
-follow the handbook, until you get a feel for how this is gunna go, i setup and wiped out 3 installations before i felt i had a handle on it. if you have installed arch from the commandline, and NO, not with archinstall, this will seem very familiar. i started with the liveCD and after i understood how it was working, ended up using my running debOS to install via changeroot.
+follow the handbook, until you get a feel for how this is gunna go, i setup and wiped out 3 installations before i felt i had a handle on it, and not in VMs. if you have installed arch from the commandline, and NO, not with archinstall, this will seem very familiar. i started with the liveCD and after i understood how it was working, ended up using my running debOS to install via changeroot.
 
-things that helped me...if you have an entirely separate drive install it there - i went with my second nvme drive and created 3 partitions. i used 10GB for efi, 20GB for swap and 100GB for the / - ext4 I have not had the pleasure of installing btrfs with gentoo or openRC debian, and i may not. i was using it for snapshots, but timeshift, which works in debian and gentoo works with the 
+things that helped me...if you have an entirely separate drive install it there - i went with my second nvme drive and created 3 partitions. i used 10GB for efi, 20GB for swap and 100GB for the / - ext4 i have not had the pleasure of installing btrfs with gentoo or openRC debian, and i may not. i was using it for snapshots, but timeshift, which works in debian and gentoo works with the ext4 partitions and i've been able to restore using it - *with access to the system*
+
+keep the efi boot partitions separate, you can update-grub to each individually and with os-prober it will pickup the other distro. this is easier and more safe than writing two different installs to the same partition...if i change anything there, it would be to use refind or limine and have it chain boot.
+
+once partitioned, you can use mkfs to format the partitions with the appropriate types "efi,swap and ext4", in my case, and then mount.  gentoo handbook directions state to mkdir and mount to /mnt/gentoo initially, i found after that and the /proc /dev etc that you can also mount the efi to /mnt/gentoo/boot to save a little time later and keep with the flow.
+
+at this point you can changeroot and follow the handbook and get the system to a booting state.
+
+#### reboot and start installing stuff
+________
+instead of trying to do everything at once, i found it was best to get to a point where i had a boot and prompt with root login. there are a few guides out there for kde installs that will have you setup kde, user and such before initial boot. i liked the gentoo handbook way
