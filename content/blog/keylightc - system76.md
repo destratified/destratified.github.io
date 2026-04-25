@@ -29,3 +29,4 @@ the brightness path i sorted out with the brightnessctl program, you can install
 there's also a fade function in the keylightc program that i wasn't sure was gunna work, so i pulled out all of the references, built the keylightc file with make and began testing it. `sudo ./keylightc` - no joy.
 
 welp, i guess i don't know enough about c to get this working, so i piped the code into duck.ai
+
