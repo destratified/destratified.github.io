@@ -30,3 +30,4 @@ there's also a fade function in the keylightc program that i wasn't sure was gun
 
 welp, i guess i don't know enough about c to get this working, so i piped the code into duck.ai
 
+this is still a work in progress, but now im on the gentoo, you too, do you gentoo...so looking at another application for the backlight. will see if it works or if i go back to fixing the keylightc app
