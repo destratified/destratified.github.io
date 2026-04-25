@@ -1,12 +1,12 @@
 +++
-title = "debian - openRC - update"
-date = "2026-04-01"
+title = "openrc - remote server"
+date = "2026-04-25"
 
 [taxonomies]
 tags = ["openRC", "debian"]
 +++
 
-# debian - openRC - update 
+# openRC remote server - updated** 
  ## 21:40
 
 well, playing around with debian and openrc installs lately, i thought i would see if i could install it on an old resi blackbox video focused NUC. this one i was able to get install working, but had video issues (some strange HDMI jack problem, would literally pulse hdmi viedo output to the the screen) so i decided to try a setting up ssh and then going the headless route. this gave me the opportunity to try installing and configuring openRC over ssh.
@@ -114,3 +114,7 @@ just enter the servername: localhost:590x <- "x" meaning the :1 :2 or whatever w
 continue to the ssh tunnel tab and enable that, then I went with custom IP:22 for the tunnel and password for authentication method. the username and password should be the same as the ssh login user and their password you use to ssh into the box (avoid using root user)!
 
 and that was it! a shiny new xfce box to play around with, all done over ssh. now i plan on setting up tailscale in this again and putting it in a different location and IP, and changing the above in remmina to point to the tailscale address and seeing if that works remotely!
+
+** UPDATE **
+
+***i probably didn't clarify this enough above! this only works if you select the VNC plugin for access, do not try and do the ssh shell, that is only for the tty on that vnc server. 
