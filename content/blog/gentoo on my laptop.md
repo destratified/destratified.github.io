@@ -40,4 +40,57 @@ at this point you can changeroot and follow the handbook and get the system to a
 
 #### reboot and start installing stuff
 ________
-instead of trying to do everything at once, i found it was best to get to a point where i had a boot and prompt with root login. there are a few guides out there for kde installs that will have you setup kde, user and such before initial boot. i liked the gentoo handbook way
+instead of trying to do everything at once, i found it was best to get to a point where i had a boot and prompt with root login. there are a few guides out there for kde installs that will have you setup kde, user and such before initial boot. i liked the gentoo handbook way and after a solid reboot sort of start the install process.  i have binpackages enabled, which helps cut some install time down, but mostly i found that i needed to setup some global flags.
+
+here is my /etc/portage/make.conf:
+```shell
+# These settings were set by the catalyst build script that automatically
+# built this stage.
+# Compiler flags to set for all languages
+COMMON_FLAGS="-march=native -O2 -pipe"
+# Use the same settings for both variables
+CFLAGS="${COMMON_FLAGS}"
+CXXFLAGS="${COMMON_FLAGS}"
+
+#Rust flags
+RUSTFLAGS="${RUSTFLAGS} -C target-cpu=native"
+
+# Appending getbinpkg to the list of values within the FEATURES variable
+FEATURES="${FEATURES} getbinpkg"
+# Require signatures
+FEATURES="${FEATURES} binpkg-request-signature"
+
+# This sets the language of build output to English.
+# Please keep this setting intact when reporting bugs.
+LC_MESSAGES=C.UTF-8
+
+#USE flags
+USE="-gtk -gnome -systemd"
+
+#USE flags KDE
+USE="X wayland bluetooth elogind"
+
+#Networks/bluetooth
+USE="bluetooth"
+USE="${USE} networkmanager"
+
+#Use flags printer
+USE="cups foomaticdb ppds usb"
+
+# Overrides the profile's ACCEPT_LICENSE default value
+ACCEPT_LICENSE="* @FREE @BINARY-REDISTRIBUTABLE @GPL-COMPATIBLE"
+
+#grub install directions
+GRUB_PLATFORMS="efi-64"
+
+#keyword
+ACCEPT_KEYWORDS="~amd64"
+
+#automatically use bin packages first
+EMERGE_DEFAULT_OPTS="${EMERGE_DEFAULT_OPTS} --getbinpkg"
+
+#Global set video 
+VIDEO_CARDS="intel"
+```
+
+there's probably a few things here that could be consolidated, 
