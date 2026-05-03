@@ -44,7 +44,7 @@ instead of trying to do everything at once, i found it was best to get to a poin
 
 here is my /etc/portage/make.conf:
 ```shell
-# These settings were set by the catalyst build script that automatically
+[# These settings were set by the catalyst build script that automatically
 # built this stage.
 # Compiler flags to set for all languages
 COMMON_FLAGS="-march=native -O2 -pipe"
@@ -90,7 +90,7 @@ ACCEPT_KEYWORDS="~amd64"
 EMERGE_DEFAULT_OPTS="${EMERGE_DEFAULT_OPTS} --getbinpkg"
 
 #Global set video 
-VIDEO_CARDS="intel"
+VIDEO_CARDS="intel"]()
 ```
 
 there's probably a few things here that could be consolidated, 
