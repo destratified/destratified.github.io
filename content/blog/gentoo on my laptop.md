@@ -44,53 +44,65 @@ instead of trying to do everything at once, i found it was best to get to a poin
 
 here is my /etc/portage/make.conf:
 ```shell
-[# These settings were set by the catalyst build script that automatically
-# built this stage.
-# Compiler flags to set for all languages
-COMMON_FLAGS="-march=native -O2 -pipe"
-# Use the same settings for both variables
+# ------------------------------------------------------------
+#  Compiler flags (all languages)
+# ------------------------------------------------------------
+COMMON_FLAGS="-march=alderlake -mabm -mno-kl -mno-pconfig -mno-sgx -mno-widekl -mshstk --param=l1-cache-line-size=64 --param=l1-cache-size=32 --param=l2-cache-size=12288 -O2 -pipe"
 CFLAGS="${COMMON_FLAGS}"
 CXXFLAGS="${COMMON_FLAGS}"
+RUSTFLAGS="${RUSTFLAGS} -C target-cpu=alderlake"
 
-#Rust flags
-RUSTFLAGS="${RUSTFLAGS} -C target-cpu=native"
+# ------------------------------------------------------------
+#  Locale (English messages)
+# ------------------------------------------------------------
+LC_MESSAGES="C.UTF-8"
 
-# Appending getbinpkg to the list of values within the FEATURES variable
-FEATURES="${FEATURES} getbinpkg"
-# Require signatures
-FEATURES="${FEATURES} binpkg-request-signature"
+# ------------------------------------------------------------
+#  Global USE flags
+# ------------------------------------------------------------
+USE="wayland bluetooth elogind networkmanager nfs ext4 -gtk -gnome -systemd cups foomaticdb ppds usb"
 
-# This sets the language of build output to English.
-# Please keep this setting intact when reporting bugs.
-LC_MESSAGES=C.UTF-8
+# ------------------------------------------------------------
+#  Portage FEATURES (single line, no self‑reference)
+# ------------------------------------------------------------
+FEATURES="getbinpkg binpkg-request-signature ccache"
 
-#USE flags
-USE="-gtk -gnome -systemd"
-
-#USE flags KDE
-USE="X wayland bluetooth elogind"
-
-#Networks/bluetooth
-USE="bluetooth"
-USE="${USE} networkmanager"
-
-#Use flags printer
-USE="cups foomaticdb ppds usb"
-
-# Overrides the profile's ACCEPT_LICENSE default value
+# ------------------------------------------------------------
+#  License handling
+# ------------------------------------------------------------
 ACCEPT_LICENSE="* @FREE @BINARY-REDISTRIBUTABLE @GPL-COMPATIBLE"
 
-#grub install directions
+# ------------------------------------------------------------
+#  Bootloader configuration
+# ------------------------------------------------------------
 GRUB_PLATFORMS="efi-64"
 
-#keyword
+# ------------------------------------------------------------
+#  Architecture / keyword selection
+# ------------------------------------------------------------
 ACCEPT_KEYWORDS="~amd64"
 
-#automatically use bin packages first
-EMERGE_DEFAULT_OPTS="${EMERGE_DEFAULT_OPTS} --getbinpkg"
+# ------------------------------------------------------------
+#  Emerge default options (no duplicate --getbinpkg)
+# ------------------------------------------------------------
+EMERGE_DEFAULT_OPTS=""
 
-#Global set video 
-VIDEO_CARDS="intel"]()
+# ------------------------------------------------------------
+#  Video driver selection
+# ------------------------------------------------------------
+VIDEO_CARDS="intel"
+
+# ------------------------------------------------------------
+#  Parallel builds & ccache location
+# ------------------------------------------------------------
+# Replace “8” with the number of CPU threads you actually have.
+# If you have less RAM, lower the “-l” value (e.g., -l4).
+MAKEOPTS="-j10 -l12"
+CCACHE_DIR="/var/cache/ccache"
 ```
 
-there's probably a few things here that could be consolidated, 
+there's probably a few things here that could be consolidated, but overall its pretty neat. i've got 50 some packages from world and total 1180, so pretty lean for a DM.
+
+the guru package and nerd-fonts, are helpful, timeshift using rsync for ext4...i might play with a btrfs and timeshift install next, but thats probably for the desktop. i've rescued the system a few times already, the latest when i did something to my package manager where it would only pull the same gentoo repo over and over...sometimes easier to just go back and start over.
+
+i'd recommend timeshift for pretty much any install at this point, even vanilla ones.
