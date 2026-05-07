@@ -103,11 +103,11 @@ i also wiped out the pretty boot screen and had to find a way to get that back. 
 
 so go ahead and reboot back into the machine and then you can fuck with grub, also check out the new snapshot menu item if you have grub-btrfs installed.
 
-to get the gentoo glass theme back, you need to figure out the proper directory from the config file...mine only had starfield (which is not as nice) and so i had to make the directory /boot/grub/themes/glass and then i cloned the full repo from the link above and `cp -r /gentoo-glass/ /boot/grub/themes/glass/`
+to get the gentoo glass theme back, you need to figure out the proper directory from the config file...mine only had starfield (which is not as nice) and so i had to make the directory /boot/grub/themes/glass and then i cloned the full repo from the link above and `cp -r /gentoo-glass/ /boot/grub/themes/glass/` from the cloned directory
 
-verified the files were in the right place, and changed the line in /etc/default/grub to 
+verify that the files were in the right place, and change the line for the grub theme location in /etc/default/grub to 
 ```shell
 GRUB_THEME="/boot/grub/themes/glass/theme.txt"
 ```
 
-or whatever your directory you named it, and voila a pretty bootsplash with snapshot menu and working btrfs, timeshift, snapshots, all in grub!
+or whatever your directory is named, and voila a pretty bootsplash menu and working btrfs, timeshift, snapshots, all in grub!
