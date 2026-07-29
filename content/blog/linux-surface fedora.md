@@ -14,11 +14,10 @@ my initial goal was to get the fedora implementation of linux-surface kernel wor
 i used a mixture of solutions here and with some internet advise, searching reddit, and other nearly similar work arounds, decided on the following:
 
 - install latest kernel
-- patch using linux-surface repos
-- build iptsd from source
+- patch using linux-surface repos (ipts baked into kernel)
 - build a repeatable script that would let me do easier next time
 
-### installing latest kernel
+### installing latest kernel with patches
 
 the easiest instructions wound up in the github documentation for the Linus Torvalds github main kernel repo (am i saying that right?) and linked to here [https://github.com/torvalds/linux/blob/master/Documentation/admin-guide/quickly-build-trimmed-linux.rst#id17](kernel)
 
@@ -64,9 +63,299 @@ git am ~/projects/kernel/patches/surface-pro9-final/*.patch
 
 this gave me some blank line indicators and dealt with them while applying the patches without any errors.
 
-now i already had a build-surface-kernel.sh file i was using to help build and config the kernel, as well as install, add secure-boot etc, it was adapted to the below which allows a little more universal approach: build-exp.sh (testing with rc6n when it arrives)
+here's the build-surface-kernel-2.sh file created to implemented after the git am command for the manual testing: build-surface-kernel-2.sh
 
 ```shell
+#!/usr/bin/env bash
+set -euo pipefail
+
+exec > >(tee -a "$HOME/projects/kernel/build.log") 2>&1
+
+KERNEL_SRC="${1:?Give kernel source path}"
+
+# Normalize (resolve symlinks) if possible
+KERNEL_SRC="$(readlink -f "$KERNEL_SRC" 2>/dev/null || echo "$KERNEL_SRC")"
+
+[[ -d "$KERNEL_SRC" ]] || {
+  echo "Kernel source must be a directory: $KERNEL_SRC"
+  exit 1
+}
+
+NAME="surface-pro9"
+
+BASE="$HOME/projects/kernel"
+
+CONFIG="$BASE/configs/surface-pro9.config"
+BUILD="$BASE/builds/$NAME"
+LOCALVERSION="-surface-pro9"
+
+MOK_KEY="$HOME/secureboot/MOK.key"
+MOK_CERT="$HOME/secureboot/MOK.pem"
+
+RHELVER="$BASE/Makefile.rhelver"
+
+echo "================================="
+echo "Kernel source:"
+echo "$KERNEL_SRC"
+
+echo
+echo "Build:"
+echo "$BUILD"
+
+echo
+echo "Config:"
+echo "$CONFIG"
+
+echo
+echo "================================="
+
+for f in "$CONFIG" "$MOK_KEY" "$MOK_CERT"; do
+  [[ -f "$f" ]] || {
+    echo "Missing:"
+    echo "$f"
+    exit 1
+  }
+done
+
+mkdir -p "$BUILD"
+
+echo "[1/9] Copy config"
+cp "$CONFIG" "$BUILD/.config"
+
+echo "[2/9] Fedora metadata"
+
+# If kernel doesn't have Makefile.rhelver, link it in for the build.
+if [[ ! -e "$KERNEL_SRC/Makefile.rhelver" ]]; then
+  ln -sf "$RHELVER" "$KERNEL_SRC/Makefile.rhelver"
+  CLEAN_RHELVER=1
+else
+  CLEAN_RHELVER=0
+fi
+
+echo "[3/9] Local version"
+
+"$KERNEL_SRC/scripts/config" \
+  --file "$BUILD/.config" \
+  --set-str CONFIG_LOCALVERSION "$LOCALVERSION"
+
+"$KERNEL_SRC/scripts/config" \
+  --file "$BUILD/.config" \
+  --disable CONFIG_LOCALVERSION_AUTO
+
+echo "[4/9] olddefconfig"
+make \
+  -C "$KERNEL_SRC" \
+  O="$BUILD" \
+  olddefconfig
+
+echo "[5/9] Build"
+make \
+  -C "$KERNEL_SRC" \
+  O="$BUILD" \
+  -j"$(nproc)"
+
+KREL="$(make \
+  -C "$KERNEL_SRC" \
+  O="$BUILD" \
+  -s kernelrelease)"
+
+echo
+echo "Built:"
+echo "$KREL"
+
+echo "[6/9] Install modules"
+sudo make \
+  -C "$KERNEL_SRC" \
+  O="$BUILD" \
+  modules_install
+
+echo "[7/9] Install kernel"
+sudo install \
+  -Dm644 \
+  "$BUILD/arch/x86/boot/bzImage" \
+  "/boot/vmlinuz-$KREL"
+
+echo "[8/9] Sign"
+sudo sbsign \
+  --key "$MOK_KEY" \
+  --cert "$MOK_CERT" \
+  --output "/boot/vmlinuz-$KREL.signed" \
+  "/boot/vmlinuz-$KREL"
+
+sudo mv \
+  "/boot/vmlinuz-$KREL.signed" \
+  "/boot/vmlinuz-$KREL"
+
+echo "[9/9] Fedora registration"
+sudo dracut \
+  --force \
+  "/boot/initramfs-$KREL.img" \
+  "$KREL"
+
+sudo ln -sf \
+  "/boot/vmlinuz-$KREL" \
+  "/usr/lib/modules/$KREL/vmlinuz"
+
+sudo kernel-install add \
+  "$KREL" \
+  "/boot/vmlinuz-$KREL"
+
+if [[ "$CLEAN_RHELVER" == "1" ]]; then
+  rm -f "$KERNEL_SRC/Makefile.rhelver"
+fi
+
+echo
+echo "DONE"
+echo "$KREL installed"
+```
+### automations - setting it up for permanence
+
+build-exp.sh
+```shell
+#!/usr/bin/env bash
+set -euo pipefail
+
+exec > >(tee -a "$HOME/projects/kernel/build.log") 2>&1
+
+KERNEL_SRC="${1:?Give kernel source path}"
+
+# Normalize (resolve symlinks) if possible
+KERNEL_SRC="$(readlink -f "$KERNEL_SRC" 2>/dev/null || echo "$KERNEL_SRC")"
+
+[[ -d "$KERNEL_SRC" ]] || {
+  echo "Kernel source must be a directory: $KERNEL_SRC"
+  exit 1
+}
+
+NAME="surface-pro9"
+
+BASE="$HOME/projects/kernel"
+
+CONFIG="$BASE/configs/surface-pro9.config"
+BUILD="$BASE/builds/$NAME"
+LOCALVERSION="-surface-pro9"
+
+MOK_KEY="$HOME/secureboot/MOK.key"
+MOK_CERT="$HOME/secureboot/MOK.pem"
+
+RHELVER="$BASE/Makefile.rhelver"
+
+echo "================================="
+echo "Kernel source:"
+echo "$KERNEL_SRC"
+
+echo
+echo "Build:"
+echo "$BUILD"
+
+echo
+echo "Config:"
+echo "$CONFIG"
+
+echo
+echo "================================="
+
+for f in "$CONFIG" "$MOK_KEY" "$MOK_CERT"; do
+  [[ -f "$f" ]] || {
+    echo "Missing:"
+    echo "$f"
+    exit 1
+  }
+done
+
+mkdir -p "$BUILD"
+
+echo "[1/9] Copy config"
+cp "$CONFIG" "$BUILD/.config"
+
+echo "[2/9] Fedora metadata"
+
+# If kernel doesn't have Makefile.rhelver, link it in for the build.
+if [[ ! -e "$KERNEL_SRC/Makefile.rhelver" ]]; then
+  ln -sf "$RHELVER" "$KERNEL_SRC/Makefile.rhelver"
+  CLEAN_RHELVER=1
+else
+  CLEAN_RHELVER=0
+fi
+
+echo "[3/9] Local version"
+
+"$KERNEL_SRC/scripts/config" \
+  --file "$BUILD/.config" \
+  --set-str CONFIG_LOCALVERSION "$LOCALVERSION"
+
+"$KERNEL_SRC/scripts/config" \
+  --file "$BUILD/.config" \
+  --disable CONFIG_LOCALVERSION_AUTO
+
+echo "[4/9] olddefconfig"
+make \
+  -C "$KERNEL_SRC" \
+  O="$BUILD" \
+  olddefconfig
+
+echo "[5/9] Build"
+make \
+  -C "$KERNEL_SRC" \
+  O="$BUILD" \
+  -j"$(nproc)"
+
+KREL="$(make \
+  -C "$KERNEL_SRC" \
+  O="$BUILD" \
+  -s kernelrelease)"
+
+echo
+echo "Built:"
+echo "$KREL"
+
+echo "[6/9] Install modules"
+sudo make \
+  -C "$KERNEL_SRC" \
+  O="$BUILD" \
+  modules_install
+
+echo "[7/9] Install kernel"
+sudo install \
+  -Dm644 \
+  "$BUILD/arch/x86/boot/bzImage" \
+  "/boot/vmlinuz-$KREL"
+
+echo "[8/9] Sign"
+sudo sbsign \
+  --key "$MOK_KEY" \
+  --cert "$MOK_CERT" \
+  --output "/boot/vmlinuz-$KREL.signed" \
+  "/boot/vmlinuz-$KREL"
+
+sudo mv \
+  "/boot/vmlinuz-$KREL.signed" \
+  "/boot/vmlinuz-$KREL"
+
+echo "[9/9] Fedora registration"
+sudo dracut \
+  --force \
+  "/boot/initramfs-$KREL.img" \
+  "$KREL"
+
+sudo ln -sf \
+  "/boot/vmlinuz-$KREL" \
+  "/usr/lib/modules/$KREL/vmlinuz"
+
+sudo kernel-install add \
+  "$KREL" \
+  "/boot/vmlinuz-$KREL"
+
+if [[ "$CLEAN_RHELVER" == "1" ]]; then
+  rm -f "$KERNEL_SRC/Makefile.rhelver"
+fi
+
+echo
+echo "DONE"
+echo "$KREL installed"
+
+kernel/automation  rawhide*​ 
+❯ cat build-exp.sh 
 #!/usr/bin/env bash
 set -euo pipefail
 
@@ -265,151 +554,21 @@ echo "[10/10] DONE"
 echo "$KREL installed"
 ```
 
-here's the one i implemented after the git am command for the manual testing: build-surface-kernel-2.sh
+### known caveats:
 
-```shell
-#!/usr/bin/env bash
-set -euo pipefail
+ipts driver built into kernel, so not exactly sure how i would change any config sensitivity, i will experiment with settings in the config file that iptsd is said to use here: [https://github.com/linux-surface/linux-surface/wiki/Surface-Pro-9](iptsd-config)
 
-exec > >(tee -a "$HOME/projects/kernel/build.log") 2>&1
+quoted below:
 
-KERNEL_SRC="${1:?Give kernel source path}"
+`The touchscreen may behave erratically due to wrong or missing calibration values.`
 
-# Normalize (resolve symlinks) if possible
-KERNEL_SRC="$(readlink -f "$KERNEL_SRC" 2>/dev/null || echo "$KERNEL_SRC")"
+`To fix this, remove any existing calibration files present and create a new calibration file with the below values in /etc/iptsd.d/ (for example /etc/iptsd.d/91-calibration.conf), reboot your SP9 and your touchscreen should be smooth as butter:`
 
-[[ -d "$KERNEL_SRC" ]] || {
-  echo "Kernel source must be a directory: $KERNEL_SRC"
-  exit 1
-}
-
-NAME="surface-pro9"
-
-BASE="$HOME/projects/kernel"
-
-CONFIG="$BASE/configs/surface-pro9.config"
-BUILD="$BASE/builds/$NAME"
-LOCALVERSION="-surface-pro9"
-
-MOK_KEY="$HOME/secureboot/MOK.key"
-MOK_CERT="$HOME/secureboot/MOK.pem"
-
-RHELVER="$BASE/Makefile.rhelver"
-
-echo "================================="
-echo "Kernel source:"
-echo "$KERNEL_SRC"
-
-echo
-echo "Build:"
-echo "$BUILD"
-
-echo
-echo "Config:"
-echo "$CONFIG"
-
-echo
-echo "================================="
-
-for f in "$CONFIG" "$MOK_KEY" "$MOK_CERT"; do
-  [[ -f "$f" ]] || {
-    echo "Missing:"
-    echo "$f"
-    exit 1
-  }
-done
-
-mkdir -p "$BUILD"
-
-echo "[1/9] Copy config"
-cp "$CONFIG" "$BUILD/.config"
-
-echo "[2/9] Fedora metadata"
-
-# If kernel doesn't have Makefile.rhelver, link it in for the build.
-if [[ ! -e "$KERNEL_SRC/Makefile.rhelver" ]]; then
-  ln -sf "$RHELVER" "$KERNEL_SRC/Makefile.rhelver"
-  CLEAN_RHELVER=1
-else
-  CLEAN_RHELVER=0
-fi
-
-echo "[3/9] Local version"
-
-"$KERNEL_SRC/scripts/config" \
-  --file "$BUILD/.config" \
-  --set-str CONFIG_LOCALVERSION "$LOCALVERSION"
-
-"$KERNEL_SRC/scripts/config" \
-  --file "$BUILD/.config" \
-  --disable CONFIG_LOCALVERSION_AUTO
-
-echo "[4/9] olddefconfig"
-make \
-  -C "$KERNEL_SRC" \
-  O="$BUILD" \
-  olddefconfig
-
-echo "[5/9] Build"
-make \
-  -C "$KERNEL_SRC" \
-  O="$BUILD" \
-  -j"$(nproc)"
-
-KREL="$(make \
-  -C "$KERNEL_SRC" \
-  O="$BUILD" \
-  -s kernelrelease)"
-
-echo
-echo "Built:"
-echo "$KREL"
-
-echo "[6/9] Install modules"
-sudo make \
-  -C "$KERNEL_SRC" \
-  O="$BUILD" \
-  modules_install
-
-echo "[7/9] Install kernel"
-sudo install \
-  -Dm644 \
-  "$BUILD/arch/x86/boot/bzImage" \
-  "/boot/vmlinuz-$KREL"
-
-echo "[8/9] Sign"
-sudo sbsign \
-  --key "$MOK_KEY" \
-  --cert "$MOK_CERT" \
-  --output "/boot/vmlinuz-$KREL.signed" \
-  "/boot/vmlinuz-$KREL"
-
-sudo mv \
-  "/boot/vmlinuz-$KREL.signed" \
-  "/boot/vmlinuz-$KREL"
-
-echo "[9/9] Fedora registration"
-sudo dracut \
-  --force \
-  "/boot/initramfs-$KREL.img" \
-  "$KREL"
-
-sudo ln -sf \
-  "/boot/vmlinuz-$KREL" \
-  "/usr/lib/modules/$KREL/vmlinuz"
-
-sudo kernel-install add \
-  "$KREL" \
-  "/boot/vmlinuz-$KREL"
-
-if [[ "$CLEAN_RHELVER" == "1" ]]; then
-  rm -f "$KERNEL_SRC/Makefile.rhelver"
-fi
-
-echo
-echo "DONE"
-echo "$KREL installed"
+```
+[Contacts]
+ActivationThreshold = 24
+DeactivationThreshold = 20
+OrientationThresholdMax = 5
 ```
 
-i will likely keep both and use the one for manual testing and the other to see if i can automate the process better moving forward
-
+Source: [https://github.com/linux-surface/iptsd/issues/171#issuecomment-2359625900](https://github.com/linux-surface/iptsd/issues/171#issuecomment-2359625900)
