@@ -410,3 +410,6 @@ echo
 echo "DONE"
 echo "$KREL installed"
 ```
+
+i will likely keep both and use the one for manual testing and the other to see if i can automate the process better moving forward
+
