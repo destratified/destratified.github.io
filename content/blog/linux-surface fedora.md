@@ -40,4 +40,373 @@ cd ~/projects/kernel/linux-7.2-rc5/
 git checkout --detach origin/master
 ```
 
-for manual installation, this will keep the linux sources separate for each kernel
+for manual installation, this will keep the linux sources separate for each kernel.  the patch command that follows wasn't quite what i needed. i had to rework a couple things with the help of chatgpt to get the patches to work with some of the new kernel requirements. i put all the patches in the ~/projects/kernel/patches/surface-pro9-final and ofc are .patch, here's the list of the ones i used:
+
+- 0001-Add-Surface-SAM-support.patch
+- 0002-Add-Surface-IPTS-support.patch
+- 0003-Remove-patch-backup-files.patch
+- 0004-Add-Intel-THC-HID-support.patch
+- 0005-Add-Surface-Pro-9-typecover-support.patch
+- 0006-Add-Surface-shutdown-support.patch
+- 0007-Add-Surface-Pro-9-GPE-support.patch
+- 0008-Add-Surface-camera-support.patch
+- 0009-Add-Surface-HID-support.patch
+- 0010-Fix-INT3472-GPIO-type-handling-for-Linux-7.2.patch
+- 0011-Surface-Pro-9-SSAM-IRQ-lookup-fix.patch
+
+the names cross (roughly) to those in the linux-surface patch repo, but some are adapted to kernel specifics for the fedora platform and surface-pro9 specifically.
+
+to get these applied i instead used 
+
+```shell
+git am ~/projects/kernel/patches/surface-pro9-final/*.patch
+```
+
+this gave me some blank line indicators and dealt with them while applying the patches without any errors.
+
+now i already had a build-surface-kernel.sh file i was using to help build and config the kernel, as well as install, add secure-boot etc, it was adapted to the below which allows a little more universal approach: build-exp.sh (testing with rc6n when it arrives)
+
+```shell
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat <<'EOF'
+Usage:
+  build-surface-kernel-all.sh <kernel_dir> <remote_ref> <localversion_suffix> <patch_glob>
+
+Examples:
+  build-surface-kernel-all.sh ~/projects/kernel/7.2-rc5 master \
+    "-proposed_fix-surface-pro9" \
+    ~/projects/kernel/patches/surface-pro9-final/*.patch
+
+remote_ref is the branch name you want from the stable/linux repo
+(e.g. "master", "linux-6.9.y", etc.). The script fetches origin/<remote_ref>.
+EOF
+}
+
+#enable ccache
+export PATH="/usr/lib64/ccache:$PATH"
+export CCACHE_DIR="$HOME/.ccache"
+export CCACHE_MAXSIZE="50G"
+export CCACHE_COMPILERCHECK="content"
+export CCACHE_SLOPPINESS="time_macros,include_file_mtime"
+
+KERNEL_DIR="${1:-}"
+REMOTE_REF="${2:-}"                   # e.g. master
+LOCALVERSION_SUFFIX="${3:-}"         # e.g. -proposed_fix-surface-pro9
+PATCH_GLOB="${4:-}"
+
+if [[ -z "$KERNEL_DIR" || -z "$REMOTE_REF" || -z "$LOCALVERSION_SUFFIX" || -z "$PATCH_GLOB" ]]; then
+  usage
+  exit 1
+fi
+
+KERNEL_DIR="$(readlink -f "$KERNEL_DIR" 2>/dev/null || echo "$KERNEL_DIR")"
+BASE="${HOME}/projects/kernel"
+NAME="surface-pro9"
+
+REMOTE_REPO_URL="https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git"
+
+CONFIG="${BASE}/configs/surface-pro9.config"
+MOK_KEY="${HOME}/secureboot/MOK.key"
+MOK_CERT="${HOME}/secureboot/MOK.pem"
+RHELVER="${BASE}/Makefile.rhelver"
+
+echo "Kernel dir: $KERNEL_DIR"
+echo "Remote ref: origin/$REMOTE_REF"
+echo "Localversion: $LOCALVERSION_SUFFIX"
+echo "Patch glob: $PATCH_GLOB"
+
+# -------- clone if missing --------
+if [[ ! -d "${KERNEL_DIR}/.git" ]]; then
+  mkdir -p "$(dirname "$KERNEL_DIR")"
+  echo "[1/10] Cloning (shallow) kernel into: $KERNEL_DIR"
+  git clone --no-checkout --depth 1 -b "$REMOTE_REF" "$REMOTE_REPO_URL" "$KERNEL_DIR"
+fi
+
+cd "$KERNEL_DIR"
+
+# -------- compute current and remote commit IDs (shallow) --------
+# Remote "newness" check:
+# - Ensure origin remote exists
+git remote get-url origin >/dev/null 2>&1 || git remote add origin "$REMOTE_REPO_URL"
+
+echo "[2/10] Fetching remote commit (shallow) to check if newer"
+git fetch --depth 1 origin "${REMOTE_REF}" >/dev/null
+
+REMOTE_COMMIT="$(git rev-parse --verify --short "origin/${REMOTE_REF}")"
+if git show -s --verify --quiet HEAD >/dev/null 2>&1; then
+  LOCAL_COMMIT="$(git rev-parse --verify --short HEAD || echo "")"
+else
+  LOCAL_COMMIT=""
+fi
+
+echo "Local HEAD:   ${LOCAL_COMMIT:-<none>}"
+echo "Remote commit:${REMOTE_COMMIT}"
+
+# Optional policy: only continue if remote is newer/different.
+# If you prefer always rebuild, delete the if-block and always proceed.
+if [[ -n "$LOCAL_COMMIT" && "$LOCAL_COMMIT" == "$REMOTE_COMMIT" ]]; then
+  echo "[3/10] Remote ref matches local HEAD; nothing to do."
+  exit 0
+fi
+
+echo "[3/10] Checking out remote commit (detached)"
+git checkout --detach "origin/${REMOTE_REF}"
+
+# -------- patch stamp keyed by commit + patch set hash --------
+# Compute patch set hash (cheap-ish but solid enough): hash file contents.
+# If you have many patches and want faster, we can instead hash mtimes or names.
+echo "[4/10] Building patch identity hash"
+shopt -s nullglob
+PATCH_FILES=( $PATCH_GLOB )
+shopt -u nullglob
+
+if [[ ${#PATCH_FILES[@]} -eq 0 ]]; then
+  echo "No patches matched: $PATCH_GLOB"
+  exit 1
+fi
+
+PATCH_HASH="$(
+  {
+    printf 'count=%s\n' "${#PATCH_FILES[@]}"
+    for p in "${PATCH_FILES[@]}"; do
+      # include path + file content
+      printf 'file=%s\n' "$p"
+      sha256sum "$p"
+    done
+  } | sha256sum | awk '{print $1}'
+)"
+
+KERNEL_COMMIT_FULL="$(git rev-parse HEAD)"
+STAMP_DIR="${KERNEL_DIR}/.surface-pro9-stamps"
+mkdir -p "$STAMP_DIR"
+
+STAMP_FILE="${STAMP_DIR}/patches-applied.commit-${KERNEL_COMMIT_FULL}.localversion-${LOCALVERSION_SUFFIX}.hash-${PATCH_HASH}"
+if [[ -f "$STAMP_FILE" ]]; then
+  echo "[5/10] Patches already applied for this kernel commit + patch set + localversion"
+else
+  echo "[5/10] Applying patches via git am"
+  # If previous am is interrupted:
+  if [[ -d ".git/rebase-apply" || -f ".git/AM_ERROR" ]]; then
+    git am --abort >/dev/null 2>&1 || true
+  fi
+
+  # git am needs files in order
+  # We already expanded glob; preserve shell order (usually lexicographic). If you need explicit order,
+  # you can sort PATCH_FILES.
+  git am "${PATCH_FILES[@]}"
+
+  touch "$STAMP_FILE"
+fi
+
+# -------- build directory keyed by localversion + commit --------
+# Avoid mixing configs/artifacts from different suffix/commits.
+SHORT="$(git rev-parse --short HEAD)"
+SAFE_TAG="${LOCALVERSION_SUFFIX//[^A-Za-z0-9._+-]/_}"
+BUILD="${BASE}/builds/${NAME}-${SHORT}${SAFE_TAG:+-${SAFE_TAG}}"
+
+# -------- validate inputs --------
+for f in "$CONFIG" "$MOK_KEY" "$MOK_CERT"; do
+  [[ -f "$f" ]] || { echo "Missing: $f"; exit 1; }
+done
+
+mkdir -p "$BUILD"
+
+KERNEL_SRC="$(readlink -f "$KERNEL_DIR" 2>/dev/null || echo "$KERNEL_DIR")"
+CLEAN_RHELVER=0
+
+# Ensure Makefile.rhelver exists during build
+if [[ ! -e "$KERNEL_SRC/Makefile.rhelver" ]]; then
+  ln -sf "$RHELVER" "$KERNEL_SRC/Makefile.rhelver"
+  CLEAN_RHELVER=1
+fi
+
+# -------- config + localversion --------
+echo "[6/10] Copy config to build dir"
+cp "$CONFIG" "$BUILD/.config"
+
+echo "[7/10] Set CONFIG_LOCALVERSION + disable auto"
+"$KERNEL_SRC/scripts/config" --file "$BUILD/.config" --set-str CONFIG_LOCALVERSION "$LOCALVERSION_SUFFIX"
+"$KERNEL_SRC/scripts/config" --file "$BUILD/.config" --disable CONFIG_LOCALVERSION_AUTO
+
+echo "[8/10] olddefconfig + build"
+make -C "$KERNEL_SRC" O="$BUILD" olddefconfig
+make -C "$KERNEL_SRC" O="$BUILD" -j"$(nproc)"
+
+KREL="$(make -C "$KERNEL_SRC" O="$BUILD" -s kernelrelease)"
+echo "Built: $KREL"
+
+# -------- install + sign + dracut --------
+echo "[9/10] Install modules/kernel + sign + initramfs"
+sudo make -C "$KERNEL_SRC" O="$BUILD" modules_install
+
+sudo install -Dm644 "$BUILD/arch/x86/boot/bzImage" "/boot/vmlinuz-$KREL"
+
+sudo sbsign \
+  --key "$MOK_KEY" \
+  --cert "$MOK_CERT" \
+  --output "/boot/vmlinuz-$KREL.signed" \
+  "/boot/vmlinuz-$KREL"
+
+sudo mv "/boot/vmlinuz-$KREL.signed" "/boot/vmlinuz-$KREL"
+
+sudo dracut --force "/boot/initramfs-$KREL.img" "$KREL"
+
+sudo ln -sf "/boot/vmlinuz-$KREL" "/usr/lib/modules/$KREL/vmlinuz"
+sudo kernel-install add "$KREL" "/boot/vmlinuz-$KREL"
+
+if [[ "$CLEAN_RHELVER" == "1" ]]; then
+  rm -f "$KERNEL_SRC/Makefile.rhelver"
+fi
+
+echo "[10/10] DONE"
+echo "$KREL installed"
+```
+
+here's the one i implemented after the git am command for the manual testing: build-surface-kernel-2.sh
+
+```shell
+#!/usr/bin/env bash
+set -euo pipefail
+
+exec > >(tee -a "$HOME/projects/kernel/build.log") 2>&1
+
+KERNEL_SRC="${1:?Give kernel source path}"
+
+# Normalize (resolve symlinks) if possible
+KERNEL_SRC="$(readlink -f "$KERNEL_SRC" 2>/dev/null || echo "$KERNEL_SRC")"
+
+[[ -d "$KERNEL_SRC" ]] || {
+  echo "Kernel source must be a directory: $KERNEL_SRC"
+  exit 1
+}
+
+NAME="surface-pro9"
+
+BASE="$HOME/projects/kernel"
+
+CONFIG="$BASE/configs/surface-pro9.config"
+BUILD="$BASE/builds/$NAME"
+LOCALVERSION="-surface-pro9"
+
+MOK_KEY="$HOME/secureboot/MOK.key"
+MOK_CERT="$HOME/secureboot/MOK.pem"
+
+RHELVER="$BASE/Makefile.rhelver"
+
+echo "================================="
+echo "Kernel source:"
+echo "$KERNEL_SRC"
+
+echo
+echo "Build:"
+echo "$BUILD"
+
+echo
+echo "Config:"
+echo "$CONFIG"
+
+echo
+echo "================================="
+
+for f in "$CONFIG" "$MOK_KEY" "$MOK_CERT"; do
+  [[ -f "$f" ]] || {
+    echo "Missing:"
+    echo "$f"
+    exit 1
+  }
+done
+
+mkdir -p "$BUILD"
+
+echo "[1/9] Copy config"
+cp "$CONFIG" "$BUILD/.config"
+
+echo "[2/9] Fedora metadata"
+
+# If kernel doesn't have Makefile.rhelver, link it in for the build.
+if [[ ! -e "$KERNEL_SRC/Makefile.rhelver" ]]; then
+  ln -sf "$RHELVER" "$KERNEL_SRC/Makefile.rhelver"
+  CLEAN_RHELVER=1
+else
+  CLEAN_RHELVER=0
+fi
+
+echo "[3/9] Local version"
+
+"$KERNEL_SRC/scripts/config" \
+  --file "$BUILD/.config" \
+  --set-str CONFIG_LOCALVERSION "$LOCALVERSION"
+
+"$KERNEL_SRC/scripts/config" \
+  --file "$BUILD/.config" \
+  --disable CONFIG_LOCALVERSION_AUTO
+
+echo "[4/9] olddefconfig"
+make \
+  -C "$KERNEL_SRC" \
+  O="$BUILD" \
+  olddefconfig
+
+echo "[5/9] Build"
+make \
+  -C "$KERNEL_SRC" \
+  O="$BUILD" \
+  -j"$(nproc)"
+
+KREL="$(make \
+  -C "$KERNEL_SRC" \
+  O="$BUILD" \
+  -s kernelrelease)"
+
+echo
+echo "Built:"
+echo "$KREL"
+
+echo "[6/9] Install modules"
+sudo make \
+  -C "$KERNEL_SRC" \
+  O="$BUILD" \
+  modules_install
+
+echo "[7/9] Install kernel"
+sudo install \
+  -Dm644 \
+  "$BUILD/arch/x86/boot/bzImage" \
+  "/boot/vmlinuz-$KREL"
+
+echo "[8/9] Sign"
+sudo sbsign \
+  --key "$MOK_KEY" \
+  --cert "$MOK_CERT" \
+  --output "/boot/vmlinuz-$KREL.signed" \
+  "/boot/vmlinuz-$KREL"
+
+sudo mv \
+  "/boot/vmlinuz-$KREL.signed" \
+  "/boot/vmlinuz-$KREL"
+
+echo "[9/9] Fedora registration"
+sudo dracut \
+  --force \
+  "/boot/initramfs-$KREL.img" \
+  "$KREL"
+
+sudo ln -sf \
+  "/boot/vmlinuz-$KREL" \
+  "/usr/lib/modules/$KREL/vmlinuz"
+
+sudo kernel-install add \
+  "$KREL" \
+  "/boot/vmlinuz-$KREL"
+
+if [[ "$CLEAN_RHELVER" == "1" ]]; then
+  rm -f "$KERNEL_SRC/Makefile.rhelver"
+fi
+
+echo
+echo "DONE"
+echo "$KREL installed"
+```
