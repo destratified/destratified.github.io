@@ -24,3 +24,20 @@ the easiest instructions wound up in the github documentation for the Linus Torv
 
 this is a handy kernel build sheet for a one-time kernel install, of course there's options here, but the tl;dr is there and copy/paste will get you the latest kernel (7.2-rc5). the instructions worked part way for me.
 
+```shell
+git clone --no-checkout --depth 1 -b master \
+  https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git ~/linux/
+cd ~/linux/
+git checkout --detach origin/master
+```
+
+this will get you the latest kernel sources. i have mine altered as below:
+
+```shell
+git clone --no-checkout --depth 1 -b master \
+  https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git ~/projects/kernel/linux-7.2-rc5/
+cd ~/projects/kernel/linux-7.2-rc5/
+git checkout --detach origin/master
+```
+
+for manual installation, this will keep the linux sources separate for each kernel
