@@ -572,3 +572,5 @@ OrientationThresholdMax = 5
 ```
 
 Source: [https://github.com/linux-surface/iptsd/issues/171#issuecomment-2359625900](https://github.com/linux-surface/iptsd/issues/171#issuecomment-2359625900)
+
+i have confirmed that i have settings present in the config file above from my previous installation using linux-surface repo w/ fedora install, but i'm unsure that value is being used. however, its working fine
