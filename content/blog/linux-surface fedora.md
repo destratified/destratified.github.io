@@ -33,10 +33,14 @@ git checkout --detach origin/master
 this will get you the latest kernel sources. i have mine altered as below:
 
 ```shell
+cd ~/projects/kernel
+mkdir -p linux-7.2-rc6
 git clone --no-checkout --depth 1 -b master \
-  https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git ~/projects/kernel/linux-7.2-rc5/
-cd ~/projects/kernel/linux-7.2-rc5/
-git checkout --detach origin/master
+  https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
+  ~/projects/kernel/linux-7.2-rc6
+cd linux-7.2-rc6
+
+git am ~/projects/kernel/patches/surface-pro9-final/*.patch
 ```
 
 for manual installation, this will keep the linux sources separate for each kernel.  the patch command that follows wasn't quite what i needed. i had to rework a couple things with the help of chatgpt to get the patches to work with some of the new kernel requirements. i put all the patches in the ~/projects/kernel/patches/surface-pro9-final and ofc are .patch, here's the list of the ones i used:
