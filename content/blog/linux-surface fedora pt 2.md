@@ -9,7 +9,7 @@ tags = ["surface pro9", "fedora", "rawhide", "linux-7.2-rc5"]
 # linux-surface fedora pt 2 - updated
  ## 09:13
 
-my initial goal was to get the fedora implementation of linux-surface kernel working and get the surface pro9 i'd bought plenty usable. but of course then i wanted more. the fedora instructions for the linux-surface kernel mods do work, relatively out of the box, and get you up to kernel 6.19 currently {{date}}, but i want to run a more bleeding edge version - which is still relatively stable on fedora rawhide and with a repo update to rawhide, i broke all the goodies that went with the fedora44 install.
+my initial goal was to get the fedora implementation of linux-surface kernel working and get the surface pro9 i'd bought plenty usable. but of course then i wanted more. the fedora instructions for the linux-surface kernel mods do work, relatively out of the box, and get you up to kernel 6.19 currently , but i want to run a more bleeding edge version - which is still relatively stable on fedora rawhide and with a repo update to rawhide, i broke all the goodies that went with the fedora44 install.
 
 i used a mixture of solutions here and with some internet advise, searching reddit, and other nearly similar work arounds, decided on the following:
 
