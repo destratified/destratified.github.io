@@ -80,7 +80,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 328.69995498657227
   },
   "right": {
     "id": "4f4df94de617e01c",
@@ -196,7 +196,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "4ed8f4d9ef379511",
+  "active": "7e52069fcfa3aa74",
   "lastOpenFiles": [
     "content/blog/linux-surface fedora pt 1.md",
     "content/blog/linux-surface fedora pt 2.md",
