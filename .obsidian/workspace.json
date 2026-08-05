@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/blog/linux-surface fedora.md",
+                "file": "content/blog/linux-surface fedora pt 2.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "linux-surface fedora"
+              "title": "linux-surface fedora pt 2"
             }
           }
         ]
@@ -198,8 +198,9 @@
   },
   "active": "4ed8f4d9ef379511",
   "lastOpenFiles": [
+    "content/blog/linux-surface fedora pt 1.md",
     "().md",
-    "content/blog/linux-surface fedora.md",
+    "content/blog/linux-surface fedora pt 2.md",
     "content/blog/gentoo and btrfs.md",
     "content/blog/gentoo on my laptop.md",
     "content/blog/openrc - remote server.md",
@@ -223,7 +224,6 @@
     "content/blog/ansible-setup-pt1.md",
     "content/blog/after-install.md",
     "content/blog/jellyfin.md",
-    "content/blog/fork-terminus.md",
     "themes/terminus/theme.toml",
     "themes/terminus/templates/partials/menu.html",
     "themes/terminus/templates/partials/logo.html",
