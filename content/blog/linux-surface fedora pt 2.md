@@ -35,7 +35,7 @@ this will get you the latest kernel sources. i have mine altered as below:
 ```shell
 cd ~/projects/kernel
 mkdir -p linux-7.2-rc6
-git clone --branch v7.2-rc6 --depth 1 https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git linux-7.2-rc6
+	git clone --depth 1 https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
 git checkout v7.2-rc6
 cd linux-7.2-rc6
 git am ~/projects/kernel/patches/surface-pro9-final/*.patch
