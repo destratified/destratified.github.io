@@ -1,5 +1,5 @@
 +++
-title = "linux-surface fedora"
+title = "linux-surface fedora pt"
 date = "2026-08-05"
 
 [taxonomies]
