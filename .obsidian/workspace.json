@@ -41,9 +41,7 @@
               "type": "file-explorer",
               "state": {
                 "sortOrder": "byCreatedTime",
-                "autoReveal": false,
-                "showSearch": false,
-                "searchQuery": ""
+                "autoReveal": false
               },
               "icon": "lucide-folder-closed",
               "title": "Files"
@@ -80,7 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 328.69995498657227
+    "width": 200
   },
   "right": {
     "id": "4f4df94de617e01c",
@@ -182,7 +180,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 226.5
   },
   "left-ribbon": {
     "hiddenItems": {
