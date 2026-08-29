@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src-attr 'unsafe-inline'">
+
+    
+    <script defer src="http://uma.destratify.pro/script.js" data-website-id="4fcbcec9-bb7c-4697-8a62-20ad992a6092"></script>
+    
+    <title>HaOS | ink the ghost</title>
+
+    <link href="https://defcon.social/@970uts1d3" rel="me">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://inktheghost.com/css/style.css?h=287f84ed6c66dca911c6">
+    <link rel="icon" type="image/png" href="https://inktheghost.com/icons/favicon.png">
+    <link rel="apple-touch-icon" href="https://inktheghost.com/processed_images/favicon.ab2897ee8708a1f8.png">
+    <script src="https://inktheghost.com/js/auto-close-popover-on-resize.js?h=4ef87d6fc7b98b22e044" defer></script>
+    <script src="https://inktheghost.com/js/copy-code-to-clipboard.js?h=b34dc626be3e4c8a0f55" defer></script>
+
+    <link rel="canonical" href="https://inktheghost.com/blog/haos/">
+    
+    <meta name="author" content="970uts1d3">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#211f1a">
+    <meta name="color-scheme" content="dark">
+
+    <meta property="og:title" content="HaOS">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://inktheghost.com/blog/haos/">
+    <meta property="og:site_name" content="ink the ghost">
+    <meta property="og:updated_time" content="2026-08-29T22:06:35.542282220+00:00">
+    <meta property="article:published_time" content="2026-02-24T00:00:00+00:00">
+    <meta property="article:tag" content="HaOS">
+    <meta property="article:tag" content="tailscale">
+
+</head>
+
+<body class="layout-center" data-theme="terminus">
+    <header class="header">
+        <div class="header-container">
+            <span class="header-logo-container">
+                <a href="https://inktheghost.com">
+                    <span class="logo">ink the ghost</span>
+                </a>
+            </span>
+        </div>
+        <nav class="main-menu" aria-label="Main Menu">
+            <a class="skip-to-content" href="#main">Skip to main content</a>
+            <button class="main-menu-dropdown-button" popovertarget="nav-menu">Menu</button>
+            <ul id="nav-menu" class="main-menu-items" aria-label="Site Navigation" popover>
+                <li><a href="https://inktheghost.com/blog/">blog</a></li>
+                <li><a href="https://inktheghost.com/archive/">archive</a></li>
+                <li><a href="https://inktheghost.com/tags/">tags</a></li>
+                <li><a href="https://inktheghost.com/about/">about</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main id="main">
+        <article class="post content">
+            <header>
+                <h1 class="post-title">
+                    <a href="https://inktheghost.com/blog/haos/">HaOS</a>
+                </h1>
+                <ul class="post-meta hidden">
+                    <li title="Published on 2026-02-24"><time datetime="2026-02-24">2026.02.24</time></li>
+                    <li role="separator" aria-hidden="true">::</li>
+                    <li title="645 words"><time datetime="PT4M">4 min</time> read</li>
+                </ul>
+                <div class="post-tags">
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/haos/">HaOS</a></span>
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/tailscale/">tailscale</a></span>
+                </div>
+            </header>
+
+<h1 id="haos-getting-ratgdo32-working-over-tailscale">HaOS - getting ratgdo32 working over tailscale</h1>
+<h2 id="11-43">11:43</h2>
+<p>this was a bit of a bugger and i am still not sure why it worked. but here's the process...</p>
+<p>setup tailscale on whatever network you are trying to access first. i have the GLi-net router that has an internal tailscale app configuration that i needed to access the 2nd location. i only have starlink at that site and with their cgnat shit its the only way to get through. after the router setup and enabling the tailscale app you login and then toggle a few settings (this is key). the subnet routing for the local IP (your router subnet - in my case 192.168.8.1/24) and the option for the wan subnet (192.168.0.0 - since this is where i had setup the ratgdo wifi originally) enabled me to connect over tailscale on my phone to the garage door openers. now i just needed to get it working in HaOS.</p>
+<p>next i was stumped. i setup my tailscale on HaOS using the link below:
+<a href="https://github.com/hassio-addons/app-tailscale/blob/main/tailscale/DOCS.md">https://github.com/hassio-addons/app-tailscale/blob/main/tailscale/DOCS.md</a>
+and selected the button <code>show app on myHA</code> this took me to prompt asking if i wanted to add to my HaOS at the local network IP and port to which i said yes...install, turn on the service and start it.</p>
+<p>installed the app as per the instructions, then you had to login to tailscale, confirm the device and agree to use subnet routes. i did not need to use as an exit router, so i left that off and disabled key expiry.</p>
+<p>back in the haOS tailscale application page make sure the watchdog, start on boot, auto-update and show on sidebar options are all ticked on...</p>
+<p>then i couldn't get it to work. i was able to access the ratgdo32 interface via web on any tailscale device (checked through my phone and the laptop) and connect to any device on the 192.168.0.0/24 network, so the issue had to be in the settings on HaOS. i did find a couple posts online, but they referenced a setting that did nothing for me.</p>
+<p>eventually making it back to the settings &gt; apps page i went to the tailscale app and configuration tab, (which somehow i'd overlooked many times before) and found a buncha semi-hidden HaOs specific tailscale settings. to see all options toggle the "Show unused optional configuration options" to on. i tried a few options in there, one at a time, with reboots in between and finally found one that worked. the following settings worked:</p>
+<blockquote>
+<p>Source NAT subnet routes (this was off and I set to ON)
+This option allows subnet devices to see the traffic originating from the subnet router, and this simplifies routing configuration. To support advanced Site-to-site networking (eg. to traverse multiple networks), you can disable this functionality. When not set, this option is enabled by default.</p>
+<p>Userspace networking mode (this was off, and I left it off)
+This option allows you to enable userspace networking mode. If you need to access other clients on your tailnet from your Home Assistant instance, disable userspace networking mode, which will create a <code>tailscale0</code> network interface on your host. When not set, this option is enabled by default.</p>
+</blockquote>
+<p>the "Source NAT subnet routes" description is confusing...sounds like it wasn't supposed to be off, by default, but it was and when i enabled and rebooted, and the userspace netwerking name description wasnt any better. but with the two changed, and a reboot of haOS i was finally able to ping my esphome ratgdo32 devices on the separate network and add them to my configuration/dashboard.</p>
+<p>adventures in home networking for sure... maybe this will help someone else. i'm now going to try this again at a 3rd location and see if i can get that one to talk to my HaOS as well.</p>
+
+        </article>
+        <nav class="post-navigation">
+            <header class="post-navigation-title">
+                <h2>Read More Posts</h2>
+                <hr>
+            </header>
+            <div class="post-navigation-buttons">
+                <a rel="next" href="https://inktheghost.com/blog/arch-cachyos-updater/" aria-label="Next article">
+                    <span aria-hidden="true">&lt;&nbsp;[</span>arch-cachyos-updater<span aria-hidden="true">]</span>
+                </a>
+                <span aria-hidden="true" role="separator">::</span>
+                <a rel="prev" href="https://inktheghost.com/blog/z790-dasharo-cont/" aria-label="Prev article">
+                    <span aria-hidden="true">[</span>z790-dasharo-cont<span aria-hidden="true">]&nbsp;&gt;</span>
+                </a>
+            </div>
+        </nav>
+    </main>
+    <footer class="footer">
+        <address class="socials">
+            <ul>
+                <li>
+                    <a class="social-link" rel="me" href="https://defcon.social/@970uts1d3" title="mastodon" aria-label="mastodon">
+                        <svg role="img" aria-label="mastodon icon">
+                            <use aria-hidden="true" href="https://inktheghost.com/images/social_icons/mastodon.svg#icon" />
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </address>
+        <p class="copyright">
+            <span>© <time>2026</time> 970uts1d3</span>
+            <span>Powered by <a href="https://www.getzola.org">Zola</a></span>
+            <span>Theme by <a href="https://eyalkalderon.com">ebkalderon</a></span>
+        </p>
+    </footer>
+</body>
+
+</html>

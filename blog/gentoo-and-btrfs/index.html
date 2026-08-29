@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src-attr 'unsafe-inline'">
+
+    
+    <script defer src="http://uma.destratify.pro/script.js" data-website-id="4fcbcec9-bb7c-4697-8a62-20ad992a6092"></script>
+    
+    <title>gentoo and btrfs | ink the ghost</title>
+
+    <link href="https://defcon.social/@970uts1d3" rel="me">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://inktheghost.com/css/style.css?h=287f84ed6c66dca911c6">
+    <link rel="icon" type="image/png" href="https://inktheghost.com/icons/favicon.png">
+    <link rel="apple-touch-icon" href="https://inktheghost.com/processed_images/favicon.ab2897ee8708a1f8.png">
+    <script src="https://inktheghost.com/js/auto-close-popover-on-resize.js?h=4ef87d6fc7b98b22e044" defer></script>
+    <script src="https://inktheghost.com/js/copy-code-to-clipboard.js?h=b34dc626be3e4c8a0f55" defer></script>
+
+    <link rel="canonical" href="https://inktheghost.com/blog/gentoo-and-btrfs/">
+    
+    <meta name="author" content="970uts1d3">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#211f1a">
+    <meta name="color-scheme" content="dark">
+
+    <meta property="og:title" content="gentoo and btrfs">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://inktheghost.com/blog/gentoo-and-btrfs/">
+    <meta property="og:site_name" content="ink the ghost">
+    <meta property="og:updated_time" content="2026-08-29T22:06:35.533182262+00:00">
+    <meta property="article:published_time" content="2026-05-07T00:00:00+00:00">
+    <meta property="article:tag" content="gentoo">
+    <meta property="article:tag" content="btrfs">
+
+</head>
+
+<body class="layout-center" data-theme="terminus">
+    <header class="header">
+        <div class="header-container">
+            <span class="header-logo-container">
+                <a href="https://inktheghost.com">
+                    <span class="logo">ink the ghost</span>
+                </a>
+            </span>
+        </div>
+        <nav class="main-menu" aria-label="Main Menu">
+            <a class="skip-to-content" href="#main">Skip to main content</a>
+            <button class="main-menu-dropdown-button" popovertarget="nav-menu">Menu</button>
+            <ul id="nav-menu" class="main-menu-items" aria-label="Site Navigation" popover>
+                <li><a href="https://inktheghost.com/blog/">blog</a></li>
+                <li><a href="https://inktheghost.com/archive/">archive</a></li>
+                <li><a href="https://inktheghost.com/tags/">tags</a></li>
+                <li><a href="https://inktheghost.com/about/">about</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main id="main">
+        <article class="post content">
+            <header>
+                <h1 class="post-title">
+                    <a href="https://inktheghost.com/blog/gentoo-and-btrfs/">gentoo and btrfs</a>
+                </h1>
+                <ul class="post-meta hidden">
+                    <li title="Published on 2026-05-07"><time datetime="2026-05-07">2026.05.07</time></li>
+                    <li role="separator" aria-hidden="true">::</li>
+                    <li title="952 words"><time datetime="PT5M">5 min</time> read</li>
+                </ul>
+                <div class="post-tags">
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/gentoo/">gentoo</a></span>
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/btrfs/">btrfs</a></span>
+                </div>
+            </header>
+
+<h1 id="gentoo-and-btrfs">gentoo and btrfs</h1>
+<h2 id="10-03">10:03</h2>
+<p>well, the gentoo bug has bit me i suppose. i've got gentoo on a ext4 setup on my laptop and its working great, used timeshift with rsync to create a reliable and usable backup and restore. tested and works great as long as you can boot into it. now, i had my desktop miniPC a NitroPC with open bootloader and had been running debian with openRC on it, but kept coming back to the idea if i wanna run openRC, why not just go to the source. gentoo is well integrated and having to adapt an build my own init files was fun, but a little annoying. its baked in, and just works.</p>
+<p>so i set about finding a couple guides, used the handbook where it makes sense, and seemed after some arduous trial and error got it functioning. so the first guide i used, which got me to a boot prompt was <a href="https://gist.github.com/xmawja/da6a7ee664271631ae5cd4de0dc4f249">https://gist.github.com/xmawja/da6a7ee664271631ae5cd4de0dc4f249</a></p>
+<p>in this guide, everything worked for the most part, but i found i was having trouble updating grub when a new kernel was loaded - couldnt properly find boot partition and i was only able to boot from an efi stub that i'd copied and not from grub.</p>
+<p>this issue i think was in the two partitions that were being setup in the guide, so after i was in my WM - id gone as far as to setup kde, i decided that in order to get dracut, intiramfs and mkconfig-grub to all play nice together i needed to redo the boot partition.</p>
+<p>this was not for the faint of heart, as i had to wipe it from the liveCD and chroot in...which is a pain in the butt with a btrfs setup as you have many partitions to load.  i was able to shortcut this with the guide a bit as alot of the mount commands were copy and paste but it kinda went like this:</p>
+<ol>
+<li>
+<p>using partition-manager in gentoo liveCD, delete the /boot (/dev/sda1 - ext4) and /boot/efi (/dev/sda-2 EFI) partitions - this leave swap (if you need it) and the btrfs partition with / and others - apply changes</p>
+</li>
+<li>
+<p>following the guide principles create one new partition for boot, i used 10GB and set it as fat32. apply changes, then select the partition (right-click) and toggle boot flags (make sure partition is not mounted) and apply changes</p>
+</li>
+<li>
+<p>when you follow the guide above, this will give you 3 partitions - /dev/sda1 (EFI - fat32), /dev/sda2 (swap) and /dev/sda3 (root - btrfs). you can then continue along with the guide and just be mindful of the mounting locations later and the fstab entries.</p>
+</li>
+</ol>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span># mount root
+</span><span>mount -o defaults,noatime,space_cache=v2,compress-force=zstd,autodefrag,subvol=@ /dev/sda4 /mnt/gentoo
+</span><span>
+</span><span># Create BOOT and other Directory to be mount on boot partion|
+</span><span># create desire directorys to be mountes as a SubVolume|
+</span><span>mkdir -p /mnt/gentoo/{boot,home,opt,srv,tmp,usr,var,vms,.snapshots}
+</span><span>
+</span><span># mount other subvolumes|
+</span><span>mount -o defaults,noatime,space_cache=v2,compress-force=zstd,autodefrag,subvol=@home /dev/sda4 /mnt/gentoo/home
+</span><span>mount -o defaults,noatime,space_cache=v2,compress-force=zstd,autodefrag,subvol=@opt /dev/sda4 /mnt/gentoo/opt
+</span><span>mount -o defaults,noatime,space_cache=v2,compress-force=zstd,autodefrag,subvol=@srv /dev/sda4 /mnt/gentoo/srv
+</span><span>mount -o defaults,noatime,space_cache=v2,compress-force=zstd,autodefrag,subvol=@tmp /dev/sda4 /mnt/gentoo/tmp
+</span><span>mount -o defaults,noatime,space_cache=v2,compress-force=zstd,autodefrag,subvol=@usr /dev/sda4 /mnt/gentoo/usr
+</span><span>mount -o defaults,noatime,space_cache=v2,compress-force=zstd,autodefrag,subvol=@var /dev/sda4 /mnt/gentoo/var
+</span><span>mount -o defaults,noatime,space_cache=v2,compress-force=zstd,autodefrag,subvol=@vms /dev/sda4 /mnt/gentoo/vms
+</span><span>mount -o defaults,noatime,space_cache=v2,compress-force=zstd,autodefrag,subvol=@snapshots /dev/sda4 /mnt/gentoo/.snapshots
+</span></code></pre>
+<p>use whatever your drive partitions are called (mine were nvme0n1). i did not reinstall the tarball, so i the /boot partition on root was empty at this point after everything was unmounted and deleted.</p>
+<p>at this point you can just mount stuff and chroot in:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span># Copy DNS info
+</span><span>cp --dereference /etc/resolv.conf /mnt/gentoo/etc/
+</span><span>
+</span><span>
+</span><span># Mounting the necessary filesystems
+</span><span>mount --types proc /proc /mnt/gentoo/proc
+</span><span>mount --rbind /sys /mnt/gentoo/sys
+</span><span>mount --make-rslave /mnt/gentoo/sys
+</span><span>mount --rbind /dev /mnt/gentoo/dev
+</span><span>mount --make-rslave /mnt/gentoo/dev
+</span><span>mount --rbind /run /mnt/gentoo/run
+</span><span>mount --make-rslave /mnt/gentoo/run
+</span><span>
+</span><span># Entering the new environment
+</span><span># chroot
+</span><span>#env -i HOME=@ TERM=linux chroot . bash -l|
+</span><span>chroot /mnt/gentoo /bin/bash
+</span><span>
+</span><span># Source ENV
+</span><span>source /etc/profile
+</span><span>
+</span><span># Change Terminal PS1 Name
+</span><span>export PS1=&quot;(chroot) ${PS1}&quot;
+</span></code></pre>
+<p>after the chroot i was able to follow the gentoo handbook a bit regarding the /efi partition.</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>mount /dev/sda1 /efi
+</span></code></pre>
+<p>now to make sure dracut, initramfs and all that shit points at the right place, i re-installed my kernel...</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>emerge -avU gentoo-kernel-bin
+</span></code></pre>
+<p>and let things rebuild, it did pickup the /efi location this time.</p>
+<p>then i did grub-install</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>grub-install --efi-directory=/efi
+</span></code></pre>
+<p>and no errors were showing...so kept moving along in the guide with the applicable parts.</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>grub-mkconfig -o /boot/grub/grub.cfg
+</span></code></pre>
+<p>this was the moment of truth! now all output showed the efi detected, kernel found, and snapshots! another thing that i think was helpful was i had installed the grub-btrfs program before i wiped everything out and started over. that was the utility that picked up the snapshots. grub-btrfs has its own config file, so take a look at that with <code>nano /etc/default/grub-btrfs/config</code> and tweak anything you lost, or preferred working, # of snapshots in the list etc.</p>
+<p>i also wiped out the pretty boot screen and had to find a way to get that back.  fortunately its on github...
+<a href="https://github.com/Telemin/gentoo-grub-themes">https://github.com/Telemin/gentoo-grub-themes</a></p>
+<p>so go ahead and reboot back into the machine and then you can fuck with grub, also check out the new snapshot menu item if you have grub-btrfs installed.</p>
+<p>to get the gentoo glass theme back, you need to figure out the proper directory from the config file...mine only had starfield (which is not as nice) and so i had to make the directory /boot/grub/themes/glass and then i cloned the full repo from the link above and <code>cp -r /gentoo-glass/ /boot/grub/themes/glass/</code> from the cloned directory</p>
+<p>verify that the files were in the right place, and change the line for the grub theme location in /etc/default/grub to</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>GRUB_THEME=&quot;/boot/grub/themes/glass/theme.txt&quot;
+</span></code></pre>
+<p>or whatever your directory is named, and voila a pretty bootsplash menu and working btrfs, timeshift, snapshots, all in grub!</p>
+<p>and a small update...i have torched my gentoo a couple of times now. and i have used timeshift to restore it as well. now, in one dumb blow i accidentally removed my 7.0.5 kernel image, and purposefully tampered with modemmanager and was left with a flashing boot screen at prompt. thats new to me. thankfully i have a debian openRC install as backup on the laptop that has timeshift installed. according to the website, all you have to do is tell it where to find the rsync backups and you can point it to other partitions! i showed it my timeshift partition, selected the root partition and told it where the bootloader was to be installed and after some acknowledgements it worked, i was able to get back into my snapshot before i fucked everything up.</p>
+
+        </article>
+        <nav class="post-navigation">
+            <header class="post-navigation-title">
+                <h2>Read More Posts</h2>
+                <hr>
+            </header>
+            <div class="post-navigation-buttons">
+                <a rel="next" href="https://inktheghost.com/blog/linux-surface-fedora-pt-2/" aria-label="Next article">
+                    <span aria-hidden="true">&lt;&nbsp;[</span>linux-surface fedora pt 2<span aria-hidden="true">]</span>
+                </a>
+                <span aria-hidden="true" role="separator">::</span>
+                <a rel="prev" href="https://inktheghost.com/blog/gentoo-on-my-laptop/" aria-label="Prev article">
+                    <span aria-hidden="true">[</span>gentoo on my laptop<span aria-hidden="true">]&nbsp;&gt;</span>
+                </a>
+            </div>
+        </nav>
+    </main>
+    <footer class="footer">
+        <address class="socials">
+            <ul>
+                <li>
+                    <a class="social-link" rel="me" href="https://defcon.social/@970uts1d3" title="mastodon" aria-label="mastodon">
+                        <svg role="img" aria-label="mastodon icon">
+                            <use aria-hidden="true" href="https://inktheghost.com/images/social_icons/mastodon.svg#icon" />
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </address>
+        <p class="copyright">
+            <span>© <time>2026</time> 970uts1d3</span>
+            <span>Powered by <a href="https://www.getzola.org">Zola</a></span>
+            <span>Theme by <a href="https://eyalkalderon.com">ebkalderon</a></span>
+        </p>
+    </footer>
+</body>
+
+</html>

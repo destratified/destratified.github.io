@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src-attr 'unsafe-inline'">
+
+    
+    <script defer src="http://uma.destratify.pro/script.js" data-website-id="4fcbcec9-bb7c-4697-8a62-20ad992a6092"></script>
+    
+    <title>proxmox | ink the ghost</title>
+
+    <link href="https://defcon.social/@970uts1d3" rel="me">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://inktheghost.com/css/style.css?h=287f84ed6c66dca911c6">
+    <link rel="icon" type="image/png" href="https://inktheghost.com/icons/favicon.png">
+    <link rel="apple-touch-icon" href="https://inktheghost.com/processed_images/favicon.ab2897ee8708a1f8.png">
+    <script src="https://inktheghost.com/js/auto-close-popover-on-resize.js?h=4ef87d6fc7b98b22e044" defer></script>
+    <script src="https://inktheghost.com/js/copy-code-to-clipboard.js?h=b34dc626be3e4c8a0f55" defer></script>
+
+    <link rel="canonical" href="https://inktheghost.com/blog/proxmox/">
+    
+    <meta name="author" content="970uts1d3">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#211f1a">
+    <meta name="color-scheme" content="dark">
+
+    <meta property="og:title" content="proxmox">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://inktheghost.com/blog/proxmox/">
+    <meta property="og:site_name" content="ink the ghost">
+    <meta property="og:updated_time" content="2026-08-29T22:06:35.537623771+00:00">
+    <meta property="article:published_time" content="2025-12-18T00:00:00+00:00">
+    <meta property="article:tag" content="proxmox">
+    <meta property="article:tag" content="server">
+
+</head>
+
+<body class="layout-center" data-theme="terminus">
+    <header class="header">
+        <div class="header-container">
+            <span class="header-logo-container">
+                <a href="https://inktheghost.com">
+                    <span class="logo">ink the ghost</span>
+                </a>
+            </span>
+        </div>
+        <nav class="main-menu" aria-label="Main Menu">
+            <a class="skip-to-content" href="#main">Skip to main content</a>
+            <button class="main-menu-dropdown-button" popovertarget="nav-menu">Menu</button>
+            <ul id="nav-menu" class="main-menu-items" aria-label="Site Navigation" popover>
+                <li><a href="https://inktheghost.com/blog/">blog</a></li>
+                <li><a href="https://inktheghost.com/archive/">archive</a></li>
+                <li><a href="https://inktheghost.com/tags/">tags</a></li>
+                <li><a href="https://inktheghost.com/about/">about</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main id="main">
+        <article class="post content">
+            <header>
+                <h1 class="post-title">
+                    <a href="https://inktheghost.com/blog/proxmox/">proxmox</a>
+                </h1>
+                <ul class="post-meta hidden">
+                    <li title="Published on 2025-12-18"><time datetime="2025-12-18">2025.12.18</time></li>
+                    <li role="separator" aria-hidden="true">::</li>
+                    <li title="490 words"><time datetime="PT3M">3 min</time> read</li>
+                </ul>
+                <div class="post-tags">
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/proxmox/">proxmox</a></span>
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/server/">server</a></span>
+                </div>
+            </header>
+
+<h1 id="proxmox-playing-with-setup-and-install-updated">proxmox - playing with setup and install (updated)</h1>
+<h2 id="15-25">15:25</h2>
+<p>one of the first things i did when setting up my server, was take it out of the box and check everything out.  i've never had a server before, been mostly building hi-end pcs for years and playing with all os's.  but i started looking into homelabbing and ordered what i thought i needed.  i ordered semi-custom and it arrived packaged and ready to go.  i probably could have kept the ram, the cpus, the psus, and the raid card (mini-monolithic), but some initial reading convinced me i needed more.  here's what i ended up with (updated):</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span> Dell 730xd chassis with 12x3.5 HDD up front and the rear 2x2.5 HDD
+</span><span>  - rear slots, 800gb SAS 12gbs HDD&#39;s in raid 0 with zfs for OS, EFI etc
+</span><span>  - up front, 6x19TB SAS 10gbs HDDs in raidz1-0 for storage
+</span><span>  - up front, 2x2TB SAS 7gbs HDD in Raidz1-0 for local backup
+</span><span>  - ASUS Hyper M.2 X16 Gen 4 PCIE 4.0/3.0 x4 NVME RAID Expansion Card mgx
+</span><span>  - Dell HBA330 mini monolithic (=9300-8i) w/ P16 IT mode
+</span><span>  - 2x SR2JW INTEL XEON E5-2698V4 2.20GHZ 20-CORE 50MB 135W CPU PROCESSOR
+</span><span>  - 2x 750W PSUs
+</span><span>  - 512GB (8x 64gb ) DDR4 2400T 2400Mhz ECC REG RAM
+</span><span>  - NVIDIA Quadro P2000 5GB GDDR5 Quad PCIe graphics card
+</span><span>  - 4 port NIC 2x10gb 2x1GB (kept)
+</span></code></pre>
+<p>knowing what my average use is rn, i'd say i overkilled the ram by about 2x...ill move 256GB over to the next build, and I could have kept the processors, but it never hurts and im not sure how many lxc/vms i'll end up with.</p>
+<p>one of the most fun parts of the initial boot, which took me about 1 month to prep with given all the upgrades above, was the lack of screen/mouse/keyboard and monitor...i patched this together and after being very frustrated bought an old used console for 50 bucks - shipped! this made startup easier.  the second most interesting thing was the fans absolutely screaming at me.  apparently after adding non-compatible pcie devices the bios defaults to 80% fan.  this is fixable with a script, but made initial boot and install super annoying!</p>
+<h1 id="to-be-continued">to be continued...</h1>
+<p>so the first thing to create was a bash script that runs every minute monitoring the ipmi values for cpu.  enable the ipmi in your bios so you can talk to the interface. then create a simple bash script.  i websearched the dell 730-xd fan problem, found a base of code to start with and resolved the code to the below:</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span>#!/bin/bash
+</span><span>
+</span><span># define some temp for server
+</span><span>low=&quot;45&quot;
+</span><span>low2=&quot;50&quot;
+</span><span>mid1=&quot;58&quot;
+</span><span>mid2=&quot;66&quot;
+</span><span>high=&quot;74&quot;
+</span><span>hot=&quot;89&quot;
+</span><span>
+</span><span>
+</span><span>maxtemp=0
+</span><span>
+</span><span># Read the max CPU temp from sensors (ipmitools)
+</span><span># On Dell R730XD this can figure out the temp of CPU 1 and 2, then use the max value
+</span><span>tempCpu1=$(ipmitool  sdr entity 3.1|grep Temp|sed &#39;s/Temp             | 0Eh | ok  |  3.1 | //&#39; | sed &#39;s/ degrees C//&#39;)
+</span><span>tempCpu2=$(ipmitool  sdr entity 3.2|grep Temp|sed &#39;s/Temp             | 0Fh | ok  |  3.2 | //&#39; | sed &#39;s/ degrees C//&#39;)
+</span><span>
+</span><span>
+</span><span>if [ &quot;$tempCpu1&quot; -gt &quot;$tempCpu2&quot; ]; then
+</span><span>    maxtemp=$tempCpu1
+</span><span>else
+</span><span>    maxtemp=$tempCpu2
+</span><span>fi
+</span><span>
+</span><span>
+</span><span>
+</span><span># Define CPU limit
+</span><span>
+</span><span>
+</span><span>if [ $maxtemp -le $low ] ; then
+</span><span>
+</span><span>        ipmitool  raw 0x30 0x30 0x01 0x00 &gt;&gt; /dev/null
+</span><span>        ipmitool  raw 0x30 0x30 0x02 0xff 10 &gt;&gt; /dev/null
+</span><span>
+</span><span>elif [ $maxtemp -le $low2 ] ; then
+</span><span>
+</span><span>        ipmitool  raw 0x30 0x30 0x01 0x00 &gt;&gt; /dev/null
+</span><span>        ipmitool  raw 0x30 0x30 0x02 0xff 15 &gt;&gt; /dev/null
+</span><span>
+</span><span>elif [ $maxtemp -le $mid1 ] ; then
+</span><span>
+</span><span>        ipmitool  raw 0x30 0x30 0x01 0x00 &gt;&gt; /dev/null
+</span><span>        ipmitool  raw 0x30 0x30 0x02 0xff 20 &gt;&gt; /dev/null
+</span><span>
+</span><span>elif [ $maxtemp -le $mid2 ] ; then
+</span><span>
+</span><span>        ipmitool  raw 0x30 0x30 0x01 0x00 &gt;&gt; /dev/null
+</span><span>        ipmitool  raw 0x30 0x30 0x02 0xff 25 &gt;&gt; /dev/null
+</span><span>
+</span><span>elif [ $maxtemp -le $high ] ; then
+</span><span>
+</span><span>        ipmitool  raw 0x30 0x30 0x01 0x00 &gt;&gt; /dev/null
+</span><span>        ipmitool  raw 0x30 0x30 0x02 0xff 30 &gt;&gt; /dev/null
+</span><span>
+</span><span>elif [ $maxtemp -le $hot ] ; then
+</span><span>
+</span><span>        ipmitool  raw 0x30 0x30 0x01 0x00 &gt;&gt; /dev/null
+</span><span>        ipmitool  raw 0x30 0x30 0x02 0xff 35 &gt;&gt; /dev/null
+</span><span>
+</span><span># If temp higher than hot, give fan control back to BIOS
+</span><span>else
+</span><span>        ipmitool  raw 0x30 0x30 0x01 0x01 &gt;&gt; /dev/null
+</span><span>
+</span><span>fi
+</span></code></pre>
+<p>chmod this to an executable and start a new crontab <code>crontab -e</code> and add a new line as follows:</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span>*/1 * * * * /bin/bash /home/scripts/fan_speed.sh &gt; /dev/null 2&gt;&amp;1
+</span></code></pre>
+<p>this lets it run every minute.  with this initial setup done, its time to get to work.  i made sure all server updates were applied, updated the os and started to monkey around with installing vms, lxcs and whatnot</p>
+
+        </article>
+        <nav class="post-navigation">
+            <header class="post-navigation-title">
+                <h2>Read More Posts</h2>
+                <hr>
+            </header>
+            <div class="post-navigation-buttons">
+                <a rel="next" href="https://inktheghost.com/blog/inktheghost/" aria-label="Next article">
+                    <span aria-hidden="true">&lt;&nbsp;[</span>inktheghost<span aria-hidden="true">]</span>
+                </a>
+                <span aria-hidden="true" role="separator">::</span>
+                <a rel="prev" href="https://inktheghost.com/blog/zola-pt2/" aria-label="Prev article">
+                    <span aria-hidden="true">[</span>zola_pt2<span aria-hidden="true">]&nbsp;&gt;</span>
+                </a>
+            </div>
+        </nav>
+    </main>
+    <footer class="footer">
+        <address class="socials">
+            <ul>
+                <li>
+                    <a class="social-link" rel="me" href="https://defcon.social/@970uts1d3" title="mastodon" aria-label="mastodon">
+                        <svg role="img" aria-label="mastodon icon">
+                            <use aria-hidden="true" href="https://inktheghost.com/images/social_icons/mastodon.svg#icon" />
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </address>
+        <p class="copyright">
+            <span>© <time>2026</time> 970uts1d3</span>
+            <span>Powered by <a href="https://www.getzola.org">Zola</a></span>
+            <span>Theme by <a href="https://eyalkalderon.com">ebkalderon</a></span>
+        </p>
+    </footer>
+</body>
+
+</html>

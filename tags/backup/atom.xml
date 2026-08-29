@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>ink the ghost - backup</title>
+    <link rel="self" type="application/atom+xml" href="https://inktheghost.com/tags/backup/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://inktheghost.com"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2026-01-13T00:00:00+00:00</updated>
+    <id>https://inktheghost.com/tags/backup/atom.xml</id>
+    <entry xml:lang="en">
+        <title>backup laptop with PBS</title>
+        <published>2026-01-13T00:00:00+00:00</published>
+        <updated>2026-01-13T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/backup-with-pve-updated/"/>
+        <id>https://inktheghost.com/blog/backup-with-pve-updated/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/backup-with-pve-updated/">&lt;h1 id=&quot;update-1-13-2006-tl-dr&quot;&gt;Update 1-13-2006 TL;DR&lt;&#x2F;h1&gt;
+&lt;p&gt;so i ended up having some issues getting the proxmox-backup-client command to run, using sudo and after getting into the forums realized that i could su to root, move the file there, and append changes, chmod to execute and add the cronjob under the root user.  this eliminates the need all together for the sudo command!&lt;&#x2F;p&gt;
+&lt;p&gt;heres the updated file i saved in the &#x2F;root&#x2F; directory:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;#!&#x2F;bin&#x2F;bash
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;##Setting environmental variables
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;export PBS_USER=jeff
+&lt;&#x2F;span&gt;&lt;span&gt;export PBS_PASSWORD=XXXXXXXX
+&lt;&#x2F;span&gt;&lt;span&gt;export PBS_REPOSITORY=jeff@pbs@192.168.50.3:8007:not-server
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;## backup command
+&lt;&#x2F;span&gt;&lt;span&gt;proxmox-backup-client backup root.pxar:&#x2F; --include-dev &#x2F;home
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;$(date +&amp;quot;%Y-%m-%d %H:%M:%S&amp;quot;) - Backup executed&amp;quot; &amp;gt;&amp;gt; &#x2F;home&#x2F;joe&#x2F;backup_to_PVB.log
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;my cron command is also set to push any errors to a debug.log file, so between the above and that i&#x27;ve got a fail bit of debug info if i need it.&lt;&#x2F;p&gt;
+&lt;p&gt;you can test by running the script backup.sh to make sure it works without erroring out with the above changes.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;og-text&quot;&gt;OG text&lt;&#x2F;h1&gt;
+&lt;p&gt;so i created a bash script and was having it err anytime i wasnt actually logged into a terminal
+after some poking around it hadn&#x27;t executed as sudo for the bash script in a while and realized that there was an issue passing sudo password to the backup command
+i will preface this with i am still not sure if this is working, but i will know by 4pm today.  here&#x27;s my script:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;#!&#x2F;bin&#x2F;bash
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;##Setting environmental variables
+&lt;&#x2F;span&gt;&lt;span&gt;export PBS_USER=archy
+&lt;&#x2F;span&gt;&lt;span&gt;export PBS_PASSWORD=@!Moksha00
+&lt;&#x2F;span&gt;&lt;span&gt;#export SUDO_PASSWORD=$(cat &#x2F;etc&#x2F;backup_password)
+&lt;&#x2F;span&gt;&lt;span&gt;export PBS_REPOSITORY=archy@pbs@192.168.50.3:8007:not-server2
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;##Checking network connectivity
+&lt;&#x2F;span&gt;&lt;span&gt;ping -c 1 192.168.50.3 | grep &amp;quot;bytes from&amp;quot; &amp;gt; &#x2F;dev&#x2F;null
+&lt;&#x2F;span&gt;&lt;span&gt;if [ $? -eq 0 ]; then
+&lt;&#x2F;span&gt;&lt;span&gt;    echo &amp;quot;$(date &amp;#39;+%Y-%m-%d %H:%M:%S&amp;#39;) - Network is connected&amp;quot; &amp;gt;&amp;gt; &#x2F;home&#x2F;joe&#x2F;backup.log
+&lt;&#x2F;span&gt;&lt;span&gt;else
+&lt;&#x2F;span&gt;&lt;span&gt;    echo &amp;quot;$(date &amp;#39;+%Y-%m-%d %H:%M:%S&amp;#39;) - Network is not connected&amp;quot; &amp;gt;&amp;gt; &#x2F;home&#x2F;joe&#x2F;backup.log
+&lt;&#x2F;span&gt;&lt;span&gt;    echo &amp;quot;$(date &amp;#39;+%Y-%m-%d %H:%M:%S&amp;#39;) - Backup failed&amp;quot; &amp;gt;&amp;gt; &#x2F;home&#x2F;joe&#x2F;backup.log
+&lt;&#x2F;span&gt;&lt;span&gt;    exit 1
+&lt;&#x2F;span&gt;&lt;span&gt;fi
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;##Sudo command with -E to preserve the env variables
+&lt;&#x2F;span&gt;&lt;span&gt;sudo -E proxmox-backup-client backup root.pxar:&#x2F; --include-dev &#x2F;home
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#testing backup error loop
+&lt;&#x2F;span&gt;&lt;span&gt;if [ $? -eq 0 ]; then
+&lt;&#x2F;span&gt;&lt;span&gt;    echo &amp;quot;$(date &amp;#39;+%Y-%m-%d %H:%M:%S&amp;#39;) - Backup completed successfully&amp;quot; &amp;gt;&amp;gt; &#x2F;home&#x2F;joe&#x2F;backup.log
+&lt;&#x2F;span&gt;&lt;span&gt;else
+&lt;&#x2F;span&gt;&lt;span&gt;    echo &amp;quot;$(date &amp;#39;+%Y-%m-%d %H:%M:%S&amp;#39;) - Backup failed&amp;quot; &amp;gt;&amp;gt; &#x2F;home&#x2F;joe&#x2F;backup.log
+&lt;&#x2F;span&gt;&lt;span&gt;fi   
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;and the problem seemed to be in this line of code:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;sudo -E proxmox-backup-client backup root.pxar:&#x2F; --include-dev &#x2F;home
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;some digging on the webs (i dont use google, cause you know privacy, data harvesting blah blah blah) recommended using a password setting variable and also adding my user and allowing passwordless execution for the bash scripts.  now this seems to include the use of sudo from within the scripts as well, but we shall see...at 4pm tbd&lt;&#x2F;p&gt;
+&lt;p&gt;so for the sudo command thingy, you can enter the details to fit the command name and user, but it follows the format below:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;echo &amp;quot;username ALL=(ALL) NOPASSWORD: &#x2F;path&#x2F;to&#x2F;script.sh&amp;quot; | sudo tee &#x2F;etc&#x2F;sudoers.d&#x2F;script-no-password
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;mine is:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;echo &amp;quot;joe ALL=(ALL) NOPASSWD: &#x2F;home&#x2F;joe&#x2F;backup.sh&amp;quot; | sudo tee &#x2F;etc&#x2F;sudoers.d&#x2F;script-no-password
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;now i use arch, so i chose to install cronie as i was struggling with the above script (realizing now that the sudo fix should allow me to use systemctl services to do the same as cronie) but i have a little more familiarity with cron, so i wanted to use it for debugging a bit.  here&#x27;s how i got that going on arch:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;sudo pacman -S cronie
+&lt;&#x2F;span&gt;&lt;span&gt;export EDITOR=&#x2F;usr&#x2F;bin&#x2F;nano &amp;amp;&amp;amp; export VISUAL=$EDITOR
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;now you can setup your cron to run, im using some debug stuff and wanting to run daily so here&#x27;s how that looks:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;0 16 * * * &#x2F;home&#x2F;joe&#x2F;backup.sh 2&amp;gt; debug.log 2&amp;gt;&amp;amp;1
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;the export variables tell the system to use nano instead of vi, i don&#x27;t use vi, so this got it going in my favorite editor, and ctrl+x and its saved&lt;&#x2F;p&gt;
+&lt;p&gt;this is a good time to make sure you  had the script made executable as we are testing with the following command, so if you haven&#x27;t already:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;sudo chmod +x &#x2F;path&#x2F;to&#x2F;script.s
+&lt;&#x2F;span&gt;&lt;span&gt;crontab -l | grep -v &amp;#39;^#&amp;#39; | cut -f 6- -d &amp;#39; &amp;#39; | while read CMD; do eval $CMD; done
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;the crontab command above will cycle through and test execution of all of the commands in crontab sequentially, so just keep that in mind.  I only have this one and a gitea script for updating my repo, so nbd to have it execute them all.&lt;&#x2F;p&gt;
+&lt;p&gt;ill report back later if this is the fix, but with some network debugging and script debugging i should get updated on the script as its processed&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>ansible playbooks for proxmox host - pt.1</title>
+        <published>2025-10-31T00:00:00+00:00</published>
+        <updated>2025-10-31T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/ansible-setup-pt1/"/>
+        <id>https://inktheghost.com/blog/ansible-setup-pt1/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/ansible-setup-pt1/">&lt;p&gt;goals:&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;setup ansible in lxc on proxmox&lt;&#x2F;li&gt;
+&lt;li&gt;figure out how the fuck to use it!&lt;&#x2F;li&gt;
+&lt;li&gt;work backwards and forwards and back again on setup of folder heirarchy&lt;&#x2F;li&gt;
+&lt;li&gt;make folders into a git repo (gitea for me)&lt;&#x2F;li&gt;
+&lt;li&gt;sync everything&lt;&#x2F;li&gt;
+&lt;li&gt;nano hosts file, ansible.cfg&lt;&#x2F;li&gt;
+&lt;li&gt;build out playbooks for each system [arch], [ubuntu] and [PVE,PVB], figure out ssh, and ssh-copy-id, sshd_config and what the fuck works for passwords and not - still stuck with a password in the ansible.cfg&lt;&#x2F;li&gt;
+&lt;li&gt;make a comprehensive update-all.yml playbook for a cron job&lt;&#x2F;li&gt;
+&lt;li&gt;do a buncha bit work putting all the sshd_configs back to #PermitRootLogin password_disabled - maybe I can write a playbook for that!&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;h1 id=&quot;so-here-it-goes&quot;&gt;so here it goes:&lt;&#x2F;h1&gt;
+&lt;p&gt;the ansible lxc creation was probably the easiest of all these things to do.  i setup a new lxc container with the usual specs:&lt;&#x2F;p&gt;
+&lt;p&gt;Deb13, 2gb RAM, 8GB disk, network etc...this can be really much smaller than i went with&lt;&#x2F;p&gt;
+&lt;p&gt;boot into LXC login with root and:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;apt update &amp;amp;&amp;amp; apt upgrade &amp;amp;&amp;amp; apt install curl wget ansible sudo 
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;most of these will already be installed, but its good to check, with ansible installed, now i had to figure out how to use it.
+ansible will run from any folder, so its up to you how to configure your folder structure and where.  i went with a new ansible folder off of root:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;mkdir -p &#x2F;ansible &#x2F;ansible&#x2F;playbooks &#x2F;ansible&#x2F;inventory &#x2F;ansible&#x2F;roles
+&lt;&#x2F;span&gt;&lt;span&gt;chmod 775 -R &#x2F;ansible
+&lt;&#x2F;span&gt;&lt;span&gt;touch &#x2F;ansible&#x2F;inventory&#x2F;hosts
+&lt;&#x2F;span&gt;&lt;span&gt;touch &#x2F;ansible&#x2F;ansible.cfg
+&lt;&#x2F;span&gt;&lt;span&gt;touch &#x2F;roles&#x2F;roles.txt
+&lt;&#x2F;span&gt;&lt;span&gt;touch &#x2F;ansible&#x2F;playbooks&#x2F;playbook.yml
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this was a basic folder structure i found on the internet, and is probably fine for most applications, some others have set this up for projects using &#x2F;ansible&#x2F;&amp;lt;project_name&amp;gt;&#x2F;playbooks etc, i just needed it for writing playbooks for my proxmox host, so a single dir is fine
+with the basic folder structure in place, i wanted to get that structure and files all synced with a gitea repo.
+for me, i created a new private ansible repo on gitea, with a readme and nothing else, then followed the instructions to add files&#x2F;folders and sync remotely with a previous gitea token, results will vary, but it looked something like this:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;git init
+&lt;&#x2F;span&gt;&lt;span&gt;git checkout -b main
+&lt;&#x2F;span&gt;&lt;span&gt;git add .
+&lt;&#x2F;span&gt;&lt;span&gt;git commit -m &amp;quot;first commit&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;git remote add origin https:&#x2F;&#x2F;gitea.destratify.pro&#x2F;joe&#x2F;test.git
+&lt;&#x2F;span&gt;&lt;span&gt;git push -u origin main
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;then you can check gitea or github, and verify that the folder structure is all there.  above we added some files with touch to basically become placeholders as the folders wont import unless the directorys have content of some sort.&lt;&#x2F;p&gt;
+&lt;p&gt;so at this point, we have ansible, we have have a directory synced with git (i use a bash script to update all my gitea folders every 8 hrs JIC) but for now we can start building content in those folders.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;building-out-ansible-folders-files&quot;&gt;building out ansible folders&#x2F;files&lt;&#x2F;h1&gt;
+&lt;p&gt;so the first things to do are to create a hosts file.  we have a placeholder so you can just nano into that from the &#x2F;ansible folder
+nano &#x2F;ansible&#x2F;inverntory&#x2F;hosts
+this can follow either ini syntax or yaml...i went with ini, as it was the format i was borrowing from some guide i can&#x27;t find again.  here&#x27;s what mine looks like:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;#hosts file
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;[ubuntu]
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.70
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.75
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.8
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.73
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.205
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.14
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.201
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.20
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.30
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.13
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.206
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.74
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.55
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;[arch]
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.16
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.210
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;[pve]
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.2
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;[pvb]
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.3
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this is how i decided to break it up...now is it the right way? dunno.  serves my purpose.  the reasoning behind it is this: i need to update my lxc and vm based on their systemOS, and I have ubuntu&#x2F;deb, arch and my pve (host),and pvb backup that I want to be able to do individually, or as a whole group.
+to be able to talk to them we need to setup ssh-copy-id for each IP and set root login.  what a pain in the ass that is, has to be a way to do that with ansible too, but lets not get ahead of ourselves.
+from my host gui, enter console the console using root login.  edit the &#x2F;etc&#x2F;ssh&#x2F;sshd_config
+find the commented line, #PermitRootLogin and uncomment and change to yes
+save and exit and reboot - i had some problems getting it to work sometimes with a systemctl deamon-reload and systemctl restart sshd so it was just easier to reboot as i went.
+next setup a key on the ansible machine.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;ssh-keygen -t rsa -b 4096
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;be mindful if you are logged in as something else besides root, i found you just need to be consistent as the dir it gets saved in is the home ~ for the logged in user.  and once that key  is saved you can use ssh-copy-id in the following format:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;ssh-copy-id root@192.168.50.5 
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this will ask to accept fingerprint, say yes. the password (root user pass in my case) is needed for the machine you are ssh-ing into, after that it should so you the key was added and try logging in....now do that like 17 times ;)&lt;&#x2F;p&gt;
+&lt;p&gt;after all that you should be able to use the hosts file to talk to all the machines that you wanna update&#x2F;upgrade.&lt;&#x2F;p&gt;
+&lt;p&gt;next is the ansible.cfg file, here&#x27;s mine:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;#ansible config file
+&lt;&#x2F;span&gt;&lt;span&gt;[defaults]
+&lt;&#x2F;span&gt;&lt;span&gt;inventory = .&#x2F;inventory
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;[privilege_escalation]
+&lt;&#x2F;span&gt;&lt;span&gt;become = True
+&lt;&#x2F;span&gt;&lt;span&gt;become_method = sudo
+&lt;&#x2F;span&gt;&lt;span&gt;become_user = root
+&lt;&#x2F;span&gt;&lt;span&gt;become_user_file = .&#x2F;password.txt
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;here&#x27;s pretty simple....
+in ini format again, under defaults, set your inventory directory so ansible knows where to find the hosts file.
+the rest is pretty obvious - become root, using sudo after sshing into the machine.
+i store my password in a chmod 600 password.txt file in my ansible folder, could be anywhere, really. and while troubleshooting and setting this up i had my root password in plaintext here, cause who gives a fuck.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;playbooks&quot;&gt;playbooks&lt;&#x2F;h1&gt;
+&lt;p&gt;now here&#x27;s the meat and potatoes.  had lotsa ssh issues, troubleshooting was tedious, but after all that i got it sorted and borrowed a playbook from
+https:&#x2F;&#x2F;www.jacob-swanson.com&#x2F;posts&#x2F;automating-proxmox-maintenance-with-ansible&#x2F;
+with a simple command to test connections to all lxcx vms etc in the host file.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;- name: Ping
+&lt;&#x2F;span&gt;&lt;span&gt;  hosts: all
+&lt;&#x2F;span&gt;&lt;span&gt;  tasks:
+&lt;&#x2F;span&gt;&lt;span&gt;    - name: Ping
+&lt;&#x2F;span&gt;&lt;span&gt;      ansible.builtin.ping:
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;for me this was saved as ping.yml in the &#x2F;ansible&#x2F;playbooks dir
+execute it with the following command&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;ansible-playbook playbooks&#x2F;ping.yaml
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;now why did i break my hosts file up with [ubuntu][arch][pve][pvb]?
+so that when i built out the following playbooks i could run individual playbooks for ubuntu arch etc, with different layouts (pacman vs apt) and then have a unified playbook that would call them all: update-all&lt;&#x2F;p&gt;
+&lt;p&gt;heres the playbooks i have:
+update-ubuntu.yml&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;#update ubuntu lxc, vms
+&lt;&#x2F;span&gt;&lt;span&gt;---
+&lt;&#x2F;span&gt;&lt;span&gt;- hosts: [ubuntu]
+&lt;&#x2F;span&gt;&lt;span&gt;  remote_user: root
+&lt;&#x2F;span&gt;&lt;span&gt;  name: update apt
+&lt;&#x2F;span&gt;&lt;span&gt;  #serial: 1
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  tasks:
+&lt;&#x2F;span&gt;&lt;span&gt;  - name: apt update
+&lt;&#x2F;span&gt;&lt;span&gt;    apt:
+&lt;&#x2F;span&gt;&lt;span&gt;      update_cache: yes
+&lt;&#x2F;span&gt;&lt;span&gt;      force_apt_get: yes
+&lt;&#x2F;span&gt;&lt;span&gt;      cache_valid_time: 3600
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  - name: apt dist-upgrade
+&lt;&#x2F;span&gt;&lt;span&gt;    apt:
+&lt;&#x2F;span&gt;&lt;span&gt;      upgrade: dist
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  - name: remove old packages and clean cache
+&lt;&#x2F;span&gt;&lt;span&gt;    apt:
+&lt;&#x2F;span&gt;&lt;span&gt;      autoremove: yes
+&lt;&#x2F;span&gt;&lt;span&gt;      autoclean: yes
+&lt;&#x2F;span&gt;&lt;span&gt;      clean: yes
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  - name: Check if reboot is needed
+&lt;&#x2F;span&gt;&lt;span&gt;    stat:
+&lt;&#x2F;span&gt;&lt;span&gt;      path: &#x2F;var&#x2F;run&#x2F;reboot-required
+&lt;&#x2F;span&gt;&lt;span&gt;    register: reboot_required
+&lt;&#x2F;span&gt;&lt;span&gt;  - name: Check if reboot is needed
+&lt;&#x2F;span&gt;&lt;span&gt;    stat:
+&lt;&#x2F;span&gt;&lt;span&gt;      path: &#x2F;var&#x2F;run&#x2F;reboot-required
+&lt;&#x2F;span&gt;&lt;span&gt;    register: reboot_required
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  - name: End playbook if no reboot is required
+&lt;&#x2F;span&gt;&lt;span&gt;    meta: end_host
+&lt;&#x2F;span&gt;&lt;span&gt;    when: not reboot_required.stat.exists
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  - name: Reboot the system
+&lt;&#x2F;span&gt;&lt;span&gt;    reboot:
+&lt;&#x2F;span&gt;&lt;span&gt;      msg: &amp;quot;Reboot initiated by Ansible due to system updates&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;      pre_reboot_delay: 3600
+&lt;&#x2F;span&gt;&lt;span&gt;      post_reboot_delay: 300
+&lt;&#x2F;span&gt;&lt;span&gt;      reboot_timeout: 5400
+&lt;&#x2F;span&gt;&lt;span&gt;    when: reboot_required.stat.exists   
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;nothing too crazy here.  i have serial: 1 commented out, if you uncomment that, it will step through each IP one-at-a-time.  you should be using dist-upgrade for these, and especially the host and pvb.&lt;&#x2F;p&gt;
+&lt;p&gt;update-arch.yml&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;#update arch
+&lt;&#x2F;span&gt;&lt;span&gt;---
+&lt;&#x2F;span&gt;&lt;span&gt;- hosts: [arch]
+&lt;&#x2F;span&gt;&lt;span&gt;  remote_user: root
+&lt;&#x2F;span&gt;&lt;span&gt;  tasks:
+&lt;&#x2F;span&gt;&lt;span&gt;    - name: Full system upgrade
+&lt;&#x2F;span&gt;&lt;span&gt;      community.general.pacman:
+&lt;&#x2F;span&gt;&lt;span&gt;        update_cache: true
+&lt;&#x2F;span&gt;&lt;span&gt;        upgrade: true
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;nothing unusual here&lt;&#x2F;p&gt;
+&lt;p&gt;update-pvs.yml&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;#update pve,pvb
+&lt;&#x2F;span&gt;&lt;span&gt;---
+&lt;&#x2F;span&gt;&lt;span&gt;- hosts: [pvb, pve]
+&lt;&#x2F;span&gt;&lt;span&gt;  remote_user: root
+&lt;&#x2F;span&gt;&lt;span&gt;  name: update apt
+&lt;&#x2F;span&gt;&lt;span&gt;  serial: 1
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  tasks:
+&lt;&#x2F;span&gt;&lt;span&gt;  - name: apt update
+&lt;&#x2F;span&gt;&lt;span&gt;    apt:
+&lt;&#x2F;span&gt;&lt;span&gt;      update_cache: yes
+&lt;&#x2F;span&gt;&lt;span&gt;      force_apt_get: yes
+&lt;&#x2F;span&gt;&lt;span&gt;      cache_valid_time: 3600
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  - name: apt dist-upgrade
+&lt;&#x2F;span&gt;&lt;span&gt;    apt:
+&lt;&#x2F;span&gt;&lt;span&gt;      upgrade: dist
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  - name: remove old packages and clean cache
+&lt;&#x2F;span&gt;&lt;span&gt;    apt:
+&lt;&#x2F;span&gt;&lt;span&gt;      autoremove: yes
+&lt;&#x2F;span&gt;&lt;span&gt;      autoclean: yes
+&lt;&#x2F;span&gt;&lt;span&gt;      clean: yes
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  - name: Check if reboot is needed
+&lt;&#x2F;span&gt;&lt;span&gt;    stat:
+&lt;&#x2F;span&gt;&lt;span&gt;      path: &#x2F;var&#x2F;run&#x2F;reboot-required
+&lt;&#x2F;span&gt;&lt;span&gt;    register: reboot_required
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  - name: End playbook if no reboot is required
+&lt;&#x2F;span&gt;&lt;span&gt;    meta: end_host
+&lt;&#x2F;span&gt;&lt;span&gt;    when: not reboot_required.stat.exists
+&lt;&#x2F;span&gt;&lt;span&gt;  - name: Reboot the system
+&lt;&#x2F;span&gt;&lt;span&gt;    reboot:
+&lt;&#x2F;span&gt;&lt;span&gt;      msg: &amp;quot;Reboot initiated by Ansible due to system updates&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;      pre_reboot_delay: 3600
+&lt;&#x2F;span&gt;&lt;span&gt;      post_reboot_delay: 300
+&lt;&#x2F;span&gt;&lt;span&gt;      reboot_timeout: 5400
+&lt;&#x2F;span&gt;&lt;span&gt;    when: reboot_required.stat.exists   
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;here serial: 1 is un-commented to step through each proxmox server individually.
+since my ansible instance is on proxmox, if its kernal is updated, the host will reboot and kill the ansible program.  this doesnt happen often - last time my uptime was 59 days.  you could just reboot ita nd run it again. however, i placed the pvb first in the hosts: [pvb][pve] so that does the proxmox host last, so everything is completed before a reboot JIC&lt;&#x2F;p&gt;
+&lt;p&gt;update-all.yml&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;#update whole shebang
+&lt;&#x2F;span&gt;&lt;span&gt;---
+&lt;&#x2F;span&gt;&lt;span&gt;- import_playbook: update-ubuntu.yml
+&lt;&#x2F;span&gt;&lt;span&gt;- import_playbook: update-arch.yml
+&lt;&#x2F;span&gt;&lt;span&gt;- import_playbook: update-pvs.yml
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;here we are using the import function, pulling all other playbooks in, and running in the sequence of line items.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;just-for-funsies&quot;&gt;just for funsies&lt;&#x2F;h1&gt;
+&lt;p&gt;literally ran across the &quot;just&quot; program googling ansible playbooks.  its a pretty nifty program.  it allows you to command run things in the justfile you create and simplifies the commands from the ansible-playbook ... execution.&lt;br &#x2F;&gt;
+install just
+apt update &amp;amp;&amp;amp; apt install just
+then make a justfile, mine lives in the &#x2F;ansible directory
+nano justfile
+here&#x27;s how mine looks:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;# Show help
+&lt;&#x2F;span&gt;&lt;span&gt;help:
+&lt;&#x2F;span&gt;&lt;span&gt;    @just --list --unsorted
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Ping all hosts
+&lt;&#x2F;span&gt;&lt;span&gt;ping:
+&lt;&#x2F;span&gt;&lt;span&gt;    ansible-playbook playbooks&#x2F;ping.yml
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Update all 
+&lt;&#x2F;span&gt;&lt;span&gt;update-all:
+&lt;&#x2F;span&gt;&lt;span&gt;    ansible-playbook playbooks&#x2F;update-all.yml
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Arch Updates
+&lt;&#x2F;span&gt;&lt;span&gt;update-arch:
+&lt;&#x2F;span&gt;&lt;span&gt;    ansible-playbook playbooks&#x2F;update-arch.yml
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Ubuntu Updates
+&lt;&#x2F;span&gt;&lt;span&gt;update-ubuntu:
+&lt;&#x2F;span&gt;&lt;span&gt;    ansible-playbook playbooks&#x2F;update-ubuntu.yml
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Server (host) Updates
+&lt;&#x2F;span&gt;&lt;span&gt;update-pvs:
+&lt;&#x2F;span&gt;&lt;span&gt;    ansible-playbook playbooks&#x2F;update-pvs.yml
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;you can see here i stuck all of my playbook commands in here, they are all broken up by some command name.&lt;br &#x2F;&gt;
+so the sweet thing is that to execute that playbook, you can type &quot;just&quot; and whatever&#x27;s designated in that file.
+just update-all
+just ping
+just update-ubuntu
+etc, etc, etc...
+now the really cool thing is that you can use this &quot;just&quot; command runner anywhere.  so if you have git directories you wanna update automagically you can just drop a justfile in there with a git fetch section, git pull, git push etc.  and execute that instead of going through each dir.  the possibilities are endless!&lt;&#x2F;p&gt;
+&lt;p&gt;so what&#x27;s next?  im working on the proxmoxer and API calls for my proxmox host, to use with ansible so i can create vms, or lxcs with ansible commands etc.  to be continued.... -&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>

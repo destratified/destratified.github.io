@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src-attr 'unsafe-inline'">
+
+    
+    <script defer src="http://uma.destratify.pro/script.js" data-website-id="4fcbcec9-bb7c-4697-8a62-20ad992a6092"></script>
+    
+    <title>laptop-cosmic-pt2 | ink the ghost</title>
+
+    <link href="https://defcon.social/@970uts1d3" rel="me">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://inktheghost.com/css/style.css?h=287f84ed6c66dca911c6">
+    <link rel="icon" type="image/png" href="https://inktheghost.com/icons/favicon.png">
+    <link rel="apple-touch-icon" href="https://inktheghost.com/processed_images/favicon.ab2897ee8708a1f8.png">
+    <script src="https://inktheghost.com/js/auto-close-popover-on-resize.js?h=4ef87d6fc7b98b22e044" defer></script>
+    <script src="https://inktheghost.com/js/copy-code-to-clipboard.js?h=b34dc626be3e4c8a0f55" defer></script>
+
+    <link rel="canonical" href="https://inktheghost.com/blog/laptop-cosmic-pt2/">
+    
+    <meta name="author" content="970uts1d3">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#211f1a">
+    <meta name="color-scheme" content="dark">
+
+    <meta property="og:title" content="laptop-cosmic-pt2">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://inktheghost.com/blog/laptop-cosmic-pt2/">
+    <meta property="og:site_name" content="ink the ghost">
+    <meta property="og:updated_time" content="2026-08-29T22:06:35.541217869+00:00">
+    <meta property="article:published_time" content="2026-01-14T00:00:00+00:00">
+    <meta property="article:tag" content="laptop">
+    <meta property="article:tag" content="arch">
+    <meta property="article:tag" content="cosmic">
+
+</head>
+
+<body class="layout-center" data-theme="terminus">
+    <header class="header">
+        <div class="header-container">
+            <span class="header-logo-container">
+                <a href="https://inktheghost.com">
+                    <span class="logo">ink the ghost</span>
+                </a>
+            </span>
+        </div>
+        <nav class="main-menu" aria-label="Main Menu">
+            <a class="skip-to-content" href="#main">Skip to main content</a>
+            <button class="main-menu-dropdown-button" popovertarget="nav-menu">Menu</button>
+            <ul id="nav-menu" class="main-menu-items" aria-label="Site Navigation" popover>
+                <li><a href="https://inktheghost.com/blog/">blog</a></li>
+                <li><a href="https://inktheghost.com/archive/">archive</a></li>
+                <li><a href="https://inktheghost.com/tags/">tags</a></li>
+                <li><a href="https://inktheghost.com/about/">about</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main id="main">
+        <article class="post content">
+            <header>
+                <h1 class="post-title">
+                    <a href="https://inktheghost.com/blog/laptop-cosmic-pt2/">laptop-cosmic-pt2</a>
+                </h1>
+                <ul class="post-meta hidden">
+                    <li title="Published on 2026-01-14"><time datetime="2026-01-14">2026.01.14</time></li>
+                    <li role="separator" aria-hidden="true">::</li>
+                    <li title="1082 words"><time datetime="PT6M">6 min</time> read</li>
+                </ul>
+                <div class="post-tags">
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/laptop/">laptop</a></span>
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/arch/">arch</a></span>
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/cosmic/">cosmic</a></span>
+                </div>
+            </header>
+
+<h1 id="laptop-cosmic-pt2">laptop-cosmic-pt2</h1>
+<h2 id="18-29">18:29</h2>
+<p>so i've been doing alot of configuring since the laptop's come back online, some things broke as indicated in the last post, but i hadn't written anything down yet. here's a list of topics:</p>
+<ul>
+<li>bash</li>
+<li>snapper/btrfs-assistant</li>
+<li><a href="https://inktheghost.com/blog/backup-with-pve-updated/">backup-with-pbs-updated</a>(again)</li>
+<li><a href="https://inktheghost.com/blog/obsidian-setup-pt2/">obsidian-pt2</a>(again)</li>
+<li>bash backup and /builds to git repo for easier install</li>
+</ul>
+<h3 id="bash">bash</h3>
+<p>after getting the browser working, i decided to venture into souping up the bash prompt, as i was working with fish in the garuda install and liked some of extra features.  a little internet searching and i was starting to see some great options, and i get to stay in the bash work - shebang!</p>
+<p>first things first, the bash prompt is boring. teasing you for more, even the defaults in the .bashrc are underwhelming compared to the fish config.  a couple options stood out, starship prompt, ble.sh seemed to cover most of what i wanted with a little tweaking to be done.</p>
+<p>so first, i installed starship:</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span>sudo pacman -S starship nerd-fonts 
+</span></code></pre>
+<p>this is in the arch repos so no issues there, everything is controlled from the starship.toml in ~/.config and the webpage has install instructions and some presets that can point you in the right direction. i chose the pure preset which is fairly simple.  i highly recommend installing the nerd-fonts package too as seen above as you will then have access to nerd-font symbols and some different fonts if you want it. i added all of them and also set my computer to Firacode which is like an old timer programming /typewriter stlye font.</p>
+<p>for starship to work follow the install per your shell, many options even if you use fish or bash, or zsh
+<a href="https://starship.rs/guide/#%F0%9F%9A%80-installation">https://starship.rs/guide/#%F0%9F%9A%80-installation</a></p>
+<p>for bash add the below to the <code>.bashrc</code> file:</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span>eval &quot;$(starship init bash)&quot;
+</span></code></pre>
+<p>for pure preset you issue the following command at prompt:</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span>starship preset pure-preset -o ~/.config/starship.toml
+</span></code></pre>
+<p>if that's all you want it's pretty clean and fresh. i also installed ble.sh which gives me autocomplete and history/search functions at the prompt. works incredibly well. here's that process below:</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span>mkdir -p build 
+</span><span>cd build 
+</span><span>git clone --recursive https://github.com/akinomyoga/ble.sh.git
+</span><span>cd ble.sh
+</span><span>make
+</span></code></pre>
+<p>then add the source (plugin) to the <code>.bashrc.</code> file:</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span>source out/ble.sh
+</span></code></pre>
+<p>i then tweaked colors, added a git icon and a buncha aliases for my (sort-of) final <code>.bashrc</code>:</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span># ~/.bashrc
+</span><span>#
+</span><span>
+</span><span># If not running interactively, don&#39;t do anything
+</span><span>[[ $- != *i* ]] &amp;&amp; return
+</span><span>
+</span><span>##PATH##
+</span><span># set PATH so it includes user&#39;s private ~/.local/bin if it exists
+</span><span>if [ -d &quot;$HOME/.local/bin&quot; ] ; then
+</span><span>    PATH=&quot;$HOME/.local/bin:$PATH&quot;
+</span><span>fi
+</span><span>
+</span><span>#bash time 24hr clock
+</span><span>alias date=&quot;date +&#39;%H:%M:%S&#39;&quot;
+</span><span>
+</span><span>#unlimited bash history
+</span><span>HISTSIZE=-1
+</span><span>HISTFILESIZE=-1
+</span><span>
+</span><span>#ASCII art and greeting
+</span><span>paleofetch
+</span><span>
+</span><span>#plugins
+</span><span>source -- ~/.local/share/blesh/ble.sh
+</span><span>eval &quot;$(starship init bash)&quot;
+</span><span>
+</span><span>##Set some $ENVIRONMENTAL variable
+</span><span>export VISUAL=nano
+</span><span>export EDITOR=nano
+</span><span>
+</span><span># Replace ls with exa
+</span><span>alias ls=&#39;exa -al --color=always --group-directories-first --icons&#39; # preferred listing
+</span><span>alias la=&#39;exa -a --color=always --group-directories-first --icons&#39;  # all files and dirs
+</span><span>alias ll=&#39;exa -l --color=always --group-directories-first --icons&#39;  # long format
+</span><span>alias lt=&#39;exa -aT --color=always --group-directories-first --icons&#39; # tree listing
+</span><span>alias l.=&quot;exa -a | egrep &#39;^\.&#39;&quot;                                     # show only dotfiles
+</span><span>
+</span><span># Common use
+</span><span>alias aup=&quot;pamac upgrade --aur&quot;
+</span><span>#alias grubup=&quot;sudo update-grub&quot;
+</span><span>#alias fixpacman=&quot;sudo rm /var/lib/pacman/db.lck&quot;
+</span><span>alias tarnow=&#39;tar -acf &#39;
+</span><span>alias untar=&#39;tar -zxvf &#39;
+</span><span>alias wget=&#39;wget -c &#39;
+</span><span>alias rmpkg=&quot;sudo pacman -Rdd&quot;
+</span><span>#alias psmem=&#39;ps auxf | sort -nr -k 4&#39;
+</span><span>#alias psmem10=&#39;ps auxf | sort -nr -k 4 | head -10&#39;
+</span><span>#alias upd=&#39;sudo reflector --latest 5 --age 2 --fastest 5 --protocol https --sort rate --save /etc/pacman.d/mirrorlist &amp;&amp; cat /etc/pacman.d/mirrorlist &amp;&amp; sudo pacman -Syu &amp;&amp; fish_update_completions &amp;&amp; sudo updatedb&#39;
+</span><span>alias ..=&#39;cd ..&#39;
+</span><span>alias ...=&#39;cd ../..&#39;
+</span><span>alias ....=&#39;cd ../../..&#39;
+</span><span>alias .....=&#39;cd ../../../..&#39;
+</span><span>alias ......=&#39;cd ../../../../..&#39;
+</span><span>alias dir=&#39;dir --color=auto&#39;
+</span><span>alias vdir=&#39;vdir --color=auto&#39;
+</span><span>alias grep=&#39;grep --color=auto&#39;
+</span><span>alias fgrep=&#39;fgrep --color=auto&#39;
+</span><span>alias egrep=&#39;egrep --color=auto&#39;
+</span><span>alias hw=&#39;hwinfo --short&#39;                                   # Hardware Info
+</span><span>
+</span><span># Cleanup orphaned packages
+</span><span>alias cleanup=&#39;sudo pacman -Rns (pacman -Qtdq)&#39;
+</span><span>
+</span><span># Get the error messages from journalctl
+</span><span>alias jctl=&quot;journalctl -p 3 -xb&quot;
+</span><span>
+</span><span># Recent installed packages
+</span><span>alias rip=&quot;expac --timefmt=&#39;%Y-%m-%d %T&#39; &#39;%l\t%n %v&#39; | sort | tail -200 | nl&quot;
+</span><span>
+</span><span>#personal
+</span><span>alias gitup=&#39;~/forge/scripts/forge.update.sh&#39;
+</span><span>alias gitpu=&#39;~/forge/scripts/forge.push.sh&#39;
+</span><span>alias up=&#39;~/forge/scripts/arch/update.sh&#39;
+</span><span>alias src=&#39;source ~/.bashrc&#39;
+</span><span>alias tailup=&#39;~/forge/scripts/tailup.sh&#39;
+</span><span>alias taildn=&#39;tailscale down&#39;
+</span></code></pre>
+<p>and my final `~/.config/startship.toml</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span># &quot;$schema&quot; = &#39;https://starship.rs/config-schema.json&#39;
+</span><span># ~/.config/starship.toml
+</span><span>
+</span><span>add_newline = true
+</span><span>
+</span><span>format = &quot;&quot;&quot;\
+</span><span>  $directory\
+</span><span>  $git_branch$git_commit$git_state $git_status\
+</span><span>  $line_break $character
+</span><span>&quot;&quot;&quot;
+</span><span>right_format = &quot;&quot;&quot;
+</span><span>$status&quot;&quot;&quot;
+</span><span>
+</span><span>continuation_prompt = &#39;▶▶ &#39;
+</span><span>
+</span><span># style_choices:
+</span><span># bold
+</span><span># italic
+</span><span># underline
+</span><span># dimmed
+</span><span># inverted
+</span><span># blink
+</span><span># hidden
+</span><span># strikethrough
+</span><span># bg:&lt;color&gt;
+</span><span># fg:&lt;color&gt;
+</span><span># &lt;color&gt;
+</span><span># none
+</span><span>
+</span><span>#NOTE: you can customize the symbols, e.g:
+</span><span>[character]
+</span><span>success_symbol = &quot;[  ]($bold fg:bright-blue)&quot;
+</span><span>error_symbol = &quot;[  ]($bold fg:bright-red)&quot;
+</span><span>
+</span><span>[directory]
+</span><span>disabled = false
+</span><span>format = &quot; [$path](bold $style)&quot;
+</span><span>style = &quot;cyan&quot;
+</span><span>truncate_to_repo = false
+</span><span>#home_symbol = &quot;&quot;
+</span><span>
+</span><span>[hostname]
+</span><span>ssh_only = false
+</span><span>format = &#39;(white bold)[$hostname](#50fa7b bold)&#39;
+</span><span>disabled = false
+</span><span>
+</span><span>#[username]
+</span><span>#format = &#39;(white bold)[$username  @ ](#50fa7b bold)&#39;
+</span><span>#disabled= false
+</span><span>
+</span><span>[git_branch]
+</span><span>format = &quot; [ $branch]($style)&quot;
+</span><span>style = &quot;red&quot;
+</span><span>
+</span><span>[git_status]
+</span><span>ahead = &#39;⇡${count}&#39;
+</span><span>behind = &#39;⇣${count}&#39;
+</span><span>diverged = &#39;⇕⇡${ahead_count}⇣${behind_count}&#39;
+</span><span>format = &#39;[[( $all_status$ahead_behind )](fg:yellow)]($style)&#39;
+</span><span>style = &quot;bg:bright-yellow&quot;
+</span><span>
+</span><span>[time]
+</span><span>disabled = false
+</span><span>format = &#39;[[  $time ](fg:#a0a9cb )]($style)&#39;
+</span><span>time_format = &quot;%R&quot;                            # Hour:Minute Format
+</span><span>
+</span><span>[python]
+</span><span>format = &quot;[${symbol}(${virtualenv}) ${version}]($style)&quot;
+</span><span>style = &quot;bold bright-yellow&quot;
+</span><span>symbol = &quot;[ ](bold bright-blue)&quot;
+</span><span>version_format = &quot;${raw}&quot;
+</span></code></pre>
+<p>there's alot to play with here, but here's my prompt with the terminal called:</p>
+<p><img src="/img/screenshotbash.png" alt="this is a screenshot" /></p>
+<p>i also installed paleofetch and added that to the $PATH and <code>.bashrc </code> in place of the depricated neofetch following directions at
+<a href="https://github.com/ss7m/paleofetch.git">https://github.com/ss7m/paleofetch.git</a></p>
+<h3 id="snapper-and-btrfs-assistant">snapper and btrfs-assistant</h3>
+<p>this is obviously only applicable to those using btrfs, which i recomend for this purpose.</p>
+<p>install snapper, snap-pac and btrfs-assistant:</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span>sudo pacman -S snapper btrfs-assistant
+</span></code></pre>
+<p>we will install snap-pac after setting up the root and home configs:</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span>sudo snapper -c root create-config /
+</span><span>sudo snapper -c home create-config /home
+</span></code></pre>
+<p>this is assuming you have a /home partition thats on separate media, which i do and highly recommend, otherwise, the root partition could do it all in that scenario. or you could run:</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span>sudo btrfs subvolume create /home
+</span></code></pre>
+<p>the idea being that you can setup different config and thus backup schedules for /home or /, the /home partition does not need regular backups.  however, root benefits from many per day, or per hour, or per pacman install if you add the below command. if you have a desktop, install use btrfs-assistant and tweak the snapshot and retention policies for the config(s) you have, then install the below:</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span>sudo pacman -S snap-pac
+</span></code></pre>
+<p>after creation and setup of the root and home configs, now on execution of the pacman routine, you will see a snapshot happens both before and after the install.</p>
+<p>caveats:  I am running system-d boot and as of right now, it doesn't allow snapshots in the menu, at least easily.  will work fine with grub.  this means that if you absolutely hose your system, you will at least need a prompt to get back in and restore a previous snapshot - just FYI</p>
+<h3 id="backing-up-bash-installing-cronie-and-git-submodules">backing up bash, installing cronie and git-submodules</h3>
+<p>i am trying to make it so all my important data and work is stored locally, in a repo i have direct control of, also on codeberg for the 3x backup method.</p>
+<p>this means writing little scripts with nano editor and executing them on a schedule. the systemd method i find a little cumbersome, its probably more robust, and secure, but cron does the job and its faster IMHO to create and implement. arch doesn't have cron natively, so install the cronie package:</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span>sudo pacman -S cronie
+</span><span>sudo systemctl start croniie 
+</span><span>sudo systemctl enable --now cronie
+</span></code></pre>
+<p>that is all you need for backend stuff. if you have editors like VIM, you won't need to do much as it will default to open in that app when editing with <code>crontab -e</code>, but if you prefer nano...you need to specify the $VISUAL and $EDITOR variables in your <code>.bashrc.</code> or set them via command line everytime before executing the cron command. this varies as well, shell to shell, but for bash i added the lines below:</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span>##Set some $ENVIRONMENTAL variable
+</span><span>export VISUAL=nano
+</span><span>export EDITOR=nano
+</span></code></pre>
+<p>this was also above in my <code>.bashrc</code> output, look in there for some extra goodies floating around ;)</p>
+<p>anyways, with all that setup, here's my current backup for my user, and i also run another one within the root user.</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span>###[Min][HR][Day][Mth][DOW]###
+</span><span>
+</span><span>#run bash backup @ 2am daily
+</span><span>* 2 * * * ~/backup_bash.sh
+</span><span>
+</span><span>#run git update 2x daily @3, and @15 hrs
+</span><span>* 3,15 * * * ~/forge/scripts/forge.update.sh
+</span></code></pre>
+<p>backup_bash.sh is as follows:</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span>#!/bin/bash
+</span><span>
+</span><span>#backup bash
+</span><span>cd ~
+</span><span>cp .bashrc ~/forge/scripts/bash/.bashrc.bak
+</span><span>cp .bash_history ~/forge/scripts/bash/.bash_history.bak
+</span><span>
+</span><span>#backup starship
+</span><span>cd .config
+</span><span>cp starship.toml ~/forge/scripts/bash/starship.toml.bak
+</span><span>
+</span><span>#sync with forgejo
+</span><span>cd ~
+</span><span>~/forge/scripts/forge.update.sh
+</span><span>~/forge/scripts/forge.push.sh
+</span><span>
+</span><span>echo &quot;Backup completed - $(date)&quot; &gt;&gt; .bash_bak
+</span></code></pre>
+<p>i have a little logging going on as well, but this puts all the work i did in bash prompt and my starship setup into my repo for easy retrieval later.  now i can copy and stick in any computer for the flow i like.</p>
+<p>the ~/forge/scripts/forge.update.sh command also executes the git update on a 2x day schedule, here's that executable:</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span>#!/bin/bash
+</span><span>
+</span><span># Change to the gitea directory
+</span><span>cd ~/forge
+</span><span>
+</span><span># Loop through all directories and subdirectories
+</span><span>for dir in */; do
+</span><span>    # Check if it&#39;s a directory
+</span><span>    if [ -d &quot;$dir&quot; ]; then
+</span><span>        # If so, navigate into it and update the repository
+</span><span>        cd $dir &amp;&amp; echo &quot;Moving into $dir&quot; &amp;&amp; git pull
+</span><span>        # Navigate back to the parent directory
+</span><span>        cd ..
+</span><span>    fi
+</span><span>done
+</span><span>
+</span><span>cd ~
+</span></code></pre>
+<p>i also have an alias setup in <code>.bashrc.</code> if you look closely, i use gitup to do the same and execute the above simply anywhere in my /dir to update all my repos.</p>
+<p>last but not least, i wanted to backup my /build directory to my ~/forge/scripts directory and had some errors when doing that. since they are all pulled off github, you will throw an error saying that direct copy will not find the source. simple solution, just use the git submodule command. it will then sync those to the latest updated repo version anytime you git clone your repo into a new system. a little bit extra work, but its nice to know if i rebuild that system, i can have the updated repo already. i may write a script to help with that so its a little simpler, but that's plenty for now.</p>
+
+        </article>
+        <nav class="post-navigation">
+            <header class="post-navigation-title">
+                <h2>Read More Posts</h2>
+                <hr>
+            </header>
+            <div class="post-navigation-buttons">
+                <a rel="next" href="https://inktheghost.com/blog/fork-terminus/" aria-label="Next article">
+                    <span aria-hidden="true">&lt;&nbsp;[</span>fork-terminus<span aria-hidden="true">]</span>
+                </a>
+                <span aria-hidden="true" role="separator">::</span>
+                <a rel="prev" href="https://inktheghost.com/blog/backup-with-pve-updated/" aria-label="Prev article">
+                    <span aria-hidden="true">[</span>backup laptop with PBS<span aria-hidden="true">]&nbsp;&gt;</span>
+                </a>
+            </div>
+        </nav>
+    </main>
+    <footer class="footer">
+        <address class="socials">
+            <ul>
+                <li>
+                    <a class="social-link" rel="me" href="https://defcon.social/@970uts1d3" title="mastodon" aria-label="mastodon">
+                        <svg role="img" aria-label="mastodon icon">
+                            <use aria-hidden="true" href="https://inktheghost.com/images/social_icons/mastodon.svg#icon" />
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </address>
+        <p class="copyright">
+            <span>© <time>2026</time> 970uts1d3</span>
+            <span>Powered by <a href="https://www.getzola.org">Zola</a></span>
+            <span>Theme by <a href="https://eyalkalderon.com">ebkalderon</a></span>
+        </p>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src-attr 'unsafe-inline'">
+
+    
+    <script defer src="http://uma.destratify.pro/script.js" data-website-id="4fcbcec9-bb7c-4697-8a62-20ad992a6092"></script>
+    
+    <title>backup laptop with PBS | ink the ghost</title>
+
+    <link href="https://defcon.social/@970uts1d3" rel="me">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://inktheghost.com/css/style.css?h=287f84ed6c66dca911c6">
+    <link rel="icon" type="image/png" href="https://inktheghost.com/icons/favicon.png">
+    <link rel="apple-touch-icon" href="https://inktheghost.com/processed_images/favicon.ab2897ee8708a1f8.png">
+    <script src="https://inktheghost.com/js/auto-close-popover-on-resize.js?h=4ef87d6fc7b98b22e044" defer></script>
+    <script src="https://inktheghost.com/js/copy-code-to-clipboard.js?h=b34dc626be3e4c8a0f55" defer></script>
+
+    <link rel="canonical" href="https://inktheghost.com/blog/backup-with-pve-updated/">
+    
+    <meta name="author" content="970uts1d3">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#211f1a">
+    <meta name="color-scheme" content="dark">
+
+    <meta property="og:title" content="backup laptop with PBS">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://inktheghost.com/blog/backup-with-pve-updated/">
+    <meta property="og:site_name" content="ink the ghost">
+    <meta property="og:updated_time" content="2026-08-29T22:06:35.525058630+00:00">
+    <meta property="article:published_time" content="2026-01-13T00:00:00+00:00">
+    <meta property="article:tag" content="proxmox">
+    <meta property="article:tag" content="backup">
+    <meta property="article:tag" content="arch">
+
+</head>
+
+<body class="layout-center" data-theme="terminus">
+    <header class="header">
+        <div class="header-container">
+            <span class="header-logo-container">
+                <a href="https://inktheghost.com">
+                    <span class="logo">ink the ghost</span>
+                </a>
+            </span>
+        </div>
+        <nav class="main-menu" aria-label="Main Menu">
+            <a class="skip-to-content" href="#main">Skip to main content</a>
+            <button class="main-menu-dropdown-button" popovertarget="nav-menu">Menu</button>
+            <ul id="nav-menu" class="main-menu-items" aria-label="Site Navigation" popover>
+                <li><a href="https://inktheghost.com/blog/">blog</a></li>
+                <li><a href="https://inktheghost.com/archive/">archive</a></li>
+                <li><a href="https://inktheghost.com/tags/">tags</a></li>
+                <li><a href="https://inktheghost.com/about/">about</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main id="main">
+        <article class="post content">
+            <header>
+                <h1 class="post-title">
+                    <a href="https://inktheghost.com/blog/backup-with-pve-updated/">backup laptop with PBS</a>
+                </h1>
+                <ul class="post-meta hidden">
+                    <li title="Published on 2026-01-13"><time datetime="2026-01-13">2026.01.13</time></li>
+                    <li role="separator" aria-hidden="true">::</li>
+                    <li title="514 words"><time datetime="PT3M">3 min</time> read</li>
+                </ul>
+                <div class="post-tags">
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/proxmox/">proxmox</a></span>
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/backup/">backup</a></span>
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/arch/">arch</a></span>
+                </div>
+            </header>
+
+<h1 id="update-1-13-2006-tl-dr">Update 1-13-2006 TL;DR</h1>
+<p>so i ended up having some issues getting the proxmox-backup-client command to run, using sudo and after getting into the forums realized that i could su to root, move the file there, and append changes, chmod to execute and add the cronjob under the root user.  this eliminates the need all together for the sudo command!</p>
+<p>heres the updated file i saved in the /root/ directory:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>#!/bin/bash
+</span><span>
+</span><span>##Setting environmental variables
+</span><span>
+</span><span>export PBS_USER=jeff
+</span><span>export PBS_PASSWORD=XXXXXXXX
+</span><span>export PBS_REPOSITORY=jeff@pbs@192.168.50.3:8007:not-server
+</span><span>
+</span><span>## backup command
+</span><span>proxmox-backup-client backup root.pxar:/ --include-dev /home
+</span><span>
+</span><span>echo &quot;$(date +&quot;%Y-%m-%d %H:%M:%S&quot;) - Backup executed&quot; &gt;&gt; /home/joe/backup_to_PVB.log
+</span></code></pre>
+<p>my cron command is also set to push any errors to a debug.log file, so between the above and that i've got a fail bit of debug info if i need it.</p>
+<p>you can test by running the script backup.sh to make sure it works without erroring out with the above changes.</p>
+<h1 id="og-text">OG text</h1>
+<p>so i created a bash script and was having it err anytime i wasnt actually logged into a terminal
+after some poking around it hadn't executed as sudo for the bash script in a while and realized that there was an issue passing sudo password to the backup command
+i will preface this with i am still not sure if this is working, but i will know by 4pm today.  here's my script:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>#!/bin/bash
+</span><span>
+</span><span>##Setting environmental variables
+</span><span>export PBS_USER=archy
+</span><span>export PBS_PASSWORD=@!Moksha00
+</span><span>#export SUDO_PASSWORD=$(cat /etc/backup_password)
+</span><span>export PBS_REPOSITORY=archy@pbs@192.168.50.3:8007:not-server2
+</span><span>
+</span><span>##Checking network connectivity
+</span><span>ping -c 1 192.168.50.3 | grep &quot;bytes from&quot; &gt; /dev/null
+</span><span>if [ $? -eq 0 ]; then
+</span><span>    echo &quot;$(date &#39;+%Y-%m-%d %H:%M:%S&#39;) - Network is connected&quot; &gt;&gt; /home/joe/backup.log
+</span><span>else
+</span><span>    echo &quot;$(date &#39;+%Y-%m-%d %H:%M:%S&#39;) - Network is not connected&quot; &gt;&gt; /home/joe/backup.log
+</span><span>    echo &quot;$(date &#39;+%Y-%m-%d %H:%M:%S&#39;) - Backup failed&quot; &gt;&gt; /home/joe/backup.log
+</span><span>    exit 1
+</span><span>fi
+</span><span>
+</span><span>##Sudo command with -E to preserve the env variables
+</span><span>sudo -E proxmox-backup-client backup root.pxar:/ --include-dev /home
+</span><span>
+</span><span>#testing backup error loop
+</span><span>if [ $? -eq 0 ]; then
+</span><span>    echo &quot;$(date &#39;+%Y-%m-%d %H:%M:%S&#39;) - Backup completed successfully&quot; &gt;&gt; /home/joe/backup.log
+</span><span>else
+</span><span>    echo &quot;$(date &#39;+%Y-%m-%d %H:%M:%S&#39;) - Backup failed&quot; &gt;&gt; /home/joe/backup.log
+</span><span>fi   
+</span></code></pre>
+<p>and the problem seemed to be in this line of code:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>sudo -E proxmox-backup-client backup root.pxar:/ --include-dev /home
+</span></code></pre>
+<p>some digging on the webs (i dont use google, cause you know privacy, data harvesting blah blah blah) recommended using a password setting variable and also adding my user and allowing passwordless execution for the bash scripts.  now this seems to include the use of sudo from within the scripts as well, but we shall see...at 4pm tbd</p>
+<p>so for the sudo command thingy, you can enter the details to fit the command name and user, but it follows the format below:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>echo &quot;username ALL=(ALL) NOPASSWORD: /path/to/script.sh&quot; | sudo tee /etc/sudoers.d/script-no-password
+</span></code></pre>
+<p>mine is:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>echo &quot;joe ALL=(ALL) NOPASSWD: /home/joe/backup.sh&quot; | sudo tee /etc/sudoers.d/script-no-password
+</span></code></pre>
+<p>now i use arch, so i chose to install cronie as i was struggling with the above script (realizing now that the sudo fix should allow me to use systemctl services to do the same as cronie) but i have a little more familiarity with cron, so i wanted to use it for debugging a bit.  here's how i got that going on arch:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>sudo pacman -S cronie
+</span><span>export EDITOR=/usr/bin/nano &amp;&amp; export VISUAL=$EDITOR
+</span></code></pre>
+<p>now you can setup your cron to run, im using some debug stuff and wanting to run daily so here's how that looks:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>0 16 * * * /home/joe/backup.sh 2&gt; debug.log 2&gt;&amp;1
+</span></code></pre>
+<p>the export variables tell the system to use nano instead of vi, i don't use vi, so this got it going in my favorite editor, and ctrl+x and its saved</p>
+<p>this is a good time to make sure you  had the script made executable as we are testing with the following command, so if you haven't already:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>sudo chmod +x /path/to/script.s
+</span><span>crontab -l | grep -v &#39;^#&#39; | cut -f 6- -d &#39; &#39; | while read CMD; do eval $CMD; done
+</span></code></pre>
+<p>the crontab command above will cycle through and test execution of all of the commands in crontab sequentially, so just keep that in mind.  I only have this one and a gitea script for updating my repo, so nbd to have it execute them all.</p>
+<p>ill report back later if this is the fix, but with some network debugging and script debugging i should get updated on the script as its processed</p>
+
+        </article>
+        <nav class="post-navigation">
+            <header class="post-navigation-title">
+                <h2>Read More Posts</h2>
+                <hr>
+            </header>
+            <div class="post-navigation-buttons">
+                <a rel="next" href="https://inktheghost.com/blog/laptop-cosmic-pt2/" aria-label="Next article">
+                    <span aria-hidden="true">&lt;&nbsp;[</span>laptop-cosmic-pt2<span aria-hidden="true">]</span>
+                </a>
+                <span aria-hidden="true" role="separator">::</span>
+                <a rel="prev" href="https://inktheghost.com/blog/laptop-cosmic/" aria-label="Prev article">
+                    <span aria-hidden="true">[</span>laptop_cosmic<span aria-hidden="true">]&nbsp;&gt;</span>
+                </a>
+            </div>
+        </nav>
+    </main>
+    <footer class="footer">
+        <address class="socials">
+            <ul>
+                <li>
+                    <a class="social-link" rel="me" href="https://defcon.social/@970uts1d3" title="mastodon" aria-label="mastodon">
+                        <svg role="img" aria-label="mastodon icon">
+                            <use aria-hidden="true" href="https://inktheghost.com/images/social_icons/mastodon.svg#icon" />
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </address>
+        <p class="copyright">
+            <span>© <time>2026</time> 970uts1d3</span>
+            <span>Powered by <a href="https://www.getzola.org">Zola</a></span>
+            <span>Theme by <a href="https://eyalkalderon.com">ebkalderon</a></span>
+        </p>
+    </footer>
+</body>
+
+</html>

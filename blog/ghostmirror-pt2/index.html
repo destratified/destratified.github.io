@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src-attr 'unsafe-inline'">
+
+    
+    <script defer src="http://uma.destratify.pro/script.js" data-website-id="4fcbcec9-bb7c-4697-8a62-20ad992a6092"></script>
+    
+    <title>ghostmirror-pt2 | ink the ghost</title>
+
+    <link href="https://defcon.social/@970uts1d3" rel="me">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://inktheghost.com/css/style.css?h=287f84ed6c66dca911c6">
+    <link rel="icon" type="image/png" href="https://inktheghost.com/icons/favicon.png">
+    <link rel="apple-touch-icon" href="https://inktheghost.com/processed_images/favicon.ab2897ee8708a1f8.png">
+    <script src="https://inktheghost.com/js/auto-close-popover-on-resize.js?h=4ef87d6fc7b98b22e044" defer></script>
+    <script src="https://inktheghost.com/js/copy-code-to-clipboard.js?h=b34dc626be3e4c8a0f55" defer></script>
+
+    <link rel="canonical" href="https://inktheghost.com/blog/ghostmirror-pt2/">
+    
+    <meta name="author" content="970uts1d3">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#211f1a">
+    <meta name="color-scheme" content="dark">
+
+    <meta property="og:title" content="ghostmirror-pt2">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://inktheghost.com/blog/ghostmirror-pt2/">
+    <meta property="og:site_name" content="ink the ghost">
+    <meta property="og:updated_time" content="2026-08-29T22:06:35.538084314+00:00">
+    <meta property="article:published_time" content="2026-03-07T00:00:00+00:00">
+    <meta property="article:tag" content="arch, cachyos">
+    <meta property="article:tag" content="update">
+
+</head>
+
+<body class="layout-center" data-theme="terminus">
+    <header class="header">
+        <div class="header-container">
+            <span class="header-logo-container">
+                <a href="https://inktheghost.com">
+                    <span class="logo">ink the ghost</span>
+                </a>
+            </span>
+        </div>
+        <nav class="main-menu" aria-label="Main Menu">
+            <a class="skip-to-content" href="#main">Skip to main content</a>
+            <button class="main-menu-dropdown-button" popovertarget="nav-menu">Menu</button>
+            <ul id="nav-menu" class="main-menu-items" aria-label="Site Navigation" popover>
+                <li><a href="https://inktheghost.com/blog/">blog</a></li>
+                <li><a href="https://inktheghost.com/archive/">archive</a></li>
+                <li><a href="https://inktheghost.com/tags/">tags</a></li>
+                <li><a href="https://inktheghost.com/about/">about</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main id="main">
+        <article class="post content">
+            <header>
+                <h1 class="post-title">
+                    <a href="https://inktheghost.com/blog/ghostmirror-pt2/">ghostmirror-pt2</a>
+                </h1>
+                <ul class="post-meta hidden">
+                    <li title="Published on 2026-03-07"><time datetime="2026-03-07">2026.03.07</time></li>
+                    <li role="separator" aria-hidden="true">::</li>
+                    <li title="131 words"><time datetime="PT1M">1 min</time> read</li>
+                </ul>
+                <div class="post-tags">
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/arch-cachyos/">arch, cachyos</a></span>
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/update/">update</a></span>
+                </div>
+            </header>
+
+<h1 id="ghostmirror-pt2">ghostmirror-pt2</h1>
+<h2 id="17-32">17:32</h2>
+<p>finally settled on a temp solution. ghostmirror is writing an update, looking to be able to pull any mirrorlist in and evaluating for rates/etc. i helped a little re-formating their readme.md - I'm an actual contributer! while i am waiting for their update, i fixed up my little script.</p>
+<p>it checks a timestamp file, if it doesnt exist, it does a full pull of cachyos through rate-mirrors and uses a global list with reflector and runs ghostmirror on top of that. if the file exists and its less than 7 days old, it will just run pacman -Syu, if its older than 7 days it will do a minor rebuild:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>#!/bin/bash
+</span><span>
+</span><span># Colors
+</span><span>bold_cyan=&quot;\e[1;36m&quot;
+</span><span>bold_white=&quot;\e[1;37m&quot;
+</span><span>reset=&quot;\e[0m&quot;
+</span><span>
+</span><span># Path to the timestamp file
+</span><span>timestamp_file=&quot;$HOME/update_timestamp&quot;
+</span><span>
+</span><span># Current time in seconds since epoch
+</span><span>current_time=$(date +%s)
+</span><span>
+</span><span># Check if the file exists
+</span><span>if [[ -f &quot;$timestamp_file&quot; ]]; then
+</span><span>    # Get the last modified time of the timestamp file
+</span><span>    file_mod_time=$(stat -c %Y &quot;$timestamp_file&quot;)
+</span><span>    # Compute the age of the file
+</span><span>    file_age=$((current_time - file_mod_time))
+</span><span>
+</span><span>    # Check if the file age is &lt; than 7 days (604800 seconds)
+</span><span>    if [[ $file_age -lt 604800 ]]; then
+</span><span>        echo -e &quot;${bold_cyan}:: ${bold_white}Mirrors &lt; 7 days old...${reset}&quot;
+</span><span>
+</span><span>        echo -e &quot;${bold_cyan}:: ${bold_white}Current CachyOS Servers:${reset}&quot;
+</span><span>        cat /etc/pacman.d/cachyos-mirrorlist
+</span><span>
+</span><span>	echo -e &quot;${bold_cyan}:: ${bold_white}Current Arch Servers:${reset}&quot;
+</span><span>        cat /etc/pacman.d/mirrorlist
+</span><span>
+</span><span>        echo -e &quot;${bold_cyan}==&gt; ${bold_white}Starting pacman -Syu...${reset}&quot;
+</span><span>        sudo pacman -Syu
+</span><span>        echo -e &quot;${bold_cyan}[Done]${reset}&quot;
+</span><span>        exit 0
+</span><span>    else
+</span><span>        echo -e &quot;${bold_cyan}:: ${bold_white}Mirrors older than 7 days, updating...${reset}&quot;
+</span><span>
+</span><span>        echo -e &quot;${bold_cyan}==&gt; ${bold_white}Starting Rate-mirrors...${reset}&quot;
+</span><span>        rate-mirrors cachyos --disable-comments | sudo tee /etc/pacman.d/cachyos-mirrorlist
+</span><span>        # Add corrections for proper pacman.conf formatting
+</span><span>        cp -f --backup=simple --suffix=&quot;-backup&quot; &quot;/etc/pacman.d/cachyos-mirrorlist&quot; &quot;/etc/pacman.d/cachyos-v3-mirrorlist&quot;
+</span><span>        sed -i &#39;s|/$arch/|/$arch_v3/|g&#39; &quot;/etc/pacman.d/cachyos-v3-mirrorlist&quot;
+</span><span>        echo -e &quot;${bold_cyan}:: ${bold_white}CachyOS Selected Servers:${reset}&quot;
+</span><span>        cat /etc/pacman.d/cachyos-mirrorlist
+</span><span>
+</span><span>        echo -e &quot;${bold_cyan}==&gt; ${bold_white}Ranking existing mirrors with ghostmirror...${reset}&quot;
+</span><span>        #ranking with ghostmirror
+</span><span>        sudo ghostmirror -PomulsS /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist light state,uptodate,speed,estimated
+</span><span>        echo -e &quot;${bold_cyan}:: ${bold_white}Arch Selected Servers:${reset}&quot;
+</span><span>        cat /etc/pacman.d/mirrorlist
+</span><span>
+</span><span>        echo -e &quot;${bold_cyan}==&gt; ${bold_white}Starting pacman -Syu...${reset}&quot;
+</span><span>        sudo pacman -Syu
+</span><span>    fi
+</span><span>else
+</span><span>    echo -e &quot;${bold_cyan}:: ${bold_white}Timestamp file does not exist...${reset}&quot;
+</span><span>
+</span><span>    echo -e &quot;${bold_cyan}==&gt; ${bold_white}Starting Rate-mirrors...${reset}&quot;
+</span><span>    rate-mirrors --disable-comments cachyos | sudo tee /etc/pacman.d/cachyos-mirrorlist
+</span><span>    # Add corrections for proper pacman.conf formatting
+</span><span>    sudo cp -f --backup=simple --suffix=&quot;-backup&quot; &quot;/etc/pacman.d/cachyos-mirrorlist&quot; &quot;/etc/pacman.d/cachyos-v3-mirrorlist&quot;
+</span><span>    sudo sed -i &#39;s|/$arch/|/$arch_v3/|g&#39; &quot;/etc/pacman.d/cachyos-v3-mirrorlist&quot;
+</span><span>
+</span><span>    #echo -e &quot;${bold_cyan}:: ${bold_white}CachyOS Selected Servers:${reset}&quot;
+</span><span>    #cat /etc/pacman.d/cachyos-mirrorlist
+</span><span>
+</span><span>    echo -e &quot;${bold_cyan}==&gt; ${bold_white}Starting Reflector...${reset}&quot;
+</span><span>    sudo reflector --verbose -c CA -c MX -c US --protocol https --sort rate --number 50 --download-timeout 5 --save /etc/pacman.d/mirrorlist
+</span><span>
+</span><span>    echo -e &quot;${bold_cyan}== ${bold_white}Ranking mirrorlist with Ghostmirror...${reset}&quot;
+</span><span>    sudo ghostmirror -PomulsS /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist light state,uptodate,speed,estimated
+</span><span>
+</span><span>    echo -e &quot;${bold_cyan}:: ${bold_white}Arch Selected Servers:${reset}&quot;
+</span><span>    cat /etc/pacman.d/mirrorlist
+</span><span>
+</span><span>    echo -e &quot;${bold_cyan}==&gt; ${bold_white}Starting pacman -Syu...${reset}&quot;
+</span><span>    sudo pacman -Syu
+</span><span>
+</span><span>    # Update timestamp file
+</span><span>    echo -e &quot;${bold_cyan}==&gt; ${bold_white}Saving timestamp file...${reset}&quot;
+</span><span>    touch &quot;$timestamp_file&quot;
+</span><span>    echo -e &quot;${bold_cyan}[Done]${reset}&quot;
+</span><span>    exit 0
+</span><span>fi
+</span><span>
+</span><span># Update the timestamp file with the current time
+</span><span>echo -e &quot;${bold_cyan}==&gt; Updating timestamp file now...${reset}&quot;
+</span><span>touch &quot;$timestamp_file&quot;
+</span><span>echo -e &quot;${bold_cyan}[Done]${reset}&quot;
+</span></code></pre>
+<p>works fine. polished a bit with a conversion to functions to keep the language simpler:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>#!/bin/bash
+</span><span>
+</span><span>set -x
+</span><span>
+</span><span># Colors
+</span><span>bold_cyan=&quot;\e[1;36m&quot;
+</span><span>bold_white=&quot;\e[1;37m&quot;
+</span><span>reset=&quot;\e[0m&quot;
+</span><span>
+</span><span># Path to the timestamp file
+</span><span>timestamp_file=&quot;$HOME/update_timestamp&quot;
+</span><span>
+</span><span># Current time in seconds since epoch
+</span><span>current_time=$(date +%s)
+</span><span>
+</span><span># Function to run rate-mirrors
+</span><span>run_rate_mirrors() {
+</span><span>  echo -e &quot;${bold_cyan}==&gt; ${bold_white}Starting Rate-mirrors...${reset}&quot;
+</span><span>  rate-mirrors --disable-comments cachyos | sudo tee /etc/pacman.d/cachyos-mirrorlist
+</span><span>
+</span><span>  # Add corrections for proper pacman.conf formatting
+</span><span>  sudo cp -f --backup=simple --suffix=&quot;-backup&quot; &quot;/etc/pacman.d/cachyos-mirrorlist&quot; &quot;/etc/pacman.d/cachyos-v3-mirrorlist&quot;
+</span><span>  sudo sed -i &#39;s|/$arch/|/$arch_v3/|g&#39; &quot;/etc/pacman.d/cachyos-v3-mirrorlist&quot;
+</span><span>}
+</span><span>
+</span><span># Function to run ghostmirror
+</span><span>run_ghostmirror() {
+</span><span>  echo -e &quot;${bold_cyan}==&gt; ${bold_white}Ranking mirrorlist with Ghostmirror...${reset}&quot;
+</span><span>  sudo ghostmirror -PomulsS /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist light state,uptodate,speed,estimated
+</span><span>}
+</span><span>
+</span><span># Function to run reflector
+</span><span>run_reflector() {
+</span><span>  echo -e &quot;${bold_cyan}==&gt; ${bold_white}Starting Reflector...${reset}&quot;
+</span><span>  sudo reflector --verbose -c CA -c MX -c US --protocol https --sort rate --number 50 --download-timeout 5 --save /etc/pacman.d/mirrorlist
+</span><span>}
+</span><span>
+</span><span># Function to run pacman-syu
+</span><span>run_pacman_syu() {
+</span><span>  echo -e &quot;${bold_cyan}==&gt; ${bold_white}Starting pacman -Syu...${reset}&quot;
+</span><span>  sudo pacman -Syu
+</span><span>}
+</span><span>
+</span><span># Function to run pacman-syyu
+</span><span>run_pacman_syyu() {
+</span><span>  echo -e &quot;${bold_cyan}==&gt; ${bold_white}Starting pacman -Syyu...${reset}&quot;
+</span><span>  sudo pacman -Syyu
+</span><span>}
+</span><span>
+</span><span>#Function to update timestamp
+</span><span>run_update_ts() {
+</span><span>  echo -e &quot;${bold_cyan}==&gt; Updating timestamp file now...${reset}&quot;
+</span><span>  touch &quot;$timestamp_file&quot;
+</span><span>}
+</span><span>
+</span><span>### Main script ###
+</span><span>
+</span><span># Check if the file exists
+</span><span>if [[ -f &quot;$timestamp_file&quot; ]]; then
+</span><span>    # Get the last modified time of the timestamp file
+</span><span>    file_mod_time=$(stat -c %Y &quot;$timestamp_file&quot;)
+</span><span>    # Compute the age of the file
+</span><span>    file_age=$((current_time - file_mod_time))
+</span><span>
+</span><span>    # Check if the file age is &lt; than 24 hours (86400 seconds)
+</span><span>    if [[ $file_age -lt 86400 ]]; then
+</span><span>        echo -e &quot;${bold_cyan}:: ${bold_white}Mirrors &lt; 24 hrs old...${reset}&quot;
+</span><span>
+</span><span>        echo -e &quot;${bold_cyan}:: ${bold_white}Current CachyOS Servers:${reset}&quot;
+</span><span>        cat /etc/pacman.d/cachyos-mirrorlist
+</span><span>
+</span><span>	echo -e &quot;${bold_cyan}:: ${bold_white}Current Arch Servers:${reset}&quot;
+</span><span>        cat /etc/pacman.d/mirrorlist
+</span><span>        run_pacman_syu
+</span><span>    else
+</span><span>        echo -e &quot;${bold_cyan}:: ${bold_white}Mirrors older than 24 hours, updating...${reset}&quot;
+</span><span>        run_rate_mirrors
+</span><span>        run_ghostmirror
+</span><span>        run_pacman_syyu
+</span><span>        run_update_ts
+</span><span>   fi
+</span><span>else
+</span><span>    echo -e &quot;${bold_cyan}:: ${bold_white}Timestamp file does not exist...${reset}&quot;
+</span><span>    run_rate_mirrors
+</span><span>    run_reflector
+</span><span>    run_ghostmirror
+</span><span>    run_pacman_syyu
+</span><span>    run_update_ts
+</span><span>fi
+</span><span>
+</span><span>echo  -e &quot;${bold_cyan}[Done]${reset}&quot;
+</span></code></pre>
+
+        </article>
+        <nav class="post-navigation">
+            <header class="post-navigation-title">
+                <h2>Read More Posts</h2>
+                <hr>
+            </header>
+            <div class="post-navigation-buttons">
+                <a rel="next" href="https://inktheghost.com/blog/automatic-keyboard-backlight/" aria-label="Next article">
+                    <span aria-hidden="true">&lt;&nbsp;[</span>automatic-keyboard-backlight<span aria-hidden="true">]</span>
+                </a>
+                <span aria-hidden="true" role="separator">::</span>
+                <a rel="prev" href="https://inktheghost.com/blog/keyd/" aria-label="Prev article">
+                    <span aria-hidden="true">[</span>keyd<span aria-hidden="true">]&nbsp;&gt;</span>
+                </a>
+            </div>
+        </nav>
+    </main>
+    <footer class="footer">
+        <address class="socials">
+            <ul>
+                <li>
+                    <a class="social-link" rel="me" href="https://defcon.social/@970uts1d3" title="mastodon" aria-label="mastodon">
+                        <svg role="img" aria-label="mastodon icon">
+                            <use aria-hidden="true" href="https://inktheghost.com/images/social_icons/mastodon.svg#icon" />
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </address>
+        <p class="copyright">
+            <span>© <time>2026</time> 970uts1d3</span>
+            <span>Powered by <a href="https://www.getzola.org">Zola</a></span>
+            <span>Theme by <a href="https://eyalkalderon.com">ebkalderon</a></span>
+        </p>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src-attr 'unsafe-inline'">
+
+    
+    <script defer src="http://uma.destratify.pro/script.js" data-website-id="4fcbcec9-bb7c-4697-8a62-20ad992a6092"></script>
+    
+    <title>archive tab for zola | ink the ghost</title>
+
+    <link href="https://defcon.social/@970uts1d3" rel="me">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://inktheghost.com/css/style.css?h=287f84ed6c66dca911c6">
+    <link rel="icon" type="image/png" href="https://inktheghost.com/icons/favicon.png">
+    <link rel="apple-touch-icon" href="https://inktheghost.com/processed_images/favicon.ab2897ee8708a1f8.png">
+    <script src="https://inktheghost.com/js/auto-close-popover-on-resize.js?h=4ef87d6fc7b98b22e044" defer></script>
+    <script src="https://inktheghost.com/js/copy-code-to-clipboard.js?h=b34dc626be3e4c8a0f55" defer></script>
+
+    <link rel="canonical" href="https://inktheghost.com/blog/archive-tab-for-zola/">
+    
+    <meta name="author" content="970uts1d3">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#211f1a">
+    <meta name="color-scheme" content="dark">
+
+    <meta property="og:title" content="archive tab for zola">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://inktheghost.com/blog/archive-tab-for-zola/">
+    <meta property="og:site_name" content="ink the ghost">
+    <meta property="og:updated_time" content="2026-08-29T22:06:35.533780319+00:00">
+    <meta property="article:published_time" content="2026-01-04T00:00:00+00:00">
+    <meta property="article:tag" content="zola">
+    <meta property="article:tag" content="webdev">
+
+</head>
+
+<body class="layout-center" data-theme="terminus">
+    <header class="header">
+        <div class="header-container">
+            <span class="header-logo-container">
+                <a href="https://inktheghost.com">
+                    <span class="logo">ink the ghost</span>
+                </a>
+            </span>
+        </div>
+        <nav class="main-menu" aria-label="Main Menu">
+            <a class="skip-to-content" href="#main">Skip to main content</a>
+            <button class="main-menu-dropdown-button" popovertarget="nav-menu">Menu</button>
+            <ul id="nav-menu" class="main-menu-items" aria-label="Site Navigation" popover>
+                <li><a href="https://inktheghost.com/blog/">blog</a></li>
+                <li><a href="https://inktheghost.com/archive/">archive</a></li>
+                <li><a href="https://inktheghost.com/tags/">tags</a></li>
+                <li><a href="https://inktheghost.com/about/">about</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main id="main">
+        <article class="post content">
+            <header>
+                <h1 class="post-title">
+                    <a href="https://inktheghost.com/blog/archive-tab-for-zola/">archive tab for zola</a>
+                </h1>
+                <ul class="post-meta hidden">
+                    <li title="Published on 2026-01-04"><time datetime="2026-01-04">2026.01.04</time></li>
+                    <li role="separator" aria-hidden="true">::</li>
+                    <li title="274 words"><time datetime="PT2M">2 min</time> read</li>
+                </ul>
+                <div class="post-tags">
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/zola/">zola</a></span>
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/webdev/">webdev</a></span>
+                </div>
+            </header>
+
+<h1 id="archive-tab-for-zola">archive tab for zola</h1>
+<h2 id="10-29">10:29</h2>
+<p>beating my head against the wall for almost 3 hours on this one, so here it goes:</p>
+<p>i was attempting to follow the procedure for adding an archive to the tabs on my homepage for grouping by year in decending order.</p>
+<p>i was following the example by Peter Babic from his page <a href="https://peterbabic.dev/blog/add-archive-into-zola/">https://peterbabic.dev/blog/add-archive-into-zola/</a> the below code is saved as /templates/archive.html</p>
+<p>the code snippet was close:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>{% extends &quot;index.html&quot; %}
+</span><span>
+</span><span>{% block content %}
+</span><span>  {% set section = get_section(path=&quot;blog/_index.md&quot;) %}
+</span><span>  {% for year, posts in section.pages
+</span><span>    | sort(attribute=&quot;date&quot;)
+</span><span>    | reverse
+</span><span>    | group_by(attribute=&quot;year&quot;) %}
+</span><span>  &lt;div class=&quot;archive&quot;&gt;
+</span><span>    &lt;h2&gt;{{ year }}&lt;/h2&gt;
+</span><span>    &lt;ul&gt;
+</span><span>      {% for post in posts %}
+</span><span>      &lt;li&gt;
+</span><span>        &lt;time&gt;{{ post.date | date(format=&quot;%d-%h&quot;) }}&lt;/time&gt;
+</span><span>        &lt;a href=&quot;{{ post.permalink }}&quot;&gt;{{ post.title }}&lt;/a&gt;
+</span><span>      &lt;/li&gt;
+</span><span>      {% endfor %}
+</span><span>    &lt;/ul&gt;
+</span><span>  &lt;/div&gt;
+</span><span>  {% endfor %}
+</span><span>{% endblock content %}
+</span><span>
+</span></code></pre>
+<p>mine kept bonking out even after id sorted out all the other things i needed....and the page would render if i didn't add the <code>{% extends "index.html" %}</code> so i finally realized after some websearching and duck.ai that i needed to find out how the templates were using the code block above.  when i used the complete code, nothing would show besides my main header, tabs and footnotes.</p>
+<p>perhaps a quirk of zola and terminus, i found that if i changed Peter's code, the <code>{% block content %}</code> was the source of my issue.  looking at the /themes/terminus/index.html code the <code>block content</code> i was referring to was called <code>{% block main %}</code>.  makes sense as it was doing the right work, but had no place to put the content.  a quick code change allowed it to populate properly.</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>{% extends &quot;index.html&quot; %}
+</span><span>
+</span><span>{% block main %}
+</span><span>  {% set section = get_section(path=&quot;blog/_index.md&quot;) %}
+</span><span>  {% for year, posts in section.pages
+</span><span>    | sort(attribute=&quot;date&quot;)
+</span><span>    | reverse
+</span><span>    | group_by(attribute=&quot;year&quot;) %}
+</span><span>  &lt;div class=&quot;archive&quot;&gt;
+</span><span>    &lt;h2&gt;{{ year }}&lt;/h2&gt;
+</span><span>    &lt;ul&gt;
+</span><span>      {% for post in posts %}
+</span><span>      &lt;li&gt;
+</span><span>        &lt;time&gt;{{ post.date | date(format=&quot;%d-%h&quot;) }}&lt;/time&gt;
+</span><span>        &lt;a href=&quot;{{ post.permalink }}&quot;&gt;{{ post.title }}&lt;/a&gt;
+</span><span>      &lt;/li&gt;
+</span><span>      {% endfor %}
+</span><span>    &lt;/ul&gt;
+</span><span>  &lt;/div&gt;
+</span><span>  {% endfor %}
+</span><span>{% endblock main %}
+</span><span>
+</span></code></pre>
+<p>the other tidbits that were needed to get this working:</p>
+<p>i had to adjust my main menu section in my config.toml in /:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>#main menu tabs for pages blog, all tags listed in front-matter and about
+</span><span>main_menu = [
+</span><span>    { name = &quot;blog&quot;, url = &quot;blog&quot;, trailing_slash = true },
+</span><span>    { name = &quot;archive&quot;, url = &quot;archive&quot;, trailing_slash = true },
+</span><span>    { name = &quot;tags&quot;, url = &quot;tags&quot;, trailing_slash = true },
+</span><span>    { name = &quot;about&quot;, url = &quot;about&quot;, trailing_slash = true },
+</span><span>]
+</span></code></pre>
+<p>and similar to my tag-listing.md, i had to create a /blog/archive.md file with the following code:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>+++
+</span><span>title = &quot;Archive&quot;
+</span><span>template = &quot;archive.html&quot;
+</span><span>+++
+</span><span>
+</span></code></pre>
+<p>this finally allowed my page to render with 2025 results, as of this post, 2026 should now be visible as well :)</p>
+
+        </article>
+        <nav class="post-navigation">
+            <header class="post-navigation-title">
+                <h2>Read More Posts</h2>
+                <hr>
+            </header>
+            <div class="post-navigation-buttons">
+                <a rel="next" href="https://inktheghost.com/blog/cosmic-desktop/" aria-label="Next article">
+                    <span aria-hidden="true">&lt;&nbsp;[</span>cosmic-desktop<span aria-hidden="true">]</span>
+                </a>
+                <span aria-hidden="true" role="separator">::</span>
+                <a rel="prev" href="https://inktheghost.com/blog/nfspassthrough/" aria-label="Prev article">
+                    <span aria-hidden="true">[</span>NFS pass-through<span aria-hidden="true">]&nbsp;&gt;</span>
+                </a>
+            </div>
+        </nav>
+    </main>
+    <footer class="footer">
+        <address class="socials">
+            <ul>
+                <li>
+                    <a class="social-link" rel="me" href="https://defcon.social/@970uts1d3" title="mastodon" aria-label="mastodon">
+                        <svg role="img" aria-label="mastodon icon">
+                            <use aria-hidden="true" href="https://inktheghost.com/images/social_icons/mastodon.svg#icon" />
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </address>
+        <p class="copyright">
+            <span>© <time>2026</time> 970uts1d3</span>
+            <span>Powered by <a href="https://www.getzola.org">Zola</a></span>
+            <span>Theme by <a href="https://eyalkalderon.com">ebkalderon</a></span>
+        </p>
+    </footer>
+</body>
+
+</html>

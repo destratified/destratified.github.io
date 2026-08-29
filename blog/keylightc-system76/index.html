@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src-attr 'unsafe-inline'">
+
+    
+    <script defer src="http://uma.destratify.pro/script.js" data-website-id="4fcbcec9-bb7c-4697-8a62-20ad992a6092"></script>
+    
+    <title>keylightc - system76 | ink the ghost</title>
+
+    <link href="https://defcon.social/@970uts1d3" rel="me">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://inktheghost.com/css/style.css?h=287f84ed6c66dca911c6">
+    <link rel="icon" type="image/png" href="https://inktheghost.com/icons/favicon.png">
+    <link rel="apple-touch-icon" href="https://inktheghost.com/processed_images/favicon.ab2897ee8708a1f8.png">
+    <script src="https://inktheghost.com/js/auto-close-popover-on-resize.js?h=4ef87d6fc7b98b22e044" defer></script>
+    <script src="https://inktheghost.com/js/copy-code-to-clipboard.js?h=b34dc626be3e4c8a0f55" defer></script>
+
+    <link rel="canonical" href="https://inktheghost.com/blog/keylightc-system76/">
+    
+    <meta name="author" content="970uts1d3">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#211f1a">
+    <meta name="color-scheme" content="dark">
+
+    <meta property="og:title" content="keylightc - system76">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://inktheghost.com/blog/keylightc-system76/">
+    <meta property="og:site_name" content="ink the ghost">
+    <meta property="og:updated_time" content="2026-08-29T22:06:35.535639672+00:00">
+    <meta property="article:published_time" content="2026-04-15T00:00:00+00:00">
+    <meta property="article:tag" content="devops">
+    <meta property="article:tag" content="backlight">
+
+</head>
+
+<body class="layout-center" data-theme="terminus">
+    <header class="header">
+        <div class="header-container">
+            <span class="header-logo-container">
+                <a href="https://inktheghost.com">
+                    <span class="logo">ink the ghost</span>
+                </a>
+            </span>
+        </div>
+        <nav class="main-menu" aria-label="Main Menu">
+            <a class="skip-to-content" href="#main">Skip to main content</a>
+            <button class="main-menu-dropdown-button" popovertarget="nav-menu">Menu</button>
+            <ul id="nav-menu" class="main-menu-items" aria-label="Site Navigation" popover>
+                <li><a href="https://inktheghost.com/blog/">blog</a></li>
+                <li><a href="https://inktheghost.com/archive/">archive</a></li>
+                <li><a href="https://inktheghost.com/tags/">tags</a></li>
+                <li><a href="https://inktheghost.com/about/">about</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main id="main">
+        <article class="post content">
+            <header>
+                <h1 class="post-title">
+                    <a href="https://inktheghost.com/blog/keylightc-system76/">keylightc - system76</a>
+                </h1>
+                <ul class="post-meta hidden">
+                    <li title="Published on 2026-04-15"><time datetime="2026-04-15">2026.04.15</time></li>
+                    <li role="separator" aria-hidden="true">::</li>
+                    <li title="454 words"><time datetime="PT3M">3 min</time> read</li>
+                </ul>
+                <div class="post-tags">
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/devops/">devops</a></span>
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/backlight/">backlight</a></span>
+                </div>
+            </header>
+
+<h1 id="keylightc-system76">keylightc - system76</h1>
+<h2 id="14-13">14:13</h2>
+<p>so one thing that i missed after leaving systemd behind with my debian-openRC build was the keyboard backlight app that i was using, and it worked really well. i hadn't really looked into what it would take to get this going (since it had just worked), so i went down the rabbit hole again.</p>
+<p>my internet searches came up with alot of nothing, very few openrc iterations, so i started looking for platform independent versions, and most of them were an iteration of c, or python.  eventually found a c program that handled input devices in a way that i thought was similar to mine, and so i forked Michael Marleys repo @ <a href="https://gitlab.com/mamarley/keylightc.git">https://gitlab.com/mamarley/keylightc.git</a></p>
+<p>this looked promising because it was built for a modern framework laptop and my system76 is also opensource, and in checking the keylightc.c file, i was hoping that would be all i had to do...but nah, that didn't work at all.</p>
+<p>for the record, i thought all i was going to have to change were the two lines referring to the keyboard and touchpads events and then the file that is used to change the brightness (learned that its talking directly with the kernel).</p>
+<p>my two devices are:
+keyd virtual keyboard
+ELAN0412:00 04F3:311D Touchpad</p>
+<p>and the brightness level path is: /sys/class/leds/system76_acpi::kbd_backlight/brightness</p>
+<p>it took a little bit of digging for the inputs, but i eventually found the easiest way was to install evtest and run <code>sudo evtest</code> and it would print out all the event devices and then you could select one and test for proper output so you would know for sure. i recommend that as the easiest method, theres also libinput and a few others...</p>
+<p>the brightness path i sorted out with the brightnessctl program, you can install that and it will give you the various devices and output paths that work on your system. this gives you video and many more, but the key is the backlight. you can set the backlight directly with the command which is what the c program is doing.</p>
+<p>there's also a fade function in the keylightc program that i wasn't sure was gunna work, so i pulled out all of the references, built the keylightc file with make and began testing it. <code>sudo ./keylightc</code> - no joy.</p>
+<p>welp, i guess i don't know enough about c to get this working, so i piped the code into duck.ai</p>
+<p>this is still a work in progress, but now im on the gentoo, you too, do you gentoo...so looking at another application for the backlight. will see if it works or if i go back to fixing the keylightc app</p>
+
+        </article>
+        <nav class="post-navigation">
+            <header class="post-navigation-title">
+                <h2>Read More Posts</h2>
+                <hr>
+            </header>
+            <div class="post-navigation-buttons">
+                <a rel="next" href="https://inktheghost.com/blog/openrc-remote-server/" aria-label="Next article">
+                    <span aria-hidden="true">&lt;&nbsp;[</span>openrc - remote server<span aria-hidden="true">]</span>
+                </a>
+                <span aria-hidden="true" role="separator">::</span>
+                <a rel="prev" href="https://inktheghost.com/blog/debian-openrc/" aria-label="Prev article">
+                    <span aria-hidden="true">[</span>debian - OpenRC<span aria-hidden="true">]&nbsp;&gt;</span>
+                </a>
+            </div>
+        </nav>
+    </main>
+    <footer class="footer">
+        <address class="socials">
+            <ul>
+                <li>
+                    <a class="social-link" rel="me" href="https://defcon.social/@970uts1d3" title="mastodon" aria-label="mastodon">
+                        <svg role="img" aria-label="mastodon icon">
+                            <use aria-hidden="true" href="https://inktheghost.com/images/social_icons/mastodon.svg#icon" />
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </address>
+        <p class="copyright">
+            <span>© <time>2026</time> 970uts1d3</span>
+            <span>Powered by <a href="https://www.getzola.org">Zola</a></span>
+            <span>Theme by <a href="https://eyalkalderon.com">ebkalderon</a></span>
+        </p>
+    </footer>
+</body>
+
+</html>

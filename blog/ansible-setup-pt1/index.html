@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src-attr 'unsafe-inline'">
+
+    
+    <script defer src="http://uma.destratify.pro/script.js" data-website-id="4fcbcec9-bb7c-4697-8a62-20ad992a6092"></script>
+    
+    <title>ansible playbooks for proxmox host - pt.1 | ink the ghost</title>
+
+    <link href="https://defcon.social/@970uts1d3" rel="me">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://inktheghost.com/css/style.css?h=287f84ed6c66dca911c6">
+    <link rel="icon" type="image/png" href="https://inktheghost.com/icons/favicon.png">
+    <link rel="apple-touch-icon" href="https://inktheghost.com/processed_images/favicon.ab2897ee8708a1f8.png">
+    <script src="https://inktheghost.com/js/auto-close-popover-on-resize.js?h=4ef87d6fc7b98b22e044" defer></script>
+    <script src="https://inktheghost.com/js/copy-code-to-clipboard.js?h=b34dc626be3e4c8a0f55" defer></script>
+
+    <link rel="canonical" href="https://inktheghost.com/blog/ansible-setup-pt1/">
+    
+    <meta name="author" content="970uts1d3">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#211f1a">
+    <meta name="color-scheme" content="dark">
+
+    <meta property="og:title" content="ansible playbooks for proxmox host - pt.1">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://inktheghost.com/blog/ansible-setup-pt1/">
+    <meta property="og:site_name" content="ink the ghost">
+    <meta property="og:updated_time" content="2026-08-29T22:06:35.533769412+00:00">
+    <meta property="article:published_time" content="2025-10-31T00:00:00+00:00">
+    <meta property="article:tag" content="ansible">
+    <meta property="article:tag" content="backup">
+    <meta property="article:tag" content="proxmox">
+
+</head>
+
+<body class="layout-center" data-theme="terminus">
+    <header class="header">
+        <div class="header-container">
+            <span class="header-logo-container">
+                <a href="https://inktheghost.com">
+                    <span class="logo">ink the ghost</span>
+                </a>
+            </span>
+        </div>
+        <nav class="main-menu" aria-label="Main Menu">
+            <a class="skip-to-content" href="#main">Skip to main content</a>
+            <button class="main-menu-dropdown-button" popovertarget="nav-menu">Menu</button>
+            <ul id="nav-menu" class="main-menu-items" aria-label="Site Navigation" popover>
+                <li><a href="https://inktheghost.com/blog/">blog</a></li>
+                <li><a href="https://inktheghost.com/archive/">archive</a></li>
+                <li><a href="https://inktheghost.com/tags/">tags</a></li>
+                <li><a href="https://inktheghost.com/about/">about</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main id="main">
+        <article class="post content">
+            <header>
+                <h1 class="post-title">
+                    <a href="https://inktheghost.com/blog/ansible-setup-pt1/">ansible playbooks for proxmox host - pt.1</a>
+                </h1>
+                <ul class="post-meta hidden">
+                    <li title="Published on 2025-10-31"><time datetime="2025-10-31">2025.10.31</time></li>
+                    <li role="separator" aria-hidden="true">::</li>
+                    <li title="1342 words"><time datetime="PT7M">7 min</time> read</li>
+                </ul>
+                <div class="post-tags">
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/ansible/">ansible</a></span>
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/backup/">backup</a></span>
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/proxmox/">proxmox</a></span>
+                </div>
+            </header>
+
+<p>goals:</p>
+<ol>
+<li>setup ansible in lxc on proxmox</li>
+<li>figure out how the fuck to use it!</li>
+<li>work backwards and forwards and back again on setup of folder heirarchy</li>
+<li>make folders into a git repo (gitea for me)</li>
+<li>sync everything</li>
+<li>nano hosts file, ansible.cfg</li>
+<li>build out playbooks for each system [arch], [ubuntu] and [PVE,PVB], figure out ssh, and ssh-copy-id, sshd_config and what the fuck works for passwords and not - still stuck with a password in the ansible.cfg</li>
+<li>make a comprehensive update-all.yml playbook for a cron job</li>
+<li>do a buncha bit work putting all the sshd_configs back to #PermitRootLogin password_disabled - maybe I can write a playbook for that!</li>
+</ol>
+<h1 id="so-here-it-goes">so here it goes:</h1>
+<p>the ansible lxc creation was probably the easiest of all these things to do.  i setup a new lxc container with the usual specs:</p>
+<p>Deb13, 2gb RAM, 8GB disk, network etc...this can be really much smaller than i went with</p>
+<p>boot into LXC login with root and:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>apt update &amp;&amp; apt upgrade &amp;&amp; apt install curl wget ansible sudo 
+</span></code></pre>
+<p>most of these will already be installed, but its good to check, with ansible installed, now i had to figure out how to use it.
+ansible will run from any folder, so its up to you how to configure your folder structure and where.  i went with a new ansible folder off of root:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>mkdir -p /ansible /ansible/playbooks /ansible/inventory /ansible/roles
+</span><span>chmod 775 -R /ansible
+</span><span>touch /ansible/inventory/hosts
+</span><span>touch /ansible/ansible.cfg
+</span><span>touch /roles/roles.txt
+</span><span>touch /ansible/playbooks/playbook.yml
+</span></code></pre>
+<p>this was a basic folder structure i found on the internet, and is probably fine for most applications, some others have set this up for projects using /ansible/&lt;project_name&gt;/playbooks etc, i just needed it for writing playbooks for my proxmox host, so a single dir is fine
+with the basic folder structure in place, i wanted to get that structure and files all synced with a gitea repo.
+for me, i created a new private ansible repo on gitea, with a readme and nothing else, then followed the instructions to add files/folders and sync remotely with a previous gitea token, results will vary, but it looked something like this:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>git init
+</span><span>git checkout -b main
+</span><span>git add .
+</span><span>git commit -m &quot;first commit&quot;
+</span><span>git remote add origin https://gitea.destratify.pro/joe/test.git
+</span><span>git push -u origin main
+</span></code></pre>
+<p>then you can check gitea or github, and verify that the folder structure is all there.  above we added some files with touch to basically become placeholders as the folders wont import unless the directorys have content of some sort.</p>
+<p>so at this point, we have ansible, we have have a directory synced with git (i use a bash script to update all my gitea folders every 8 hrs JIC) but for now we can start building content in those folders.</p>
+<h1 id="building-out-ansible-folders-files">building out ansible folders/files</h1>
+<p>so the first things to do are to create a hosts file.  we have a placeholder so you can just nano into that from the /ansible folder
+nano /ansible/inverntory/hosts
+this can follow either ini syntax or yaml...i went with ini, as it was the format i was borrowing from some guide i can't find again.  here's what mine looks like:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>#hosts file
+</span><span>
+</span><span>[ubuntu]
+</span><span>192.168.50.70
+</span><span>192.168.50.75
+</span><span>192.168.50.8
+</span><span>192.168.50.73
+</span><span>192.168.50.205
+</span><span>192.168.50.14
+</span><span>192.168.50.201
+</span><span>192.168.50.20
+</span><span>192.168.50.30
+</span><span>192.168.50.13
+</span><span>192.168.50.206
+</span><span>192.168.50.74
+</span><span>192.168.50.55
+</span><span>
+</span><span>[arch]
+</span><span>192.168.50.16
+</span><span>192.168.50.210
+</span><span>
+</span><span>[pve]
+</span><span>192.168.50.2
+</span><span>
+</span><span>[pvb]
+</span><span>192.168.50.3
+</span><span>
+</span></code></pre>
+<p>this is how i decided to break it up...now is it the right way? dunno.  serves my purpose.  the reasoning behind it is this: i need to update my lxc and vm based on their systemOS, and I have ubuntu/deb, arch and my pve (host),and pvb backup that I want to be able to do individually, or as a whole group.
+to be able to talk to them we need to setup ssh-copy-id for each IP and set root login.  what a pain in the ass that is, has to be a way to do that with ansible too, but lets not get ahead of ourselves.
+from my host gui, enter console the console using root login.  edit the /etc/ssh/sshd_config
+find the commented line, #PermitRootLogin and uncomment and change to yes
+save and exit and reboot - i had some problems getting it to work sometimes with a systemctl deamon-reload and systemctl restart sshd so it was just easier to reboot as i went.
+next setup a key on the ansible machine.</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>ssh-keygen -t rsa -b 4096
+</span></code></pre>
+<p>be mindful if you are logged in as something else besides root, i found you just need to be consistent as the dir it gets saved in is the home ~ for the logged in user.  and once that key  is saved you can use ssh-copy-id in the following format:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>ssh-copy-id root@192.168.50.5 
+</span></code></pre>
+<p>this will ask to accept fingerprint, say yes. the password (root user pass in my case) is needed for the machine you are ssh-ing into, after that it should so you the key was added and try logging in....now do that like 17 times ;)</p>
+<p>after all that you should be able to use the hosts file to talk to all the machines that you wanna update/upgrade.</p>
+<p>next is the ansible.cfg file, here's mine:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>#ansible config file
+</span><span>[defaults]
+</span><span>inventory = ./inventory
+</span><span>
+</span><span>[privilege_escalation]
+</span><span>become = True
+</span><span>become_method = sudo
+</span><span>become_user = root
+</span><span>become_user_file = ./password.txt
+</span><span>
+</span></code></pre>
+<p>here's pretty simple....
+in ini format again, under defaults, set your inventory directory so ansible knows where to find the hosts file.
+the rest is pretty obvious - become root, using sudo after sshing into the machine.
+i store my password in a chmod 600 password.txt file in my ansible folder, could be anywhere, really. and while troubleshooting and setting this up i had my root password in plaintext here, cause who gives a fuck.</p>
+<h1 id="playbooks">playbooks</h1>
+<p>now here's the meat and potatoes.  had lotsa ssh issues, troubleshooting was tedious, but after all that i got it sorted and borrowed a playbook from
+https://www.jacob-swanson.com/posts/automating-proxmox-maintenance-with-ansible/
+with a simple command to test connections to all lxcx vms etc in the host file.</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>- name: Ping
+</span><span>  hosts: all
+</span><span>  tasks:
+</span><span>    - name: Ping
+</span><span>      ansible.builtin.ping:
+</span></code></pre>
+<p>for me this was saved as ping.yml in the /ansible/playbooks dir
+execute it with the following command</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>ansible-playbook playbooks/ping.yaml
+</span></code></pre>
+<p>now why did i break my hosts file up with [ubuntu][arch][pve][pvb]?
+so that when i built out the following playbooks i could run individual playbooks for ubuntu arch etc, with different layouts (pacman vs apt) and then have a unified playbook that would call them all: update-all</p>
+<p>heres the playbooks i have:
+update-ubuntu.yml</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>#update ubuntu lxc, vms
+</span><span>---
+</span><span>- hosts: [ubuntu]
+</span><span>  remote_user: root
+</span><span>  name: update apt
+</span><span>  #serial: 1
+</span><span>
+</span><span>  tasks:
+</span><span>  - name: apt update
+</span><span>    apt:
+</span><span>      update_cache: yes
+</span><span>      force_apt_get: yes
+</span><span>      cache_valid_time: 3600
+</span><span>
+</span><span>  - name: apt dist-upgrade
+</span><span>    apt:
+</span><span>      upgrade: dist
+</span><span>
+</span><span>  - name: remove old packages and clean cache
+</span><span>    apt:
+</span><span>      autoremove: yes
+</span><span>      autoclean: yes
+</span><span>      clean: yes
+</span><span>
+</span><span>  - name: Check if reboot is needed
+</span><span>    stat:
+</span><span>      path: /var/run/reboot-required
+</span><span>    register: reboot_required
+</span><span>  - name: Check if reboot is needed
+</span><span>    stat:
+</span><span>      path: /var/run/reboot-required
+</span><span>    register: reboot_required
+</span><span>
+</span><span>  - name: End playbook if no reboot is required
+</span><span>    meta: end_host
+</span><span>    when: not reboot_required.stat.exists
+</span><span>
+</span><span>  - name: Reboot the system
+</span><span>    reboot:
+</span><span>      msg: &quot;Reboot initiated by Ansible due to system updates&quot;
+</span><span>      pre_reboot_delay: 3600
+</span><span>      post_reboot_delay: 300
+</span><span>      reboot_timeout: 5400
+</span><span>    when: reboot_required.stat.exists   
+</span></code></pre>
+<p>nothing too crazy here.  i have serial: 1 commented out, if you uncomment that, it will step through each IP one-at-a-time.  you should be using dist-upgrade for these, and especially the host and pvb.</p>
+<p>update-arch.yml</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>#update arch
+</span><span>---
+</span><span>- hosts: [arch]
+</span><span>  remote_user: root
+</span><span>  tasks:
+</span><span>    - name: Full system upgrade
+</span><span>      community.general.pacman:
+</span><span>        update_cache: true
+</span><span>        upgrade: true
+</span><span>
+</span></code></pre>
+<p>nothing unusual here</p>
+<p>update-pvs.yml</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>#update pve,pvb
+</span><span>---
+</span><span>- hosts: [pvb, pve]
+</span><span>  remote_user: root
+</span><span>  name: update apt
+</span><span>  serial: 1
+</span><span>
+</span><span>  tasks:
+</span><span>  - name: apt update
+</span><span>    apt:
+</span><span>      update_cache: yes
+</span><span>      force_apt_get: yes
+</span><span>      cache_valid_time: 3600
+</span><span>
+</span><span>  - name: apt dist-upgrade
+</span><span>    apt:
+</span><span>      upgrade: dist
+</span><span>
+</span><span>  - name: remove old packages and clean cache
+</span><span>    apt:
+</span><span>      autoremove: yes
+</span><span>      autoclean: yes
+</span><span>      clean: yes
+</span><span>
+</span><span>  - name: Check if reboot is needed
+</span><span>    stat:
+</span><span>      path: /var/run/reboot-required
+</span><span>    register: reboot_required
+</span><span>
+</span><span>  - name: End playbook if no reboot is required
+</span><span>    meta: end_host
+</span><span>    when: not reboot_required.stat.exists
+</span><span>  - name: Reboot the system
+</span><span>    reboot:
+</span><span>      msg: &quot;Reboot initiated by Ansible due to system updates&quot;
+</span><span>      pre_reboot_delay: 3600
+</span><span>      post_reboot_delay: 300
+</span><span>      reboot_timeout: 5400
+</span><span>    when: reboot_required.stat.exists   
+</span><span>
+</span></code></pre>
+<p>here serial: 1 is un-commented to step through each proxmox server individually.
+since my ansible instance is on proxmox, if its kernal is updated, the host will reboot and kill the ansible program.  this doesnt happen often - last time my uptime was 59 days.  you could just reboot ita nd run it again. however, i placed the pvb first in the hosts: [pvb][pve] so that does the proxmox host last, so everything is completed before a reboot JIC</p>
+<p>update-all.yml</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>#update whole shebang
+</span><span>---
+</span><span>- import_playbook: update-ubuntu.yml
+</span><span>- import_playbook: update-arch.yml
+</span><span>- import_playbook: update-pvs.yml
+</span><span>
+</span></code></pre>
+<p>here we are using the import function, pulling all other playbooks in, and running in the sequence of line items.</p>
+<h1 id="just-for-funsies">just for funsies</h1>
+<p>literally ran across the "just" program googling ansible playbooks.  its a pretty nifty program.  it allows you to command run things in the justfile you create and simplifies the commands from the ansible-playbook ... execution.<br />
+install just
+apt update &amp;&amp; apt install just
+then make a justfile, mine lives in the /ansible directory
+nano justfile
+here's how mine looks:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span># Show help
+</span><span>help:
+</span><span>    @just --list --unsorted
+</span><span>
+</span><span># Ping all hosts
+</span><span>ping:
+</span><span>    ansible-playbook playbooks/ping.yml
+</span><span>
+</span><span># Update all 
+</span><span>update-all:
+</span><span>    ansible-playbook playbooks/update-all.yml
+</span><span>
+</span><span># Arch Updates
+</span><span>update-arch:
+</span><span>    ansible-playbook playbooks/update-arch.yml
+</span><span>
+</span><span># Ubuntu Updates
+</span><span>update-ubuntu:
+</span><span>    ansible-playbook playbooks/update-ubuntu.yml
+</span><span>
+</span><span># Server (host) Updates
+</span><span>update-pvs:
+</span><span>    ansible-playbook playbooks/update-pvs.yml
+</span></code></pre>
+<p>you can see here i stuck all of my playbook commands in here, they are all broken up by some command name.<br />
+so the sweet thing is that to execute that playbook, you can type "just" and whatever's designated in that file.
+just update-all
+just ping
+just update-ubuntu
+etc, etc, etc...
+now the really cool thing is that you can use this "just" command runner anywhere.  so if you have git directories you wanna update automagically you can just drop a justfile in there with a git fetch section, git pull, git push etc.  and execute that instead of going through each dir.  the possibilities are endless!</p>
+<p>so what's next?  im working on the proxmoxer and API calls for my proxmox host, to use with ansible so i can create vms, or lxcs with ansible commands etc.  to be continued.... -</p>
+
+        </article>
+        <nav class="post-navigation">
+            <header class="post-navigation-title">
+                <h2>Read More Posts</h2>
+                <hr>
+            </header>
+            <div class="post-navigation-buttons">
+                <a rel="next" href="https://inktheghost.com/blog/forgejo-migrations/" aria-label="Next article">
+                    <span aria-hidden="true">&lt;&nbsp;[</span>forgejo migrations<span aria-hidden="true">]</span>
+                </a>
+                <span aria-hidden="true" role="separator">::</span>
+                <a rel="prev" href="https://inktheghost.com/blog/obsidian-setup-pt3/" aria-label="Prev article">
+                    <span aria-hidden="true">[</span>obsidian git repo sync android app<span aria-hidden="true">]&nbsp;&gt;</span>
+                </a>
+            </div>
+        </nav>
+    </main>
+    <footer class="footer">
+        <address class="socials">
+            <ul>
+                <li>
+                    <a class="social-link" rel="me" href="https://defcon.social/@970uts1d3" title="mastodon" aria-label="mastodon">
+                        <svg role="img" aria-label="mastodon icon">
+                            <use aria-hidden="true" href="https://inktheghost.com/images/social_icons/mastodon.svg#icon" />
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </address>
+        <p class="copyright">
+            <span>© <time>2026</time> 970uts1d3</span>
+            <span>Powered by <a href="https://www.getzola.org">Zola</a></span>
+            <span>Theme by <a href="https://eyalkalderon.com">ebkalderon</a></span>
+        </p>
+    </footer>
+</body>
+
+</html>

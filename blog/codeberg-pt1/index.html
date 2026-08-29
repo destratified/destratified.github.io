@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src-attr 'unsafe-inline'">
+
+    
+    <script defer src="http://uma.destratify.pro/script.js" data-website-id="4fcbcec9-bb7c-4697-8a62-20ad992a6092"></script>
+    
+    <title>codeberg pt1 | ink the ghost</title>
+
+    <link href="https://defcon.social/@970uts1d3" rel="me">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://inktheghost.com/css/style.css?h=287f84ed6c66dca911c6">
+    <link rel="icon" type="image/png" href="https://inktheghost.com/icons/favicon.png">
+    <link rel="apple-touch-icon" href="https://inktheghost.com/processed_images/favicon.ab2897ee8708a1f8.png">
+    <script src="https://inktheghost.com/js/auto-close-popover-on-resize.js?h=4ef87d6fc7b98b22e044" defer></script>
+    <script src="https://inktheghost.com/js/copy-code-to-clipboard.js?h=b34dc626be3e4c8a0f55" defer></script>
+
+    <link rel="canonical" href="https://inktheghost.com/blog/codeberg-pt1/">
+    
+    <meta name="author" content="970uts1d3">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#211f1a">
+    <meta name="color-scheme" content="dark">
+
+    <meta property="og:title" content="codeberg pt1">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://inktheghost.com/blog/codeberg-pt1/">
+    <meta property="og:site_name" content="ink the ghost">
+    <meta property="og:updated_time" content="2026-08-29T22:06:35.532174730+00:00">
+    <meta property="article:published_time" content="2025-12-01T00:00:00+00:00">
+    <meta property="article:tag" content="codeberg">
+    <meta property="article:tag" content="proxmox">
+
+</head>
+
+<body class="layout-center" data-theme="terminus">
+    <header class="header">
+        <div class="header-container">
+            <span class="header-logo-container">
+                <a href="https://inktheghost.com">
+                    <span class="logo">ink the ghost</span>
+                </a>
+            </span>
+        </div>
+        <nav class="main-menu" aria-label="Main Menu">
+            <a class="skip-to-content" href="#main">Skip to main content</a>
+            <button class="main-menu-dropdown-button" popovertarget="nav-menu">Menu</button>
+            <ul id="nav-menu" class="main-menu-items" aria-label="Site Navigation" popover>
+                <li><a href="https://inktheghost.com/blog/">blog</a></li>
+                <li><a href="https://inktheghost.com/archive/">archive</a></li>
+                <li><a href="https://inktheghost.com/tags/">tags</a></li>
+                <li><a href="https://inktheghost.com/about/">about</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main id="main">
+        <article class="post content">
+            <header>
+                <h1 class="post-title">
+                    <a href="https://inktheghost.com/blog/codeberg-pt1/">codeberg pt1</a>
+                </h1>
+                <ul class="post-meta hidden">
+                    <li title="Published on 2025-12-01"><time datetime="2025-12-01">2025.12.01</time></li>
+                    <li role="separator" aria-hidden="true">::</li>
+                    <li title="373 words"><time datetime="PT2M">2 min</time> read</li>
+                </ul>
+                <div class="post-tags">
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/codeberg/">codeberg</a></span>
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/proxmox/">proxmox</a></span>
+                </div>
+            </header>
+
+<h1 id="eliminating-github">eliminating github</h1>
+<p>so i moved all my githhub repos (which were really backups of my forgejo repos - in case the SHTF) to codeberg and setup the mirrors from forgejo like i had with github, just to the codeberg repos instead.  with that done  I only have 2 things happening on Github rn:</p>
+<ol>
+<li>adding and pushing .md files to blog repo updates my blog on wordpress - looking to move that to codeberg pages or something else.</li>
+<li>logging into tailscale using my same github account - i dont have a great workaround for this, but its just for  authenticating.
+so with all repos moved to codeberg including a new mirror, im exploring now how to use the repos directly to create/host my webpage and thus get rid of one of my containerized instances (wordpress) and getting it off my server.
+since i'm already using forgejo, this seems like it should be logically easy.  lets see.
+current flow should be</li>
+</ol>
+<ul>
+<li>create md file on laptop in obsidian that updates and pushed file to forgejo instance</li>
+<li>forgejo repo is private and has a mirror setup to update on commits to codeberg repo</li>
+<li>codeberg blog repo updates and webpage updates showing new md file as new blog post
+simple right? well, upon inspection it looks like i need woodpecker or zola, maybe both and the codeberg pages instance (perhaps) to get this all done, maybe there's another option im missing?
+i feel like the wordpress install was messy and is harder to maintain AND update, so simplification would be great there.  anyways, maybe we will call this part 1 and do some research...rn this is to check if all my mirror syncs are working and updating the existing website while i figure out how to do all of this another way! lets see...still having issues with timeouts, ill have to get into debugging, but it looks like there's an issue with webpage serving.  i might try a fail2ban as well
+looking at how to set that up exactly, but after an update, i've had 12 hrs no downtime so so far so good.  seems like connection issues sending updates on commits to mirrors.  maybe an action would be a preferred method for instant updating?</li>
+</ul>
+
+        </article>
+        <nav class="post-navigation">
+            <header class="post-navigation-title">
+                <h2>Read More Posts</h2>
+                <hr>
+            </header>
+            <div class="post-navigation-buttons">
+                <a rel="next" href="https://inktheghost.com/blog/zola/" aria-label="Next article">
+                    <span aria-hidden="true">&lt;&nbsp;[</span>zola<span aria-hidden="true">]</span>
+                </a>
+                <span aria-hidden="true" role="separator">::</span>
+                <a rel="prev" href="https://inktheghost.com/blog/forgejo-migrations/" aria-label="Prev article">
+                    <span aria-hidden="true">[</span>forgejo migrations<span aria-hidden="true">]&nbsp;&gt;</span>
+                </a>
+            </div>
+        </nav>
+    </main>
+    <footer class="footer">
+        <address class="socials">
+            <ul>
+                <li>
+                    <a class="social-link" rel="me" href="https://defcon.social/@970uts1d3" title="mastodon" aria-label="mastodon">
+                        <svg role="img" aria-label="mastodon icon">
+                            <use aria-hidden="true" href="https://inktheghost.com/images/social_icons/mastodon.svg#icon" />
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </address>
+        <p class="copyright">
+            <span>© <time>2026</time> 970uts1d3</span>
+            <span>Powered by <a href="https://www.getzola.org">Zola</a></span>
+            <span>Theme by <a href="https://eyalkalderon.com">ebkalderon</a></span>
+        </p>
+    </footer>
+</body>
+
+</html>

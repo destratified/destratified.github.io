@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src-attr 'unsafe-inline'">
+
+    
+    <script defer src="http://uma.destratify.pro/script.js" data-website-id="4fcbcec9-bb7c-4697-8a62-20ad992a6092"></script>
+    
+    <title>zola_pt2 | ink the ghost</title>
+
+    <link href="https://defcon.social/@970uts1d3" rel="me">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://inktheghost.com/css/style.css?h=287f84ed6c66dca911c6">
+    <link rel="icon" type="image/png" href="https://inktheghost.com/icons/favicon.png">
+    <link rel="apple-touch-icon" href="https://inktheghost.com/processed_images/favicon.ab2897ee8708a1f8.png">
+    <script src="https://inktheghost.com/js/auto-close-popover-on-resize.js?h=4ef87d6fc7b98b22e044" defer></script>
+    <script src="https://inktheghost.com/js/copy-code-to-clipboard.js?h=b34dc626be3e4c8a0f55" defer></script>
+
+    <link rel="canonical" href="https://inktheghost.com/blog/zola-pt2/">
+    
+    <meta name="author" content="970uts1d3">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#211f1a">
+    <meta name="color-scheme" content="dark">
+
+    <meta property="og:title" content="zola_pt2">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://inktheghost.com/blog/zola-pt2/">
+    <meta property="og:site_name" content="ink the ghost">
+    <meta property="og:updated_time" content="2026-08-29T22:06:35.538698949+00:00">
+    <meta property="article:published_time" content="2025-12-17T00:00:00+00:00">
+    <meta property="article:tag" content="zola">
+    <meta property="article:tag" content="webdev">
+
+</head>
+
+<body class="layout-center" data-theme="terminus">
+    <header class="header">
+        <div class="header-container">
+            <span class="header-logo-container">
+                <a href="https://inktheghost.com">
+                    <span class="logo">ink the ghost</span>
+                </a>
+            </span>
+        </div>
+        <nav class="main-menu" aria-label="Main Menu">
+            <a class="skip-to-content" href="#main">Skip to main content</a>
+            <button class="main-menu-dropdown-button" popovertarget="nav-menu">Menu</button>
+            <ul id="nav-menu" class="main-menu-items" aria-label="Site Navigation" popover>
+                <li><a href="https://inktheghost.com/blog/">blog</a></li>
+                <li><a href="https://inktheghost.com/archive/">archive</a></li>
+                <li><a href="https://inktheghost.com/tags/">tags</a></li>
+                <li><a href="https://inktheghost.com/about/">about</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main id="main">
+        <article class="post content">
+            <header>
+                <h1 class="post-title">
+                    <a href="https://inktheghost.com/blog/zola-pt2/">zola_pt2</a>
+                </h1>
+                <ul class="post-meta hidden">
+                    <li title="Published on 2025-12-17"><time datetime="2025-12-17">2025.12.17</time></li>
+                    <li role="separator" aria-hidden="true">::</li>
+                    <li title="537 words"><time datetime="PT3M">3 min</time> read</li>
+                </ul>
+                <div class="post-tags">
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/zola/">zola</a></span>
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/webdev/">webdev</a></span>
+                </div>
+            </header>
+
+<h1 id="zola-pt2">zola_pt2</h1>
+<p>the next step i was having a hard time finding out how to do, so i went to the creator of the  themes github...</p>
+<p><a href="https://github.com/ebkalderon/terminus/blob/main/config.toml">https://github.com/ebkalderon/terminus/blob/main/config.toml</a></p>
+<p>there, i took a peak at their config.toml and was able to discern that the  menu needed added to the <code>extra</code> section.  this was the code block i needed:</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span>[extra]
+</span><span>close_responsive_menu_on_resize = true
+</span><span>copy_button = true
+</span><span>favicon_emoji = &quot;👨‍💻&quot;
+</span><span>fediverse_creator = &quot;@ebkalderon@hachyderm.io&quot;
+</span><span>layout = &quot;center&quot;
+</span><span>show_default_author = false
+</span><span>
+</span><span>main_menu = [
+</span><span>    { name = &quot;blog&quot;, url = &quot;blog&quot;, trailing_slash = true },
+</span><span>    { name = &quot;archive&quot;, url = &quot;archive&quot;, trailing_slash = true },
+</span><span>    { name = &quot;tags&quot;, url = &quot;tags&quot;, trailing_slash = true },
+</span><span>    { name = &quot;projects&quot;, url = &quot;projects&quot;, trailing_slash = true },
+</span><span>    { name = &quot;github&quot;, url = &quot;https://github.com/ebkalderon/terminus&quot;, new_tab = true },
+</span><span>]
+</span></code></pre>
+<p>i pruned that down, so i could test things one at a time</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span>[extra]
+</span><span># Put all your custom variables here
+</span><span>
+</span><span>
+</span><span>main_menu = [
+</span><span>    { name = &quot;blog&quot;, url = &quot;blog&quot;, trailing_slash = true },
+</span><span>    { name = &quot;tags&quot;, url = &quot;tags&quot;, trailing_slash = true },
+</span><span>    { name = &quot;about&quot;, url = &quot;about&quot;, trailing_slash = true },
+</span><span>
+</span><span>
+</span></code></pre>
+<p>so far working great...i have the tags to figure out yet, but the blog and about work fine...</p>
+<h1 id="tags-in-zola-website">tags in zola website</h1>
+<p>the next thing i wanted to do was two-fold...</p>
+<ul>
+<li>insert tags into front-matter in notes</li>
+<li>build a template in obsidian for duplication</li>
+</ul>
+<p>so first things first...
+tags get added by the creation of :</p>
+<ul>
+<li>tags.html</li>
+<li>tags-listing.md</li>
+<li>modification of the config.toml @ root</li>
+<li>adding tags to your front-matter in your <code>.md</code> files</li>
+</ul>
+<p>the tags.html file is located in the templates folder.  i used nano and added the following code:</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span>{% extends &quot;base.html&quot; %}
+</span><span>{% block content %}
+</span><span>&lt;header&gt;
+</span><span>    &lt;h2&gt;Tags&lt;/h2&gt;
+</span><span>&lt;/header&gt;
+</span><span>{% set blogtags = get_taxonomy(kind=&quot;tags&quot;) %}
+</span><span>{% for tag in blogtags.items %}
+</span><span>    &lt;h3 id=&quot;{{ tag.name | slugify }}&quot;&gt;{{ tag.name }}&lt;/h3&gt;
+</span><span>    &lt;ul&gt;
+</span><span>        {% for post in tag.pages %}
+</span><span>            &lt;li&gt;
+</span><span>                &lt;time datetime=&quot;{{ post.date }}&quot;&gt;{{ post.date }}&lt;/time&gt; –
+</span><span>                &lt;a href=&quot;{{ post.permalink | safe }}&quot;&gt;{{ post.title }}&lt;/a&gt;
+</span><span>            &lt;/li&gt;
+</span><span>        {% endfor %}
+</span><span>    &lt;/ul&gt;
+</span><span>{% endfor %}
+</span><span>{% endblock content %}
+</span><span>
+</span></code></pre>
+<p>this allows the tags page to get build using the slugs that you will add in your front matter.  next create a file called <code>tag-listing.md</code> in the root of your posts section, mine is /blog.  it should be pretty simple</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span>+++
+</span><span>title = &quot;Tags&quot;
+</span><span>template = &quot;tags.html&quot;
+</span><span>+++   
+</span><span>
+</span></code></pre>
+<p>this is only a file containing front-matter that the tags tab in the menus created in the config.toml file we did in pt2.</p>
+<p>we also want to modify the config.toml file at root to enable the taxonomies we want to use in the front-matter notes of the posts</p>
+<p>this is under the initial part of the file, not under a section as show below:</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span>theme = &quot;terminus&quot;
+</span><span>title = &quot;ink the ghost&quot;
+</span><span>
+</span><span># Whether to automatically compile all Sass files in the sass directory
+</span><span>compile_sass = true
+</span><span>
+</span><span># Whether to build a search index to be used later on by a JavaScript library
+</span><span>build_search_index = true
+</span><span>
+</span><span>taxonomies = [
+</span><span>    { name = &quot;tags&quot;, feed = true },
+</span><span>    { name = &quot;categories&quot;, feed = true, paginate_by = 5 },
+</span><span>]
+</span><span>
+</span></code></pre>
+<p>since i don't know what i'm really doing i used only the tags and categories from the example i'm following in zola_pt2 seemed to be all i needed.</p>
+<p>now the last bit is adding the front-matter to your blog posts.  for each post you would like to categorize, you will want to use a tag...for this page for example I used:</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span>+++
+</span><span>title = &quot;zola_pt3&quot;
+</span><span>date = &quot;2025-12-17&quot;
+</span><span>[taxonomies]
+</span><span>tags = [&quot;zola&quot;, &quot;webdev&quot;]
+</span><span>+++
+</span></code></pre>
+<p>after uploading/rebuilding my site, the tags tab in the menu now shows content, and each tag that i've used has a counter and link to a page that will let me see which posts have those tags and i can look at the posts from the links.</p>
+<p>now, to make this a little better...</p>
+<p>since i am blogging from my laptop usually (in obsidian notes), I have the ability to use templates to embed this front-matter in a template and when i create a new <code>post.md</code> file in my blogs/ folder i can insert that template and the title, date most of the front matter data is populated.  with a couple quick edits the file is ready to start filling with content.  here's my template:</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span>+++
+</span><span>title = &quot;{{title}}&quot;
+</span><span>date = &quot;{{date}}&quot;
+</span><span>[taxonomies]
+</span><span>tags = [&quot;tag1&quot;, &quot;tag2&quot;]
+</span><span>+++
+</span><span>
+</span><span># {{title}}
+</span><span>
+</span></code></pre>
+<p>i just edit the tags and away i go.  i followed the link below to figure out how to setup the templates folder in my vault, remember keep it simple!</p>
+<p><a href="https://obsidian.rocks/getting-started-with-templates-in-obsidian/">https://obsidian.rocks/getting-started-with-templates-in-obsidian/</a></p>
+<p>also for funzies.  if you have a favicon you'd like to use...add it to the static/icons folder, named as <code>favicon.png</code> and include the code below after the <code>[extra]</code> section of the <code>config.toml</code> file:</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span>favicon = &quot;/icons/favicon.png&quot;
+</span><span>favicon_mimetype = &quot;image/png&quot;
+</span></code></pre>
+
+        </article>
+        <nav class="post-navigation">
+            <header class="post-navigation-title">
+                <h2>Read More Posts</h2>
+                <hr>
+            </header>
+            <div class="post-navigation-buttons">
+                <a rel="next" href="https://inktheghost.com/blog/proxmox/" aria-label="Next article">
+                    <span aria-hidden="true">&lt;&nbsp;[</span>proxmox<span aria-hidden="true">]</span>
+                </a>
+                <span aria-hidden="true" role="separator">::</span>
+                <a rel="prev" href="https://inktheghost.com/blog/zola/" aria-label="Prev article">
+                    <span aria-hidden="true">[</span>zola<span aria-hidden="true">]&nbsp;&gt;</span>
+                </a>
+            </div>
+        </nav>
+    </main>
+    <footer class="footer">
+        <address class="socials">
+            <ul>
+                <li>
+                    <a class="social-link" rel="me" href="https://defcon.social/@970uts1d3" title="mastodon" aria-label="mastodon">
+                        <svg role="img" aria-label="mastodon icon">
+                            <use aria-hidden="true" href="https://inktheghost.com/images/social_icons/mastodon.svg#icon" />
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </address>
+        <p class="copyright">
+            <span>© <time>2026</time> 970uts1d3</span>
+            <span>Powered by <a href="https://www.getzola.org">Zola</a></span>
+            <span>Theme by <a href="https://eyalkalderon.com">ebkalderon</a></span>
+        </p>
+    </footer>
+</body>
+
+</html>

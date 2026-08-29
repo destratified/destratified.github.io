@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src-attr 'unsafe-inline'">
+
+    
+    <script defer src="http://uma.destratify.pro/script.js" data-website-id="4fcbcec9-bb7c-4697-8a62-20ad992a6092"></script>
+    
+    <title>gentoo on my laptop | ink the ghost</title>
+
+    <link href="https://defcon.social/@970uts1d3" rel="me">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://inktheghost.com/css/style.css?h=287f84ed6c66dca911c6">
+    <link rel="icon" type="image/png" href="https://inktheghost.com/icons/favicon.png">
+    <link rel="apple-touch-icon" href="https://inktheghost.com/processed_images/favicon.ab2897ee8708a1f8.png">
+    <script src="https://inktheghost.com/js/auto-close-popover-on-resize.js?h=4ef87d6fc7b98b22e044" defer></script>
+    <script src="https://inktheghost.com/js/copy-code-to-clipboard.js?h=b34dc626be3e4c8a0f55" defer></script>
+
+    <link rel="canonical" href="https://inktheghost.com/blog/gentoo-on-my-laptop/">
+    
+    <meta name="author" content="970uts1d3">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#211f1a">
+    <meta name="color-scheme" content="dark">
+
+    <meta property="og:title" content="gentoo on my laptop">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://inktheghost.com/blog/gentoo-on-my-laptop/">
+    <meta property="og:site_name" content="ink the ghost">
+    <meta property="og:updated_time" content="2026-08-29T22:06:35.534010543+00:00">
+    <meta property="article:published_time" content="2026-04-25T00:00:00+00:00">
+    <meta property="article:tag" content="gentoo">
+    <meta property="article:tag" content="openrc">
+
+</head>
+
+<body class="layout-center" data-theme="terminus">
+    <header class="header">
+        <div class="header-container">
+            <span class="header-logo-container">
+                <a href="https://inktheghost.com">
+                    <span class="logo">ink the ghost</span>
+                </a>
+            </span>
+        </div>
+        <nav class="main-menu" aria-label="Main Menu">
+            <a class="skip-to-content" href="#main">Skip to main content</a>
+            <button class="main-menu-dropdown-button" popovertarget="nav-menu">Menu</button>
+            <ul id="nav-menu" class="main-menu-items" aria-label="Site Navigation" popover>
+                <li><a href="https://inktheghost.com/blog/">blog</a></li>
+                <li><a href="https://inktheghost.com/archive/">archive</a></li>
+                <li><a href="https://inktheghost.com/tags/">tags</a></li>
+                <li><a href="https://inktheghost.com/about/">about</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main id="main">
+        <article class="post content">
+            <header>
+                <h1 class="post-title">
+                    <a href="https://inktheghost.com/blog/gentoo-on-my-laptop/">gentoo on my laptop</a>
+                </h1>
+                <ul class="post-meta hidden">
+                    <li title="Published on 2026-04-25"><time datetime="2026-04-25">2026.04.25</time></li>
+                    <li role="separator" aria-hidden="true">::</li>
+                    <li title="773 words"><time datetime="PT4M">4 min</time> read</li>
+                </ul>
+                <div class="post-tags">
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/gentoo/">gentoo</a></span>
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/openrc/">openrc</a></span>
+                </div>
+            </header>
+
+<h1 id="gentoo-on-my-laptop">gentoo on my laptop</h1>
+<h2 id="08-58">08:58</h2>
+<p>it's not surprising how i got here i guess...after running debian forky (14) on my laptop with openrc for over a month and really liking it, i thought to myself - since openRC is a gentoo native product, how hard could it be getting gentoo to install on the laptop??</p>
+<p>well, that's harder than you think. i could tell from running the openrc live cd that everything would function, but since the gentoo install is way more manual, and difficult, the 2-day+ process began.</p>
+<p>now after sitting down and forcing my way through all the setup, then the tweaks, i've got myself a usable DD that has everything my openRC deb install does, with less glitches in the boot system (i've had to build my own openRC init files on deb, and gentoo's were provided, natively).</p>
+<p>here's what i have left to do, nfs access to local file server, when at home (shouldn't be too bad), and getting my librewolf / proxmox browser configuration to work (doesn't like the vnc aspect), but that's a browser issue, and i can ssh in anyway, which is usually better. i will also eventually setup keyd, as its not hard, but my pesky delete button still doesn't work and I FUCKING HATE THE CAPLOCKS BUTTON &lt;-- see what i did there?</p>
+<h3 id="gentoo-install">gentoo install:</h3>
+<ul>
+<li>difficult</li>
+<li>time-consuming</li>
+<li>learing new commands and how system functions</li>
+<li>USE flags, holy shit</li>
+<li>stable and custom built</li>
+<li>fast</li>
+<li>openRC natively</li>
+<li>has a handbook, follow it to a "t"</li>
+</ul>
+<h4 id="starting-off">starting off</h4>
+<hr />
+<p>follow the handbook, until you get a feel for how this is gunna go, i setup and wiped out 3 installations before i felt i had a handle on it, and not in VMs. if you have installed arch from the commandline, and NO, not with archinstall, this will seem very familiar. i started with the liveCD and after i understood how it was working, ended up using my running debOS to install via changeroot.</p>
+<p>things that helped me...if you have an entirely separate drive install it there - i went with my second nvme drive and created 3 partitions. i used 10GB for efi, 20GB for swap and 100GB for the / - ext4 i have not had the pleasure of installing btrfs with gentoo or openRC debian, and i may not. i was using it for snapshots, but timeshift, which works in debian and gentoo works with the ext4 partitions and i've been able to restore using it - <em>with access to the system</em></p>
+<p>keep the efi boot partitions separate, you can update-grub to each individually and with os-prober it will pickup the other distro. this is easier and more safe than writing two different installs to the same partition...if i change anything there, it would be to use refind or limine and have it chain boot.</p>
+<p>once partitioned, you can use mkfs to format the partitions with the appropriate types "efi,swap and ext4", in my case, and then mount.  gentoo handbook directions state to mkdir and mount to /mnt/gentoo initially, i found after that and the /proc /dev etc that you can also mount the efi to /mnt/gentoo/boot to save a little time later and keep with the flow.</p>
+<p>at this point you can changeroot and follow the handbook and get the system to a booting state.</p>
+<h4 id="reboot-and-start-installing-stuff">reboot and start installing stuff</h4>
+<hr />
+<p>instead of trying to do everything at once, i found it was best to get to a point where i had a boot and prompt with root login. there are a few guides out there for kde installs that will have you setup kde, user and such before initial boot. i liked the gentoo handbook way and after a solid reboot sort of start the install process.  i have binpackages enabled, which helps cut some install time down, but mostly i found that i needed to setup some global flags.</p>
+<p>here is my /etc/portage/make.conf:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span># ------------------------------------------------------------
+</span><span>#  Compiler flags (all languages)
+</span><span># ------------------------------------------------------------
+</span><span>COMMON_FLAGS=&quot;-march=alderlake -mabm -mno-kl -mno-pconfig -mno-sgx -mno-widekl -mshstk --param=l1-cache-line-size=64 --param=l1-cache-size=32 --param=l2-cache-size=12288 -O2 -pipe&quot;
+</span><span>CFLAGS=&quot;${COMMON_FLAGS}&quot;
+</span><span>CXXFLAGS=&quot;${COMMON_FLAGS}&quot;
+</span><span>RUSTFLAGS=&quot;${RUSTFLAGS} -C target-cpu=alderlake&quot;
+</span><span>
+</span><span># ------------------------------------------------------------
+</span><span>#  Locale (English messages)
+</span><span># ------------------------------------------------------------
+</span><span>LC_MESSAGES=&quot;C.UTF-8&quot;
+</span><span>
+</span><span># ------------------------------------------------------------
+</span><span>#  Global USE flags
+</span><span># ------------------------------------------------------------
+</span><span>USE=&quot;wayland bluetooth elogind networkmanager nfs ext4 -gtk -gnome -systemd cups foomaticdb ppds usb&quot;
+</span><span>
+</span><span># ------------------------------------------------------------
+</span><span>#  Portage FEATURES (single line, no self‑reference)
+</span><span># ------------------------------------------------------------
+</span><span>FEATURES=&quot;getbinpkg binpkg-request-signature ccache&quot;
+</span><span>
+</span><span># ------------------------------------------------------------
+</span><span>#  License handling
+</span><span># ------------------------------------------------------------
+</span><span>ACCEPT_LICENSE=&quot;* @FREE @BINARY-REDISTRIBUTABLE @GPL-COMPATIBLE&quot;
+</span><span>
+</span><span># ------------------------------------------------------------
+</span><span>#  Bootloader configuration
+</span><span># ------------------------------------------------------------
+</span><span>GRUB_PLATFORMS=&quot;efi-64&quot;
+</span><span>
+</span><span># ------------------------------------------------------------
+</span><span>#  Architecture / keyword selection
+</span><span># ------------------------------------------------------------
+</span><span>ACCEPT_KEYWORDS=&quot;~amd64&quot;
+</span><span>
+</span><span># ------------------------------------------------------------
+</span><span>#  Emerge default options (no duplicate --getbinpkg)
+</span><span># ------------------------------------------------------------
+</span><span>EMERGE_DEFAULT_OPTS=&quot;&quot;
+</span><span>
+</span><span># ------------------------------------------------------------
+</span><span>#  Video driver selection
+</span><span># ------------------------------------------------------------
+</span><span>VIDEO_CARDS=&quot;intel&quot;
+</span><span>
+</span><span># ------------------------------------------------------------
+</span><span>#  Parallel builds &amp; ccache location
+</span><span># ------------------------------------------------------------
+</span><span># Replace “8” with the number of CPU threads you actually have.
+</span><span># If you have less RAM, lower the “-l” value (e.g., -l4).
+</span><span>MAKEOPTS=&quot;-j10 -l12&quot;
+</span><span>CCACHE_DIR=&quot;/var/cache/ccache&quot;
+</span></code></pre>
+<p>there's probably a few things here that could be consolidated, but overall its pretty neat. i've got 50 some packages from world and total 1180, so pretty lean for a DM.</p>
+<p>the guru package and nerd-fonts, are helpful, timeshift using rsync for ext4...i might play with a btrfs and timeshift install next, but thats probably for the desktop. i've rescued the system a few times already, the latest when i did something to my package manager where it would only pull the same gentoo repo over and over...sometimes easier to just go back and start over.</p>
+<p>i'd recommend timeshift for pretty much any install at this point, even vanilla ones.</p>
+
+        </article>
+        <nav class="post-navigation">
+            <header class="post-navigation-title">
+                <h2>Read More Posts</h2>
+                <hr>
+            </header>
+            <div class="post-navigation-buttons">
+                <a rel="next" href="https://inktheghost.com/blog/gentoo-and-btrfs/" aria-label="Next article">
+                    <span aria-hidden="true">&lt;&nbsp;[</span>gentoo and btrfs<span aria-hidden="true">]</span>
+                </a>
+                <span aria-hidden="true" role="separator">::</span>
+                <a rel="prev" href="https://inktheghost.com/blog/openrc-remote-server/" aria-label="Prev article">
+                    <span aria-hidden="true">[</span>openrc - remote server<span aria-hidden="true">]&nbsp;&gt;</span>
+                </a>
+            </div>
+        </nav>
+    </main>
+    <footer class="footer">
+        <address class="socials">
+            <ul>
+                <li>
+                    <a class="social-link" rel="me" href="https://defcon.social/@970uts1d3" title="mastodon" aria-label="mastodon">
+                        <svg role="img" aria-label="mastodon icon">
+                            <use aria-hidden="true" href="https://inktheghost.com/images/social_icons/mastodon.svg#icon" />
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </address>
+        <p class="copyright">
+            <span>© <time>2026</time> 970uts1d3</span>
+            <span>Powered by <a href="https://www.getzola.org">Zola</a></span>
+            <span>Theme by <a href="https://eyalkalderon.com">ebkalderon</a></span>
+        </p>
+    </footer>
+</body>
+
+</html>

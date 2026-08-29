@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>ink the ghost - zola</title>
+    <link rel="self" type="application/atom+xml" href="https://inktheghost.com/tags/zola/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://inktheghost.com"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2026-01-15T00:00:00+00:00</updated>
+    <id>https://inktheghost.com/tags/zola/atom.xml</id>
+    <entry xml:lang="en">
+        <title>fork-terminus</title>
+        <published>2026-01-15T00:00:00+00:00</published>
+        <updated>2026-01-15T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/fork-terminus/"/>
+        <id>https://inktheghost.com/blog/fork-terminus/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/fork-terminus/">&lt;h1 id=&quot;fork-terminus&quot;&gt;fork-terminus&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;15-52&quot;&gt;15:52&lt;&#x2F;h2&gt;
+&lt;p&gt;trying to fork themes&#x2F;terminus with an edit in base.html allowing umami to check webpage stats...see how this goes. so not sure if anyone even looks at this. haha...but anyway.&lt;&#x2F;p&gt;
+&lt;p&gt;fork the &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;ebkalderon&#x2F;terminus&quot;&gt;terminus&lt;&#x2F;a&gt; github repo with an edit in main branch to themes&#x2F;terminus&#x2F;base.html&lt;&#x2F;p&gt;
+&lt;p&gt;i added the script from the umami website settings, find that by highlighting the webpage and clicking edit for the website.&lt;&#x2F;p&gt;
+&lt;p&gt;navigate to the folder in the repo you are trying to fork. i had to open up base.html for editing in the github editor and then pasted the script into the &lt;code&gt;&amp;lt;head&amp;gt;&lt;&#x2F;code&gt; section of the base.html file, clicked commit changes and asked it to save as a fork. this pulled the repo into my github and then i had to delete the old git submodule and add my own.&lt;&#x2F;p&gt;
+&lt;p&gt;this was done by:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;nano .gitmodules
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;rm .gitmodules #i had no other submodules so i deleted whole file
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;nano .git&#x2F;config #i had no refs to the submodule here so exited
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;git rm --cached themes&#x2F;terminus
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;rm -rf themes&#x2F;terminus
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;git commit -m &amp;quot;removed submodule&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;git push
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;git submodule add https:&#x2F;&#x2F;github.com&#x2F;destratified&#x2F;terminus.git
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;cd themes&#x2F;terminus&#x2F;templates&#x2F;base.html #check that the file i updated synced
+&lt;&#x2F;span&gt;&lt;span&gt;cd themes&#x2F;terminus
+&lt;&#x2F;span&gt;&lt;span&gt;git pull #updates submodule
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;cd &#x2F; #whatever your repo root is
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;git add .
+&lt;&#x2F;span&gt;&lt;span&gt;git commit -m &amp;quot;new submodule&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;git push
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;voila!&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>archive tab for zola</title>
+        <published>2026-01-04T00:00:00+00:00</published>
+        <updated>2026-01-04T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/archive-tab-for-zola/"/>
+        <id>https://inktheghost.com/blog/archive-tab-for-zola/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/archive-tab-for-zola/">&lt;h1 id=&quot;archive-tab-for-zola&quot;&gt;archive tab for zola&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;10-29&quot;&gt;10:29&lt;&#x2F;h2&gt;
+&lt;p&gt;beating my head against the wall for almost 3 hours on this one, so here it goes:&lt;&#x2F;p&gt;
+&lt;p&gt;i was attempting to follow the procedure for adding an archive to the tabs on my homepage for grouping by year in decending order.&lt;&#x2F;p&gt;
+&lt;p&gt;i was following the example by Peter Babic from his page &lt;a href=&quot;https:&#x2F;&#x2F;peterbabic.dev&#x2F;blog&#x2F;add-archive-into-zola&#x2F;&quot;&gt;https:&#x2F;&#x2F;peterbabic.dev&#x2F;blog&#x2F;add-archive-into-zola&#x2F;&lt;&#x2F;a&gt; the below code is saved as &#x2F;templates&#x2F;archive.html&lt;&#x2F;p&gt;
+&lt;p&gt;the code snippet was close:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;{% extends &amp;quot;index.html&amp;quot; %}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;{% block content %}
+&lt;&#x2F;span&gt;&lt;span&gt;  {% set section = get_section(path=&amp;quot;blog&#x2F;_index.md&amp;quot;) %}
+&lt;&#x2F;span&gt;&lt;span&gt;  {% for year, posts in section.pages
+&lt;&#x2F;span&gt;&lt;span&gt;    | sort(attribute=&amp;quot;date&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;    | reverse
+&lt;&#x2F;span&gt;&lt;span&gt;    | group_by(attribute=&amp;quot;year&amp;quot;) %}
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;lt;div class=&amp;quot;archive&amp;quot;&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;lt;h2&amp;gt;{{ year }}&amp;lt;&#x2F;h2&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;lt;ul&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;      {% for post in posts %}
+&lt;&#x2F;span&gt;&lt;span&gt;      &amp;lt;li&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        &amp;lt;time&amp;gt;{{ post.date | date(format=&amp;quot;%d-%h&amp;quot;) }}&amp;lt;&#x2F;time&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        &amp;lt;a href=&amp;quot;{{ post.permalink }}&amp;quot;&amp;gt;{{ post.title }}&amp;lt;&#x2F;a&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;      &amp;lt;&#x2F;li&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;      {% endfor %}
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;lt;&#x2F;ul&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;lt;&#x2F;div&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  {% endfor %}
+&lt;&#x2F;span&gt;&lt;span&gt;{% endblock content %}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;mine kept bonking out even after id sorted out all the other things i needed....and the page would render if i didn&#x27;t add the &lt;code&gt;{% extends &quot;index.html&quot; %}&lt;&#x2F;code&gt; so i finally realized after some websearching and duck.ai that i needed to find out how the templates were using the code block above.  when i used the complete code, nothing would show besides my main header, tabs and footnotes.&lt;&#x2F;p&gt;
+&lt;p&gt;perhaps a quirk of zola and terminus, i found that if i changed Peter&#x27;s code, the &lt;code&gt;{% block content %}&lt;&#x2F;code&gt; was the source of my issue.  looking at the &#x2F;themes&#x2F;terminus&#x2F;index.html code the &lt;code&gt;block content&lt;&#x2F;code&gt; i was referring to was called &lt;code&gt;{% block main %}&lt;&#x2F;code&gt;.  makes sense as it was doing the right work, but had no place to put the content.  a quick code change allowed it to populate properly.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;{% extends &amp;quot;index.html&amp;quot; %}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;{% block main %}
+&lt;&#x2F;span&gt;&lt;span&gt;  {% set section = get_section(path=&amp;quot;blog&#x2F;_index.md&amp;quot;) %}
+&lt;&#x2F;span&gt;&lt;span&gt;  {% for year, posts in section.pages
+&lt;&#x2F;span&gt;&lt;span&gt;    | sort(attribute=&amp;quot;date&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;    | reverse
+&lt;&#x2F;span&gt;&lt;span&gt;    | group_by(attribute=&amp;quot;year&amp;quot;) %}
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;lt;div class=&amp;quot;archive&amp;quot;&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;lt;h2&amp;gt;{{ year }}&amp;lt;&#x2F;h2&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;lt;ul&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;      {% for post in posts %}
+&lt;&#x2F;span&gt;&lt;span&gt;      &amp;lt;li&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        &amp;lt;time&amp;gt;{{ post.date | date(format=&amp;quot;%d-%h&amp;quot;) }}&amp;lt;&#x2F;time&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        &amp;lt;a href=&amp;quot;{{ post.permalink }}&amp;quot;&amp;gt;{{ post.title }}&amp;lt;&#x2F;a&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;      &amp;lt;&#x2F;li&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;      {% endfor %}
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;lt;&#x2F;ul&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;lt;&#x2F;div&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  {% endfor %}
+&lt;&#x2F;span&gt;&lt;span&gt;{% endblock main %}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;the other tidbits that were needed to get this working:&lt;&#x2F;p&gt;
+&lt;p&gt;i had to adjust my main menu section in my config.toml in &#x2F;:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;#main menu tabs for pages blog, all tags listed in front-matter and about
+&lt;&#x2F;span&gt;&lt;span&gt;main_menu = [
+&lt;&#x2F;span&gt;&lt;span&gt;    { name = &amp;quot;blog&amp;quot;, url = &amp;quot;blog&amp;quot;, trailing_slash = true },
+&lt;&#x2F;span&gt;&lt;span&gt;    { name = &amp;quot;archive&amp;quot;, url = &amp;quot;archive&amp;quot;, trailing_slash = true },
+&lt;&#x2F;span&gt;&lt;span&gt;    { name = &amp;quot;tags&amp;quot;, url = &amp;quot;tags&amp;quot;, trailing_slash = true },
+&lt;&#x2F;span&gt;&lt;span&gt;    { name = &amp;quot;about&amp;quot;, url = &amp;quot;about&amp;quot;, trailing_slash = true },
+&lt;&#x2F;span&gt;&lt;span&gt;]
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;and similar to my tag-listing.md, i had to create a &#x2F;blog&#x2F;archive.md file with the following code:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;+++
+&lt;&#x2F;span&gt;&lt;span&gt;title = &amp;quot;Archive&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;template = &amp;quot;archive.html&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;+++
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this finally allowed my page to render with 2025 results, as of this post, 2026 should now be visible as well :)&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>inktheghost</title>
+        <published>2025-12-19T00:00:00+00:00</published>
+        <updated>2025-12-19T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/inktheghost/"/>
+        <id>https://inktheghost.com/blog/inktheghost/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/inktheghost/">&lt;h1 id=&quot;inktheghost-com&quot;&gt;inktheghost.com&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;17-53&quot;&gt;17:53&lt;&#x2F;h2&gt;
+&lt;p&gt;wanting to move my blog to a domain name i have setup instead of the name github pages give me i did a little searching.  borrowing from the excerpt from &lt;a href=&quot;https:&#x2F;&#x2F;thedataquarry.com&#x2F;blog&#x2F;static-site-zola&#x2F;&quot;&gt;https:&#x2F;&#x2F;thedataquarry.com&#x2F;blog&#x2F;static-site-zola&#x2F;&lt;&#x2F;a&gt; from which i&#x27;ve pulled some random zola information before...i setup a name cheap domain to match my webpage - holiday discounts out rn! i found inktheghost.com was not taken. yay. and proceeded to pay and setup as shown by &amp;lt;thedataquarry.com&amp;gt;&lt;&#x2F;p&gt;
+&lt;p&gt;following his namecheap directions...i already have a namecheap account so that part was easy. i did the below:&lt;&#x2F;p&gt;
+&lt;p&gt;&quot;I created the list of A records to point my apex domain to the IP addresses for the GitHub Page, as per the docs. Note the &lt;code&gt;CNAME Record&lt;&#x2F;code&gt; on the last line (this is important). On the Zola side, I simply create a file called &lt;code&gt;CNAME&lt;&#x2F;code&gt; in the &lt;code&gt;static&lt;&#x2F;code&gt; folder, and add the following line to it:&quot;&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;inktheghost.com
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;too easy it seems. well of course that was the case.  i push the contents, waiting for the rebuild and blammo, fucking page was rendered all wrong.  quick panic, delete files and gitpush again while i sort it all out.  maybe this will help you too!&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;dont-forget-to-change-the-url-reference-in-config-toml&quot;&gt;DONT FORGET TO CHANGE THE URL REFERENCE IN CONFIG.TOML&lt;&#x2F;h1&gt;
+&lt;p&gt;yep that was it. add CNAME file to static&#x2F; again, change config.toml file in &#x2F; to the proper URL&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;# The URL the site will be built for
+&lt;&#x2F;span&gt;&lt;span&gt;base_url = &amp;quot;https:&#x2F;&#x2F;inktheghost.com&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;theme = &amp;quot;terminus&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;title = &amp;quot;ink the ghost&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;re-push and page looks correct, whew.&lt;&#x2F;p&gt;
+&lt;p&gt;now i got a static generated, zola-based, custom domain-named webpage hosted on github pages, using a repo that i can edit on my laptop in obsidian notes synced with git and can easily push updates :) fuck ya.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>zola_pt2</title>
+        <published>2025-12-17T00:00:00+00:00</published>
+        <updated>2025-12-17T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/zola-pt2/"/>
+        <id>https://inktheghost.com/blog/zola-pt2/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/zola-pt2/">&lt;h1 id=&quot;zola-pt2&quot;&gt;zola_pt2&lt;&#x2F;h1&gt;
+&lt;p&gt;the next step i was having a hard time finding out how to do, so i went to the creator of the  themes github...&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;ebkalderon&#x2F;terminus&#x2F;blob&#x2F;main&#x2F;config.toml&quot;&gt;https:&#x2F;&#x2F;github.com&#x2F;ebkalderon&#x2F;terminus&#x2F;blob&#x2F;main&#x2F;config.toml&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;there, i took a peak at their config.toml and was able to discern that the  menu needed added to the &lt;code&gt;extra&lt;&#x2F;code&gt; section.  this was the code block i needed:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;[extra]
+&lt;&#x2F;span&gt;&lt;span&gt;close_responsive_menu_on_resize = true
+&lt;&#x2F;span&gt;&lt;span&gt;copy_button = true
+&lt;&#x2F;span&gt;&lt;span&gt;favicon_emoji = &amp;quot;👨‍💻&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;fediverse_creator = &amp;quot;@ebkalderon@hachyderm.io&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;layout = &amp;quot;center&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;show_default_author = false
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;main_menu = [
+&lt;&#x2F;span&gt;&lt;span&gt;    { name = &amp;quot;blog&amp;quot;, url = &amp;quot;blog&amp;quot;, trailing_slash = true },
+&lt;&#x2F;span&gt;&lt;span&gt;    { name = &amp;quot;archive&amp;quot;, url = &amp;quot;archive&amp;quot;, trailing_slash = true },
+&lt;&#x2F;span&gt;&lt;span&gt;    { name = &amp;quot;tags&amp;quot;, url = &amp;quot;tags&amp;quot;, trailing_slash = true },
+&lt;&#x2F;span&gt;&lt;span&gt;    { name = &amp;quot;projects&amp;quot;, url = &amp;quot;projects&amp;quot;, trailing_slash = true },
+&lt;&#x2F;span&gt;&lt;span&gt;    { name = &amp;quot;github&amp;quot;, url = &amp;quot;https:&#x2F;&#x2F;github.com&#x2F;ebkalderon&#x2F;terminus&amp;quot;, new_tab = true },
+&lt;&#x2F;span&gt;&lt;span&gt;]
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;i pruned that down, so i could test things one at a time&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;[extra]
+&lt;&#x2F;span&gt;&lt;span&gt;# Put all your custom variables here
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;main_menu = [
+&lt;&#x2F;span&gt;&lt;span&gt;    { name = &amp;quot;blog&amp;quot;, url = &amp;quot;blog&amp;quot;, trailing_slash = true },
+&lt;&#x2F;span&gt;&lt;span&gt;    { name = &amp;quot;tags&amp;quot;, url = &amp;quot;tags&amp;quot;, trailing_slash = true },
+&lt;&#x2F;span&gt;&lt;span&gt;    { name = &amp;quot;about&amp;quot;, url = &amp;quot;about&amp;quot;, trailing_slash = true },
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;so far working great...i have the tags to figure out yet, but the blog and about work fine...&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;tags-in-zola-website&quot;&gt;tags in zola website&lt;&#x2F;h1&gt;
+&lt;p&gt;the next thing i wanted to do was two-fold...&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;insert tags into front-matter in notes&lt;&#x2F;li&gt;
+&lt;li&gt;build a template in obsidian for duplication&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;so first things first...
+tags get added by the creation of :&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;tags.html&lt;&#x2F;li&gt;
+&lt;li&gt;tags-listing.md&lt;&#x2F;li&gt;
+&lt;li&gt;modification of the config.toml @ root&lt;&#x2F;li&gt;
+&lt;li&gt;adding tags to your front-matter in your &lt;code&gt;.md&lt;&#x2F;code&gt; files&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;the tags.html file is located in the templates folder.  i used nano and added the following code:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;{% extends &amp;quot;base.html&amp;quot; %}
+&lt;&#x2F;span&gt;&lt;span&gt;{% block content %}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;header&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;lt;h2&amp;gt;Tags&amp;lt;&#x2F;h2&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&#x2F;header&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;{% set blogtags = get_taxonomy(kind=&amp;quot;tags&amp;quot;) %}
+&lt;&#x2F;span&gt;&lt;span&gt;{% for tag in blogtags.items %}
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;lt;h3 id=&amp;quot;{{ tag.name | slugify }}&amp;quot;&amp;gt;{{ tag.name }}&amp;lt;&#x2F;h3&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;lt;ul&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        {% for post in tag.pages %}
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;lt;li&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;                &amp;lt;time datetime=&amp;quot;{{ post.date }}&amp;quot;&amp;gt;{{ post.date }}&amp;lt;&#x2F;time&amp;gt; –
+&lt;&#x2F;span&gt;&lt;span&gt;                &amp;lt;a href=&amp;quot;{{ post.permalink | safe }}&amp;quot;&amp;gt;{{ post.title }}&amp;lt;&#x2F;a&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;lt;&#x2F;li&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        {% endfor %}
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;lt;&#x2F;ul&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;{% endfor %}
+&lt;&#x2F;span&gt;&lt;span&gt;{% endblock content %}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this allows the tags page to get build using the slugs that you will add in your front matter.  next create a file called &lt;code&gt;tag-listing.md&lt;&#x2F;code&gt; in the root of your posts section, mine is &#x2F;blog.  it should be pretty simple&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;+++
+&lt;&#x2F;span&gt;&lt;span&gt;title = &amp;quot;Tags&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;template = &amp;quot;tags.html&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;+++   
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this is only a file containing front-matter that the tags tab in the menus created in the config.toml file we did in pt2.&lt;&#x2F;p&gt;
+&lt;p&gt;we also want to modify the config.toml file at root to enable the taxonomies we want to use in the front-matter notes of the posts&lt;&#x2F;p&gt;
+&lt;p&gt;this is under the initial part of the file, not under a section as show below:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;theme = &amp;quot;terminus&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;title = &amp;quot;ink the ghost&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Whether to automatically compile all Sass files in the sass directory
+&lt;&#x2F;span&gt;&lt;span&gt;compile_sass = true
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Whether to build a search index to be used later on by a JavaScript library
+&lt;&#x2F;span&gt;&lt;span&gt;build_search_index = true
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;taxonomies = [
+&lt;&#x2F;span&gt;&lt;span&gt;    { name = &amp;quot;tags&amp;quot;, feed = true },
+&lt;&#x2F;span&gt;&lt;span&gt;    { name = &amp;quot;categories&amp;quot;, feed = true, paginate_by = 5 },
+&lt;&#x2F;span&gt;&lt;span&gt;]
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;since i don&#x27;t know what i&#x27;m really doing i used only the tags and categories from the example i&#x27;m following in zola_pt2 seemed to be all i needed.&lt;&#x2F;p&gt;
+&lt;p&gt;now the last bit is adding the front-matter to your blog posts.  for each post you would like to categorize, you will want to use a tag...for this page for example I used:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;+++
+&lt;&#x2F;span&gt;&lt;span&gt;title = &amp;quot;zola_pt3&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;date = &amp;quot;2025-12-17&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;[taxonomies]
+&lt;&#x2F;span&gt;&lt;span&gt;tags = [&amp;quot;zola&amp;quot;, &amp;quot;webdev&amp;quot;]
+&lt;&#x2F;span&gt;&lt;span&gt;+++
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;after uploading&#x2F;rebuilding my site, the tags tab in the menu now shows content, and each tag that i&#x27;ve used has a counter and link to a page that will let me see which posts have those tags and i can look at the posts from the links.&lt;&#x2F;p&gt;
+&lt;p&gt;now, to make this a little better...&lt;&#x2F;p&gt;
+&lt;p&gt;since i am blogging from my laptop usually (in obsidian notes), I have the ability to use templates to embed this front-matter in a template and when i create a new &lt;code&gt;post.md&lt;&#x2F;code&gt; file in my blogs&#x2F; folder i can insert that template and the title, date most of the front matter data is populated.  with a couple quick edits the file is ready to start filling with content.  here&#x27;s my template:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;+++
+&lt;&#x2F;span&gt;&lt;span&gt;title = &amp;quot;{{title}}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;date = &amp;quot;{{date}}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;[taxonomies]
+&lt;&#x2F;span&gt;&lt;span&gt;tags = [&amp;quot;tag1&amp;quot;, &amp;quot;tag2&amp;quot;]
+&lt;&#x2F;span&gt;&lt;span&gt;+++
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# {{title}}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;i just edit the tags and away i go.  i followed the link below to figure out how to setup the templates folder in my vault, remember keep it simple!&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;obsidian.rocks&#x2F;getting-started-with-templates-in-obsidian&#x2F;&quot;&gt;https:&#x2F;&#x2F;obsidian.rocks&#x2F;getting-started-with-templates-in-obsidian&#x2F;&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;also for funzies.  if you have a favicon you&#x27;d like to use...add it to the static&#x2F;icons folder, named as &lt;code&gt;favicon.png&lt;&#x2F;code&gt; and include the code below after the &lt;code&gt;[extra]&lt;&#x2F;code&gt; section of the &lt;code&gt;config.toml&lt;&#x2F;code&gt; file:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;favicon = &amp;quot;&#x2F;icons&#x2F;favicon.png&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;favicon_mimetype = &amp;quot;image&#x2F;png&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>zola</title>
+        <published>2025-12-17T00:00:00+00:00</published>
+        <updated>2025-12-17T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/zola/"/>
+        <id>https://inktheghost.com/blog/zola/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/zola/">&lt;h1 id=&quot;zola&quot;&gt;zola&lt;&#x2F;h1&gt;
+&lt;p&gt;i wanted to simplify my website currently at blog.destratify.pro to get away from all the bullshit that comes along with wordpress.  also i was already using a github repo to do the site serving so i started poking aroung and found zola. first i tried using zola with a forgejo repo and then mirroring to codeberg...codeberg pages was a bust, buggy, kept fucking up the formatting.  i then tried multiple ways of getting github to work and finally found a way to make it all happen. this enabled me to use a local repo and then &quot;serve&quot; it to github.  github actions would always rebuild the static site on update.  now that i have it working i&#x27;m going to play around with formatting, adding tags, a menu and getting the about page to show up.  one of the nice features of zola is that you can always test before you push to github with the local zola serve feature.  so here is what this looks like:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;setup a directory to work in&lt;&#x2F;li&gt;
+&lt;li&gt;download zola and git programs&lt;&#x2F;li&gt;
+&lt;li&gt;init the repo&lt;&#x2F;li&gt;
+&lt;li&gt;build your content into the zola framework&lt;&#x2F;li&gt;
+&lt;li&gt;add your &lt;code&gt;_index.md&lt;&#x2F;code&gt; files&lt;&#x2F;li&gt;
+&lt;li&gt;do your whole github action stuff&lt;&#x2F;li&gt;
+&lt;li&gt;change the source for the deployment to gh-pages&lt;&#x2F;li&gt;
+&lt;li&gt;add a new file and watch it go!&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;downloading-and-init&quot;&gt;downloading and init&lt;&#x2F;h2&gt;
+&lt;p&gt;first i created a new directory in my laptops ~&#x2F;forge folder in the way recommended by github
+&lt;code&gt;sudo mkdir -p ~&#x2F;forge&#x2F;&amp;lt;user&amp;gt;.github.io&lt;&#x2F;code&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;then you want to download your necessary programs: for me this was git and zola.  some installs will require another git program when you run the following command, but on arch mine just worked, or id done it at some point in the past.&lt;&#x2F;p&gt;
+&lt;p&gt;first git init
+then run
+&lt;code&gt;gh repo create destratified.github.io --public --source=. &lt;&#x2F;code&gt;
+this command creates the public version of the repo, syncing it and allowing you to work in your local folders. you might have to download another git prog to run the above command, mine didn&#x27;t, but i remember trying to do that on my server.  you also will likely need to authorize and sign into your github account.  there are lots of little steps, you can choose https or ssh, i did https and a token but once you have that going it will setup the repo and you can verify with your githib repo list.&lt;&#x2F;p&gt;
+&lt;p&gt;next i did a quick &lt;code&gt;zola init force&lt;&#x2F;code&gt;  in the root of that directory.  the --force allows it to move past the .git files.&lt;&#x2F;p&gt;
+&lt;p&gt;you can do as much syncing as you like throughout this process or wait until the end.&lt;br &#x2F;&gt;
+add a &lt;code&gt;.gitignore&lt;&#x2F;code&gt; file with the contents public&#x2F; to prevent syncing the public dir to github, it will create its own later.&lt;&#x2F;p&gt;
+&lt;p&gt;this pretty much gets ya up and running&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;content-and-index-files&quot;&gt;content and index files&lt;&#x2F;h2&gt;
+&lt;p&gt;here I had some files stored in my ~forge&#x2F;blog that i wanted to move over to the new dir&#x2F;contents
+I just copied using cp -r from directory to directory
+i had been building zola before i decided to go this route, so i had all the other &lt;code&gt;_index.md&lt;&#x2F;code&gt; files sorted out.
+my dir structure was contents&#x2F; with an &lt;code&gt;about.md _index.md&lt;&#x2F;code&gt;and a &#x2F;blog folder.  the &lt;code&gt;_index.md&lt;&#x2F;code&gt; file has the contents below:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;+++
+&lt;&#x2F;span&gt;&lt;span&gt;title = &amp;quot;home&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;[extra]
+&lt;&#x2F;span&gt;&lt;span&gt;section_path = &amp;quot;blog&#x2F;_index.md&amp;quot;  # Where to find your posts.
+&lt;&#x2F;span&gt;&lt;span&gt;max_posts = 5  # Show 5 posts and a link to blog section on home page.
+&lt;&#x2F;span&gt;&lt;span&gt;+++
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;the +++ enclose the contents of the instructions like a .yaml file and obviously the title instructs the zola build command how to orient things in the index.html file it builds in the &#x2F;public folder later
+all my .md files are in the &#x2F;blog folder so I also need another files this index file points the homepage to pull info from the blog directory&lt;&#x2F;p&gt;
+&lt;p&gt;in the &#x2F;blog folder i have all the posts i want to publish, each has a front-matter that is similar to below...i use a template for a webpost in obsidian, which i am still using to write posts, and update the git repos locally, syncing to the github repo main branch&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;+++
+&lt;&#x2F;span&gt;&lt;span&gt;title = &amp;quot;after proxmox reboot, found a couple issues&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;date = 2025-08-11
+&lt;&#x2F;span&gt;&lt;span&gt;+++
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;so the next thing that was necessary was to add that index.md file to the blog&#x2F; folder so that the zola build command understands how to handle the files in the directory.  for now i settled on some sorting by date and thus needed the front-matter in each .md file to aid in that.  the blog&#x2F;index.md file looks like this:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;+++
+&lt;&#x2F;span&gt;&lt;span&gt;title = &amp;quot;blog&amp;quot; 
+&lt;&#x2F;span&gt;&lt;span&gt;paginate_by = 5 
+&lt;&#x2F;span&gt;&lt;span&gt;sort_by = &amp;quot;date&amp;quot; 
+&lt;&#x2F;span&gt;&lt;span&gt;+++
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;now that we have essentially got all of the content stuff together, the config.toml file in the root directory needed some tweaks:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;# The URL the site will be built for
+&lt;&#x2F;span&gt;&lt;span&gt;base_url = &amp;quot;https:&#x2F;&#x2F;destratified.github.io&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;theme = &amp;quot;terminus&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;title = &amp;quot;ink the ghost&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Whether to automatically compile all Sass files in the sass directory
+&lt;&#x2F;span&gt;&lt;span&gt;compile_sass = true
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Whether to build a search index to be used later on by a JavaScript library
+&lt;&#x2F;span&gt;&lt;span&gt;build_search_index = true
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;[markdown]
+&lt;&#x2F;span&gt;&lt;span&gt;# Whether to do syntax highlighting
+&lt;&#x2F;span&gt;&lt;span&gt;# Theme can be customised by setting the `highlight_theme` variable to a theme supported by Zola
+&lt;&#x2F;span&gt;&lt;span&gt;highlight_code = true
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;[extra]
+&lt;&#x2F;span&gt;&lt;span&gt;# Put all your custom variables here
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;here i just added a name for the page, correct the https:&#x2F;&#x2F;&lt;username&gt;.github.io that you intend to serve to and some basic stuff that comes with a generic config&lt;&#x2F;p&gt;
+&lt;p&gt;you may notice that terminus is listed as the theme.  you will also want to add that theme as a submodule using the command below.  make sure you are at the root of the directory&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;code&gt;git submodule clone https:&#x2F;&#x2F;github.com&#x2F;ebkalderon&#x2F;terminus.git themes&#x2F;terminus&lt;&#x2F;code&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;now you have pretty much everything you need.  add a final file that helps to skip the default theme that github uses when building and deploying the webpage.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;code&gt;touch .nojekyll&lt;&#x2F;code&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;if you wanna check and make sure it all looks good...you can also do a &lt;code&gt;zola serve&lt;&#x2F;code&gt; and follow the link to the local webpage before you upload everything to git hub.  if you like how it all looks&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;git add . 
+&lt;&#x2F;span&gt;&lt;span&gt;git commit -m &amp;quot;update&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;git push
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h1 id=&quot;github-stuff&quot;&gt;github stuff&lt;&#x2F;h1&gt;
+&lt;p&gt;now with all that done and everything pushed to the repo, lets do another few things to get this going...now with that said I had this fuckered up for a while before i realized my mistake, so hopefully this will help you also.&lt;&#x2F;p&gt;
+&lt;p&gt;right now you should just have a &quot;main&quot; branch.  if you have more than that, delete the second branch...this is also how you can start over if something goes wrong.  you will need two things done.&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;create a token (classic) with repo access&lt;&#x2F;li&gt;
+&lt;li&gt;create a github action&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;first create the token by going to user &amp;gt; settings &amp;gt; developer settings &amp;gt; personal access tokens &amp;gt; tokens classic and create a token i used the name webpage, it doesnt really matter, just copy it before you navigate away from the page.&lt;&#x2F;p&gt;
+&lt;p&gt;then goto your repo you setup &amp;gt; settings &amp;gt; Secrets and variables &amp;gt; actions &amp;gt; new repo secret
+set the name to TOKEN and add the token into the field below and save&lt;&#x2F;p&gt;
+&lt;p&gt;next you will setup an action.  go back to the repo main page &amp;gt; actions&lt;&#x2F;p&gt;
+&lt;p&gt;here lots of options, but i just pick the simple basic and then delete everything in it and copy the code in below:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;# This is a basic workflow to help you get started with Actions
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;name: CI
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Controls when the workflow will run
+&lt;&#x2F;span&gt;&lt;span&gt;on:
+&lt;&#x2F;span&gt;&lt;span&gt;  # Triggers the workflow on push or pull request events but only for the &amp;quot;main&amp;quot; branch
+&lt;&#x2F;span&gt;&lt;span&gt;  push:
+&lt;&#x2F;span&gt;&lt;span&gt;    branches: [ &amp;quot;main&amp;quot; ]
+&lt;&#x2F;span&gt;&lt;span&gt;  pull_request:
+&lt;&#x2F;span&gt;&lt;span&gt;    branches: [ &amp;quot;main&amp;quot; ]
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  # Allows you to run this workflow manually from the Actions tab
+&lt;&#x2F;span&gt;&lt;span&gt;  workflow_dispatch:
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+&lt;&#x2F;span&gt;&lt;span&gt;jobs:
+&lt;&#x2F;span&gt;&lt;span&gt;  # This workflow contains a single job called &amp;quot;build&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;  build:
+&lt;&#x2F;span&gt;&lt;span&gt;    # The type of runner that the job will run on
+&lt;&#x2F;span&gt;&lt;span&gt;    runs-on: ubuntu-latest
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    # Steps represent a sequence of tasks that will be executed as part of the job
+&lt;&#x2F;span&gt;&lt;span&gt;    steps:
+&lt;&#x2F;span&gt;&lt;span&gt;      - name: Checkout main
+&lt;&#x2F;span&gt;&lt;span&gt;        uses: actions&#x2F;checkout@v4
+&lt;&#x2F;span&gt;&lt;span&gt;      - name: Build and deploy
+&lt;&#x2F;span&gt;&lt;span&gt;        uses: shalzz&#x2F;zola-deploy-action@v0.21.0
+&lt;&#x2F;span&gt;&lt;span&gt;        env:
+&lt;&#x2F;span&gt;&lt;span&gt;          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;click commit and the repo will start the commit, update and build the webpage&lt;&#x2F;p&gt;
+&lt;p&gt;the last thing you need to do is goto settings &amp;gt; pages
+there you will need to edit the the branch from main to gh-pages and click save.
+from this point on, every update to main should trigger the action to rebuild the static site from scratch, by posting this its confirmation of it working!&lt;&#x2F;p&gt;
+&lt;p&gt;next up zola pt2...adding tags, section pages and an about, blog, and tags menu on the homepage.  also i want my favicon in the webtab, so i&#x27;ll have to figure that out too.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>

@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src-attr 'unsafe-inline'">
+
+    
+    <script defer src="http://uma.destratify.pro/script.js" data-website-id="4fcbcec9-bb7c-4697-8a62-20ad992a6092"></script>
+    
+    <title>jellyfin | ink the ghost</title>
+
+    <link href="https://defcon.social/@970uts1d3" rel="me">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://inktheghost.com/css/style.css?h=287f84ed6c66dca911c6">
+    <link rel="icon" type="image/png" href="https://inktheghost.com/icons/favicon.png">
+    <link rel="apple-touch-icon" href="https://inktheghost.com/processed_images/favicon.ab2897ee8708a1f8.png">
+    <script src="https://inktheghost.com/js/auto-close-popover-on-resize.js?h=4ef87d6fc7b98b22e044" defer></script>
+    <script src="https://inktheghost.com/js/copy-code-to-clipboard.js?h=b34dc626be3e4c8a0f55" defer></script>
+
+    <link rel="canonical" href="https://inktheghost.com/blog/jellyfin/">
+    
+    <meta name="author" content="970uts1d3">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#211f1a">
+    <meta name="color-scheme" content="dark">
+
+    <meta property="og:title" content="jellyfin">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://inktheghost.com/blog/jellyfin/">
+    <meta property="og:site_name" content="ink the ghost">
+    <meta property="og:updated_time" content="2026-08-29T22:06:35.535380517+00:00">
+    <meta property="article:published_time" content="2025-12-21T00:00:00+00:00">
+    <meta property="article:tag" content="jellyfin">
+    <meta property="article:tag" content="arch">
+    <meta property="article:tag" content="proxmox">
+    <meta property="article:tag" content="docker">
+
+</head>
+
+<body class="layout-center" data-theme="terminus">
+    <header class="header">
+        <div class="header-container">
+            <span class="header-logo-container">
+                <a href="https://inktheghost.com">
+                    <span class="logo">ink the ghost</span>
+                </a>
+            </span>
+        </div>
+        <nav class="main-menu" aria-label="Main Menu">
+            <a class="skip-to-content" href="#main">Skip to main content</a>
+            <button class="main-menu-dropdown-button" popovertarget="nav-menu">Menu</button>
+            <ul id="nav-menu" class="main-menu-items" aria-label="Site Navigation" popover>
+                <li><a href="https://inktheghost.com/blog/">blog</a></li>
+                <li><a href="https://inktheghost.com/archive/">archive</a></li>
+                <li><a href="https://inktheghost.com/tags/">tags</a></li>
+                <li><a href="https://inktheghost.com/about/">about</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main id="main">
+        <article class="post content">
+            <header>
+                <h1 class="post-title">
+                    <a href="https://inktheghost.com/blog/jellyfin/">jellyfin</a>
+                </h1>
+                <ul class="post-meta hidden">
+                    <li title="Published on 2025-12-21"><time datetime="2025-12-21">2025.12.21</time></li>
+                    <li role="separator" aria-hidden="true">::</li>
+                    <li title="727 words"><time datetime="PT4M">4 min</time> read</li>
+                </ul>
+                <div class="post-tags">
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/jellyfin/">jellyfin</a></span>
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/arch/">arch</a></span>
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/proxmox/">proxmox</a></span>
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/docker/">docker</a></span>
+                </div>
+            </header>
+
+<h1 id="jellyfin-destroy-and-rebuild">jellyfin - destroy and rebuild</h1>
+<h2 id="08-49">08:49</h2>
+<p>well i've had the unfortunate luxury of arch trying to break my jellyfin instance...this coupled with my adding of an nvme drive that i've wanted to use for transcoding and fully breaking the install by removing the transcode dir/files for jellyfin and not copying them :/  i was left with a half day trying to get the jellyfin instance back online before i hit the wall.</p>
+<p>since i'd already managed the gpu passthrus and all that shit on arch (yeah I know it breaks things :) ), as a last shot effort i figured i'd give the docker version a try.  i was obviously going to need to bring the instance up from the ashes anyway, so why not.  also, as a little precursor, the docker instance was already there, running the full suite of arrs* so that part was done anyways.</p>
+<p>first i had to remove everything that came before, i entered these commands line by line that you see in the code block below:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>sudo pacman -Rscn jellyfin-web jellyfin-server jellyfin-ffmpeg
+</span><span>sudo rm -R /var/lib/jellyfin
+</span><span>sudo rm -R /var/cache/jellyfin
+</span><span>sudo systemctl stop jellyfin
+</span><span>sudo systemctl disable jellyfin
+</span></code></pre>
+<p>just for good measure i did a reboot after that, and then ran <code>nvidia-smi</code> to make sure the card was working still.  it was, so i went ahead and got into my portainer instance to start working on the docker-compose.  i pulled a few examples from the internet, including the jellyfin recommended one, but kept getting runtime and cdi errors during build.  trying a docker run command i was able to see that i needed to build the container toolkit and so i used yay for that.</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>yay -S nvidia-container-toolkit
+</span></code></pre>
+<p>a little into it, it broke on a dependency....wont bother you with the details here, but i had to pull a backup of my arch server from 3 days ago, did a full restore and after boot and <code>nvidia-smi</code> the above command built and installed the files correctly.</p>
+<p>so it seemed I was good, tried to deploy the stack again and had a couple more issues: errors for CDI and for runtime call.  i went out on the internet and found a couple solutions.  i needed to tell docker about the runtime:nvidia call in the docker-compose and have it built before i spun up the container.  used the following commands below:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>sudo nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml
+</span><span>sudo nvidia-ctk config --in-place --set nvidia-container-runtime.mode=cdi
+</span><span>sudo systemctl restart docker
+</span></code></pre>
+<p>i also needed to add my user to docker so i could issue future docker commands without sudo:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>sudo usermod -aG docker $USER   
+</span><span>sudo nvidia-ctk runtime configure --runtime=docker
+</span></code></pre>
+<p>finally after this i was able to get the docker jellyfin container to build and was able to bring up the jellyfin server instance back to the boot splash.  the last few details are setting up the transcoding options and directories.  the final docker-compose.yml is:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>services:
+</span><span>  jellyfin:
+</span><span>    image: lscr.io/linuxserver/jellyfin
+</span><span>    container_name: jellyfin
+</span><span>    environment:
+</span><span>      - PUID=1000
+</span><span>      - PGID=1000
+</span><span>      - TZ=America/Denver
+</span><span>      - NVIDIA_VISIBLE_DEVICES=all
+</span><span>    volumes:
+</span><span>      - /home/joe/jellyfin/config:/config
+</span><span>      - /zstor/data/media/tv:/media/tv
+</span><span>      - /zstor/data/media/movies:/media/movies
+</span><span>      - /zstor/data/media/music:/media/music
+</span><span>      - /transcode:/transcode
+</span><span>    ports:
+</span><span>      - 8096:8096
+</span><span>      - 8920:8920
+</span><span>    restart: unless-stopped
+</span><span>    runtime: nvidia
+</span><span>    deploy:
+</span><span>      resources:
+</span><span>        reservations:
+</span><span>          devices:
+</span><span>            - capabilities: [gpu]
+</span></code></pre>
+<p>i set up my users, pointed movies, tv and music from my nfs share (being passed thru), transcode directory (nvme passthough) and started setting up the transcode info in the Dashboard &gt; Playback menu.  I used the following from nvidia to search for all my gpu capabilities:
+<a href="https://developer.nvidia.com/video-encode-decode-support-matrix">https://developer.nvidia.com/video-encode-decode-support-matrix</a></p>
+<p>and ticked the appropriate boxes.  just out of my image there is also a selection for tone mapping that i selected, and down in the transcode folder, changed from the os files to the /transcode nfs share i had mapped in the docker-compose.</p>
+<p><img src="/img/screenshotjellyfin1.png" alt="this is a screenshot" /></p>
+<p>after this i spun up a movie.  here's the output from <code>nvidia-smi</code> both on the host</p>
+<p><img src="/img/screenshotjellyfin3.png" alt="this is a screenshot" /></p>
+<p>and using this command to see within the docker container:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>docker exec jellyfin nvidia-smi
+</span></code></pre>
+<p><img src="/img/screenshotjellyfin2.png" alt="this is a screenshot" /></p>
+<p>i find it interesting that the output of the docker exec comman shows the fan speed and total gpu% outputs, yet does't show the call for ffmpeg, in fact no processes at all.  i chalking that up to ffmpeg actually executing on the host and not within the docker containers as it is all a passthough.</p>
+<h2 id="update-block-nvidia-open">Update - block nvidia-open</h2>
+<p>so the most recent pacman -Syu broke my system - this is probable what caused the problem in the first place ;)</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>sudo nano /etc/pacman.conf
+</span></code></pre>
+<p>uncomment the IgnorePkg = and add the below</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>IgnorePkg = nvidia-open   
+</span></code></pre>
+<p>after another pacman -Syu the upgrade said it had nothing to do, so hopefully this will by me time to sort out how to negotiate the nvida-open dilemma.</p>
+<p>the AI search in duckduckgo says that the nvidia-open drivers wont work with older cards like maxwell and pascal, but i haven't dug into it at all</p>
+
+        </article>
+        <nav class="post-navigation">
+            <header class="post-navigation-title">
+                <h2>Read More Posts</h2>
+                <hr>
+            </header>
+            <div class="post-navigation-buttons">
+                <a rel="next" href="https://inktheghost.com/blog/nfspassthrough/" aria-label="Next article">
+                    <span aria-hidden="true">&lt;&nbsp;[</span>NFS pass-through<span aria-hidden="true">]</span>
+                </a>
+                <span aria-hidden="true" role="separator">::</span>
+                <a rel="prev" href="https://inktheghost.com/blog/zfs/" aria-label="Prev article">
+                    <span aria-hidden="true">[</span>zfs<span aria-hidden="true">]&nbsp;&gt;</span>
+                </a>
+            </div>
+        </nav>
+    </main>
+    <footer class="footer">
+        <address class="socials">
+            <ul>
+                <li>
+                    <a class="social-link" rel="me" href="https://defcon.social/@970uts1d3" title="mastodon" aria-label="mastodon">
+                        <svg role="img" aria-label="mastodon icon">
+                            <use aria-hidden="true" href="https://inktheghost.com/images/social_icons/mastodon.svg#icon" />
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </address>
+        <p class="copyright">
+            <span>© <time>2026</time> 970uts1d3</span>
+            <span>Powered by <a href="https://www.getzola.org">Zola</a></span>
+            <span>Theme by <a href="https://eyalkalderon.com">ebkalderon</a></span>
+        </p>
+    </footer>
+</body>
+
+</html>

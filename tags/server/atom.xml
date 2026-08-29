@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>ink the ghost - server</title>
+    <link rel="self" type="application/atom+xml" href="https://inktheghost.com/tags/server/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://inktheghost.com"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2025-12-18T00:00:00+00:00</updated>
+    <id>https://inktheghost.com/tags/server/atom.xml</id>
+    <entry xml:lang="en">
+        <title>proxmox</title>
+        <published>2025-12-18T00:00:00+00:00</published>
+        <updated>2025-12-18T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/proxmox/"/>
+        <id>https://inktheghost.com/blog/proxmox/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/proxmox/">&lt;h1 id=&quot;proxmox-playing-with-setup-and-install-updated&quot;&gt;proxmox - playing with setup and install (updated)&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;15-25&quot;&gt;15:25&lt;&#x2F;h2&gt;
+&lt;p&gt;one of the first things i did when setting up my server, was take it out of the box and check everything out.  i&#x27;ve never had a server before, been mostly building hi-end pcs for years and playing with all os&#x27;s.  but i started looking into homelabbing and ordered what i thought i needed.  i ordered semi-custom and it arrived packaged and ready to go.  i probably could have kept the ram, the cpus, the psus, and the raid card (mini-monolithic), but some initial reading convinced me i needed more.  here&#x27;s what i ended up with (updated):&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt; Dell 730xd chassis with 12x3.5 HDD up front and the rear 2x2.5 HDD
+&lt;&#x2F;span&gt;&lt;span&gt;  - rear slots, 800gb SAS 12gbs HDD&amp;#39;s in raid 0 with zfs for OS, EFI etc
+&lt;&#x2F;span&gt;&lt;span&gt;  - up front, 6x19TB SAS 10gbs HDDs in raidz1-0 for storage
+&lt;&#x2F;span&gt;&lt;span&gt;  - up front, 2x2TB SAS 7gbs HDD in Raidz1-0 for local backup
+&lt;&#x2F;span&gt;&lt;span&gt;  - ASUS Hyper M.2 X16 Gen 4 PCIE 4.0&#x2F;3.0 x4 NVME RAID Expansion Card mgx
+&lt;&#x2F;span&gt;&lt;span&gt;  - Dell HBA330 mini monolithic (=9300-8i) w&#x2F; P16 IT mode
+&lt;&#x2F;span&gt;&lt;span&gt;  - 2x SR2JW INTEL XEON E5-2698V4 2.20GHZ 20-CORE 50MB 135W CPU PROCESSOR
+&lt;&#x2F;span&gt;&lt;span&gt;  - 2x 750W PSUs
+&lt;&#x2F;span&gt;&lt;span&gt;  - 512GB (8x 64gb ) DDR4 2400T 2400Mhz ECC REG RAM
+&lt;&#x2F;span&gt;&lt;span&gt;  - NVIDIA Quadro P2000 5GB GDDR5 Quad PCIe graphics card
+&lt;&#x2F;span&gt;&lt;span&gt;  - 4 port NIC 2x10gb 2x1GB (kept)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;knowing what my average use is rn, i&#x27;d say i overkilled the ram by about 2x...ill move 256GB over to the next build, and I could have kept the processors, but it never hurts and im not sure how many lxc&#x2F;vms i&#x27;ll end up with.&lt;&#x2F;p&gt;
+&lt;p&gt;one of the most fun parts of the initial boot, which took me about 1 month to prep with given all the upgrades above, was the lack of screen&#x2F;mouse&#x2F;keyboard and monitor...i patched this together and after being very frustrated bought an old used console for 50 bucks - shipped! this made startup easier.  the second most interesting thing was the fans absolutely screaming at me.  apparently after adding non-compatible pcie devices the bios defaults to 80% fan.  this is fixable with a script, but made initial boot and install super annoying!&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;to-be-continued&quot;&gt;to be continued...&lt;&#x2F;h1&gt;
+&lt;p&gt;so the first thing to create was a bash script that runs every minute monitoring the ipmi values for cpu.  enable the ipmi in your bios so you can talk to the interface. then create a simple bash script.  i websearched the dell 730-xd fan problem, found a base of code to start with and resolved the code to the below:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;#!&#x2F;bin&#x2F;bash
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# define some temp for server
+&lt;&#x2F;span&gt;&lt;span&gt;low=&amp;quot;45&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;low2=&amp;quot;50&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;mid1=&amp;quot;58&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;mid2=&amp;quot;66&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;high=&amp;quot;74&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;hot=&amp;quot;89&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;maxtemp=0
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Read the max CPU temp from sensors (ipmitools)
+&lt;&#x2F;span&gt;&lt;span&gt;# On Dell R730XD this can figure out the temp of CPU 1 and 2, then use the max value
+&lt;&#x2F;span&gt;&lt;span&gt;tempCpu1=$(ipmitool  sdr entity 3.1|grep Temp|sed &amp;#39;s&#x2F;Temp             | 0Eh | ok  |  3.1 | &#x2F;&#x2F;&amp;#39; | sed &amp;#39;s&#x2F; degrees C&#x2F;&#x2F;&amp;#39;)
+&lt;&#x2F;span&gt;&lt;span&gt;tempCpu2=$(ipmitool  sdr entity 3.2|grep Temp|sed &amp;#39;s&#x2F;Temp             | 0Fh | ok  |  3.2 | &#x2F;&#x2F;&amp;#39; | sed &amp;#39;s&#x2F; degrees C&#x2F;&#x2F;&amp;#39;)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;if [ &amp;quot;$tempCpu1&amp;quot; -gt &amp;quot;$tempCpu2&amp;quot; ]; then
+&lt;&#x2F;span&gt;&lt;span&gt;    maxtemp=$tempCpu1
+&lt;&#x2F;span&gt;&lt;span&gt;else
+&lt;&#x2F;span&gt;&lt;span&gt;    maxtemp=$tempCpu2
+&lt;&#x2F;span&gt;&lt;span&gt;fi
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Define CPU limit
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;if [ $maxtemp -le $low ] ; then
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        ipmitool  raw 0x30 0x30 0x01 0x00 &amp;gt;&amp;gt; &#x2F;dev&#x2F;null
+&lt;&#x2F;span&gt;&lt;span&gt;        ipmitool  raw 0x30 0x30 0x02 0xff 10 &amp;gt;&amp;gt; &#x2F;dev&#x2F;null
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;elif [ $maxtemp -le $low2 ] ; then
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        ipmitool  raw 0x30 0x30 0x01 0x00 &amp;gt;&amp;gt; &#x2F;dev&#x2F;null
+&lt;&#x2F;span&gt;&lt;span&gt;        ipmitool  raw 0x30 0x30 0x02 0xff 15 &amp;gt;&amp;gt; &#x2F;dev&#x2F;null
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;elif [ $maxtemp -le $mid1 ] ; then
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        ipmitool  raw 0x30 0x30 0x01 0x00 &amp;gt;&amp;gt; &#x2F;dev&#x2F;null
+&lt;&#x2F;span&gt;&lt;span&gt;        ipmitool  raw 0x30 0x30 0x02 0xff 20 &amp;gt;&amp;gt; &#x2F;dev&#x2F;null
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;elif [ $maxtemp -le $mid2 ] ; then
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        ipmitool  raw 0x30 0x30 0x01 0x00 &amp;gt;&amp;gt; &#x2F;dev&#x2F;null
+&lt;&#x2F;span&gt;&lt;span&gt;        ipmitool  raw 0x30 0x30 0x02 0xff 25 &amp;gt;&amp;gt; &#x2F;dev&#x2F;null
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;elif [ $maxtemp -le $high ] ; then
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        ipmitool  raw 0x30 0x30 0x01 0x00 &amp;gt;&amp;gt; &#x2F;dev&#x2F;null
+&lt;&#x2F;span&gt;&lt;span&gt;        ipmitool  raw 0x30 0x30 0x02 0xff 30 &amp;gt;&amp;gt; &#x2F;dev&#x2F;null
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;elif [ $maxtemp -le $hot ] ; then
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        ipmitool  raw 0x30 0x30 0x01 0x00 &amp;gt;&amp;gt; &#x2F;dev&#x2F;null
+&lt;&#x2F;span&gt;&lt;span&gt;        ipmitool  raw 0x30 0x30 0x02 0xff 35 &amp;gt;&amp;gt; &#x2F;dev&#x2F;null
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# If temp higher than hot, give fan control back to BIOS
+&lt;&#x2F;span&gt;&lt;span&gt;else
+&lt;&#x2F;span&gt;&lt;span&gt;        ipmitool  raw 0x30 0x30 0x01 0x01 &amp;gt;&amp;gt; &#x2F;dev&#x2F;null
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;fi
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;chmod this to an executable and start a new crontab &lt;code&gt;crontab -e&lt;&#x2F;code&gt; and add a new line as follows:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;*&#x2F;1 * * * * &#x2F;bin&#x2F;bash &#x2F;home&#x2F;scripts&#x2F;fan_speed.sh &amp;gt; &#x2F;dev&#x2F;null 2&amp;gt;&amp;amp;1
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this lets it run every minute.  with this initial setup done, its time to get to work.  i made sure all server updates were applied, updated the os and started to monkey around with installing vms, lxcs and whatnot&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>

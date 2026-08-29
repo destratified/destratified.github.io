@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src-attr 'unsafe-inline'">
+
+    
+    <script defer src="http://uma.destratify.pro/script.js" data-website-id="4fcbcec9-bb7c-4697-8a62-20ad992a6092"></script>
+    
+    <title>z790-dasharo | ink the ghost</title>
+
+    <link href="https://defcon.social/@970uts1d3" rel="me">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://inktheghost.com/css/style.css?h=287f84ed6c66dca911c6">
+    <link rel="icon" type="image/png" href="https://inktheghost.com/icons/favicon.png">
+    <link rel="apple-touch-icon" href="https://inktheghost.com/processed_images/favicon.ab2897ee8708a1f8.png">
+    <script src="https://inktheghost.com/js/auto-close-popover-on-resize.js?h=4ef87d6fc7b98b22e044" defer></script>
+    <script src="https://inktheghost.com/js/copy-code-to-clipboard.js?h=b34dc626be3e4c8a0f55" defer></script>
+
+    <link rel="canonical" href="https://inktheghost.com/blog/z790-dasharo/">
+    
+    <meta name="author" content="970uts1d3">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#211f1a">
+    <meta name="color-scheme" content="dark">
+
+    <meta property="og:title" content="z790-dasharo">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://inktheghost.com/blog/z790-dasharo/">
+    <meta property="og:site_name" content="ink the ghost">
+    <meta property="og:updated_time" content="2026-08-29T22:06:35.540250395+00:00">
+    <meta property="article:published_time" content="2026-01-19T00:00:00+00:00">
+    <meta property="article:tag" content="desktop">
+    <meta property="article:tag" content="dasharo">
+
+</head>
+
+<body class="layout-center" data-theme="terminus">
+    <header class="header">
+        <div class="header-container">
+            <span class="header-logo-container">
+                <a href="https://inktheghost.com">
+                    <span class="logo">ink the ghost</span>
+                </a>
+            </span>
+        </div>
+        <nav class="main-menu" aria-label="Main Menu">
+            <a class="skip-to-content" href="#main">Skip to main content</a>
+            <button class="main-menu-dropdown-button" popovertarget="nav-menu">Menu</button>
+            <ul id="nav-menu" class="main-menu-items" aria-label="Site Navigation" popover>
+                <li><a href="https://inktheghost.com/blog/">blog</a></li>
+                <li><a href="https://inktheghost.com/archive/">archive</a></li>
+                <li><a href="https://inktheghost.com/tags/">tags</a></li>
+                <li><a href="https://inktheghost.com/about/">about</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main id="main">
+        <article class="post content">
+            <header>
+                <h1 class="post-title">
+                    <a href="https://inktheghost.com/blog/z790-dasharo/">z790-dasharo</a>
+                </h1>
+                <ul class="post-meta hidden">
+                    <li title="Published on 2026-01-19"><time datetime="2026-01-19">2026.01.19</time></li>
+                    <li role="separator" aria-hidden="true">::</li>
+                    <li title="386 words"><time datetime="PT2M">2 min</time> read</li>
+                </ul>
+                <div class="post-tags">
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/desktop/">desktop</a></span>
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/dasharo/">dasharo</a></span>
+                </div>
+            </header>
+
+<h1 id="msi-z790p-with-dasharo">MSI z790p with dasharo</h1>
+<h2 id="11-58">11:58</h2>
+<p>well i'm looking at throwing in the towel on devices that aren't fully free software based. not just from the operating system, but also bios. i have a system76 lemur13 laptop which is the system76 version of coreboot, and my next objective is to do the same with the desktop and my server, or perhaps a new server. right now i've been pouring over forums and manuals, and found surprisingly that another version of the coreboot os - dasharo - is available on msi-z790 mb. i am currently running a msi-z790 carbon, not the pro version but it looks like my ram and cpu are on the HCL's so i ordered a pre-flashed mobo to give it a shot.  3mdeb provides the pre-flashed boards as well as full cpus, and links to laptops, desktops, mini's etc for those who are interested.</p>
+<p>looking forward to giving it a shot. hope the RAM works too as RAM is hella expensive rn. there is another question of whether the dGPU i have, NVIDIA 4070ti will work. thankfully i should be able to use some other options AMD6950 etc and different RAM if needed. but looking to get near to the same capability i have rn with existing box. we shall see (im)patiently till the packages arrive.</p>
+<p>research the EFF and total ownership of your devices!</p>
+<p>(UPDATE 02/25/2026)
+installed and working! i had to switch ram to a different one on the dasharo HCl. then change bios to XMP#1 profile and do a CMOS reset to get to post. happily my 4070ti GPU works out of the box! only small issue is that the fan profile doesnt work from bios, but a quick install of lm_sensors and using pwmconfig i was able to get control. after a little more fooling around i installed the fancontrol app from the cosmic apps and setup a profile with targets for a little better GUI control and responsiveness. everything else works as expected.</p>
+<p>now i'm going to try and setup my ollama instance again and try using podman this time, was having issues getting docker to utilize the gpu passthru.</p>
+<p>i also was able to restore my win11 vmm in virt-manager so i have access to my work stuff remotely again.</p>
+
+        </article>
+        <nav class="post-navigation">
+            <header class="post-navigation-title">
+                <h2>Read More Posts</h2>
+                <hr>
+            </header>
+            <div class="post-navigation-buttons">
+                <a rel="next" href="https://inktheghost.com/blog/fastfetch/" aria-label="Next article">
+                    <span aria-hidden="true">&lt;&nbsp;[</span>fastfetch<span aria-hidden="true">]</span>
+                </a>
+                <span aria-hidden="true" role="separator">::</span>
+                <a rel="prev" href="https://inktheghost.com/blog/fork-terminus/" aria-label="Prev article">
+                    <span aria-hidden="true">[</span>fork-terminus<span aria-hidden="true">]&nbsp;&gt;</span>
+                </a>
+            </div>
+        </nav>
+    </main>
+    <footer class="footer">
+        <address class="socials">
+            <ul>
+                <li>
+                    <a class="social-link" rel="me" href="https://defcon.social/@970uts1d3" title="mastodon" aria-label="mastodon">
+                        <svg role="img" aria-label="mastodon icon">
+                            <use aria-hidden="true" href="https://inktheghost.com/images/social_icons/mastodon.svg#icon" />
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </address>
+        <p class="copyright">
+            <span>© <time>2026</time> 970uts1d3</span>
+            <span>Powered by <a href="https://www.getzola.org">Zola</a></span>
+            <span>Theme by <a href="https://eyalkalderon.com">ebkalderon</a></span>
+        </p>
+    </footer>
+</body>
+
+</html>

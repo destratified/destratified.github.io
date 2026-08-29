@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src-attr 'unsafe-inline'">
+
+    
+    <script defer src="http://uma.destratify.pro/script.js" data-website-id="4fcbcec9-bb7c-4697-8a62-20ad992a6092"></script>
+    
+    <title>cachyos-updater-options-pt2 | ink the ghost</title>
+
+    <link href="https://defcon.social/@970uts1d3" rel="me">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://inktheghost.com/css/style.css?h=287f84ed6c66dca911c6">
+    <link rel="icon" type="image/png" href="https://inktheghost.com/icons/favicon.png">
+    <link rel="apple-touch-icon" href="https://inktheghost.com/processed_images/favicon.ab2897ee8708a1f8.png">
+    <script src="https://inktheghost.com/js/auto-close-popover-on-resize.js?h=4ef87d6fc7b98b22e044" defer></script>
+    <script src="https://inktheghost.com/js/copy-code-to-clipboard.js?h=b34dc626be3e4c8a0f55" defer></script>
+
+    <link rel="canonical" href="https://inktheghost.com/blog/cachyos-updater-options-pt2/">
+    
+    <meta name="author" content="970uts1d3">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#211f1a">
+    <meta name="color-scheme" content="dark">
+
+    <meta property="og:title" content="cachyos-updater-options-pt2">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://inktheghost.com/blog/cachyos-updater-options-pt2/">
+    <meta property="og:site_name" content="ink the ghost">
+    <meta property="og:updated_time" content="2026-08-29T22:06:35.540666986+00:00">
+    <meta property="article:published_time" content="2026-02-28T00:00:00+00:00">
+    <meta property="article:tag" content="cachyos">
+    <meta property="article:tag" content="pacman">
+
+</head>
+
+<body class="layout-center" data-theme="terminus">
+    <header class="header">
+        <div class="header-container">
+            <span class="header-logo-container">
+                <a href="https://inktheghost.com">
+                    <span class="logo">ink the ghost</span>
+                </a>
+            </span>
+        </div>
+        <nav class="main-menu" aria-label="Main Menu">
+            <a class="skip-to-content" href="#main">Skip to main content</a>
+            <button class="main-menu-dropdown-button" popovertarget="nav-menu">Menu</button>
+            <ul id="nav-menu" class="main-menu-items" aria-label="Site Navigation" popover>
+                <li><a href="https://inktheghost.com/blog/">blog</a></li>
+                <li><a href="https://inktheghost.com/archive/">archive</a></li>
+                <li><a href="https://inktheghost.com/tags/">tags</a></li>
+                <li><a href="https://inktheghost.com/about/">about</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main id="main">
+        <article class="post content">
+            <header>
+                <h1 class="post-title">
+                    <a href="https://inktheghost.com/blog/cachyos-updater-options-pt2/">cachyos-updater-options-pt2</a>
+                </h1>
+                <ul class="post-meta hidden">
+                    <li title="Published on 2026-02-28"><time datetime="2026-02-28">2026.02.28</time></li>
+                    <li role="separator" aria-hidden="true">::</li>
+                    <li title="163 words"><time datetime="PT1M">1 min</time> read</li>
+                </ul>
+                <div class="post-tags">
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/cachyos/">cachyos</a></span>
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/pacman/">pacman</a></span>
+                </div>
+            </header>
+
+<h1 id="cachyos-updater-options-pt2">cachyos-updater-options-pt2</h1>
+<h2 id="20-05">20:05</h2>
+<p>working through this a bit in a discussion with CSCS on cachyos forum...i have a few options:</p>
+<ul>
+<li>the cachyos-rate-mirrors script with tweaks</li>
+<li>rate-mirror options with some tweaks from cachyos-rate-mirrors</li>
+<li>my script from the last post</li>
+</ul>
+<h2 id="cachyos-rate-mirrors">cachyos-rate-mirrors</h2>
+<pre data-lang="shells" style="background-color:#272822;color:#f8f8f2;" class="language-shells "><code class="language-shells" data-lang="shells"><span>#!/usr/bin/env bash
+</span><span># Copyright (C) 2022-2025 CachyOS team
+</span><span>#
+</span><span># This program is free software; you can redistribute it and/or modify
+</span><span># it under the terms of the GNU General Public License as published by
+</span><span># the Free Software Foundation; either version 2 of the License, or
+</span><span># (at your option) any later version.
+</span><span>#
+</span><span># This program is distributed in the hope that it will be useful,
+</span><span># but WITHOUT ANY WARRANTY; without even the implied warranty of
+</span><span># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+</span><span># GNU General Public License for more details.
+</span><span>#
+</span><span># You should have received a copy of the GNU General Public License along
+</span><span># with this program; if not, write to the Free Software Foundation, Inc.,
+</span><span># 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+</span><span>set -e
+</span><span>
+</span><span>declare -r MIRRORS_DEFAULT_DIR=&quot;/etc/pacman.d&quot;
+</span><span>
+</span><span># Use https only protocol for rating
+</span><span>export RATE_MIRRORS_PROTOCOL=https
+</span><span>export RATE_MIRRORS_FETCH_MIRRORS_TIMEOUT=&quot;${RATE_MIRRORS_FETCH_MIRRORS_TIMEOUT:-30000}&quot;
+</span><span>export RATE_MIRRORS_ALLOW_ROOT=true
+</span><span>export RATE_MIRRORS_MAX_DELAY=&quot;${RATE_MIRRORS_MAX_DELAY:-10000}&quot;
+</span><span>
+</span><span>disable_colors() {
+</span><span>    unset ALL_OFF BOLD BLUE GREEN RED YELLOW
+</span><span>}
+</span><span>
+</span><span>enable_colors() {
+</span><span>    # prefer terminal safe colored and bold text when tput is supported
+</span><span>    if tput setaf 0 &amp;&gt;/dev/null; then
+</span><span>        ALL_OFF=&quot;$(tput sgr0)&quot;
+</span><span>        BOLD=&quot;$(tput bold)&quot;
+</span><span>        RED=&quot;${BOLD}$(tput setaf 1)&quot;
+</span><span>        GREEN=&quot;${BOLD}$(tput setaf 2)&quot;
+</span><span>        YELLOW=&quot;${BOLD}$(tput setaf 3)&quot;
+</span><span>        BLUE=&quot;${BOLD}$(tput setaf 4)&quot;
+</span><span>    else
+</span><span>        ALL_OFF=&quot;\e[0m&quot;
+</span><span>        BOLD=&quot;\e[1m&quot;
+</span><span>        RED=&quot;${BOLD}\e[31m&quot;
+</span><span>        GREEN=&quot;${BOLD}\e[32m&quot;
+</span><span>        YELLOW=&quot;${BOLD}\e[33m&quot;
+</span><span>        BLUE=&quot;${BOLD}\e[34m&quot;
+</span><span>    fi
+</span><span>    readonly ALL_OFF BOLD BLUE GREEN RED YELLOW
+</span><span>}
+</span><span>
+</span><span>if [[ -t 2 ]]; then
+</span><span>    enable_colors
+</span><span>else
+</span><span>    disable_colors
+</span><span>fi
+</span><span>
+</span><span>msg() {
+</span><span>    local mesg=&quot;$1&quot;; shift
+</span><span>    printf &quot;${GREEN}==&gt;${ALL_OFF}${BOLD} ${mesg}${ALL_OFF}\n&quot; &quot;$@&quot; &gt;&amp;2
+</span><span>}
+</span><span>
+</span><span>info() {
+</span><span>    local mesg=&quot;$1&quot;; shift
+</span><span>    printf &quot;${YELLOW} --&gt;${ALL_OFF}${BOLD} ${mesg}${ALL_OFF}\n&quot; &quot;$@&quot; &gt;&amp;2
+</span><span>}
+</span><span>
+</span><span>error() {
+</span><span>    local mesg=&quot;$1&quot;; shift
+</span><span>    printf &quot;${RED}==&gt; ERROR:${ALL_OFF}${BOLD} ${mesg}${ALL_OFF}\n&quot; &quot;$@&quot; &gt;&amp;2
+</span><span>}
+</span><span>
+</span><span>cleanup() {
+</span><span>    exit &quot;${1:-0}&quot;
+</span><span>}
+</span><span>
+</span><span>die() {
+</span><span>    (($#)) &amp;&amp; error &quot;$@&quot;
+</span><span>    cleanup 255
+</span><span>}
+</span><span>
+</span><span>if [ &quot;$EUID&quot; -ne 0 ]; then
+</span><span>    die &quot;Please, run script as root&quot;
+</span><span>fi
+</span><span>
+</span><span>declare -r TMPFILE=&quot;$(mktemp)&quot;
+</span><span>trap &#39;rm -f -- &quot;$TMPFILE&quot;&#39; EXIT
+</span><span>
+</span><span>rate_repository_mirrors() {
+</span><span>    local repo=&quot;$1&quot;
+</span><span>    local path=&quot;$2&quot;
+</span><span>
+</span><span>    info &quot;Ranking mirrors for ${repo} repository in ${path}...&quot;
+</span><span>
+</span><span>    if rate-mirrors --save &quot;$TMPFILE&quot; &quot;$repo&quot;; then
+</span><span>        if [ ! -f &quot;${path}&quot; ]; then
+</span><span>            die &quot;${path} doesn&#39;t exist! You must install package $(pacman -Fq &quot;$path&quot; 2&gt;/dev/null || echo &quot;that contains $path&quot;)&quot;
+</span><span>        fi
+</span><span>        cp -f --backup=simple --suffix=&quot;-backup&quot; &quot;${TMPFILE}&quot; &quot;${path}&quot;
+</span><span>        msg &quot;Done [${repo}] ${path}&quot;
+</span><span>    else
+</span><span>        die &quot;rate-mirrors failed [errcode=$?].&quot;
+</span><span>    fi
+</span><span>}
+</span><span>
+</span><span>force_ru_mirrors() {
+</span><span>    local mirror domain index
+</span><span>    local -a ru_mirrors=(
+</span><span>        &#39;https://archlinux.gay/cachy/repo/$arch/$repo&#39;
+</span><span>        &#39;https://mirror.yandex.ru/cachyos/repo/$arch/$repo&#39;
+</span><span>    )
+</span><span>
+</span><span>    local -i line=1
+</span><span>    for ((index=0; index &lt; ${#ru_mirrors[@]}; index++)); do
+</span><span>        mirror=&quot;${ru_mirrors[$index]}&quot;
+</span><span>        domain=&quot;${mirror##*://}&quot;
+</span><span>        domain=&quot;${domain%%/*}&quot;
+</span><span>        if curl -sL --connect-timeout 5 &quot;https://${domain}&quot; &amp;&gt;/dev/null; then
+</span><span>            sed -i &quot;$((line))iServer = ${mirror}&quot; &quot;${MIRRORS_DEFAULT_DIR}/cachyos-mirrorlist&quot;
+</span><span>            ((line++))
+</span><span>        else
+</span><span>            error &quot;Failed to connect with ${domain} mirror&quot;
+</span><span>        fi
+</span><span>    done
+</span><span>}
+</span><span>
+</span><span># Prefer mirrors that are geographically close, especially in countries that
+</span><span># have regional blockages
+</span><span>country=&quot;$(curl --connect-timeout 10 -sSL &#39;https://geoip.kde.org/v1/ubiquity&#39; | grep -Po &#39;&lt;CountryCode&gt;\K([A-Z]{2})&#39;)&quot;
+</span><span>
+</span><span>if [ -n &quot;$country&quot; ]; then
+</span><span>    export RATE_MIRRORS_ENTRY_COUNTRY=&quot;$country&quot;
+</span><span>fi
+</span><span>
+</span><span># China only tests its own mirrors, so disable neighbors
+</span><span># and increase the number of tested mirrors to get more results
+</span><span>if [ &quot;$country&quot; = &quot;CN&quot; ]; then
+</span><span>    export RATE_MIRRORS_COUNTRY_NEIGHBORS_PER_COUNTRY=0
+</span><span>    export RATE_MIRRORS_COUNTRY_TEST_MIRRORS_PER_COUNTRY=50
+</span><span>fi
+</span><span>
+</span><span># Rate Arch Linux mirrors anyway
+</span><span>rate_repository_mirrors arch &quot;${MIRRORS_DEFAULT_DIR}/mirrorlist&quot;
+</span><span>
+</span><span>#added for mirrorlist file cleanup/clarity
+</span><span>cat /etc/pacman.d/mirrorlist | sed &#39;/^\s*#/d;/^$/d&#39; | sudo tee /etc/pacman.d/mirrorlist
+</span><span>
+</span><span>
+</span><span># Always insert CDN77 mirror to the start, unless RU and CN region is detected
+</span><span>if [ &quot;$country&quot; != &quot;RU&quot; ] &amp;&amp; [ &quot;$country&quot; != &quot;CN&quot; ]; then
+</span><span>    sed -i &#39;1iServer = https://archlinux.cachyos.org/repo/$repo/os/$arch&#39; &quot;${MIRRORS_DEFAULT_DIR}/mirrorlist&quot;
+</span><span>fi
+</span><span>
+</span><span>rate_repository_mirrors cachyos &quot;${MIRRORS_DEFAULT_DIR}/cachyos-mirrorlist&quot;
+</span><span>
+</span><span>#added for mirrorlist file cleanup/clarity
+</span><span>cat /etc/pacman.d/cachyos-mirrorlist | sed &#39;/^\s*#/d;/^$/d&#39; | sudo tee /etc/pacman.d/cachyos-mirrorlist
+</span><span>
+</span><span># Always insert local mirrors as first due to blockings in RU region
+</span><span>if [ &quot;$country&quot; = &quot;RU&quot; ]; then
+</span><span>    force_ru_mirrors
+</span><span>fi
+</span><span>
+</span><span>cp -f --backup=simple --suffix=&quot;-backup&quot; &quot;${MIRRORS_DEFAULT_DIR}/cachyos-mirrorlist&quot; \
+</span><span>    &quot;${MIRRORS_DEFAULT_DIR}/cachyos-v3-mirrorlist&quot;
+</span><span>cp -f --backup=simple --suffix=&quot;-backup&quot; &quot;${MIRRORS_DEFAULT_DIR}/cachyos-mirrorlist&quot; \
+</span><span>    &quot;${MIRRORS_DEFAULT_DIR}/cachyos-v4-mirrorlist&quot;
+</span><span>
+</span><span>sed -i &#39;s|/$arch/|/$arch_v3/|g&#39; &quot;${MIRRORS_DEFAULT_DIR}/cachyos-v3-mirrorlist&quot;
+</span><span>sed -i &#39;s|/$arch/|/$arch_v4/|g&#39; &quot;${MIRRORS_DEFAULT_DIR}/cachyos-v4-mirrorlist&quot;
+</span><span>
+</span><span># In the case of a more restrictive umask setting ( 0077 for example ), give read-permissions back to &#39;Group/Other&#39;.
+</span><span># This fixes a case where the third party package wrapper Aura ( https://github.com/fosskers/aura ) tries to parse
+</span><span># /etc/pacman.conf and can&#39;t read the &quot;include&quot;ded mirror files. By default, Aura intentionally runs without root
+</span><span># permissions for most non-modify operations.
+</span><span>chmod go+r &quot;${MIRRORS_DEFAULT_DIR}&quot;/*mirrorlist*
+</span></code></pre>
+<p>talking with the developer, some of the meat could be pruned from this depending on your geo. those obviously not concerned with RU and CN mirrors could delete these sections, but this would really only benefit with clarity, as its not really affecting speeds or anything.</p>
+<p>also there is the bottom of the file chmod and sed commands that if you use rate-mirrors instead will need to be sure to include. my thought process for the second option is to use rate-mirrors with the above tweaks inside an update.sh or similar bash script and include pacman -Syu</p>
+<h2 id="the-rate-mirror-option">the rate-mirror option</h2>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>#!/bin/bash
+</span><span>
+</span><span>MIRRORS_DEFAULT_DIR=/etc/pacman.d
+</span><span>
+</span><span>rate-mirrors --disable-comments cachyos | sudo tee /etc/pacman.d/cachyos-mirrorlist
+</span><span>
+</span><span>rate-mirrors --disable-comments arch | sudo tee /etc/pacman.d/mirrorlist
+</span><span>
+</span><span>sudo cp -f --backup=simple --suffix=&quot;-backup&quot; &quot;${MIRRORS_DEFAULT_DIR}/cachyos-mirrorlist&quot; \
+</span><span>    &quot;${MIRRORS_DEFAULT_DIR}/cachyos-v3-mirrorlist&quot;
+</span><span>sudo cp -f --backup=simple --suffix=&quot;-backup&quot; &quot;${MIRRORS_DEFAULT_DIR}/cachyos-mirrorlist&quot; \
+</span><span>    &quot;${MIRRORS_DEFAULT_DIR}/cachyos-v4-mirrorlist&quot;
+</span><span>
+</span><span>sudo sed -i &#39;s|/$arch/|/$arch_v3/|g&#39; &quot;${MIRRORS_DEFAULT_DIR}/cachyos-v3-mirrorlist&quot;
+</span><span>sudo sed -i &#39;s|/$arch/|/$arch_v4/|g&#39; &quot;${MIRRORS_DEFAULT_DIR}/cachyos-v4-mirrorlist&quot;
+</span><span>
+</span><span>sudo pacman -Syu
+</span></code></pre>
+<p>this is what i would call a work in progress...</p>
+
+        </article>
+        <nav class="post-navigation">
+            <header class="post-navigation-title">
+                <h2>Read More Posts</h2>
+                <hr>
+            </header>
+            <div class="post-navigation-buttons">
+                <a rel="next" href="https://inktheghost.com/blog/ghostmirror/" aria-label="Next article">
+                    <span aria-hidden="true">&lt;&nbsp;[</span>ghostmirror<span aria-hidden="true">]</span>
+                </a>
+                <span aria-hidden="true" role="separator">::</span>
+                <a rel="prev" href="https://inktheghost.com/blog/arch-cachyos-updater/" aria-label="Prev article">
+                    <span aria-hidden="true">[</span>arch-cachyos-updater<span aria-hidden="true">]&nbsp;&gt;</span>
+                </a>
+            </div>
+        </nav>
+    </main>
+    <footer class="footer">
+        <address class="socials">
+            <ul>
+                <li>
+                    <a class="social-link" rel="me" href="https://defcon.social/@970uts1d3" title="mastodon" aria-label="mastodon">
+                        <svg role="img" aria-label="mastodon icon">
+                            <use aria-hidden="true" href="https://inktheghost.com/images/social_icons/mastodon.svg#icon" />
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </address>
+        <p class="copyright">
+            <span>© <time>2026</time> 970uts1d3</span>
+            <span>Powered by <a href="https://www.getzola.org">Zola</a></span>
+            <span>Theme by <a href="https://eyalkalderon.com">ebkalderon</a></span>
+        </p>
+    </footer>
+</body>
+
+</html>

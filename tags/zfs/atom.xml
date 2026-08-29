@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>ink the ghost - zfs</title>
+    <link rel="self" type="application/atom+xml" href="https://inktheghost.com/tags/zfs/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://inktheghost.com"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2025-12-20T00:00:00+00:00</updated>
+    <id>https://inktheghost.com/tags/zfs/atom.xml</id>
+    <entry xml:lang="en">
+        <title>zfs</title>
+        <published>2025-12-20T00:00:00+00:00</published>
+        <updated>2025-12-20T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/zfs/"/>
+        <id>https://inktheghost.com/blog/zfs/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/zfs/">&lt;h1 id=&quot;zfs-adding-a-disk-to-existing-vmpool&quot;&gt;zfs - adding a disk to existing vmpool&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;12-41&quot;&gt;12:41&lt;&#x2F;h2&gt;
+&lt;p&gt;welp i was hoping to increase overall expansion and capactity with this by adding a 4tb disk to the existing 3x1tb raidz1-0 but all it did was add and additional 1TB of storage&#x2F;redundancy.&lt;&#x2F;p&gt;
+&lt;p&gt;that is ok for now, but i will likely want to destroy that zfs partition and setup a different raid with a 4tb mirror for redundancy...however, as it is already done.  it is not reversible without destroying and recreating.&lt;&#x2F;p&gt;
+&lt;p&gt;i had this drive laying around and had to open my server to fix a wonky ram in DIMM B1 anyway so here we are.&lt;&#x2F;p&gt;
+&lt;p&gt;rebooted &amp;gt; new drive detected (this is a 4tb nvme drive) &amp;gt; get all the vm&#x2F;lxc running and to command prompt.&lt;&#x2F;p&gt;
+&lt;p&gt;first i wanted to check that the pool was what i thought it was and id new drive name:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;zpool status -v vmpool
+&lt;&#x2F;span&gt;&lt;span&gt;lsblk
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;the new drive is identified as nvme0n1&lt;&#x2F;p&gt;
+&lt;p&gt;for my pool i see the existing three disks...so now to add the new disk&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;zpool attach vmpool raidz1-0 nvme0n1
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this gave me an error so i had to upgrade the pool with the following command, then retry&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;zpool upgrade vmpool
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;not much info given in this process, just back to prompt so i ran the status line again. this showed me the disk was added, but that the capacity was still the same, after a little websearching ( i dont google anymore ;} ) i found i needed to expand the capacity with the following command:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;zpool set autoexpand=on vmpool  
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;and then to get the drives to reinitialize...&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;zpool online -e vmpool nvme0n1
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;after this command everything showed up correctly using the status command:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;img&#x2F;screenshotzfs.png&quot; alt=&quot;this is a screenshot&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;ostechnix.com&#x2F;move-proxmox-containers-vms-to-different-disk&#x2F;&quot;&gt;https:&#x2F;&#x2F;ostechnix.com&#x2F;move-proxmox-containers-vms-to-different-disk&#x2F;&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;this looks like a pretty good guide, and will update as i go through the process of redoing the storage for my vms and lxc containers.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>

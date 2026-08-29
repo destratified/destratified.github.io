@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>ink the ghost - desktop</title>
+    <link rel="self" type="application/atom+xml" href="https://inktheghost.com/tags/desktop/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://inktheghost.com"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2026-01-19T00:00:00+00:00</updated>
+    <id>https://inktheghost.com/tags/desktop/atom.xml</id>
+    <entry xml:lang="en">
+        <title>z790-dasharo</title>
+        <published>2026-01-19T00:00:00+00:00</published>
+        <updated>2026-01-19T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/z790-dasharo/"/>
+        <id>https://inktheghost.com/blog/z790-dasharo/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/z790-dasharo/">&lt;h1 id=&quot;msi-z790p-with-dasharo&quot;&gt;MSI z790p with dasharo&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;11-58&quot;&gt;11:58&lt;&#x2F;h2&gt;
+&lt;p&gt;well i&#x27;m looking at throwing in the towel on devices that aren&#x27;t fully free software based. not just from the operating system, but also bios. i have a system76 lemur13 laptop which is the system76 version of coreboot, and my next objective is to do the same with the desktop and my server, or perhaps a new server. right now i&#x27;ve been pouring over forums and manuals, and found surprisingly that another version of the coreboot os - dasharo - is available on msi-z790 mb. i am currently running a msi-z790 carbon, not the pro version but it looks like my ram and cpu are on the HCL&#x27;s so i ordered a pre-flashed mobo to give it a shot.  3mdeb provides the pre-flashed boards as well as full cpus, and links to laptops, desktops, mini&#x27;s etc for those who are interested.&lt;&#x2F;p&gt;
+&lt;p&gt;looking forward to giving it a shot. hope the RAM works too as RAM is hella expensive rn. there is another question of whether the dGPU i have, NVIDIA 4070ti will work. thankfully i should be able to use some other options AMD6950 etc and different RAM if needed. but looking to get near to the same capability i have rn with existing box. we shall see (im)patiently till the packages arrive.&lt;&#x2F;p&gt;
+&lt;p&gt;research the EFF and total ownership of your devices!&lt;&#x2F;p&gt;
+&lt;p&gt;(UPDATE 02&#x2F;25&#x2F;2026)
+installed and working! i had to switch ram to a different one on the dasharo HCl. then change bios to XMP#1 profile and do a CMOS reset to get to post. happily my 4070ti GPU works out of the box! only small issue is that the fan profile doesnt work from bios, but a quick install of lm_sensors and using pwmconfig i was able to get control. after a little more fooling around i installed the fancontrol app from the cosmic apps and setup a profile with targets for a little better GUI control and responsiveness. everything else works as expected.&lt;&#x2F;p&gt;
+&lt;p&gt;now i&#x27;m going to try and setup my ollama instance again and try using podman this time, was having issues getting docker to utilize the gpu passthru.&lt;&#x2F;p&gt;
+&lt;p&gt;i also was able to restore my win11 vmm in virt-manager so i have access to my work stuff remotely again.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>cosmic-desktop</title>
+        <published>2026-01-08T00:00:00+00:00</published>
+        <updated>2026-01-08T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/cosmic-desktop/"/>
+        <id>https://inktheghost.com/blog/cosmic-desktop/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/cosmic-desktop/">&lt;h1 id=&quot;cosmic-desktop-install-and-experience&quot;&gt;cosmic-desktop install and experience&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;11-37&quot;&gt;11:37&lt;&#x2F;h2&gt;
+&lt;p&gt;so...ive grown a little tired of garuda on the desktop.  it was time to change things up a bit.  i made sure to keep my btrfs sdd current and copied all necessary &#x2F;home files etc before taking the plunge.  i decided i was going to make it my only DE and so i needed to start completely over from scratch.  some things are easier than others and i found that i&#x27;ll need some work arounds to get things working with my server connections etc. booting it up will tell me alot.&lt;&#x2F;p&gt;
+&lt;p&gt;so i started with the most recent arch iso, pulled from their repo, i found the below to download at about 10Mb&#x2F;s which took like 4 min,  not bad for an iso mirror.
+&lt;a href=&quot;https:&#x2F;&#x2F;losangeles.mirror.pkgbuild.com&#x2F;iso&#x2F;2026.01.01&#x2F;archlinux-2026.01.01-x86_64.iso&quot;&gt;https:&#x2F;&#x2F;losangeles.mirror.pkgbuild.com&#x2F;iso&#x2F;2026.01.01&#x2F;archlinux-2026.01.01-x86_64.iso&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;i used gnome-disk-utility to copy the iso to the USB and make it bootable...just use the restore function and select  the .iso file and it&#x27;ll take a couple minutes.&lt;&#x2F;p&gt;
+&lt;p&gt;i booted the OS into my bios, setup the USB boot first, and restarted. the MSI board i have also has a boot disk menu, i just wanted to make sure secure boot was off.&lt;&#x2F;p&gt;
+&lt;p&gt;on boot, the desktop, which is pretty fast, got to a prompt in about 30s.  as I always do, i typed in &lt;code&gt;archinstall --advanced&lt;&#x2F;code&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;i went through the usual items, setup partitioning to recommended layout and used btrfs here, and also left off the 7tb ssd so files wouldn&#x27;t be overwritten.  in the type menu, i selected cosmic and made sure to setup cosmic-greeter as the &#x27;login manager&#x27;.  i also selected nvidia since my 4070ti was detected. i used the new &#x27;open&#x27; drivers 590.xx which is the general direction we are moving with that stuff. no additional packages needed as i wanted to see what would come installed.&lt;&#x2F;p&gt;
+&lt;p&gt;after setting up password, user and static IP, i was ready to boot.  total install time from first arch prompt was about 5 min to done.  reboot option selected and away we go. cosmic-greeter was nice, and set to default background both monitors came up and i entered my password i setup.  i was greeted by an informational bubble to walk me through some cosmic nuances.  i just clicked through it as i would rather just poke around.  some main differences off the bat:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;terminal was not fish - ill change that later&lt;&#x2F;li&gt;
+&lt;li&gt;a little better notification panel out of the box over gnome (what i usually use)&lt;&#x2F;li&gt;
+&lt;li&gt;some nuances in the always-on dock (adjustable to hide)&lt;&#x2F;li&gt;
+&lt;li&gt;panel usability is a little different, not sure if ill be able to add things, like my tailscale button in the settings panel as those are all individualized&lt;&#x2F;li&gt;
+&lt;li&gt;the dock has some configurable buttons that are specific to cosmic, launcher, workspace switching, etc&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;some similarities:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;has a gnome (feel) to it for sure&lt;&#x2F;li&gt;
+&lt;li&gt;upper panel pretty much the same with layout, perhaps a little more control in the cosmic-tweak function&lt;&#x2F;li&gt;
+&lt;li&gt;the super button brings up the application folder, with a tabbed layout rather than scroll (grouping function seems easier), but very familiar&lt;&#x2F;li&gt;
+&lt;li&gt;easier theming than gnome through settings &amp;gt; appearance and cosmic-tweaks&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;overall a little nuanced but familiar feel.  the animations are snappy and the details are nice. opted for a darker them with rounded windows and contrasting &#x27;current window&#x27; highlights.&lt;&#x2F;p&gt;
+&lt;p&gt;things i&#x27;ve tested out so far:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;virtualbox - same experience as garuda, causes fans to ramp even with low load in vm.  ive since setup virt-manager and have been very pleased with loads dropping to near idle with vm running (seeing 1% CPU load with virtmanager, rather than 4-7% with vbox) - HUGE difference. and i&#x27;ll detail that experience in another post.&lt;&#x2F;li&gt;
+&lt;li&gt;remmina - pretty much abandoned.  was having vnc issues with virt-manager, just ended up installing rustdesk in my windows vm, on the cosmic-desktop and on my arch garuda laptop, works just as well maybe even a little better than remmina (has a teamviewer feel) and becasuse it keeps telling me its faster if i self-host, i&#x27;m also working on a rustdesk-server OSS implementation on my &#x2F;homelab now.  will detail that more later.&lt;&#x2F;li&gt;
+&lt;li&gt;apps:  i dont use office or anything, so i cant speak to that, but pretty much all arch packages are installed.&lt;&#x2F;li&gt;
+&lt;li&gt;chaotic AUR: setup was pretty much the same as garuda, though not included&lt;&#x2F;li&gt;
+&lt;li&gt;system: i have a few things to do still, fstab edit for nfs mounts.  i did move my &#x2F;home files to the new dir from my 7tb ssd and reformatted it and added it to the new &#x2F;home dir (same as last time). ive detailed that below, cause i forgot how i did it last time.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;btrfs stuff:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;sudo mkfs.btrfs -f &#x2F;dev&#x2F;sda1
+&lt;&#x2F;span&gt;&lt;span&gt;sudo btrfs device add -f &#x2F;dev&#x2F;sda &#x2F;home #this will basically do the same thing
+&lt;&#x2F;span&gt;&lt;span&gt;sudo btrfs balance start &#x2F;home
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;i redid all the git mounts to my forgejo server and setup obsidian to folder (notes).
+i also installed yay and used it for building trivalent-bin &lt;code&gt;yay-S trivalent-bin&lt;&#x2F;code&gt; , which is a FOSS browser (chromium-based) hardened and borrowing heavily from graphene OS vanadium browser and originally built for fedora secureBLUE.  try it out if you have a chance.  way better than Brave browser.&lt;&#x2F;p&gt;
+&lt;p&gt;ive gotten docker up and running also, with my ollama instance on bare-metal...i&#x27;ve got to get openweb-UI or something else to interface with it like i did before, but i didnt save the compose file to my forgejo, so im having to work that out from scratch again...rn its not seeing my models on the disk.&lt;&#x2F;p&gt;
+&lt;p&gt;that&#x27;s it for now! so far smooth sailing and i might even redo the laptop at some point.  the virt-manager and rustdesk solutions were probably the most difficult part of getting back to where I was.  overall i had probably a 1&#x2F;2 day doing setup.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>

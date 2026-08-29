@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src-attr 'unsafe-inline'">
+
+    
+    <script defer src="http://uma.destratify.pro/script.js" data-website-id="4fcbcec9-bb7c-4697-8a62-20ad992a6092"></script>
+    
+    <title>debian - OpenRC | ink the ghost</title>
+
+    <link href="https://defcon.social/@970uts1d3" rel="me">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://inktheghost.com/css/style.css?h=287f84ed6c66dca911c6">
+    <link rel="icon" type="image/png" href="https://inktheghost.com/icons/favicon.png">
+    <link rel="apple-touch-icon" href="https://inktheghost.com/processed_images/favicon.ab2897ee8708a1f8.png">
+    <script src="https://inktheghost.com/js/auto-close-popover-on-resize.js?h=4ef87d6fc7b98b22e044" defer></script>
+    <script src="https://inktheghost.com/js/copy-code-to-clipboard.js?h=b34dc626be3e4c8a0f55" defer></script>
+
+    <link rel="canonical" href="https://inktheghost.com/blog/debian-openrc/">
+    
+    <meta name="author" content="970uts1d3">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#211f1a">
+    <meta name="color-scheme" content="dark">
+
+    <meta property="og:title" content="debian - OpenRC">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://inktheghost.com/blog/debian-openrc/">
+    <meta property="og:site_name" content="ink the ghost">
+    <meta property="og:updated_time" content="2026-08-29T22:06:35.536430791+00:00">
+    <meta property="article:published_time" content="2026-03-25T00:00:00+00:00">
+    <meta property="article:tag" content="debian">
+    <meta property="article:tag" content="openRC">
+    <meta property="article:tag" content="OS">
+
+</head>
+
+<body class="layout-center" data-theme="terminus">
+    <header class="header">
+        <div class="header-container">
+            <span class="header-logo-container">
+                <a href="https://inktheghost.com">
+                    <span class="logo">ink the ghost</span>
+                </a>
+            </span>
+        </div>
+        <nav class="main-menu" aria-label="Main Menu">
+            <a class="skip-to-content" href="#main">Skip to main content</a>
+            <button class="main-menu-dropdown-button" popovertarget="nav-menu">Menu</button>
+            <ul id="nav-menu" class="main-menu-items" aria-label="Site Navigation" popover>
+                <li><a href="https://inktheghost.com/blog/">blog</a></li>
+                <li><a href="https://inktheghost.com/archive/">archive</a></li>
+                <li><a href="https://inktheghost.com/tags/">tags</a></li>
+                <li><a href="https://inktheghost.com/about/">about</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main id="main">
+        <article class="post content">
+            <header>
+                <h1 class="post-title">
+                    <a href="https://inktheghost.com/blog/debian-openrc/">debian - OpenRC</a>
+                </h1>
+                <ul class="post-meta hidden">
+                    <li title="Published on 2026-03-25"><time datetime="2026-03-25">2026.03.25</time></li>
+                    <li role="separator" aria-hidden="true">::</li>
+                    <li title="1520 words"><time datetime="PT8M">8 min</time> read</li>
+                </ul>
+                <div class="post-tags">
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/debian/">debian</a></span>
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/openrc/">openRC</a></span>
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/os/">OS</a></span>
+                </div>
+            </header>
+
+<h1 id="debian-openrc-install-and-tweaks-also-debian-testing-repos-work">debian - OpenRC install and tweaks, also debian testing repos work</h1>
+<h2 id="15-58">15:58</h2>
+<p>so poking around on the internet, i was trying to find some distros that are sans systemd - i didn't like the maintainer, Lennart Poettering, just pushing through the merge request from the one guy who decided he would accept the verify ID laws as truth, without consulting anyone else, and interlock it with systemd. bad move, and i think it both caught alot of developers off guard and has raised hackles on many in the community who'd disagree that this is even legal (as its yet to be decided in court whats even enforcable)...i could go on, maybe that's why you are here, maybe not.</p>
+<p><a href="https://www.sambent.com/the-engineer-who-tried-to-put-age-verification-into-linux-5/">https://www.sambent.com/the-engineer-who-tried-to-put-age-verification-into-linux-5/</a></p>
+<p>so what are the options? plenty of distros out there come sans systemd, but what are the tradeoffs and negatives? well, i spent a good bit of time distro hopping again - even accidentally wiped the wrong partition, wiping out my cachyOS, so i'm writing this now, from my laptop running openRC Debian.</p>
+<p>now there are other distros, tried void, tried venom, i'm tinkering with freebsd also...gentoo (very difficult install) in search of a somewhat easy to convert distro with no drawbacks in package systems (i.e special repos, etc) and surprisingly only 2 really fit the bill.  Alpine Linux and Debian. Alpine would work on a desktop well, but it couldn't easily pickup the touchpad, so it was out (again laptop daily driver is important here), and that left Debian.</p>
+<p>found an article by CyberSecGuru that helped lead me in the right direction <a href="https://thecybersecguru.com/tutorials/switch-systemd-to-openrc/#comments">https://thecybersecguru.com/tutorials/switch-systemd-to-openrc/#comments</a></p>
+<p>and some references to the openRC conversion in the debian docs <a href="https://wiki.debian.org/OpenRC">https://wiki.debian.org/OpenRC</a></p>
+<p>so the simplistic take debian states is not helpful in getting this working, and is also partially implemented in CyberSecGuru's guide anyways, so i just followed that.</p>
+<h3 id="getting-started">getting started</h3>
+<p>now will this work for you? maybe. it seemed like every time i went through this i ended up using a different command, but first off, get the debian netinstall iso and boot from it, install the barebones system only, you can just add the other stuff after.</p>
+<p>boot from the clean install, login as root and starting at the prompt,
+enter some iteration of the below:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>apt update &amp;&amp; apt upgrade
+</span><span>apt purge --allow-remove-essential systemd-sysv &amp;&amp; apt install openrc sysvinit-core 
+</span></code></pre>
+<p>essentially, just add and remove stuff that keeps bonking on the dependencies until you get a y/n prompt and boom.</p>
+<p>now the installer will tell you the following line to type in, you don't have any GUI or copy and paste ability from tty1, so just be careful typing things in and double check before hitting enter:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>for file in /etc/rc0.d/K*; do s=`basename $(readlink &quot;$file&quot;)` ; /etc/init.d/$s stop; done
+</span></code></pre>
+<p>it should reboot after that. i had to force shutdown with the power button, but it booted up ok and then you are able to start adding packages.</p>
+<p><em><strong>network settings should remain after the boot, its using the ifupdown package, so lookup whatever you may need to do to get that working (again on a laptop - so i manually set a network and password in /etc/network/interfaces file).</strong></em>
+for me this looked like:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>ifdown wlp0s20f3
+</span><span>ifup wlp0s20f3
+</span></code></pre>
+<p>i had on multiple occasions the need to set ifdown and bring it back up to get apt update working while i was in the same session, but it works.</p>
+<p>after hosing a previous installation with a dual boot issue, i started wondering if there would be a good point in this process to change the repos to debian testing, and it seemed like while there were just a few packages installed that would be a good time. i made sure to add the package blocker for systemd in /etc/apt/preferences.d/systemd and made sure none of the systemd packages were brought in during the update/upgrade process.</p>
+<p><em><strong>the below works, but i would recommend the debian testing netinstall iso as the greatest difficulty i've had was if the kernel would update properly, and with the testing iso you don't have to worry about that</strong></em></p>
+<p>i changed the repos to testing from trixie in /etc/apt/sources.list and commented out the update repos as per the debian instructions for upgrading to the testing repos and did a quick <code>apt update and apt dist upgrade</code> adding the programs recommended by Cybersecguru, your needs maybe different. i did a reboot after those and then started pulling more with my apt command as follows...</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>apt install build-essential git curl wget kde-plasma-desktop network-manager ssh 
+</span></code></pre>
+<p>you can add others later, but that basically pulls like 1100 some odd packages and with a reboot gets you into the login prompt in kde.</p>
+<h3 id="nuances">nuances</h3>
+<h3 id="update">***update</h3>
+<p>with kde-plasma-desktop installed using debian testing repos, there is a weird quirk that doesn't let you reboot or shutdown from the menu. i traced this back to /etc/init.d/turnstile hanging the reboot and shutdown process. looking like it just duplicates the sddm login manager functions (believe its a pre-cursor to kde-plasma-loginmanager), i just removed it from the init sequence with:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>sudo rc-update del turnstile
+</span></code></pre>
+<p>so far i have not had any issues and menu buttons are working fine again.***</p>
+<p>after boot, ifupdown and network-manager were conflicting. remove ifupdown completely:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>apt purge ifupdown
+</span></code></pre>
+<p>after that comment out everything in the /etc/network/interfaces file and reboot. this is what was throwing off network-manager.</p>
+<p>other things that i consider essential are as follows:</p>
+<ul>
+<li>tailscale</li>
+<li>remmina -with rdp</li>
+<li>obsidian</li>
+<li>power-profiles-daemon</li>
+<li>kitty terminal</li>
+<li>ssh (which worked out of the box)</li>
+</ul>
+<p>tailscale was a bitch to get working, and the takeaways i have from my limited workings with openRC is if its a package that runs as a service, install it from the command line, setup a file in /etc/init.d/"whatever" and add the instructions there. i loosely followed this using a few different methods, and openRC converter on the web and was able to get it working after tweaking the init file (depends- net wasnt working for network-manger, it might for ifupdown but i wasn't on an eth connection).</p>
+<p>get the tailscale scripts from here:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>curl -fsSL https://tailscale.com/install.sh | sh
+</span></code></pre>
+<p>create a rc-service init.d file - here's my working /etc/init.d/tailscale file...</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>#!/sbin/openrc-run
+</span><span>
+</span><span>name=Tailscale
+</span><span>description=&quot;Tailscale node agent&quot;
+</span><span>supervisor=&quot;supervise-daemon&quot;
+</span><span>command=&quot;/usr/bin/tailscaled&quot;
+</span><span>command_args=&quot;--statedir /var/lib/tailscale&quot;
+</span><span>
+</span><span>depend() {
+</span><span>	after network-online 
+</span><span>	use network-online 
+</span><span>}
+</span><span>
+</span><span>start() {
+</span><span>    ebegin &quot;Starting Tailscale&quot;
+</span><span>    /usr/sbin/tailscaled --state=/var/lib/tailscale/tailscaled.state
+</span><span>    eend $?
+</span><span>}
+</span><span>
+</span><span>stop() {
+</span><span>    ebegin &quot;Stopping Tailscale&quot;
+</span><span>    killall tailscaled
+</span><span>    eend $?
+</span><span>}
+</span><span>
+</span><span>status() {
+</span><span>    if pgrep tailscaled &gt; /dev/null; then
+</span><span>        ebegin &quot;Tailscale is running&quot;
+</span><span>        eend 0
+</span><span>    else
+</span><span>        ebegin &quot;Tailscale is not running&quot;
+</span><span>        eend 1
+</span><span>    fi
+</span><span>}
+</span></code></pre>
+<p>if i remember correctly, some of this was borrowed from tailscale-openrc script in Alpine, some of it was digested using the <a href="http://openrc.run/">http://openrc.run/</a> website and i was really skeptical that it would even work, but it did!</p>
+<p>lastly you need to chmod it, add to openrc-run with the following command and start it, or reboot up to you.</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>sudo chmod +x /etc/init.d/tailscale
+</span><span>sudo rc-update add tailscale default
+</span><span>sudo rc-service tailscale start
+</span></code></pre>
+<p>then, give it a shot with <code>sudo tailscale up</code> and you should get the login prompt if everything went ok. those last commands came from <a href="https://peet.io/blog/0004-tailscale-on-alpine-linux">https://peet.io/blog/0004-tailscale-on-alpine-linux</a> which i'd referenced in getting the init script up and running, but kept having the net-depends error...</p>
+<p>tested it out over numerous reboots and running a remote remmina from a phone hotspot to make sure it actually worked with the home network connection and all was well.</p>
+<p>the power-profiles-daemon also was non-functional on boot and that was a little easier guide to follow that i pulled from Alpine linux:
+<a href="https://github.com/h8d13/ppd-openrc">https://github.com/h8d13/ppd-openrc</a></p>
+<p>i cloned the repo and followed the instructions, replacing apk and doas lingo as needed:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>sudo apt install power-profiles-daemon
+</span></code></pre>
+<p>this downloads the daemon, possibly re-installs, if its already there, then i confirmed the file location with the whereis command:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>whereis power-profiles-daemon
+</span></code></pre>
+<p>knowing that location matched the instructions in the github directions i just followed the rest of the guide:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>sudo cp power-profiles-daemon.initd /etc/init.d/power-profiles-daemon
+</span><span>sudo chmod +x /etc/init.d/power-profiles-daemon
+</span><span>
+</span><span>sudo cp power-profiles-daemon.confd /etc/conf.d/power-profiles-daemon
+</span><span>sudo chmod +x /etc/conf.d/power-profiles-daemon
+</span><span>
+</span><span>sudo cp ppd-profile /usr/bin/ppd-profile
+</span><span>sudo chmod +x /usr/bin/ppd-profile
+</span><span>
+</span><span>sudo rc-update add power-profiles-daemon default
+</span><span>sudo rc-service power-profiles-daemon start
+</span><span>
+</span><span>sudo ppd-profile balanced
+</span></code></pre>
+<p>on reboot the power profiles was no longer greyed out in the settings</p>
+<p>remmina, kitty, ssh all worked outta the box, obsidian i installed the deb file from the obsidian website<del>, and the only thing i seem to have to troubleshoot is getting sound to play over bluetooth (wireless bluetooth headphones do not appear under sounds &gt; outputs, but play fine over the speakers). i will update once i get that working...</del></p>
+<h2 id="bluetooth-fix-not-hard">bluetooth fix...not hard</h2>
+<p>thanks to a forum recommending the debian forums ;) i went to <a href="https://wiki.debian.org/BluetoothUser/a2dp">https://wiki.debian.org/BluetoothUser/a2dp</a> and under pre-configuration step one did the following:</p>
+<pre data-lang="bash" style="background-color:#272822;color:#f8f8f2;" class="language-bash "><code class="language-bash" data-lang="bash"><span>sudo apt install pulseaudio-module-bluetooth
+</span></code></pre>
+<p>with a quick system reboot i was listening to audio on my wireless bluetooth Sony WH1000-XM5! booyah.</p>
+<h3 id="takeaways">takeaways?</h3>
+<p>holy shit does the same system boot way faster! digestible output in the boot sequence, systemd is a monolith and the memory footprint is huge comparatively. little bit of work to get it all done, but you have the advantages of the full debian repos over the limited proprietary ones in Devuan for instance. i'd love to see an arch distro just up and tell systemd to fuckoff. the artix linux is lacking (cant boot video on my laptop without the nomodeset kernel line variable) and has a proprietary repo scenario as well, so i think i might dig into that next, but arch is significantly intertwined with systemd it appears. which is a major bummer, as pacman is by far the best package manager in linux oses, but whatever...also Cosmic-Desktop (system76) if you are listening, get off systemd.</p>
+<p>now i need to figure out why my media / play buttons have disappeared in my browser - likely a site setting blocked in librewolf</p>
+
+        </article>
+        <nav class="post-navigation">
+            <header class="post-navigation-title">
+                <h2>Read More Posts</h2>
+                <hr>
+            </header>
+            <div class="post-navigation-buttons">
+                <a rel="next" href="https://inktheghost.com/blog/keylightc-system76/" aria-label="Next article">
+                    <span aria-hidden="true">&lt;&nbsp;[</span>keylightc - system76<span aria-hidden="true">]</span>
+                </a>
+                <span aria-hidden="true" role="separator">::</span>
+                <a rel="prev" href="https://inktheghost.com/blog/automatic-keyboard-backlight/" aria-label="Prev article">
+                    <span aria-hidden="true">[</span>automatic-keyboard-backlight<span aria-hidden="true">]&nbsp;&gt;</span>
+                </a>
+            </div>
+        </nav>
+    </main>
+    <footer class="footer">
+        <address class="socials">
+            <ul>
+                <li>
+                    <a class="social-link" rel="me" href="https://defcon.social/@970uts1d3" title="mastodon" aria-label="mastodon">
+                        <svg role="img" aria-label="mastodon icon">
+                            <use aria-hidden="true" href="https://inktheghost.com/images/social_icons/mastodon.svg#icon" />
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </address>
+        <p class="copyright">
+            <span>© <time>2026</time> 970uts1d3</span>
+            <span>Powered by <a href="https://www.getzola.org">Zola</a></span>
+            <span>Theme by <a href="https://eyalkalderon.com">ebkalderon</a></span>
+        </p>
+    </footer>
+</body>
+
+</html>

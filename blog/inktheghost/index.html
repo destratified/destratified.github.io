@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src-attr 'unsafe-inline'">
+
+    
+    <script defer src="http://uma.destratify.pro/script.js" data-website-id="4fcbcec9-bb7c-4697-8a62-20ad992a6092"></script>
+    
+    <title>inktheghost | ink the ghost</title>
+
+    <link href="https://defcon.social/@970uts1d3" rel="me">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://inktheghost.com/css/style.css?h=287f84ed6c66dca911c6">
+    <link rel="icon" type="image/png" href="https://inktheghost.com/icons/favicon.png">
+    <link rel="apple-touch-icon" href="https://inktheghost.com/processed_images/favicon.ab2897ee8708a1f8.png">
+    <script src="https://inktheghost.com/js/auto-close-popover-on-resize.js?h=4ef87d6fc7b98b22e044" defer></script>
+    <script src="https://inktheghost.com/js/copy-code-to-clipboard.js?h=b34dc626be3e4c8a0f55" defer></script>
+
+    <link rel="canonical" href="https://inktheghost.com/blog/inktheghost/">
+    
+    <meta name="author" content="970uts1d3">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#211f1a">
+    <meta name="color-scheme" content="dark">
+
+    <meta property="og:title" content="inktheghost">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://inktheghost.com/blog/inktheghost/">
+    <meta property="og:site_name" content="ink the ghost">
+    <meta property="og:updated_time" content="2026-08-29T22:06:35.536870858+00:00">
+    <meta property="article:published_time" content="2025-12-19T00:00:00+00:00">
+    <meta property="article:tag" content="zola">
+    <meta property="article:tag" content="webdev">
+
+</head>
+
+<body class="layout-center" data-theme="terminus">
+    <header class="header">
+        <div class="header-container">
+            <span class="header-logo-container">
+                <a href="https://inktheghost.com">
+                    <span class="logo">ink the ghost</span>
+                </a>
+            </span>
+        </div>
+        <nav class="main-menu" aria-label="Main Menu">
+            <a class="skip-to-content" href="#main">Skip to main content</a>
+            <button class="main-menu-dropdown-button" popovertarget="nav-menu">Menu</button>
+            <ul id="nav-menu" class="main-menu-items" aria-label="Site Navigation" popover>
+                <li><a href="https://inktheghost.com/blog/">blog</a></li>
+                <li><a href="https://inktheghost.com/archive/">archive</a></li>
+                <li><a href="https://inktheghost.com/tags/">tags</a></li>
+                <li><a href="https://inktheghost.com/about/">about</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main id="main">
+        <article class="post content">
+            <header>
+                <h1 class="post-title">
+                    <a href="https://inktheghost.com/blog/inktheghost/">inktheghost</a>
+                </h1>
+                <ul class="post-meta hidden">
+                    <li title="Published on 2025-12-19"><time datetime="2025-12-19">2025.12.19</time></li>
+                    <li role="separator" aria-hidden="true">::</li>
+                    <li title="274 words"><time datetime="PT2M">2 min</time> read</li>
+                </ul>
+                <div class="post-tags">
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/zola/">zola</a></span>
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/webdev/">webdev</a></span>
+                </div>
+            </header>
+
+<h1 id="inktheghost-com">inktheghost.com</h1>
+<h2 id="17-53">17:53</h2>
+<p>wanting to move my blog to a domain name i have setup instead of the name github pages give me i did a little searching.  borrowing from the excerpt from <a href="https://thedataquarry.com/blog/static-site-zola/">https://thedataquarry.com/blog/static-site-zola/</a> from which i've pulled some random zola information before...i setup a name cheap domain to match my webpage - holiday discounts out rn! i found inktheghost.com was not taken. yay. and proceeded to pay and setup as shown by &lt;thedataquarry.com&gt;</p>
+<p>following his namecheap directions...i already have a namecheap account so that part was easy. i did the below:</p>
+<p>"I created the list of A records to point my apex domain to the IP addresses for the GitHub Page, as per the docs. Note the <code>CNAME Record</code> on the last line (this is important). On the Zola side, I simply create a file called <code>CNAME</code> in the <code>static</code> folder, and add the following line to it:"</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span>inktheghost.com
+</span></code></pre>
+<p>too easy it seems. well of course that was the case.  i push the contents, waiting for the rebuild and blammo, fucking page was rendered all wrong.  quick panic, delete files and gitpush again while i sort it all out.  maybe this will help you too!</p>
+<h1 id="dont-forget-to-change-the-url-reference-in-config-toml">DONT FORGET TO CHANGE THE URL REFERENCE IN CONFIG.TOML</h1>
+<p>yep that was it. add CNAME file to static/ again, change config.toml file in / to the proper URL</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span># The URL the site will be built for
+</span><span>base_url = &quot;https://inktheghost.com&quot;
+</span><span>
+</span><span>theme = &quot;terminus&quot;
+</span><span>title = &quot;ink the ghost&quot;
+</span><span>
+</span></code></pre>
+<p>re-push and page looks correct, whew.</p>
+<p>now i got a static generated, zola-based, custom domain-named webpage hosted on github pages, using a repo that i can edit on my laptop in obsidian notes synced with git and can easily push updates :) fuck ya.</p>
+
+        </article>
+        <nav class="post-navigation">
+            <header class="post-navigation-title">
+                <h2>Read More Posts</h2>
+                <hr>
+            </header>
+            <div class="post-navigation-buttons">
+                <a rel="next" href="https://inktheghost.com/blog/zfs/" aria-label="Next article">
+                    <span aria-hidden="true">&lt;&nbsp;[</span>zfs<span aria-hidden="true">]</span>
+                </a>
+                <span aria-hidden="true" role="separator">::</span>
+                <a rel="prev" href="https://inktheghost.com/blog/proxmox/" aria-label="Prev article">
+                    <span aria-hidden="true">[</span>proxmox<span aria-hidden="true">]&nbsp;&gt;</span>
+                </a>
+            </div>
+        </nav>
+    </main>
+    <footer class="footer">
+        <address class="socials">
+            <ul>
+                <li>
+                    <a class="social-link" rel="me" href="https://defcon.social/@970uts1d3" title="mastodon" aria-label="mastodon">
+                        <svg role="img" aria-label="mastodon icon">
+                            <use aria-hidden="true" href="https://inktheghost.com/images/social_icons/mastodon.svg#icon" />
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </address>
+        <p class="copyright">
+            <span>© <time>2026</time> 970uts1d3</span>
+            <span>Powered by <a href="https://www.getzola.org">Zola</a></span>
+            <span>Theme by <a href="https://eyalkalderon.com">ebkalderon</a></span>
+        </p>
+    </footer>
+</body>
+
+</html>

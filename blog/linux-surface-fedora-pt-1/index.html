@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src-attr 'unsafe-inline'">
+
+    
+    <script defer src="http://uma.destratify.pro/script.js" data-website-id="4fcbcec9-bb7c-4697-8a62-20ad992a6092"></script>
+    
+    <title>linux-surface fedora pt 1 | ink the ghost</title>
+
+    <link href="https://defcon.social/@970uts1d3" rel="me">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://inktheghost.com/css/style.css?h=287f84ed6c66dca911c6">
+    <link rel="icon" type="image/png" href="https://inktheghost.com/icons/favicon.png">
+    <link rel="apple-touch-icon" href="https://inktheghost.com/processed_images/favicon.ab2897ee8708a1f8.png">
+    <script src="https://inktheghost.com/js/auto-close-popover-on-resize.js?h=4ef87d6fc7b98b22e044" defer></script>
+    <script src="https://inktheghost.com/js/copy-code-to-clipboard.js?h=b34dc626be3e4c8a0f55" defer></script>
+
+    <link rel="canonical" href="https://inktheghost.com/blog/linux-surface-fedora-pt-1/">
+    
+    <meta name="author" content="970uts1d3">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#211f1a">
+    <meta name="color-scheme" content="dark">
+
+    <meta property="og:title" content="linux-surface fedora pt 1">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://inktheghost.com/blog/linux-surface-fedora-pt-1/">
+    <meta property="og:site_name" content="ink the ghost">
+    <meta property="og:updated_time" content="2026-08-29T22:06:35.525150694+00:00">
+    <meta property="article:published_time" content="2026-08-05T00:00:00+00:00">
+    <meta property="article:tag" content="surface pro9">
+    <meta property="article:tag" content="fedora">
+
+</head>
+
+<body class="layout-center" data-theme="terminus">
+    <header class="header">
+        <div class="header-container">
+            <span class="header-logo-container">
+                <a href="https://inktheghost.com">
+                    <span class="logo">ink the ghost</span>
+                </a>
+            </span>
+        </div>
+        <nav class="main-menu" aria-label="Main Menu">
+            <a class="skip-to-content" href="#main">Skip to main content</a>
+            <button class="main-menu-dropdown-button" popovertarget="nav-menu">Menu</button>
+            <ul id="nav-menu" class="main-menu-items" aria-label="Site Navigation" popover>
+                <li><a href="https://inktheghost.com/blog/">blog</a></li>
+                <li><a href="https://inktheghost.com/archive/">archive</a></li>
+                <li><a href="https://inktheghost.com/tags/">tags</a></li>
+                <li><a href="https://inktheghost.com/about/">about</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main id="main">
+        <article class="post content">
+            <header>
+                <h1 class="post-title">
+                    <a href="https://inktheghost.com/blog/linux-surface-fedora-pt-1/">linux-surface fedora pt 1</a>
+                </h1>
+                <ul class="post-meta hidden">
+                    <li title="Published on 2026-08-05"><time datetime="2026-08-05">2026.08.05</time></li>
+                    <li role="separator" aria-hidden="true">::</li>
+                    <li title="409 words"><time datetime="PT3M">3 min</time> read</li>
+                </ul>
+                <div class="post-tags">
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/surface-pro9/">surface pro9</a></span>
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/fedora/">fedora</a></span>
+                </div>
+            </header>
+
+<h1 id="linux-surface-fedora-pt-1">linux-surface fedora pt 1</h1>
+<h2 id="06-59">06:59</h2>
+<h2 id="main-installation-instructions">Main installation instructions</h2>
+<hr />
+<p>this is a brief overview of how i initially got fedora working on my linux-surface pro 9.</p>
+<p>needs:</p>
+<ul>
+<li>fedora44 (or latest) live cd on bootable usb (i used KDE)</li>
+<li>USB-C to USB-A adapter</li>
+<li>USB-A keyboard and mouse plugged into USB-C adapter</li>
+</ul>
+<p>using bootable live cd on usb and USB-C to USB-A adapter, boot into surface bios and make sure boot from usb is at the top of the boot list, also make sure secureboot is off and restart</p>
+<p>this should bring up the fedora live cd boot screen. once inside click install to get going with the anaconda system installer, you can dual-boot with windows if you first make space by shrinking win partition, i said fuck windows and wiped whole disk
+fedora has wonderful btrfs support out of the box with snapper (for snapshots) and grub-btrfs i recommend that for the install, but you do xfs, ext4 whatever.</p>
+<p>got through the rest of the installation, and reboot</p>
+<p>once rebooted, you can setup some things, i usually start with the grub-btrfs and snapper setup as i like to have snapshots available in case i ruin shit, which i often do.</p>
+<p>its fairly easy compared to the setup i went through on my gentoo install, any way, now you can install linux-surface copr repo and add the linux-surface kernel goodies, which as of late was up to kernel 6.19</p>
+<p>[https://github.com/linux-surface/linux-surface/tree/master/patches](linux-surface repo)</p>
+<p>the fedora setup is pretty self-explanitory, following the directions here is a good start.</p>
+<p><a href="https://inktheghost.com/blog/linux-surface-fedora-pt-1/fedora-instructions">https://github.com/linux-surface/linux-surface/wiki/Installation-and-Setup#Fedora</a></p>
+<p>then make sure to pay attention to the directions specific for your model - i only have the surface pro 9</p>
+<p>[https://github.com/linux-surface/linux-surface/wiki/Surface-Pro-9](surface-pro9 caveats)</p>
+<p>reboot into linux-surface kernal and test things out!</p>
+<p>this gets you into a fairly well-rounded stable install of fedora, which is most likely good for the vast majority of folks...however if you want to take things further, make sure to go through the steps to get secureboot working and make sure that's operating nicely and then proceed to pt 2, where i attempt to clone torvalds kernel source starting at linux-7.2-rc4 and modify patches to get them working with the surface.</p>
+
+        </article>
+        <nav class="post-navigation">
+            <header class="post-navigation-title">
+                <h2>Read More Posts</h2>
+                <hr>
+            </header>
+            <div class="post-navigation-buttons">
+                <a rel="next" href="https://inktheghost.com/blog/fedora-snapper-grub-btrfs/" aria-label="Next article">
+                    <span aria-hidden="true">&lt;&nbsp;[</span>fedora-snapper-grub-btrfs<span aria-hidden="true">]</span>
+                </a>
+                <span aria-hidden="true" role="separator">::</span>
+                <a rel="prev" href="https://inktheghost.com/blog/linux-surface-fedora-pt-2/" aria-label="Prev article">
+                    <span aria-hidden="true">[</span>linux-surface fedora pt 2<span aria-hidden="true">]&nbsp;&gt;</span>
+                </a>
+            </div>
+        </nav>
+    </main>
+    <footer class="footer">
+        <address class="socials">
+            <ul>
+                <li>
+                    <a class="social-link" rel="me" href="https://defcon.social/@970uts1d3" title="mastodon" aria-label="mastodon">
+                        <svg role="img" aria-label="mastodon icon">
+                            <use aria-hidden="true" href="https://inktheghost.com/images/social_icons/mastodon.svg#icon" />
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </address>
+        <p class="copyright">
+            <span>© <time>2026</time> 970uts1d3</span>
+            <span>Powered by <a href="https://www.getzola.org">Zola</a></span>
+            <span>Theme by <a href="https://eyalkalderon.com">ebkalderon</a></span>
+        </p>
+    </footer>
+</body>
+
+</html>

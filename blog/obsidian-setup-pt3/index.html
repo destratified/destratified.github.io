@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src-attr 'unsafe-inline'">
+
+    
+    <script defer src="http://uma.destratify.pro/script.js" data-website-id="4fcbcec9-bb7c-4697-8a62-20ad992a6092"></script>
+    
+    <title>obsidian git repo sync android app | ink the ghost</title>
+
+    <link href="https://defcon.social/@970uts1d3" rel="me">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://inktheghost.com/css/style.css?h=287f84ed6c66dca911c6">
+    <link rel="icon" type="image/png" href="https://inktheghost.com/icons/favicon.png">
+    <link rel="apple-touch-icon" href="https://inktheghost.com/processed_images/favicon.ab2897ee8708a1f8.png">
+    <script src="https://inktheghost.com/js/auto-close-popover-on-resize.js?h=4ef87d6fc7b98b22e044" defer></script>
+    <script src="https://inktheghost.com/js/copy-code-to-clipboard.js?h=b34dc626be3e4c8a0f55" defer></script>
+
+    <link rel="canonical" href="https://inktheghost.com/blog/obsidian-setup-pt3/">
+    
+    <meta name="author" content="970uts1d3">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#211f1a">
+    <meta name="color-scheme" content="dark">
+
+    <meta property="og:title" content="obsidian git repo sync android app">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://inktheghost.com/blog/obsidian-setup-pt3/">
+    <meta property="og:site_name" content="ink the ghost">
+    <meta property="og:updated_time" content="2026-08-29T22:06:35.534585210+00:00">
+    <meta property="article:published_time" content="2025-10-14T00:00:00+00:00">
+    <meta property="article:tag" content="obsidian">
+    <meta property="article:tag" content="android">
+    <meta property="article:tag" content="proxmox">
+
+</head>
+
+<body class="layout-center" data-theme="terminus">
+    <header class="header">
+        <div class="header-container">
+            <span class="header-logo-container">
+                <a href="https://inktheghost.com">
+                    <span class="logo">ink the ghost</span>
+                </a>
+            </span>
+        </div>
+        <nav class="main-menu" aria-label="Main Menu">
+            <a class="skip-to-content" href="#main">Skip to main content</a>
+            <button class="main-menu-dropdown-button" popovertarget="nav-menu">Menu</button>
+            <ul id="nav-menu" class="main-menu-items" aria-label="Site Navigation" popover>
+                <li><a href="https://inktheghost.com/blog/">blog</a></li>
+                <li><a href="https://inktheghost.com/archive/">archive</a></li>
+                <li><a href="https://inktheghost.com/tags/">tags</a></li>
+                <li><a href="https://inktheghost.com/about/">about</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main id="main">
+        <article class="post content">
+            <header>
+                <h1 class="post-title">
+                    <a href="https://inktheghost.com/blog/obsidian-setup-pt3/">obsidian git repo sync android app</a>
+                </h1>
+                <ul class="post-meta hidden">
+                    <li title="Published on 2025-10-14"><time datetime="2025-10-14">2025.10.14</time></li>
+                    <li role="separator" aria-hidden="true">::</li>
+                    <li title="374 words"><time datetime="PT2M">2 min</time> read</li>
+                </ul>
+                <div class="post-tags">
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/obsidian/">obsidian</a></span>
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/android/">android</a></span>
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/proxmox/">proxmox</a></span>
+                </div>
+            </header>
+
+<p>so the basics of this is the app setup essentially has the same access to the git community repository, so the setup between android and linux is pretty much the same, yet different enough that you have to follow the below procedure - this specifically seems to be the way that you have to do it imho</p>
+<ol>
+<li>if you have another installation of obsidian (like on your laptop/desktop): you must delete the .obsidian files in this folder to get this to play nicely when setting up the repo on android. the easiest way for me to do this was to delete the .obsidian folder using rm -r .obsidian/ on my local gitea folder, then git push to sync with gitea.</li>
+<li>now setup whatever folder you want to access within android through the files app - i have two folders, so i went to my directory root and added notes and blog folders</li>
+<li>on a fresh install use the add existing folder and select the folder you want to use for obsidian.  in my case notes</li>
+<li>now obsidian should take you into the note screen with a fresh directory, no other files present</li>
+<li>go to the menu and settings cog and add communtity repos then search add and install git</li>
+<li>enable git plugin and add as many details as you can.  i like to tweak some settings and add my repo username and gitera access token.</li>
+<li>you will now need to swipe down and enter the same menu you would access with ctrl + p in the desktop version.</li>
+<li>you are now going to type git clone and select what comes up first</li>
+<li>add your gitea url to the repo</li>
+<li>select vault root</li>
+<li>next question will ask you if you have .obsidian files in the remote dir.  before you select yes...access the files app in android, goto the folder you setup (in my case notes and delete the new .obsidian folder thats in the android folder!!!</li>
+<li>now back in the app click NO to the prompt about the .obsidian folders.</li>
+<li>it will now pull the repo and ask you to restart the app.  do that and verify the folders/files have shown up</li>
+</ol>
+
+        </article>
+        <nav class="post-navigation">
+            <header class="post-navigation-title">
+                <h2>Read More Posts</h2>
+                <hr>
+            </header>
+            <div class="post-navigation-buttons">
+                <a rel="next" href="https://inktheghost.com/blog/ansible-setup-pt1/" aria-label="Next article">
+                    <span aria-hidden="true">&lt;&nbsp;[</span>ansible playbooks for proxmox host - pt.1<span aria-hidden="true">]</span>
+                </a>
+                <span aria-hidden="true" role="separator">::</span>
+                <a rel="prev" href="https://inktheghost.com/blog/obsidian-setup-pt2/" aria-label="Prev article">
+                    <span aria-hidden="true">[</span>now through obsidian<span aria-hidden="true">]&nbsp;&gt;</span>
+                </a>
+            </div>
+        </nav>
+    </main>
+    <footer class="footer">
+        <address class="socials">
+            <ul>
+                <li>
+                    <a class="social-link" rel="me" href="https://defcon.social/@970uts1d3" title="mastodon" aria-label="mastodon">
+                        <svg role="img" aria-label="mastodon icon">
+                            <use aria-hidden="true" href="https://inktheghost.com/images/social_icons/mastodon.svg#icon" />
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </address>
+        <p class="copyright">
+            <span>© <time>2026</time> 970uts1d3</span>
+            <span>Powered by <a href="https://www.getzola.org">Zola</a></span>
+            <span>Theme by <a href="https://eyalkalderon.com">ebkalderon</a></span>
+        </p>
+    </footer>
+</body>
+
+</html>

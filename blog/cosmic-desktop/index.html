@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src-attr 'unsafe-inline'">
+
+    
+    <script defer src="http://uma.destratify.pro/script.js" data-website-id="4fcbcec9-bb7c-4697-8a62-20ad992a6092"></script>
+    
+    <title>cosmic-desktop | ink the ghost</title>
+
+    <link href="https://defcon.social/@970uts1d3" rel="me">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://inktheghost.com/css/style.css?h=287f84ed6c66dca911c6">
+    <link rel="icon" type="image/png" href="https://inktheghost.com/icons/favicon.png">
+    <link rel="apple-touch-icon" href="https://inktheghost.com/processed_images/favicon.ab2897ee8708a1f8.png">
+    <script src="https://inktheghost.com/js/auto-close-popover-on-resize.js?h=4ef87d6fc7b98b22e044" defer></script>
+    <script src="https://inktheghost.com/js/copy-code-to-clipboard.js?h=b34dc626be3e4c8a0f55" defer></script>
+
+    <link rel="canonical" href="https://inktheghost.com/blog/cosmic-desktop/">
+    
+    <meta name="author" content="970uts1d3">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#211f1a">
+    <meta name="color-scheme" content="dark">
+
+    <meta property="og:title" content="cosmic-desktop">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://inktheghost.com/blog/cosmic-desktop/">
+    <meta property="og:site_name" content="ink the ghost">
+    <meta property="og:updated_time" content="2026-08-29T22:06:35.533002075+00:00">
+    <meta property="article:published_time" content="2026-01-08T00:00:00+00:00">
+    <meta property="article:tag" content="arch">
+    <meta property="article:tag" content="desktop">
+
+</head>
+
+<body class="layout-center" data-theme="terminus">
+    <header class="header">
+        <div class="header-container">
+            <span class="header-logo-container">
+                <a href="https://inktheghost.com">
+                    <span class="logo">ink the ghost</span>
+                </a>
+            </span>
+        </div>
+        <nav class="main-menu" aria-label="Main Menu">
+            <a class="skip-to-content" href="#main">Skip to main content</a>
+            <button class="main-menu-dropdown-button" popovertarget="nav-menu">Menu</button>
+            <ul id="nav-menu" class="main-menu-items" aria-label="Site Navigation" popover>
+                <li><a href="https://inktheghost.com/blog/">blog</a></li>
+                <li><a href="https://inktheghost.com/archive/">archive</a></li>
+                <li><a href="https://inktheghost.com/tags/">tags</a></li>
+                <li><a href="https://inktheghost.com/about/">about</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main id="main">
+        <article class="post content">
+            <header>
+                <h1 class="post-title">
+                    <a href="https://inktheghost.com/blog/cosmic-desktop/">cosmic-desktop</a>
+                </h1>
+                <ul class="post-meta hidden">
+                    <li title="Published on 2026-01-08"><time datetime="2026-01-08">2026.01.08</time></li>
+                    <li role="separator" aria-hidden="true">::</li>
+                    <li title="970 words"><time datetime="PT5M">5 min</time> read</li>
+                </ul>
+                <div class="post-tags">
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/arch/">arch</a></span>
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/desktop/">desktop</a></span>
+                </div>
+            </header>
+
+<h1 id="cosmic-desktop-install-and-experience">cosmic-desktop install and experience</h1>
+<h2 id="11-37">11:37</h2>
+<p>so...ive grown a little tired of garuda on the desktop.  it was time to change things up a bit.  i made sure to keep my btrfs sdd current and copied all necessary /home files etc before taking the plunge.  i decided i was going to make it my only DE and so i needed to start completely over from scratch.  some things are easier than others and i found that i'll need some work arounds to get things working with my server connections etc. booting it up will tell me alot.</p>
+<p>so i started with the most recent arch iso, pulled from their repo, i found the below to download at about 10Mb/s which took like 4 min,  not bad for an iso mirror.
+<a href="https://losangeles.mirror.pkgbuild.com/iso/2026.01.01/archlinux-2026.01.01-x86_64.iso">https://losangeles.mirror.pkgbuild.com/iso/2026.01.01/archlinux-2026.01.01-x86_64.iso</a></p>
+<p>i used gnome-disk-utility to copy the iso to the USB and make it bootable...just use the restore function and select  the .iso file and it'll take a couple minutes.</p>
+<p>i booted the OS into my bios, setup the USB boot first, and restarted. the MSI board i have also has a boot disk menu, i just wanted to make sure secure boot was off.</p>
+<p>on boot, the desktop, which is pretty fast, got to a prompt in about 30s.  as I always do, i typed in <code>archinstall --advanced</code></p>
+<p>i went through the usual items, setup partitioning to recommended layout and used btrfs here, and also left off the 7tb ssd so files wouldn't be overwritten.  in the type menu, i selected cosmic and made sure to setup cosmic-greeter as the 'login manager'.  i also selected nvidia since my 4070ti was detected. i used the new 'open' drivers 590.xx which is the general direction we are moving with that stuff. no additional packages needed as i wanted to see what would come installed.</p>
+<p>after setting up password, user and static IP, i was ready to boot.  total install time from first arch prompt was about 5 min to done.  reboot option selected and away we go. cosmic-greeter was nice, and set to default background both monitors came up and i entered my password i setup.  i was greeted by an informational bubble to walk me through some cosmic nuances.  i just clicked through it as i would rather just poke around.  some main differences off the bat:</p>
+<ul>
+<li>terminal was not fish - ill change that later</li>
+<li>a little better notification panel out of the box over gnome (what i usually use)</li>
+<li>some nuances in the always-on dock (adjustable to hide)</li>
+<li>panel usability is a little different, not sure if ill be able to add things, like my tailscale button in the settings panel as those are all individualized</li>
+<li>the dock has some configurable buttons that are specific to cosmic, launcher, workspace switching, etc</li>
+</ul>
+<p>some similarities:</p>
+<ul>
+<li>has a gnome (feel) to it for sure</li>
+<li>upper panel pretty much the same with layout, perhaps a little more control in the cosmic-tweak function</li>
+<li>the super button brings up the application folder, with a tabbed layout rather than scroll (grouping function seems easier), but very familiar</li>
+<li>easier theming than gnome through settings &gt; appearance and cosmic-tweaks</li>
+</ul>
+<p>overall a little nuanced but familiar feel.  the animations are snappy and the details are nice. opted for a darker them with rounded windows and contrasting 'current window' highlights.</p>
+<p>things i've tested out so far:</p>
+<ul>
+<li>virtualbox - same experience as garuda, causes fans to ramp even with low load in vm.  ive since setup virt-manager and have been very pleased with loads dropping to near idle with vm running (seeing 1% CPU load with virtmanager, rather than 4-7% with vbox) - HUGE difference. and i'll detail that experience in another post.</li>
+<li>remmina - pretty much abandoned.  was having vnc issues with virt-manager, just ended up installing rustdesk in my windows vm, on the cosmic-desktop and on my arch garuda laptop, works just as well maybe even a little better than remmina (has a teamviewer feel) and becasuse it keeps telling me its faster if i self-host, i'm also working on a rustdesk-server OSS implementation on my /homelab now.  will detail that more later.</li>
+<li>apps:  i dont use office or anything, so i cant speak to that, but pretty much all arch packages are installed.</li>
+<li>chaotic AUR: setup was pretty much the same as garuda, though not included</li>
+<li>system: i have a few things to do still, fstab edit for nfs mounts.  i did move my /home files to the new dir from my 7tb ssd and reformatted it and added it to the new /home dir (same as last time). ive detailed that below, cause i forgot how i did it last time.</li>
+</ul>
+<p>btrfs stuff:</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span>sudo mkfs.btrfs -f /dev/sda1
+</span><span>sudo btrfs device add -f /dev/sda /home #this will basically do the same thing
+</span><span>sudo btrfs balance start /home
+</span></code></pre>
+<p>i redid all the git mounts to my forgejo server and setup obsidian to folder (notes).
+i also installed yay and used it for building trivalent-bin <code>yay-S trivalent-bin</code> , which is a FOSS browser (chromium-based) hardened and borrowing heavily from graphene OS vanadium browser and originally built for fedora secureBLUE.  try it out if you have a chance.  way better than Brave browser.</p>
+<p>ive gotten docker up and running also, with my ollama instance on bare-metal...i've got to get openweb-UI or something else to interface with it like i did before, but i didnt save the compose file to my forgejo, so im having to work that out from scratch again...rn its not seeing my models on the disk.</p>
+<p>that's it for now! so far smooth sailing and i might even redo the laptop at some point.  the virt-manager and rustdesk solutions were probably the most difficult part of getting back to where I was.  overall i had probably a 1/2 day doing setup.</p>
+
+        </article>
+        <nav class="post-navigation">
+            <header class="post-navigation-title">
+                <h2>Read More Posts</h2>
+                <hr>
+            </header>
+            <div class="post-navigation-buttons">
+                <a rel="next" href="https://inktheghost.com/blog/laptop-cosmic/" aria-label="Next article">
+                    <span aria-hidden="true">&lt;&nbsp;[</span>laptop_cosmic<span aria-hidden="true">]</span>
+                </a>
+                <span aria-hidden="true" role="separator">::</span>
+                <a rel="prev" href="https://inktheghost.com/blog/archive-tab-for-zola/" aria-label="Prev article">
+                    <span aria-hidden="true">[</span>archive tab for zola<span aria-hidden="true">]&nbsp;&gt;</span>
+                </a>
+            </div>
+        </nav>
+    </main>
+    <footer class="footer">
+        <address class="socials">
+            <ul>
+                <li>
+                    <a class="social-link" rel="me" href="https://defcon.social/@970uts1d3" title="mastodon" aria-label="mastodon">
+                        <svg role="img" aria-label="mastodon icon">
+                            <use aria-hidden="true" href="https://inktheghost.com/images/social_icons/mastodon.svg#icon" />
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </address>
+        <p class="copyright">
+            <span>© <time>2026</time> 970uts1d3</span>
+            <span>Powered by <a href="https://www.getzola.org">Zola</a></span>
+            <span>Theme by <a href="https://eyalkalderon.com">ebkalderon</a></span>
+        </p>
+    </footer>
+</body>
+
+</html>

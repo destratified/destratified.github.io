@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src-attr 'unsafe-inline'">
+
+    
+    <script defer src="http://uma.destratify.pro/script.js" data-website-id="4fcbcec9-bb7c-4697-8a62-20ad992a6092"></script>
+    
+    <title>fastfetch | ink the ghost</title>
+
+    <link href="https://defcon.social/@970uts1d3" rel="me">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://inktheghost.com/css/style.css?h=287f84ed6c66dca911c6">
+    <link rel="icon" type="image/png" href="https://inktheghost.com/icons/favicon.png">
+    <link rel="apple-touch-icon" href="https://inktheghost.com/processed_images/favicon.ab2897ee8708a1f8.png">
+    <script src="https://inktheghost.com/js/auto-close-popover-on-resize.js?h=4ef87d6fc7b98b22e044" defer></script>
+    <script src="https://inktheghost.com/js/copy-code-to-clipboard.js?h=b34dc626be3e4c8a0f55" defer></script>
+
+    <link rel="canonical" href="https://inktheghost.com/blog/fastfetch/">
+    
+    <meta name="author" content="970uts1d3">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#211f1a">
+    <meta name="color-scheme" content="dark">
+
+    <meta property="og:title" content="fastfetch">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://inktheghost.com/blog/fastfetch/">
+    <meta property="og:site_name" content="ink the ghost">
+    <meta property="og:updated_time" content="2026-08-29T22:06:35.540472133+00:00">
+    <meta property="article:published_time" content="2026-02-16T00:00:00+00:00">
+    <meta property="article:tag" content="arch">
+
+</head>
+
+<body class="layout-center" data-theme="terminus">
+    <header class="header">
+        <div class="header-container">
+            <span class="header-logo-container">
+                <a href="https://inktheghost.com">
+                    <span class="logo">ink the ghost</span>
+                </a>
+            </span>
+        </div>
+        <nav class="main-menu" aria-label="Main Menu">
+            <a class="skip-to-content" href="#main">Skip to main content</a>
+            <button class="main-menu-dropdown-button" popovertarget="nav-menu">Menu</button>
+            <ul id="nav-menu" class="main-menu-items" aria-label="Site Navigation" popover>
+                <li><a href="https://inktheghost.com/blog/">blog</a></li>
+                <li><a href="https://inktheghost.com/archive/">archive</a></li>
+                <li><a href="https://inktheghost.com/tags/">tags</a></li>
+                <li><a href="https://inktheghost.com/about/">about</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main id="main">
+        <article class="post content">
+            <header>
+                <h1 class="post-title">
+                    <a href="https://inktheghost.com/blog/fastfetch/">fastfetch</a>
+                </h1>
+                <ul class="post-meta hidden">
+                    <li title="Published on 2026-02-16"><time datetime="2026-02-16">2026.02.16</time></li>
+                    <li role="separator" aria-hidden="true">::</li>
+                    <li title="179 words"><time datetime="PT1M">1 min</time> read</li>
+                </ul>
+                <div class="post-tags">
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/arch/">arch</a></span>
+                </div>
+            </header>
+
+<h1 id="fastfetch">fastfetch</h1>
+<h2 id="09-06">09:06</h2>
+<p>inspired by the cachyos default terminal splash i started digging in to the defaults, configs to tweak and make it my own.
+<a href="https://github.com/fastfetch-cli/fastfetch/blob/dev/README.md">https://github.com/fastfetch-cli/fastfetch/blob/dev/README.md</a>
+following the instructions from above, the install was easy
+<code>sudo pacman -Syu fastfetch</code>
+the config file is a default so if you wanna start editing you can use the <code>fastfetch --gen-config</code> or using one of the examples in the example folder of the repo.
+i liked the 07.jsonc and based the below off of that:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>// Load with --config examples/2.jsonc
+</span><span>// Note that you must replace the image path to an existing image to display it.
+</span><span>
+</span><span>{
+</span><span>    &quot;$schema&quot;: &quot;https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json&quot;,
+</span><span>    &quot;logo&quot;: {
+</span><span>        &quot;type&quot;: &quot;auto&quot;,
+</span><span>	&quot;source&quot;: &quot;arch&quot;,
+</span><span>        &quot;padding&quot;: {
+</span><span>            &quot;top&quot;: 3,
+</span><span>            &quot;left&quot; : 5,
+</span><span>            &quot;right&quot;: 6
+</span><span>        }
+</span><span>    },
+</span><span>    &quot;display&quot;: {
+</span><span>        &quot;separator&quot;: &quot; -&gt; &quot;
+</span><span>    },
+</span><span>    &quot;modules&quot;: [
+</span><span>        &quot;title&quot;,
+</span><span>        &quot;separator&quot;,
+</span><span>        {
+</span><span>            &quot;type&quot;: &quot;os&quot;,
+</span><span>            &quot;key&quot;: &quot;OS&quot;,
+</span><span>            &quot;keyColor&quot;: &quot;cyan&quot;,
+</span><span>            &quot;format&quot;: &quot;{2}&quot;
+</span><span>        },
+</span><span>        {
+</span><span>            &quot;type&quot;: &quot;os&quot;,
+</span><span>            &quot;key&quot;: &quot;├─{icon}&quot;, // Just get your distro&#39;s logo off nerdfonts.com
+</span><span>            &quot;keyColor&quot;: &quot;cyan&quot;
+</span><span>        },
+</span><span>        {
+</span><span>            &quot;type&quot;: &quot;kernel&quot;,
+</span><span>            &quot;key&quot;: &quot;├─Kernel&quot;,
+</span><span>            &quot;keyColor&quot;: &quot;cyan&quot;
+</span><span>        },
+</span><span>        {
+</span><span>            &quot;type&quot;: &quot;packages&quot;,
+</span><span>            &quot;key&quot;: &quot;├─Packages&quot;,
+</span><span>            &quot;keyColor&quot;: &quot;cyan&quot;
+</span><span>        },
+</span><span>        {
+</span><span>            &quot;type&quot;: &quot;shell&quot;,
+</span><span>            &quot;key&quot;: &quot;╰─Shell&quot;,
+</span><span>            &quot;keyColor&quot;: &quot;cyan&quot;
+</span><span>        },
+</span><span>        &quot;break&quot;,
+</span><span>
+</span><span>        {
+</span><span>            &quot;type&quot;: &quot;wm&quot;,
+</span><span>            &quot;key&quot;: &quot; DE/WM&quot;,
+</span><span>            &quot;keyColor&quot;: &quot;cyan&quot;
+</span><span>        },
+</span><span>        {
+</span><span>            &quot;type&quot;: &quot;lm&quot;,
+</span><span>            &quot;key&quot;: &quot;├─LM&quot;,
+</span><span>            &quot;keyColor&quot;: &quot;cyan&quot;
+</span><span>        },
+</span><span>        {
+</span><span>            &quot;type&quot;: &quot;wmtheme&quot;,
+</span><span>            &quot;key&quot;: &quot;├─WM&quot;,
+</span><span>            &quot;keyColor&quot;: &quot;cyan&quot;
+</span><span>        },
+</span><span>        {
+</span><span>            &quot;type&quot;: &quot;icons&quot;,
+</span><span>            &quot;key&quot;: &quot;├─Icons&quot;,
+</span><span>            &quot;keyColor&quot;: &quot;cyan&quot;
+</span><span>        },
+</span><span>        {
+</span><span>            &quot;type&quot;: &quot;terminal&quot;,
+</span><span>            &quot;key&quot;: &quot;╰─Terminal&quot;,
+</span><span>            &quot;keyColor&quot;: &quot;cyan&quot;
+</span><span>        },
+</span><span>
+</span><span>        &quot;break&quot;,
+</span><span>        {
+</span><span>            &quot;type&quot;: &quot;host&quot;,
+</span><span>            &quot;key&quot;: &quot;󰌢 PC&quot;,
+</span><span>            &quot;keyColor&quot;: &quot;red&quot;
+</span><span>        },
+</span><span>        {
+</span><span>            &quot;type&quot;: &quot;cpu&quot;,
+</span><span>            &quot;key&quot;: &quot;├─CPU&quot;,
+</span><span>            &quot;keyColor&quot;: &quot;red&quot;
+</span><span>        },
+</span><span>        {
+</span><span>            &quot;type&quot;: &quot;gpu&quot;,
+</span><span>            &quot;key&quot;: &quot;├─GPU&quot;,
+</span><span>            &quot;keyColor&quot;: &quot;red&quot;
+</span><span>        },
+</span><span>        {
+</span><span>            &quot;type&quot;: &quot;disk&quot;,
+</span><span>            &quot;key&quot;: &quot;├─{mount-from}-{mountpoint}&quot;,
+</span><span>            &quot;keyColor&quot;: &quot;red&quot;
+</span><span>        },
+</span><span>	{
+</span><span>            &quot;type&quot;: &quot;memory&quot;,
+</span><span>            &quot;key&quot;: &quot;├─Memory&quot;,
+</span><span>            &quot;keyColor&quot;: &quot;red&quot;
+</span><span>        },
+</span><span>        {
+</span><span>            &quot;type&quot;: &quot;swap&quot;,
+</span><span>            &quot;key&quot;: &quot;├─Swap&quot;,
+</span><span>            &quot;keyColor&quot;: &quot;red&quot;
+</span><span>        },
+</span><span>        {
+</span><span>            &quot;type&quot;: &quot;display&quot;,
+</span><span>            &quot;key&quot;: &quot;├─Display&quot;,
+</span><span>            &quot;keyColor&quot;: &quot;red&quot;
+</span><span>        },
+</span><span>	{
+</span><span>            &quot;type&quot;: &quot;localip&quot;,
+</span><span>            &quot;key&quot;: &quot;├─IP&quot;,
+</span><span>            &quot;compact&quot;: true,
+</span><span>            &quot;keyColor&quot;: &quot;red&quot;
+</span><span>        },
+</span><span>        {
+</span><span>            &quot;type&quot;: &quot;wifi&quot;,
+</span><span>            &quot;key&quot;: &quot;├─Wifi-network&quot;,
+</span><span>            &quot;format&quot;: &quot;{ssid}&quot;,
+</span><span>            &quot;keyColor&quot;: &quot;red&quot;
+</span><span>        },
+</span><span>        {
+</span><span>            &quot;type&quot;: &quot;uptime&quot;,
+</span><span>            &quot;key&quot;: &quot;╰─Uptime&quot;,
+</span><span>            &quot;keyColor&quot;: &quot;red&quot;
+</span><span>        },
+</span><span>
+</span><span>        &quot;break&quot;,
+</span><span>        {
+</span><span>            &quot;type&quot;: &quot;sound&quot;,
+</span><span>            &quot;key&quot;: &quot; SOUND&quot;,
+</span><span>            &quot;keyColor&quot;: &quot;cyan&quot;
+</span><span>        },
+</span><span>        {
+</span><span>            &quot;type&quot;: &quot;player&quot;,
+</span><span>            &quot;key&quot;: &quot;├󰥠&quot;,
+</span><span>            &quot;keyColor&quot;: &quot;cyan&quot;
+</span><span>        },
+</span><span>        {
+</span><span>            &quot;type&quot;: &quot;media&quot;,
+</span><span>            &quot;key&quot;: &quot;└󰝚&quot;,
+</span><span>            &quot;keyColor&quot;: &quot;cyan&quot;
+</span><span>        },
+</span><span>    ]
+</span><span>}
+</span></code></pre>
+<p>deleted the item i didnt care about, set icons and words to help readibility and got rid of the cachyos logo in place of the arch default</p>
+<p>i spent a good amount of time futzing with the Disk(s) section as it would just print without telling me the disk or mountpoint...if you need to see what the format options are you can use the following command:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>fastfetch -h {modulename}-format
+</span></code></pre>
+<p>this gave me the details so i could insert it into the json.  it will then do that for any disks</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>    {
+</span><span>            &quot;type&quot;: &quot;disk&quot;,
+</span><span>            &quot;key&quot;: &quot;├─{mount-from}-{mountpoint}&quot;,
+</span><span>            &quot;keyColor&quot;: &quot;red&quot;
+</span><span>        },
+</span></code></pre>
+
+        </article>
+        <nav class="post-navigation">
+            <header class="post-navigation-title">
+                <h2>Read More Posts</h2>
+                <hr>
+            </header>
+            <div class="post-navigation-buttons">
+                <a rel="next" href="https://inktheghost.com/blog/z790-dasharo-cont/" aria-label="Next article">
+                    <span aria-hidden="true">&lt;&nbsp;[</span>z790-dasharo-cont<span aria-hidden="true">]</span>
+                </a>
+                <span aria-hidden="true" role="separator">::</span>
+                <a rel="prev" href="https://inktheghost.com/blog/z790-dasharo/" aria-label="Prev article">
+                    <span aria-hidden="true">[</span>z790-dasharo<span aria-hidden="true">]&nbsp;&gt;</span>
+                </a>
+            </div>
+        </nav>
+    </main>
+    <footer class="footer">
+        <address class="socials">
+            <ul>
+                <li>
+                    <a class="social-link" rel="me" href="https://defcon.social/@970uts1d3" title="mastodon" aria-label="mastodon">
+                        <svg role="img" aria-label="mastodon icon">
+                            <use aria-hidden="true" href="https://inktheghost.com/images/social_icons/mastodon.svg#icon" />
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </address>
+        <p class="copyright">
+            <span>© <time>2026</time> 970uts1d3</span>
+            <span>Powered by <a href="https://www.getzola.org">Zola</a></span>
+            <span>Theme by <a href="https://eyalkalderon.com">ebkalderon</a></span>
+        </p>
+    </footer>
+</body>
+
+</html>

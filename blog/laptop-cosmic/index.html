@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src-attr 'unsafe-inline'">
+
+    
+    <script defer src="http://uma.destratify.pro/script.js" data-website-id="4fcbcec9-bb7c-4697-8a62-20ad992a6092"></script>
+    
+    <title>laptop_cosmic | ink the ghost</title>
+
+    <link href="https://defcon.social/@970uts1d3" rel="me">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://inktheghost.com/css/style.css?h=287f84ed6c66dca911c6">
+    <link rel="icon" type="image/png" href="https://inktheghost.com/icons/favicon.png">
+    <link rel="apple-touch-icon" href="https://inktheghost.com/processed_images/favicon.ab2897ee8708a1f8.png">
+    <script src="https://inktheghost.com/js/auto-close-popover-on-resize.js?h=4ef87d6fc7b98b22e044" defer></script>
+    <script src="https://inktheghost.com/js/copy-code-to-clipboard.js?h=b34dc626be3e4c8a0f55" defer></script>
+
+    <link rel="canonical" href="https://inktheghost.com/blog/laptop-cosmic/">
+    
+    <meta name="author" content="970uts1d3">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#211f1a">
+    <meta name="color-scheme" content="dark">
+
+    <meta property="og:title" content="laptop_cosmic">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://inktheghost.com/blog/laptop-cosmic/">
+    <meta property="og:site_name" content="ink the ghost">
+    <meta property="og:updated_time" content="2026-08-29T22:06:35.532167793+00:00">
+    <meta property="article:published_time" content="2026-01-10T00:00:00+00:00">
+    <meta property="article:tag" content="laptop">
+    <meta property="article:tag" content="arch">
+    <meta property="article:tag" content="cosmic">
+
+</head>
+
+<body class="layout-center" data-theme="terminus">
+    <header class="header">
+        <div class="header-container">
+            <span class="header-logo-container">
+                <a href="https://inktheghost.com">
+                    <span class="logo">ink the ghost</span>
+                </a>
+            </span>
+        </div>
+        <nav class="main-menu" aria-label="Main Menu">
+            <a class="skip-to-content" href="#main">Skip to main content</a>
+            <button class="main-menu-dropdown-button" popovertarget="nav-menu">Menu</button>
+            <ul id="nav-menu" class="main-menu-items" aria-label="Site Navigation" popover>
+                <li><a href="https://inktheghost.com/blog/">blog</a></li>
+                <li><a href="https://inktheghost.com/archive/">archive</a></li>
+                <li><a href="https://inktheghost.com/tags/">tags</a></li>
+                <li><a href="https://inktheghost.com/about/">about</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main id="main">
+        <article class="post content">
+            <header>
+                <h1 class="post-title">
+                    <a href="https://inktheghost.com/blog/laptop-cosmic/">laptop_cosmic</a>
+                </h1>
+                <ul class="post-meta hidden">
+                    <li title="Published on 2026-01-10"><time datetime="2026-01-10">2026.01.10</time></li>
+                    <li role="separator" aria-hidden="true">::</li>
+                    <li title="737 words"><time datetime="PT4M">4 min</time> read</li>
+                </ul>
+                <div class="post-tags">
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/laptop/">laptop</a></span>
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/arch/">arch</a></span>
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/cosmic/">cosmic</a></span>
+                </div>
+            </header>
+
+<h1 id="laptop-cosmic-installation">laptop cosmic installation</h1>
+<h2 id="17-26">17:26</h2>
+<p>since the last time i'd attempted to install arch on my laptop, i opted for the garuda arch variation because it took figuring out the iwctl protocol off the table and just worked.  well, i found garuda kinda bloaty and many things i didnt need, so i though i'd test out the cosmic desktop experience.  i've used it for a while on my desktop and now it was time to try installing it on my laptop.  plus, its now out of alpha and is included in the archinstall desktops options.</p>
+<h2 id="so-what-is-new">so what is new?</h2>
+<p>the archinstall included the wifi setup at initial prompt, its buggy, kept closing...then working, but saying it didn't, after a couple trys, on the third archinstall command, the installer started pulling repos, indicating it actually had worked. archinsttall itself was pretty much the same, just selected cosmic in the type menu and left pretty much barebones.</p>
+<p>it installed in about 3 min and was ready to reboot.  startup was un-eventful, but started with a few buggy issues.  going through the initial setup, any prompt asking for the admin password was unresponsive.  i pulled up a terminal <code>Super + T</code> and a quick interrnet search on my phone indicated that it was a polkit issue, and the remedy was a quick chmod command...im sure that will get ironed out soo, easy fix either way:</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span>sudo chmod 4755 /usr/lib/polkit-1/polkit-agent-helper-1
+</span></code></pre>
+<p>and back in business.  this assisted me in setting up nearest city for time settings.</p>
+<p>installer assisted with the internet connection as well (i chose network manager)</p>
+<h2 id="headaches">headaches</h2>
+<p>so i had a bitch of a time installing all my  usual shit and after having the laptop mostly working, yay or paru would cause a change in required files by pacman and tanked my reflector command operation and fucked up my rustdesk and trivalent pulls from chaotic AUR.</p>
+<p>workarounds:</p>
+<ul>
+<li>rustdesk: download the pkg file</li>
+<li>trivalent: build direct from git</li>
+<li>dont install yay or paru (probably shouldnt anyways)</li>
+<li>forgejo mirror to my github repo stopped pushing (403 error) - likely unrelated</li>
+</ul>
+<h3 id="rustdeck">rustdeck:</h3>
+<p>i've tried teamviewer, remmina and was having no love connecting to my win11 vm remotely via any of them.  teamviewer and remmina were buggy and slow, and i ran across rustdeck online and thought id give it a try.  at first go it worked flawlessly connecting out to the win11 vm.  i was able to setup permanent passwords.  it wouldn't connect to the laptop running wayland from win11, they were pretty clear it was still experimental, but it dd connect to windows, which is what i needed anyways. there was a ready indication for the connection at the bottom which recommended self-hosting.  i tried the rustdesk option for the server creating my own lxc w? debian 13 on my homelab and installing with the script:</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span>wget https://raw.githubusercontent.com/techahold/rustdeskinstall/master/install.sh
+</span><span>sudo chmod +x install.sh
+</span><span>sudo ./install.sh
+</span></code></pre>
+<p>this didnt work at all for me, the webpage wasn't showing any useable info, couldnt get the terminals to connect.  i did notice a small blurb during the rustdesk server install that said that there was an alternative FOSS version put out by <a href="https://github.com/infiniteremote/installer">https://github.com/infiniteremote/installer</a></p>
+<p>the README.md states:</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span>### Why Infinite Remote?
+</span><span>We have started our own project due to the lack of transparency of the RustDesk project and intend on forking and maintaining our own servers and clients, the vulnerabilities in the RustDesk client is too much for business use so we will be working hard on improving the codebase and security.
+</span></code></pre>
+<p>this install went fine.  the webportal signin brought me to a more usable and understandable interface, the copy links didn't work in the installer page, but the important parts, API webpage and key were easy to see and copy.  the portal indicated the logins from each instance, with relevant details and the api login worked ok on the win11, i could use the addressbook showing the opensource api was working great! what a nice free add-on.</p>
+<h3 id="trivalent-secureblue-browser">trivalent - secureBLUE browser</h3>
+<p>i have a pretty long history of being a brave browser user, since it first was in alpha.  the gimmicky shit with rewards etc were annoying and the founder turned out to be a big shithead so i started looking for alternatives.  i wanted to keep with chrome (albeit a hardened version) and mainly for use of extensions - i like functionality of bit-warden since i have a self-hosted instance, and privacy badger doesnt hurt either.  i wish there was a true graphene vanadium port for linux, but the secureBLUE chromium port from Fedora is hardened and uses vanadium patches for additional tightening.  you will have to enable extensions from settings and all pop-ups blocked automagically.  here's the code for the install from git:</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span>sudo pacman -S --needed git base-devel
+</span><span>cd ~
+</span><span>git clone https://aur.archlinux.org/trivalent-bin.git
+</span><span>cd trivalent-bin
+</span><span>makepkg -si
+</span></code></pre>
+<p>read the deep wiki for more build info <a href="https://deepwiki.com/secureblue/Trivalent">https://deepwiki.com/secureblue/Trivalent</a></p>
+
+        </article>
+        <nav class="post-navigation">
+            <header class="post-navigation-title">
+                <h2>Read More Posts</h2>
+                <hr>
+            </header>
+            <div class="post-navigation-buttons">
+                <a rel="next" href="https://inktheghost.com/blog/backup-with-pve-updated/" aria-label="Next article">
+                    <span aria-hidden="true">&lt;&nbsp;[</span>backup laptop with PBS<span aria-hidden="true">]</span>
+                </a>
+                <span aria-hidden="true" role="separator">::</span>
+                <a rel="prev" href="https://inktheghost.com/blog/cosmic-desktop/" aria-label="Prev article">
+                    <span aria-hidden="true">[</span>cosmic-desktop<span aria-hidden="true">]&nbsp;&gt;</span>
+                </a>
+            </div>
+        </nav>
+    </main>
+    <footer class="footer">
+        <address class="socials">
+            <ul>
+                <li>
+                    <a class="social-link" rel="me" href="https://defcon.social/@970uts1d3" title="mastodon" aria-label="mastodon">
+                        <svg role="img" aria-label="mastodon icon">
+                            <use aria-hidden="true" href="https://inktheghost.com/images/social_icons/mastodon.svg#icon" />
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </address>
+        <p class="copyright">
+            <span>© <time>2026</time> 970uts1d3</span>
+            <span>Powered by <a href="https://www.getzola.org">Zola</a></span>
+            <span>Theme by <a href="https://eyalkalderon.com">ebkalderon</a></span>
+        </p>
+    </footer>
+</body>
+
+</html>

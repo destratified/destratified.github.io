@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src-attr 'unsafe-inline'">
+
+    
+    <script defer src="http://uma.destratify.pro/script.js" data-website-id="4fcbcec9-bb7c-4697-8a62-20ad992a6092"></script>
+    
+    <title>openrc - remote server | ink the ghost</title>
+
+    <link href="https://defcon.social/@970uts1d3" rel="me">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://inktheghost.com/css/style.css?h=287f84ed6c66dca911c6">
+    <link rel="icon" type="image/png" href="https://inktheghost.com/icons/favicon.png">
+    <link rel="apple-touch-icon" href="https://inktheghost.com/processed_images/favicon.ab2897ee8708a1f8.png">
+    <script src="https://inktheghost.com/js/auto-close-popover-on-resize.js?h=4ef87d6fc7b98b22e044" defer></script>
+    <script src="https://inktheghost.com/js/copy-code-to-clipboard.js?h=b34dc626be3e4c8a0f55" defer></script>
+
+    <link rel="canonical" href="https://inktheghost.com/blog/openrc-remote-server/">
+    
+    <meta name="author" content="970uts1d3">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#211f1a">
+    <meta name="color-scheme" content="dark">
+
+    <meta property="og:title" content="openrc - remote server">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://inktheghost.com/blog/openrc-remote-server/">
+    <meta property="og:site_name" content="ink the ghost">
+    <meta property="og:updated_time" content="2026-08-29T22:06:35.534820384+00:00">
+    <meta property="article:published_time" content="2026-04-25T00:00:00+00:00">
+    <meta property="article:tag" content="openRC">
+    <meta property="article:tag" content="debian">
+
+</head>
+
+<body class="layout-center" data-theme="terminus">
+    <header class="header">
+        <div class="header-container">
+            <span class="header-logo-container">
+                <a href="https://inktheghost.com">
+                    <span class="logo">ink the ghost</span>
+                </a>
+            </span>
+        </div>
+        <nav class="main-menu" aria-label="Main Menu">
+            <a class="skip-to-content" href="#main">Skip to main content</a>
+            <button class="main-menu-dropdown-button" popovertarget="nav-menu">Menu</button>
+            <ul id="nav-menu" class="main-menu-items" aria-label="Site Navigation" popover>
+                <li><a href="https://inktheghost.com/blog/">blog</a></li>
+                <li><a href="https://inktheghost.com/archive/">archive</a></li>
+                <li><a href="https://inktheghost.com/tags/">tags</a></li>
+                <li><a href="https://inktheghost.com/about/">about</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main id="main">
+        <article class="post content">
+            <header>
+                <h1 class="post-title">
+                    <a href="https://inktheghost.com/blog/openrc-remote-server/">openrc - remote server</a>
+                </h1>
+                <ul class="post-meta hidden">
+                    <li title="Published on 2026-04-25"><time datetime="2026-04-25">2026.04.25</time></li>
+                    <li role="separator" aria-hidden="true">::</li>
+                    <li title="671 words"><time datetime="PT4M">4 min</time> read</li>
+                </ul>
+                <div class="post-tags">
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/openrc/">openRC</a></span>
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/debian/">debian</a></span>
+                </div>
+            </header>
+
+<h1 id="openrc-remote-server-updated">openRC remote server - updated**</h1>
+<h2 id="21-40">21:40</h2>
+<p>well, playing around with debian and openrc installs lately, i thought i would see if i could install it on an old resi blackbox video focused NUC. this one i was able to get install working, but had video issues (some strange HDMI jack problem, would literally pulse hdmi viedo output to the the screen) so i decided to try a setting up ssh and then going the headless route. this gave me the opportunity to try installing and configuring openRC over ssh.</p>
+<p>following the Cybersecguru article in my last post, i installed just the basic debianOS using the debian testing iso and selected only the ssh server option. i was hopeful this would work, knowing that ssh on deb is openssh from openbsd an should not be systemd dependent. it flawlessly configured to openRC before so i figured why not.</p>
+<p>reboot to prompt check ip address and i again rebooted, this time as a headless and went to access the box from ssh on my laptop.</p>
+<p>the rest of the installation went smooth. box came back during each reboot and after the full surgery i had a debian testing install of openRC in a headless.</p>
+<p>the next thing i wanted to try out was setting up tigervncserver on the box. after a few attempts, i decided to go with xfce as a proof of concept and using x11 with vnc viewers has been way less buggy than a wayland install.</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>sudo apt install xfce4 xfce4-goodies 
+</span><span>sudo apt install tigervnc-standalone-server tigervnc-xorg-extension
+</span></code></pre>
+<p>this got xfce to install (though i still couldn't see it), so what was the next thing? going through forums and posts to figure out how to configure and start the xfce box over ssh and then use an ssh tunnel to bring it up in my remmina app.</p>
+<p>there were a couple things that needed configured:
+/etc/init.d/tigervnc &lt;- needed created to start vnc on boot
+vncserver -fp /home/joe/.local/fonts &lt;- help quell a font error
+vncserver -localhost -geometry 1920x1080 -depth 24 &lt;- desired command</p>
+<p>create the init.d config file tigervnc @ /etc/init.d/tigervnc:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>#!/bin/sh -e
+</span><span>### BEGIN INIT INFO
+</span><span># Provides:          vncserver
+</span><span># Required-Start:    networking
+</span><span># Default-Start:     3 4 5
+</span><span># Default-Stop:      0 6
+</span><span>### END INIT INFO
+</span><span>
+</span><span>PATH=&quot;$PATH:/usr/X11R6/bin/&quot;
+</span><span>
+</span><span># The Username:Group that will run VNC
+</span><span>export USER=&quot;&lt;username&gt;&quot;
+</span><span>#${RUNAS}
+</span><span>
+</span><span># The display that VNC will use
+</span><span>DISPLAY=&quot;1&quot;
+</span><span>
+</span><span># Color depth (between 8 and 32)
+</span><span>DEPTH=&quot;24&quot;
+</span><span>
+</span><span># The Desktop geometry to use.
+</span><span>#GEOMETRY=&quot;&lt;WIDTH&gt;x&lt;HEIGHT&gt;&quot;
+</span><span>#GEOMETRY=&quot;800x600&quot;
+</span><span>#GEOMETRY=&quot;1024x768&quot;
+</span><span>#GEOMETRY=&quot;1280x1024&quot;
+</span><span>GEOMETRY=&quot;1920x1080&quot;
+</span><span>
+</span><span># The name that the VNC Desktop will have.
+</span><span>NAME=&quot;resin&quot;
+</span><span>
+</span><span>OPTIONS=&quot;-name ${NAME} -depth ${DEPTH} -geometry ${GEOMETRY} :${DISPLAY}&quot;
+</span><span>
+</span><span>. /lib/lsb/init-functions
+</span><span>
+</span><span>case &quot;$1&quot; in
+</span><span>start)
+</span><span>log_action_begin_msg &quot;Starting vncserver for user &#39;${USER}&#39; on   localhost:${DISPLAY}&quot;
+</span><span>su ${USER} -c &quot;/usr/bin/vncserver ${OPTIONS}&quot;
+</span><span>;;
+</span><span>
+</span><span>stop)
+</span><span>log_action_begin_msg &quot;Stoping vncserver for user &#39;${USER}&#39; on localhost:${DISPLAY}&quot;
+</span><span>su ${USER} -c &quot;/usr/bin/vncserver -kill :${DISPLAY}&quot;
+</span><span>;;
+</span><span>
+</span><span>restart)
+</span><span>$0 stop
+</span><span>$0 start
+</span><span>;;
+</span><span>esac
+</span><span>
+</span><span>exit 0
+</span></code></pre>
+<p>change <code>&lt;username&gt;</code> to reflect the user with sudo, and change any other details you want to match with your command line:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>sudo chmod +x /etc/init.d/tigervnc
+</span><span>sudo rc-update add tigervnc default
+</span></code></pre>
+<p>now before you run the command you want to initiate the vnc server using the command line:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>vncserver -localhost -geometry 1920x1080 -depth 24
+</span></code></pre>
+<p>this allows you to setup the password you need to access via the vncviewer, creates the config file, and starts the server. the "-localhost" part of the command sets up tigenvnc so that when it initiates the xstartserver it will serve that connection allowing you to establish the ssh connection with localhost:590X in your viewer as the ssh tunnel is running underneath everything</p>
+<p>after the above config and password is set, you can then use:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>sudo rc-service tigervnc start 
+</span></code></pre>
+<p>the remaining configuration is done @ your vnc viewer and install/setup variations are platform dependent.</p>
+<p>for remmina you click the "+" button at the top left and setup the parameters for access using the VNC plugin method.</p>
+<p>just enter the servername: localhost:590x &lt;- "x" meaning the :1 :2 or whatever was shown at the end of the string when you executed the vncserver command, and enter the password you configured in the same step.</p>
+<p>continue to the ssh tunnel tab and enable that, then I went with custom IP:22 for the tunnel and password for authentication method. the username and password should be the same as the ssh login user and their password you use to ssh into the box (avoid using root user)!</p>
+<p>and that was it! a shiny new xfce box to play around with, all done over ssh. now i plan on setting up tailscale in this again and putting it in a different location and IP, and changing the above in remmina to point to the tailscale address and seeing if that works remotely!</p>
+<p>** UPDATE **</p>
+<p>***i probably didn't clarify this enough above! this only works if you select the VNC plugin for access, do not try and do the ssh shell, that is only for the tty on that vnc server.</p>
+
+        </article>
+        <nav class="post-navigation">
+            <header class="post-navigation-title">
+                <h2>Read More Posts</h2>
+                <hr>
+            </header>
+            <div class="post-navigation-buttons">
+                <a rel="next" href="https://inktheghost.com/blog/gentoo-on-my-laptop/" aria-label="Next article">
+                    <span aria-hidden="true">&lt;&nbsp;[</span>gentoo on my laptop<span aria-hidden="true">]</span>
+                </a>
+                <span aria-hidden="true" role="separator">::</span>
+                <a rel="prev" href="https://inktheghost.com/blog/keylightc-system76/" aria-label="Prev article">
+                    <span aria-hidden="true">[</span>keylightc - system76<span aria-hidden="true">]&nbsp;&gt;</span>
+                </a>
+            </div>
+        </nav>
+    </main>
+    <footer class="footer">
+        <address class="socials">
+            <ul>
+                <li>
+                    <a class="social-link" rel="me" href="https://defcon.social/@970uts1d3" title="mastodon" aria-label="mastodon">
+                        <svg role="img" aria-label="mastodon icon">
+                            <use aria-hidden="true" href="https://inktheghost.com/images/social_icons/mastodon.svg#icon" />
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </address>
+        <p class="copyright">
+            <span>© <time>2026</time> 970uts1d3</span>
+            <span>Powered by <a href="https://www.getzola.org">Zola</a></span>
+            <span>Theme by <a href="https://eyalkalderon.com">ebkalderon</a></span>
+        </p>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>ink the ghost - pacman</title>
+    <link rel="self" type="application/atom+xml" href="https://inktheghost.com/tags/pacman/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://inktheghost.com"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2026-02-28T00:00:00+00:00</updated>
+    <id>https://inktheghost.com/tags/pacman/atom.xml</id>
+    <entry xml:lang="en">
+        <title>cachyos-updater-options-pt2</title>
+        <published>2026-02-28T00:00:00+00:00</published>
+        <updated>2026-02-28T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/cachyos-updater-options-pt2/"/>
+        <id>https://inktheghost.com/blog/cachyos-updater-options-pt2/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/cachyos-updater-options-pt2/">&lt;h1 id=&quot;cachyos-updater-options-pt2&quot;&gt;cachyos-updater-options-pt2&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;20-05&quot;&gt;20:05&lt;&#x2F;h2&gt;
+&lt;p&gt;working through this a bit in a discussion with CSCS on cachyos forum...i have a few options:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;the cachyos-rate-mirrors script with tweaks&lt;&#x2F;li&gt;
+&lt;li&gt;rate-mirror options with some tweaks from cachyos-rate-mirrors&lt;&#x2F;li&gt;
+&lt;li&gt;my script from the last post&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;cachyos-rate-mirrors&quot;&gt;cachyos-rate-mirrors&lt;&#x2F;h2&gt;
+&lt;pre data-lang=&quot;shells&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shells &quot;&gt;&lt;code class=&quot;language-shells&quot; data-lang=&quot;shells&quot;&gt;&lt;span&gt;#!&#x2F;usr&#x2F;bin&#x2F;env bash
+&lt;&#x2F;span&gt;&lt;span&gt;# Copyright (C) 2022-2025 CachyOS team
+&lt;&#x2F;span&gt;&lt;span&gt;#
+&lt;&#x2F;span&gt;&lt;span&gt;# This program is free software; you can redistribute it and&#x2F;or modify
+&lt;&#x2F;span&gt;&lt;span&gt;# it under the terms of the GNU General Public License as published by
+&lt;&#x2F;span&gt;&lt;span&gt;# the Free Software Foundation; either version 2 of the License, or
+&lt;&#x2F;span&gt;&lt;span&gt;# (at your option) any later version.
+&lt;&#x2F;span&gt;&lt;span&gt;#
+&lt;&#x2F;span&gt;&lt;span&gt;# This program is distributed in the hope that it will be useful,
+&lt;&#x2F;span&gt;&lt;span&gt;# but WITHOUT ANY WARRANTY; without even the implied warranty of
+&lt;&#x2F;span&gt;&lt;span&gt;# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+&lt;&#x2F;span&gt;&lt;span&gt;# GNU General Public License for more details.
+&lt;&#x2F;span&gt;&lt;span&gt;#
+&lt;&#x2F;span&gt;&lt;span&gt;# You should have received a copy of the GNU General Public License along
+&lt;&#x2F;span&gt;&lt;span&gt;# with this program; if not, write to the Free Software Foundation, Inc.,
+&lt;&#x2F;span&gt;&lt;span&gt;# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+&lt;&#x2F;span&gt;&lt;span&gt;set -e
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;declare -r MIRRORS_DEFAULT_DIR=&amp;quot;&#x2F;etc&#x2F;pacman.d&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Use https only protocol for rating
+&lt;&#x2F;span&gt;&lt;span&gt;export RATE_MIRRORS_PROTOCOL=https
+&lt;&#x2F;span&gt;&lt;span&gt;export RATE_MIRRORS_FETCH_MIRRORS_TIMEOUT=&amp;quot;${RATE_MIRRORS_FETCH_MIRRORS_TIMEOUT:-30000}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;export RATE_MIRRORS_ALLOW_ROOT=true
+&lt;&#x2F;span&gt;&lt;span&gt;export RATE_MIRRORS_MAX_DELAY=&amp;quot;${RATE_MIRRORS_MAX_DELAY:-10000}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;disable_colors() {
+&lt;&#x2F;span&gt;&lt;span&gt;    unset ALL_OFF BOLD BLUE GREEN RED YELLOW
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;enable_colors() {
+&lt;&#x2F;span&gt;&lt;span&gt;    # prefer terminal safe colored and bold text when tput is supported
+&lt;&#x2F;span&gt;&lt;span&gt;    if tput setaf 0 &amp;amp;&amp;gt;&#x2F;dev&#x2F;null; then
+&lt;&#x2F;span&gt;&lt;span&gt;        ALL_OFF=&amp;quot;$(tput sgr0)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        BOLD=&amp;quot;$(tput bold)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        RED=&amp;quot;${BOLD}$(tput setaf 1)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        GREEN=&amp;quot;${BOLD}$(tput setaf 2)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        YELLOW=&amp;quot;${BOLD}$(tput setaf 3)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        BLUE=&amp;quot;${BOLD}$(tput setaf 4)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    else
+&lt;&#x2F;span&gt;&lt;span&gt;        ALL_OFF=&amp;quot;\e[0m&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        BOLD=&amp;quot;\e[1m&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        RED=&amp;quot;${BOLD}\e[31m&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        GREEN=&amp;quot;${BOLD}\e[32m&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        YELLOW=&amp;quot;${BOLD}\e[33m&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        BLUE=&amp;quot;${BOLD}\e[34m&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    fi
+&lt;&#x2F;span&gt;&lt;span&gt;    readonly ALL_OFF BOLD BLUE GREEN RED YELLOW
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;if [[ -t 2 ]]; then
+&lt;&#x2F;span&gt;&lt;span&gt;    enable_colors
+&lt;&#x2F;span&gt;&lt;span&gt;else
+&lt;&#x2F;span&gt;&lt;span&gt;    disable_colors
+&lt;&#x2F;span&gt;&lt;span&gt;fi
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;msg() {
+&lt;&#x2F;span&gt;&lt;span&gt;    local mesg=&amp;quot;$1&amp;quot;; shift
+&lt;&#x2F;span&gt;&lt;span&gt;    printf &amp;quot;${GREEN}==&amp;gt;${ALL_OFF}${BOLD} ${mesg}${ALL_OFF}\n&amp;quot; &amp;quot;$@&amp;quot; &amp;gt;&amp;amp;2
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;info() {
+&lt;&#x2F;span&gt;&lt;span&gt;    local mesg=&amp;quot;$1&amp;quot;; shift
+&lt;&#x2F;span&gt;&lt;span&gt;    printf &amp;quot;${YELLOW} --&amp;gt;${ALL_OFF}${BOLD} ${mesg}${ALL_OFF}\n&amp;quot; &amp;quot;$@&amp;quot; &amp;gt;&amp;amp;2
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;error() {
+&lt;&#x2F;span&gt;&lt;span&gt;    local mesg=&amp;quot;$1&amp;quot;; shift
+&lt;&#x2F;span&gt;&lt;span&gt;    printf &amp;quot;${RED}==&amp;gt; ERROR:${ALL_OFF}${BOLD} ${mesg}${ALL_OFF}\n&amp;quot; &amp;quot;$@&amp;quot; &amp;gt;&amp;amp;2
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;cleanup() {
+&lt;&#x2F;span&gt;&lt;span&gt;    exit &amp;quot;${1:-0}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;die() {
+&lt;&#x2F;span&gt;&lt;span&gt;    (($#)) &amp;amp;&amp;amp; error &amp;quot;$@&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    cleanup 255
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;if [ &amp;quot;$EUID&amp;quot; -ne 0 ]; then
+&lt;&#x2F;span&gt;&lt;span&gt;    die &amp;quot;Please, run script as root&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;fi
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;declare -r TMPFILE=&amp;quot;$(mktemp)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;trap &amp;#39;rm -f -- &amp;quot;$TMPFILE&amp;quot;&amp;#39; EXIT
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;rate_repository_mirrors() {
+&lt;&#x2F;span&gt;&lt;span&gt;    local repo=&amp;quot;$1&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    local path=&amp;quot;$2&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    info &amp;quot;Ranking mirrors for ${repo} repository in ${path}...&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    if rate-mirrors --save &amp;quot;$TMPFILE&amp;quot; &amp;quot;$repo&amp;quot;; then
+&lt;&#x2F;span&gt;&lt;span&gt;        if [ ! -f &amp;quot;${path}&amp;quot; ]; then
+&lt;&#x2F;span&gt;&lt;span&gt;            die &amp;quot;${path} doesn&amp;#39;t exist! You must install package $(pacman -Fq &amp;quot;$path&amp;quot; 2&amp;gt;&#x2F;dev&#x2F;null || echo &amp;quot;that contains $path&amp;quot;)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        fi
+&lt;&#x2F;span&gt;&lt;span&gt;        cp -f --backup=simple --suffix=&amp;quot;-backup&amp;quot; &amp;quot;${TMPFILE}&amp;quot; &amp;quot;${path}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        msg &amp;quot;Done [${repo}] ${path}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    else
+&lt;&#x2F;span&gt;&lt;span&gt;        die &amp;quot;rate-mirrors failed [errcode=$?].&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    fi
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;force_ru_mirrors() {
+&lt;&#x2F;span&gt;&lt;span&gt;    local mirror domain index
+&lt;&#x2F;span&gt;&lt;span&gt;    local -a ru_mirrors=(
+&lt;&#x2F;span&gt;&lt;span&gt;        &amp;#39;https:&#x2F;&#x2F;archlinux.gay&#x2F;cachy&#x2F;repo&#x2F;$arch&#x2F;$repo&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;        &amp;#39;https:&#x2F;&#x2F;mirror.yandex.ru&#x2F;cachyos&#x2F;repo&#x2F;$arch&#x2F;$repo&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;    )
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    local -i line=1
+&lt;&#x2F;span&gt;&lt;span&gt;    for ((index=0; index &amp;lt; ${#ru_mirrors[@]}; index++)); do
+&lt;&#x2F;span&gt;&lt;span&gt;        mirror=&amp;quot;${ru_mirrors[$index]}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        domain=&amp;quot;${mirror##*:&#x2F;&#x2F;}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        domain=&amp;quot;${domain%%&#x2F;*}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        if curl -sL --connect-timeout 5 &amp;quot;https:&#x2F;&#x2F;${domain}&amp;quot; &amp;amp;&amp;gt;&#x2F;dev&#x2F;null; then
+&lt;&#x2F;span&gt;&lt;span&gt;            sed -i &amp;quot;$((line))iServer = ${mirror}&amp;quot; &amp;quot;${MIRRORS_DEFAULT_DIR}&#x2F;cachyos-mirrorlist&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;            ((line++))
+&lt;&#x2F;span&gt;&lt;span&gt;        else
+&lt;&#x2F;span&gt;&lt;span&gt;            error &amp;quot;Failed to connect with ${domain} mirror&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        fi
+&lt;&#x2F;span&gt;&lt;span&gt;    done
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Prefer mirrors that are geographically close, especially in countries that
+&lt;&#x2F;span&gt;&lt;span&gt;# have regional blockages
+&lt;&#x2F;span&gt;&lt;span&gt;country=&amp;quot;$(curl --connect-timeout 10 -sSL &amp;#39;https:&#x2F;&#x2F;geoip.kde.org&#x2F;v1&#x2F;ubiquity&amp;#39; | grep -Po &amp;#39;&amp;lt;CountryCode&amp;gt;\K([A-Z]{2})&amp;#39;)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;if [ -n &amp;quot;$country&amp;quot; ]; then
+&lt;&#x2F;span&gt;&lt;span&gt;    export RATE_MIRRORS_ENTRY_COUNTRY=&amp;quot;$country&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;fi
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# China only tests its own mirrors, so disable neighbors
+&lt;&#x2F;span&gt;&lt;span&gt;# and increase the number of tested mirrors to get more results
+&lt;&#x2F;span&gt;&lt;span&gt;if [ &amp;quot;$country&amp;quot; = &amp;quot;CN&amp;quot; ]; then
+&lt;&#x2F;span&gt;&lt;span&gt;    export RATE_MIRRORS_COUNTRY_NEIGHBORS_PER_COUNTRY=0
+&lt;&#x2F;span&gt;&lt;span&gt;    export RATE_MIRRORS_COUNTRY_TEST_MIRRORS_PER_COUNTRY=50
+&lt;&#x2F;span&gt;&lt;span&gt;fi
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Rate Arch Linux mirrors anyway
+&lt;&#x2F;span&gt;&lt;span&gt;rate_repository_mirrors arch &amp;quot;${MIRRORS_DEFAULT_DIR}&#x2F;mirrorlist&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#added for mirrorlist file cleanup&#x2F;clarity
+&lt;&#x2F;span&gt;&lt;span&gt;cat &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist | sed &amp;#39;&#x2F;^\s*#&#x2F;d;&#x2F;^$&#x2F;d&amp;#39; | sudo tee &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Always insert CDN77 mirror to the start, unless RU and CN region is detected
+&lt;&#x2F;span&gt;&lt;span&gt;if [ &amp;quot;$country&amp;quot; != &amp;quot;RU&amp;quot; ] &amp;amp;&amp;amp; [ &amp;quot;$country&amp;quot; != &amp;quot;CN&amp;quot; ]; then
+&lt;&#x2F;span&gt;&lt;span&gt;    sed -i &amp;#39;1iServer = https:&#x2F;&#x2F;archlinux.cachyos.org&#x2F;repo&#x2F;$repo&#x2F;os&#x2F;$arch&amp;#39; &amp;quot;${MIRRORS_DEFAULT_DIR}&#x2F;mirrorlist&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;fi
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;rate_repository_mirrors cachyos &amp;quot;${MIRRORS_DEFAULT_DIR}&#x2F;cachyos-mirrorlist&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#added for mirrorlist file cleanup&#x2F;clarity
+&lt;&#x2F;span&gt;&lt;span&gt;cat &#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist | sed &amp;#39;&#x2F;^\s*#&#x2F;d;&#x2F;^$&#x2F;d&amp;#39; | sudo tee &#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Always insert local mirrors as first due to blockings in RU region
+&lt;&#x2F;span&gt;&lt;span&gt;if [ &amp;quot;$country&amp;quot; = &amp;quot;RU&amp;quot; ]; then
+&lt;&#x2F;span&gt;&lt;span&gt;    force_ru_mirrors
+&lt;&#x2F;span&gt;&lt;span&gt;fi
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;cp -f --backup=simple --suffix=&amp;quot;-backup&amp;quot; &amp;quot;${MIRRORS_DEFAULT_DIR}&#x2F;cachyos-mirrorlist&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;quot;${MIRRORS_DEFAULT_DIR}&#x2F;cachyos-v3-mirrorlist&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;cp -f --backup=simple --suffix=&amp;quot;-backup&amp;quot; &amp;quot;${MIRRORS_DEFAULT_DIR}&#x2F;cachyos-mirrorlist&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;quot;${MIRRORS_DEFAULT_DIR}&#x2F;cachyos-v4-mirrorlist&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;sed -i &amp;#39;s|&#x2F;$arch&#x2F;|&#x2F;$arch_v3&#x2F;|g&amp;#39; &amp;quot;${MIRRORS_DEFAULT_DIR}&#x2F;cachyos-v3-mirrorlist&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;sed -i &amp;#39;s|&#x2F;$arch&#x2F;|&#x2F;$arch_v4&#x2F;|g&amp;#39; &amp;quot;${MIRRORS_DEFAULT_DIR}&#x2F;cachyos-v4-mirrorlist&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# In the case of a more restrictive umask setting ( 0077 for example ), give read-permissions back to &amp;#39;Group&#x2F;Other&amp;#39;.
+&lt;&#x2F;span&gt;&lt;span&gt;# This fixes a case where the third party package wrapper Aura ( https:&#x2F;&#x2F;github.com&#x2F;fosskers&#x2F;aura ) tries to parse
+&lt;&#x2F;span&gt;&lt;span&gt;# &#x2F;etc&#x2F;pacman.conf and can&amp;#39;t read the &amp;quot;include&amp;quot;ded mirror files. By default, Aura intentionally runs without root
+&lt;&#x2F;span&gt;&lt;span&gt;# permissions for most non-modify operations.
+&lt;&#x2F;span&gt;&lt;span&gt;chmod go+r &amp;quot;${MIRRORS_DEFAULT_DIR}&amp;quot;&#x2F;*mirrorlist*
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;talking with the developer, some of the meat could be pruned from this depending on your geo. those obviously not concerned with RU and CN mirrors could delete these sections, but this would really only benefit with clarity, as its not really affecting speeds or anything.&lt;&#x2F;p&gt;
+&lt;p&gt;also there is the bottom of the file chmod and sed commands that if you use rate-mirrors instead will need to be sure to include. my thought process for the second option is to use rate-mirrors with the above tweaks inside an update.sh or similar bash script and include pacman -Syu&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;the-rate-mirror-option&quot;&gt;the rate-mirror option&lt;&#x2F;h2&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;#!&#x2F;bin&#x2F;bash
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;MIRRORS_DEFAULT_DIR=&#x2F;etc&#x2F;pacman.d
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;rate-mirrors --disable-comments cachyos | sudo tee &#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;rate-mirrors --disable-comments arch | sudo tee &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo cp -f --backup=simple --suffix=&amp;quot;-backup&amp;quot; &amp;quot;${MIRRORS_DEFAULT_DIR}&#x2F;cachyos-mirrorlist&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;quot;${MIRRORS_DEFAULT_DIR}&#x2F;cachyos-v3-mirrorlist&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo cp -f --backup=simple --suffix=&amp;quot;-backup&amp;quot; &amp;quot;${MIRRORS_DEFAULT_DIR}&#x2F;cachyos-mirrorlist&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;quot;${MIRRORS_DEFAULT_DIR}&#x2F;cachyos-v4-mirrorlist&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo sed -i &amp;#39;s|&#x2F;$arch&#x2F;|&#x2F;$arch_v3&#x2F;|g&amp;#39; &amp;quot;${MIRRORS_DEFAULT_DIR}&#x2F;cachyos-v3-mirrorlist&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo sed -i &amp;#39;s|&#x2F;$arch&#x2F;|&#x2F;$arch_v4&#x2F;|g&amp;#39; &amp;quot;${MIRRORS_DEFAULT_DIR}&#x2F;cachyos-v4-mirrorlist&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo pacman -Syu
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this is what i would call a work in progress...&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>arch-cachyos-updater</title>
+        <published>2026-02-27T00:00:00+00:00</published>
+        <updated>2026-02-27T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/arch-cachyos-updater/"/>
+        <id>https://inktheghost.com/blog/arch-cachyos-updater/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/arch-cachyos-updater/">&lt;h1 id=&quot;arch-cachyos-updater-scripts&quot;&gt;arch-cachyos-updater scripts&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;20-01&quot;&gt;20:01&lt;&#x2F;h2&gt;
+&lt;p&gt;two scripts i&#x27;ve setup for updating arch or cachyos respectively.
+setting some cool colors and icons, mimic-ing pacman...and some feedback&#x2F;letting you know what its doing notifications.&lt;&#x2F;p&gt;
+&lt;p&gt;i setup a file reflector_timestamp that won&#x27;t run reflector in the execution if the mirrors were updated within last 12 hours, just pacman -Syu. runs reflector and pacman -Syu and creates the timestamp file if it isn&#x27;t detected...&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;arch-updater-script&quot;&gt;arch updater script&lt;&#x2F;h2&gt;
+&lt;p&gt;update.sh&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;#!&#x2F;bin&#x2F;bash
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Colors
+&lt;&#x2F;span&gt;&lt;span&gt;bold_cyan=&amp;quot;\e[1;36m&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;bold_white=&amp;quot;\e[1;37m&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;reset=&amp;quot;\e[0m&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo -e &amp;quot;${bold_cyan}:: ${bold_white}Starting Update...&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Path to the timestamp file
+&lt;&#x2F;span&gt;&lt;span&gt;timestamp_file=&amp;quot;$HOME&#x2F;reflector_timestamp&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Current time in seconds since epoch
+&lt;&#x2F;span&gt;&lt;span&gt;current_time=$(date +%s)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Check if the file exists
+&lt;&#x2F;span&gt;&lt;span&gt;if [[ -f &amp;quot;$timestamp_file&amp;quot; ]]; then
+&lt;&#x2F;span&gt;&lt;span&gt;    # Get the last modified time of the timestamp file
+&lt;&#x2F;span&gt;&lt;span&gt;    file_mod_time=$(stat -c %Y &amp;quot;$timestamp_file&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;    # Compute the age of the file
+&lt;&#x2F;span&gt;&lt;span&gt;    file_age=$((current_time - file_mod_time))
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    # Check if the file age is less than 12 hours (43200 seconds)
+&lt;&#x2F;span&gt;&lt;span&gt;    if [[ $file_age -lt 43200 ]]; then
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}:: ${bold_white}Reflector mirrors &amp;lt; 12hr old...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        cat &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Starting pacman -Syu...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        sudo pacman -Syu 
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}[Done]${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        exit 0
+&lt;&#x2F;span&gt;&lt;span&gt;    else
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}:: ${bold_white}Reflector mirrors old...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Starting Reflector...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        sudo reflector --verbose -c CA -c MX -c US --protocol https --sort rate --latest 10 --download-timeout 5 --save &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}:: ${bold_white}Selected Servers:${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        cat &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Starting pacman -Syu...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        sudo pacman -Syu 
+&lt;&#x2F;span&gt;&lt;span&gt;    fi
+&lt;&#x2F;span&gt;&lt;span&gt;else
+&lt;&#x2F;span&gt;&lt;span&gt;    echo -e &amp;quot;${bold_cyan}:: ${bold_white}Timestamp file does not exist...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Starting Reflector...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    sudo reflector --verbose -c CA -c MX -c US --protocol https --sort rate --latest 10 --download-timeout 5 --save &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;    echo -e &amp;quot;${bold_cyan}:: ${bold_white}Selected Servers:${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    cat &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;    echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Starting pacman -Syu...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    sudo pacman -Syu
+&lt;&#x2F;span&gt;&lt;span&gt;    # Create the timestamp file
+&lt;&#x2F;span&gt;&lt;span&gt;    echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Saving timestamp file...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    touch &amp;quot;$timestamp_file&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    echo -e &amp;quot;${bold_cyan}[Done]${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    exit 0
+&lt;&#x2F;span&gt;&lt;span&gt;fi
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Update the timestamp file with the current time
+&lt;&#x2F;span&gt;&lt;span&gt;echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Updating timestamp file now...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;touch &amp;quot;$timestamp_file&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;echo -e &amp;quot;${bold_cyan}[Done]${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;cachyos-updater-script&quot;&gt;cachyos updater script&lt;&#x2F;h2&gt;
+&lt;p&gt;similar, but added in the cachyos-rate-mirrors script as well for the cachyos specific mirrors.  i also edited the cachyos-rate-mirrors script to block it trying to use rate-mirror method to update arch repos, as i prefer how reflector does that...&lt;&#x2F;p&gt;
+&lt;p&gt;update.sh&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;#!&#x2F;bin&#x2F;bash
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Colors
+&lt;&#x2F;span&gt;&lt;span&gt;bold_cyan=&amp;quot;\e[1;36m&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;bold_white=&amp;quot;\e[1;37m&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;reset=&amp;quot;\e[0m&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Path to the timestamp file
+&lt;&#x2F;span&gt;&lt;span&gt;timestamp_file=&amp;quot;$HOME&#x2F;update_timestamp&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Current time in seconds since epoch
+&lt;&#x2F;span&gt;&lt;span&gt;current_time=$(date +%s)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Check if the file exists
+&lt;&#x2F;span&gt;&lt;span&gt;if [[ -f &amp;quot;$timestamp_file&amp;quot; ]]; then
+&lt;&#x2F;span&gt;&lt;span&gt;    # Get the last modified time of the timestamp file
+&lt;&#x2F;span&gt;&lt;span&gt;    file_mod_time=$(stat -c %Y &amp;quot;$timestamp_file&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;    # Compute the age of the file
+&lt;&#x2F;span&gt;&lt;span&gt;    file_age=$((current_time - file_mod_time))
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    # Check if the file age is less than 12 hours (43200 seconds)
+&lt;&#x2F;span&gt;&lt;span&gt;    if [[ $file_age -lt 43200 ]]; then
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}:: ${bold_white}Mirrors &amp;lt; 12hr old...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}:: ${bold_white}CachyOS Servers:${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        cat &#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;	    echo -e &amp;quot;${bold_cyan}:: ${bold_white}Arch Servers:${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        cat &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Starting pacman -Syu...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        sudo pacman -Syu
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan} [Done]${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        exit 0
+&lt;&#x2F;span&gt;&lt;span&gt;    else
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}:: ${bold_white}Mirrors old, updating...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Starting Rate-mirrors...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        sudo cachyos-rate-mirrors
+&lt;&#x2F;span&gt;&lt;span&gt;	    cat &#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist | sed &amp;#39;&#x2F;^\s*#&#x2F;d;&#x2F;^$&#x2F;d&amp;#39; | sudo tee &#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Starting Reflector...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        sudo reflector --verbose -c CA -c MX -c US --protocol https --sort rate --latest 10 --download-timeout 5 --save &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}:: ${bold_white}Selected Servers:${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        cat &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Starting pacman -Syu...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        sudo pacman -Syu
+&lt;&#x2F;span&gt;&lt;span&gt;    fi
+&lt;&#x2F;span&gt;&lt;span&gt;else
+&lt;&#x2F;span&gt;&lt;span&gt;    echo -e &amp;quot;${bold_cyan}:: ${bold_white}Timestamp file does not exist...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Starting Rate-mirrors...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    sudo cachyos-rate-mirrors
+&lt;&#x2F;span&gt;&lt;span&gt;    cat &#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist | sed &amp;#39;&#x2F;^\s*#&#x2F;d;&#x2F;^$&#x2F;d&amp;#39; | sudo tee &#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;    echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Starting Reflector...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    sudo reflector --verbose -c CA -c MX -c US --protocol https --sort rate --latest 10 --download-timeout 5 --save &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;    echo -e &amp;quot;${bold_cyan}:: ${bold_white}Selected Servers:${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    cat &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;    echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Starting pacman -Syu...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    sudo pacman -Syu 
+&lt;&#x2F;span&gt;&lt;span&gt;    # Create the timestamp file
+&lt;&#x2F;span&gt;&lt;span&gt;    echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Saving timestamp file...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    touch &amp;quot;$timestamp_file&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    echo -e &amp;quot;${bold_cyan} [Done]${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    exit 0
+&lt;&#x2F;span&gt;&lt;span&gt;fi
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Update the timestamp file with the current time
+&lt;&#x2F;span&gt;&lt;span&gt;echo -e &amp;quot;${bold_cyan}==&amp;gt; Updating timestamp file now...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;touch &amp;quot;$timestamp_file&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;echo -e &amp;quot;${bold_cyan} [Done]${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;commenting out the arch repo section in the cachyos-rate-mirror script
+usually found at &#x2F;usr&#x2F;bin&#x2F;cachyos-rate-mirrors&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;whereis cachyos-rate-mirrors
+&lt;&#x2F;span&gt;&lt;span&gt;sudo nano {above result}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;cachyos-rate-mirror mods&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;# Always insert CDN77 mirror to the start, unless RU and CN region is detected
+&lt;&#x2F;span&gt;&lt;span&gt;#if [ &amp;quot;$country&amp;quot; != &amp;quot;RU&amp;quot; ] &amp;amp;&amp;amp; [ &amp;quot;$country&amp;quot; != &amp;quot;CN&amp;quot; ]; then
+&lt;&#x2F;span&gt;&lt;span&gt;#    sed -i &amp;#39;1iServer = https:&#x2F;&#x2F;archlinux.cachyos.org&#x2F;repo&#x2F;$repo&#x2F;os&#x2F;$arch&amp;#39; &amp;quot;${MIRRORS_DEFAULT_DIR}&#x2F;mirrorlist-cach&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#fi
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;rate_repository_mirrors cachyos &amp;quot;${MIRRORS_DEFAULT_DIR}&#x2F;cachyos-mirrorlist&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;and comment out the CDN77 shit or it&#x27;ll keep adding to your reflector mirrorlist for arch. took me a minute to see where that was coming from&lt;&#x2F;p&gt;
+&lt;p&gt;seems to do the trick... some caveats: this is a very meaty way to have and update look pretty. it is definately easier to use just cachyos-rate-mirrors to do all the above. i would probably do that if i didn&#x27;t enjoy messing with stuff and making a pretty terminal output. that said cachyos-rate-mirrors is a bit hacky itself.&lt;&#x2F;p&gt;
+&lt;p&gt;rate-mirrors can cleanup output with a cli command --disable-comments but doesn&#x27;t handle the cachyos-v3 v4 repo nomenclature properly, hence the garbage at the end of the cachyos-rate-mirror file:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt; Always insert local mirrors as first due to blockings in RU region
+&lt;&#x2F;span&gt;&lt;span&gt;if [ &amp;quot;$country&amp;quot; = &amp;quot;RU&amp;quot; ]; then
+&lt;&#x2F;span&gt;&lt;span&gt;    force_ru_mirrors
+&lt;&#x2F;span&gt;&lt;span&gt;fi
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;cp -f --backup=simple --suffix=&amp;quot;-backup&amp;quot; &amp;quot;${MIRRORS_DEFAULT_DIR}&#x2F;cachyos-mirrorlist&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;quot;${MIRRORS_DEFAULT_DIR}&#x2F;cachyos-v3-mirrorlist&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;cp -f --backup=simple --suffix=&amp;quot;-backup&amp;quot; &amp;quot;${MIRRORS_DEFAULT_DIR}&#x2F;cachyos-mirrorlist&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;quot;${MIRRORS_DEFAULT_DIR}&#x2F;cachyos-v4-mirrorlist&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;sed -i &amp;#39;s|&#x2F;$arch&#x2F;|&#x2F;$arch_v3&#x2F;|g&amp;#39; &amp;quot;${MIRRORS_DEFAULT_DIR}&#x2F;cachyos-v3-mirrorlist&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;sed -i &amp;#39;s|&#x2F;$arch&#x2F;|&#x2F;$arch_v4&#x2F;|g&amp;#39; &amp;quot;${MIRRORS_DEFAULT_DIR}&#x2F;cachyos-v4-mirrorlist&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#cat &#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist | sed &amp;#39;&#x2F;^\s*#&#x2F;d&amp;#39; | sudo tee &#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# In the case of a more restrictive umask setting ( 0077 for example ), give read-permissions back to &amp;#39;Group&#x2F;Other&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# This fixes a case where the third party package wrapper Aura ( https:&#x2F;&#x2F;github.com&#x2F;fosskers&#x2F;aura ) tries to parse
+&lt;&#x2F;span&gt;&lt;span&gt;# &#x2F;etc&#x2F;pacman.conf and can&amp;#39;t read the &amp;quot;include&amp;quot;ded mirror files. By default, Aura intentionally runs without root
+&lt;&#x2F;span&gt;&lt;span&gt;# permissions for most non-modify operations.
+&lt;&#x2F;span&gt;&lt;span&gt;chmod go+r &amp;quot;${MIRRORS_DEFAULT_DIR}&amp;quot;&#x2F;*mirrorlist*
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;i also don&#x27;t like how cachyos-rate-mirrors passes all comments to the mirrorlist files...hence my use of the below to clean up output:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;cat &#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist | sed &amp;#39;&#x2F;^\s*#&#x2F;d&amp;#39; | sudo tee &#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this clarifies the mirrorlist to only the server entries. i could do alot of this in the background. using the .service and .timer files for reflector and the same for cachyos-rate-mirrors, but again i like the pretty terminal output ;)&lt;&#x2F;p&gt;
+&lt;p&gt;does this cure that, yes, is it for everyone, probably not&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>

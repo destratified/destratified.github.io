@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src-attr 'unsafe-inline'">
+
+    
+    <script defer src="http://uma.destratify.pro/script.js" data-website-id="4fcbcec9-bb7c-4697-8a62-20ad992a6092"></script>
+    
+    <title>zola | ink the ghost</title>
+
+    <link href="https://defcon.social/@970uts1d3" rel="me">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://inktheghost.com/css/style.css?h=287f84ed6c66dca911c6">
+    <link rel="icon" type="image/png" href="https://inktheghost.com/icons/favicon.png">
+    <link rel="apple-touch-icon" href="https://inktheghost.com/processed_images/favicon.ab2897ee8708a1f8.png">
+    <script src="https://inktheghost.com/js/auto-close-popover-on-resize.js?h=4ef87d6fc7b98b22e044" defer></script>
+    <script src="https://inktheghost.com/js/copy-code-to-clipboard.js?h=b34dc626be3e4c8a0f55" defer></script>
+
+    <link rel="canonical" href="https://inktheghost.com/blog/zola/">
+    
+    <meta name="author" content="970uts1d3">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#211f1a">
+    <meta name="color-scheme" content="dark">
+
+    <meta property="og:title" content="zola">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://inktheghost.com/blog/zola/">
+    <meta property="og:site_name" content="ink the ghost">
+    <meta property="og:updated_time" content="2026-08-29T22:06:35.525047491+00:00">
+    <meta property="article:published_time" content="2025-12-17T00:00:00+00:00">
+    <meta property="article:tag" content="zola">
+    <meta property="article:tag" content="webdev">
+
+</head>
+
+<body class="layout-center" data-theme="terminus">
+    <header class="header">
+        <div class="header-container">
+            <span class="header-logo-container">
+                <a href="https://inktheghost.com">
+                    <span class="logo">ink the ghost</span>
+                </a>
+            </span>
+        </div>
+        <nav class="main-menu" aria-label="Main Menu">
+            <a class="skip-to-content" href="#main">Skip to main content</a>
+            <button class="main-menu-dropdown-button" popovertarget="nav-menu">Menu</button>
+            <ul id="nav-menu" class="main-menu-items" aria-label="Site Navigation" popover>
+                <li><a href="https://inktheghost.com/blog/">blog</a></li>
+                <li><a href="https://inktheghost.com/archive/">archive</a></li>
+                <li><a href="https://inktheghost.com/tags/">tags</a></li>
+                <li><a href="https://inktheghost.com/about/">about</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main id="main">
+        <article class="post content">
+            <header>
+                <h1 class="post-title">
+                    <a href="https://inktheghost.com/blog/zola/">zola</a>
+                </h1>
+                <ul class="post-meta hidden">
+                    <li title="Published on 2025-12-17"><time datetime="2025-12-17">2025.12.17</time></li>
+                    <li role="separator" aria-hidden="true">::</li>
+                    <li title="1187 words"><time datetime="PT6M">6 min</time> read</li>
+                </ul>
+                <div class="post-tags">
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/zola/">zola</a></span>
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/webdev/">webdev</a></span>
+                </div>
+            </header>
+
+<h1 id="zola">zola</h1>
+<p>i wanted to simplify my website currently at blog.destratify.pro to get away from all the bullshit that comes along with wordpress.  also i was already using a github repo to do the site serving so i started poking aroung and found zola. first i tried using zola with a forgejo repo and then mirroring to codeberg...codeberg pages was a bust, buggy, kept fucking up the formatting.  i then tried multiple ways of getting github to work and finally found a way to make it all happen. this enabled me to use a local repo and then "serve" it to github.  github actions would always rebuild the static site on update.  now that i have it working i'm going to play around with formatting, adding tags, a menu and getting the about page to show up.  one of the nice features of zola is that you can always test before you push to github with the local zola serve feature.  so here is what this looks like:</p>
+<ul>
+<li>setup a directory to work in</li>
+<li>download zola and git programs</li>
+<li>init the repo</li>
+<li>build your content into the zola framework</li>
+<li>add your <code>_index.md</code> files</li>
+<li>do your whole github action stuff</li>
+<li>change the source for the deployment to gh-pages</li>
+<li>add a new file and watch it go!</li>
+</ul>
+<h2 id="downloading-and-init">downloading and init</h2>
+<p>first i created a new directory in my laptops ~/forge folder in the way recommended by github
+<code>sudo mkdir -p ~/forge/&lt;user&gt;.github.io</code></p>
+<p>then you want to download your necessary programs: for me this was git and zola.  some installs will require another git program when you run the following command, but on arch mine just worked, or id done it at some point in the past.</p>
+<p>first git init
+then run
+<code>gh repo create destratified.github.io --public --source=. </code>
+this command creates the public version of the repo, syncing it and allowing you to work in your local folders. you might have to download another git prog to run the above command, mine didn't, but i remember trying to do that on my server.  you also will likely need to authorize and sign into your github account.  there are lots of little steps, you can choose https or ssh, i did https and a token but once you have that going it will setup the repo and you can verify with your githib repo list.</p>
+<p>next i did a quick <code>zola init force</code>  in the root of that directory.  the --force allows it to move past the .git files.</p>
+<p>you can do as much syncing as you like throughout this process or wait until the end.<br />
+add a <code>.gitignore</code> file with the contents public/ to prevent syncing the public dir to github, it will create its own later.</p>
+<p>this pretty much gets ya up and running</p>
+<h2 id="content-and-index-files">content and index files</h2>
+<p>here I had some files stored in my ~forge/blog that i wanted to move over to the new dir/contents
+I just copied using cp -r from directory to directory
+i had been building zola before i decided to go this route, so i had all the other <code>_index.md</code> files sorted out.
+my dir structure was contents/ with an <code>about.md _index.md</code>and a /blog folder.  the <code>_index.md</code> file has the contents below:</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span>+++
+</span><span>title = &quot;home&quot;
+</span><span>
+</span><span>[extra]
+</span><span>section_path = &quot;blog/_index.md&quot;  # Where to find your posts.
+</span><span>max_posts = 5  # Show 5 posts and a link to blog section on home page.
+</span><span>+++
+</span></code></pre>
+<p>the +++ enclose the contents of the instructions like a .yaml file and obviously the title instructs the zola build command how to orient things in the index.html file it builds in the /public folder later
+all my .md files are in the /blog folder so I also need another files this index file points the homepage to pull info from the blog directory</p>
+<p>in the /blog folder i have all the posts i want to publish, each has a front-matter that is similar to below...i use a template for a webpost in obsidian, which i am still using to write posts, and update the git repos locally, syncing to the github repo main branch</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span>+++
+</span><span>title = &quot;after proxmox reboot, found a couple issues&quot;
+</span><span>date = 2025-08-11
+</span><span>+++
+</span><span>
+</span></code></pre>
+<p>so the next thing that was necessary was to add that index.md file to the blog/ folder so that the zola build command understands how to handle the files in the directory.  for now i settled on some sorting by date and thus needed the front-matter in each .md file to aid in that.  the blog/index.md file looks like this:</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span>+++
+</span><span>title = &quot;blog&quot; 
+</span><span>paginate_by = 5 
+</span><span>sort_by = &quot;date&quot; 
+</span><span>+++
+</span></code></pre>
+<p>now that we have essentially got all of the content stuff together, the config.toml file in the root directory needed some tweaks:</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span># The URL the site will be built for
+</span><span>base_url = &quot;https://destratified.github.io&quot;
+</span><span>
+</span><span>theme = &quot;terminus&quot;
+</span><span>title = &quot;ink the ghost&quot;
+</span><span>
+</span><span># Whether to automatically compile all Sass files in the sass directory
+</span><span>compile_sass = true
+</span><span>
+</span><span># Whether to build a search index to be used later on by a JavaScript library
+</span><span>build_search_index = true
+</span><span>
+</span><span>[markdown]
+</span><span># Whether to do syntax highlighting
+</span><span># Theme can be customised by setting the `highlight_theme` variable to a theme supported by Zola
+</span><span>highlight_code = true
+</span><span>
+</span><span>[extra]
+</span><span># Put all your custom variables here
+</span><span>
+</span></code></pre>
+<p>here i just added a name for the page, correct the https://<username>.github.io that you intend to serve to and some basic stuff that comes with a generic config</p>
+<p>you may notice that terminus is listed as the theme.  you will also want to add that theme as a submodule using the command below.  make sure you are at the root of the directory</p>
+<p><code>git submodule clone https://github.com/ebkalderon/terminus.git themes/terminus</code></p>
+<p>now you have pretty much everything you need.  add a final file that helps to skip the default theme that github uses when building and deploying the webpage.</p>
+<p><code>touch .nojekyll</code></p>
+<p>if you wanna check and make sure it all looks good...you can also do a <code>zola serve</code> and follow the link to the local webpage before you upload everything to git hub.  if you like how it all looks</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span>git add . 
+</span><span>git commit -m &quot;update&quot;
+</span><span>git push
+</span></code></pre>
+<h1 id="github-stuff">github stuff</h1>
+<p>now with all that done and everything pushed to the repo, lets do another few things to get this going...now with that said I had this fuckered up for a while before i realized my mistake, so hopefully this will help you also.</p>
+<p>right now you should just have a "main" branch.  if you have more than that, delete the second branch...this is also how you can start over if something goes wrong.  you will need two things done.</p>
+<ul>
+<li>create a token (classic) with repo access</li>
+<li>create a github action</li>
+</ul>
+<p>first create the token by going to user &gt; settings &gt; developer settings &gt; personal access tokens &gt; tokens classic and create a token i used the name webpage, it doesnt really matter, just copy it before you navigate away from the page.</p>
+<p>then goto your repo you setup &gt; settings &gt; Secrets and variables &gt; actions &gt; new repo secret
+set the name to TOKEN and add the token into the field below and save</p>
+<p>next you will setup an action.  go back to the repo main page &gt; actions</p>
+<p>here lots of options, but i just pick the simple basic and then delete everything in it and copy the code in below:</p>
+<pre style="background-color:#272822;color:#f8f8f2;"><code><span># This is a basic workflow to help you get started with Actions
+</span><span>
+</span><span>name: CI
+</span><span>
+</span><span># Controls when the workflow will run
+</span><span>on:
+</span><span>  # Triggers the workflow on push or pull request events but only for the &quot;main&quot; branch
+</span><span>  push:
+</span><span>    branches: [ &quot;main&quot; ]
+</span><span>  pull_request:
+</span><span>    branches: [ &quot;main&quot; ]
+</span><span>
+</span><span>  # Allows you to run this workflow manually from the Actions tab
+</span><span>  workflow_dispatch:
+</span><span>
+</span><span># A workflow run is made up of one or more jobs that can run sequentially or in parallel
+</span><span>jobs:
+</span><span>  # This workflow contains a single job called &quot;build&quot;
+</span><span>  build:
+</span><span>    # The type of runner that the job will run on
+</span><span>    runs-on: ubuntu-latest
+</span><span>
+</span><span>    # Steps represent a sequence of tasks that will be executed as part of the job
+</span><span>    steps:
+</span><span>      - name: Checkout main
+</span><span>        uses: actions/checkout@v4
+</span><span>      - name: Build and deploy
+</span><span>        uses: shalzz/zola-deploy-action@v0.21.0
+</span><span>        env:
+</span><span>          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+</span></code></pre>
+<p>click commit and the repo will start the commit, update and build the webpage</p>
+<p>the last thing you need to do is goto settings &gt; pages
+there you will need to edit the the branch from main to gh-pages and click save.
+from this point on, every update to main should trigger the action to rebuild the static site from scratch, by posting this its confirmation of it working!</p>
+<p>next up zola pt2...adding tags, section pages and an about, blog, and tags menu on the homepage.  also i want my favicon in the webtab, so i'll have to figure that out too.</p>
+
+        </article>
+        <nav class="post-navigation">
+            <header class="post-navigation-title">
+                <h2>Read More Posts</h2>
+                <hr>
+            </header>
+            <div class="post-navigation-buttons">
+                <a rel="next" href="https://inktheghost.com/blog/zola-pt2/" aria-label="Next article">
+                    <span aria-hidden="true">&lt;&nbsp;[</span>zola_pt2<span aria-hidden="true">]</span>
+                </a>
+                <span aria-hidden="true" role="separator">::</span>
+                <a rel="prev" href="https://inktheghost.com/blog/codeberg-pt1/" aria-label="Prev article">
+                    <span aria-hidden="true">[</span>codeberg pt1<span aria-hidden="true">]&nbsp;&gt;</span>
+                </a>
+            </div>
+        </nav>
+    </main>
+    <footer class="footer">
+        <address class="socials">
+            <ul>
+                <li>
+                    <a class="social-link" rel="me" href="https://defcon.social/@970uts1d3" title="mastodon" aria-label="mastodon">
+                        <svg role="img" aria-label="mastodon icon">
+                            <use aria-hidden="true" href="https://inktheghost.com/images/social_icons/mastodon.svg#icon" />
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </address>
+        <p class="copyright">
+            <span>© <time>2026</time> 970uts1d3</span>
+            <span>Powered by <a href="https://www.getzola.org">Zola</a></span>
+            <span>Theme by <a href="https://eyalkalderon.com">ebkalderon</a></span>
+        </p>
+    </footer>
+</body>
+
+</html>
