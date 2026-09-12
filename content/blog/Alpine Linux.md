@@ -69,24 +69,29 @@ testing allows you to download librewolf for example.
 
 i also found that i needed to change shells after alpine login as i use bash on all my other machines and have dot files that i store in a git repo and git clone with every machine setup. 
 
-first install bash, and change user shell (root if you like)
+first install bash, and change user shell (root if you like), add a couple other essentials for editing files, term etc
 ```shell
-apk add bash
-
+apk add bash shadow kitty nano
+doas chsh joe /bin/bash
+#doas chsh root /bin/bash
 ```
 
-
-in this case the passwd file:
+verify the changes took place, this is easily found in the passwd file:
 ```shell
 cat /etc/passwd | grep joe && cat /etc/passwd | grep root
 joe:x:1000:1000:joe:/home/joe:/bin/bash
 root:x:0:0:root:/root:/bin/bash
 ```
 
-and the ~/.bash_profile you need for ssh logins, etc
+also, create a ~/.bash_profile you need for ssh logins, etc
 ```shell
 # Load the interactive Bash configuration for login shells.
 if [ -f "$HOME/.bashrc" ]; then
     . "$HOME/.bashrc"
 fi
 ```
+
+this way the ssh login will check for .bashrc and load it on access.
+
+you essentially have the tools to continue, i like loading kitty term for alpine early because i am usually ssh-ing in off a kitty terminal on another machine and this will eliminate editing errors, i like nano for a simple editor, but use what you like...
+
