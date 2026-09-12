@@ -58,4 +58,16 @@ http://mirrors.edge.kernel.org/alpine/edge/community
 http://mirrors.edge.kernel.org/alpine/edge/testing
 ```
 
-testing 
+then do a simple update to get to the edge (testing) platform and install the edge kernel also:
+
+```shell
+doas apk upgrade -U #same as the apk update & apk upgrade combined
+doas apk add linux-edge #pulls linux-stable kernel
+```
+
+testing allows you to download librewolf for example.
+
+i also found that i needed to change shells after alpine login as i use bash on all my other machines and have dot files that i store in a git repo and git clone with every machine setup. in this case the passwd file:
+```shell
+
+```
