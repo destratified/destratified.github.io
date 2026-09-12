@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>ink the ghost - devops</title>
+    <link rel="self" type="application/atom+xml" href="https://inktheghost.com/tags/devops/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://inktheghost.com"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2026-04-15T00:00:00+00:00</updated>
+    <id>https://inktheghost.com/tags/devops/atom.xml</id>
+    <entry xml:lang="en">
+        <title>keylightc - system76</title>
+        <published>2026-04-15T00:00:00+00:00</published>
+        <updated>2026-04-15T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/keylightc-system76/"/>
+        <id>https://inktheghost.com/blog/keylightc-system76/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/keylightc-system76/">&lt;h1 id=&quot;keylightc-system76&quot;&gt;keylightc - system76&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;14-13&quot;&gt;14:13&lt;&#x2F;h2&gt;
+&lt;p&gt;so one thing that i missed after leaving systemd behind with my debian-openRC build was the keyboard backlight app that i was using, and it worked really well. i hadn&#x27;t really looked into what it would take to get this going (since it had just worked), so i went down the rabbit hole again.&lt;&#x2F;p&gt;
+&lt;p&gt;my internet searches came up with alot of nothing, very few openrc iterations, so i started looking for platform independent versions, and most of them were an iteration of c, or python.  eventually found a c program that handled input devices in a way that i thought was similar to mine, and so i forked Michael Marleys repo @ &lt;a href=&quot;https:&#x2F;&#x2F;gitlab.com&#x2F;mamarley&#x2F;keylightc.git&quot;&gt;https:&#x2F;&#x2F;gitlab.com&#x2F;mamarley&#x2F;keylightc.git&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;this looked promising because it was built for a modern framework laptop and my system76 is also opensource, and in checking the keylightc.c file, i was hoping that would be all i had to do...but nah, that didn&#x27;t work at all.&lt;&#x2F;p&gt;
+&lt;p&gt;for the record, i thought all i was going to have to change were the two lines referring to the keyboard and touchpads events and then the file that is used to change the brightness (learned that its talking directly with the kernel).&lt;&#x2F;p&gt;
+&lt;p&gt;my two devices are:
+keyd virtual keyboard
+ELAN0412:00 04F3:311D Touchpad&lt;&#x2F;p&gt;
+&lt;p&gt;and the brightness level path is: &#x2F;sys&#x2F;class&#x2F;leds&#x2F;system76_acpi::kbd_backlight&#x2F;brightness&lt;&#x2F;p&gt;
+&lt;p&gt;it took a little bit of digging for the inputs, but i eventually found the easiest way was to install evtest and run &lt;code&gt;sudo evtest&lt;&#x2F;code&gt; and it would print out all the event devices and then you could select one and test for proper output so you would know for sure. i recommend that as the easiest method, theres also libinput and a few others...&lt;&#x2F;p&gt;
+&lt;p&gt;the brightness path i sorted out with the brightnessctl program, you can install that and it will give you the various devices and output paths that work on your system. this gives you video and many more, but the key is the backlight. you can set the backlight directly with the command which is what the c program is doing.&lt;&#x2F;p&gt;
+&lt;p&gt;there&#x27;s also a fade function in the keylightc program that i wasn&#x27;t sure was gunna work, so i pulled out all of the references, built the keylightc file with make and began testing it. &lt;code&gt;sudo .&#x2F;keylightc&lt;&#x2F;code&gt; - no joy.&lt;&#x2F;p&gt;
+&lt;p&gt;welp, i guess i don&#x27;t know enough about c to get this working, so i piped the code into duck.ai&lt;&#x2F;p&gt;
+&lt;p&gt;this is still a work in progress, but now im on the gentoo, you too, do you gentoo...so looking at another application for the backlight. will see if it works or if i go back to fixing the keylightc app&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>

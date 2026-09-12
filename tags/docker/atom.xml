@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>ink the ghost - docker</title>
+    <link rel="self" type="application/atom+xml" href="https://inktheghost.com/tags/docker/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://inktheghost.com"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2025-12-21T00:00:00+00:00</updated>
+    <id>https://inktheghost.com/tags/docker/atom.xml</id>
+    <entry xml:lang="en">
+        <title>jellyfin</title>
+        <published>2025-12-21T00:00:00+00:00</published>
+        <updated>2025-12-21T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/jellyfin/"/>
+        <id>https://inktheghost.com/blog/jellyfin/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/jellyfin/">&lt;h1 id=&quot;jellyfin-destroy-and-rebuild&quot;&gt;jellyfin - destroy and rebuild&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;08-49&quot;&gt;08:49&lt;&#x2F;h2&gt;
+&lt;p&gt;well i&#x27;ve had the unfortunate luxury of arch trying to break my jellyfin instance...this coupled with my adding of an nvme drive that i&#x27;ve wanted to use for transcoding and fully breaking the install by removing the transcode dir&#x2F;files for jellyfin and not copying them :&#x2F;  i was left with a half day trying to get the jellyfin instance back online before i hit the wall.&lt;&#x2F;p&gt;
+&lt;p&gt;since i&#x27;d already managed the gpu passthrus and all that shit on arch (yeah I know it breaks things :) ), as a last shot effort i figured i&#x27;d give the docker version a try.  i was obviously going to need to bring the instance up from the ashes anyway, so why not.  also, as a little precursor, the docker instance was already there, running the full suite of arrs* so that part was done anyways.&lt;&#x2F;p&gt;
+&lt;p&gt;first i had to remove everything that came before, i entered these commands line by line that you see in the code block below:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;sudo pacman -Rscn jellyfin-web jellyfin-server jellyfin-ffmpeg
+&lt;&#x2F;span&gt;&lt;span&gt;sudo rm -R &#x2F;var&#x2F;lib&#x2F;jellyfin
+&lt;&#x2F;span&gt;&lt;span&gt;sudo rm -R &#x2F;var&#x2F;cache&#x2F;jellyfin
+&lt;&#x2F;span&gt;&lt;span&gt;sudo systemctl stop jellyfin
+&lt;&#x2F;span&gt;&lt;span&gt;sudo systemctl disable jellyfin
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;just for good measure i did a reboot after that, and then ran &lt;code&gt;nvidia-smi&lt;&#x2F;code&gt; to make sure the card was working still.  it was, so i went ahead and got into my portainer instance to start working on the docker-compose.  i pulled a few examples from the internet, including the jellyfin recommended one, but kept getting runtime and cdi errors during build.  trying a docker run command i was able to see that i needed to build the container toolkit and so i used yay for that.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;yay -S nvidia-container-toolkit
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;a little into it, it broke on a dependency....wont bother you with the details here, but i had to pull a backup of my arch server from 3 days ago, did a full restore and after boot and &lt;code&gt;nvidia-smi&lt;&#x2F;code&gt; the above command built and installed the files correctly.&lt;&#x2F;p&gt;
+&lt;p&gt;so it seemed I was good, tried to deploy the stack again and had a couple more issues: errors for CDI and for runtime call.  i went out on the internet and found a couple solutions.  i needed to tell docker about the runtime:nvidia call in the docker-compose and have it built before i spun up the container.  used the following commands below:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;sudo nvidia-ctk cdi generate --output=&#x2F;etc&#x2F;cdi&#x2F;nvidia.yaml
+&lt;&#x2F;span&gt;&lt;span&gt;sudo nvidia-ctk config --in-place --set nvidia-container-runtime.mode=cdi
+&lt;&#x2F;span&gt;&lt;span&gt;sudo systemctl restart docker
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;i also needed to add my user to docker so i could issue future docker commands without sudo:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;sudo usermod -aG docker $USER   
+&lt;&#x2F;span&gt;&lt;span&gt;sudo nvidia-ctk runtime configure --runtime=docker
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;finally after this i was able to get the docker jellyfin container to build and was able to bring up the jellyfin server instance back to the boot splash.  the last few details are setting up the transcoding options and directories.  the final docker-compose.yml is:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;services:
+&lt;&#x2F;span&gt;&lt;span&gt;  jellyfin:
+&lt;&#x2F;span&gt;&lt;span&gt;    image: lscr.io&#x2F;linuxserver&#x2F;jellyfin
+&lt;&#x2F;span&gt;&lt;span&gt;    container_name: jellyfin
+&lt;&#x2F;span&gt;&lt;span&gt;    environment:
+&lt;&#x2F;span&gt;&lt;span&gt;      - PUID=1000
+&lt;&#x2F;span&gt;&lt;span&gt;      - PGID=1000
+&lt;&#x2F;span&gt;&lt;span&gt;      - TZ=America&#x2F;Denver
+&lt;&#x2F;span&gt;&lt;span&gt;      - NVIDIA_VISIBLE_DEVICES=all
+&lt;&#x2F;span&gt;&lt;span&gt;    volumes:
+&lt;&#x2F;span&gt;&lt;span&gt;      - &#x2F;home&#x2F;joe&#x2F;jellyfin&#x2F;config:&#x2F;config
+&lt;&#x2F;span&gt;&lt;span&gt;      - &#x2F;zstor&#x2F;data&#x2F;media&#x2F;tv:&#x2F;media&#x2F;tv
+&lt;&#x2F;span&gt;&lt;span&gt;      - &#x2F;zstor&#x2F;data&#x2F;media&#x2F;movies:&#x2F;media&#x2F;movies
+&lt;&#x2F;span&gt;&lt;span&gt;      - &#x2F;zstor&#x2F;data&#x2F;media&#x2F;music:&#x2F;media&#x2F;music
+&lt;&#x2F;span&gt;&lt;span&gt;      - &#x2F;transcode:&#x2F;transcode
+&lt;&#x2F;span&gt;&lt;span&gt;    ports:
+&lt;&#x2F;span&gt;&lt;span&gt;      - 8096:8096
+&lt;&#x2F;span&gt;&lt;span&gt;      - 8920:8920
+&lt;&#x2F;span&gt;&lt;span&gt;    restart: unless-stopped
+&lt;&#x2F;span&gt;&lt;span&gt;    runtime: nvidia
+&lt;&#x2F;span&gt;&lt;span&gt;    deploy:
+&lt;&#x2F;span&gt;&lt;span&gt;      resources:
+&lt;&#x2F;span&gt;&lt;span&gt;        reservations:
+&lt;&#x2F;span&gt;&lt;span&gt;          devices:
+&lt;&#x2F;span&gt;&lt;span&gt;            - capabilities: [gpu]
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;i set up my users, pointed movies, tv and music from my nfs share (being passed thru), transcode directory (nvme passthough) and started setting up the transcode info in the Dashboard &amp;gt; Playback menu.  I used the following from nvidia to search for all my gpu capabilities:
+&lt;a href=&quot;https:&#x2F;&#x2F;developer.nvidia.com&#x2F;video-encode-decode-support-matrix&quot;&gt;https:&#x2F;&#x2F;developer.nvidia.com&#x2F;video-encode-decode-support-matrix&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;and ticked the appropriate boxes.  just out of my image there is also a selection for tone mapping that i selected, and down in the transcode folder, changed from the os files to the &#x2F;transcode nfs share i had mapped in the docker-compose.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;img&#x2F;screenshotjellyfin1.png&quot; alt=&quot;this is a screenshot&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;after this i spun up a movie.  here&#x27;s the output from &lt;code&gt;nvidia-smi&lt;&#x2F;code&gt; both on the host&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;img&#x2F;screenshotjellyfin3.png&quot; alt=&quot;this is a screenshot&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;and using this command to see within the docker container:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;docker exec jellyfin nvidia-smi
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;img&#x2F;screenshotjellyfin2.png&quot; alt=&quot;this is a screenshot&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;i find it interesting that the output of the docker exec comman shows the fan speed and total gpu% outputs, yet does&#x27;t show the call for ffmpeg, in fact no processes at all.  i chalking that up to ffmpeg actually executing on the host and not within the docker containers as it is all a passthough.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;update-block-nvidia-open&quot;&gt;Update - block nvidia-open&lt;&#x2F;h2&gt;
+&lt;p&gt;so the most recent pacman -Syu broke my system - this is probable what caused the problem in the first place ;)&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;sudo nano &#x2F;etc&#x2F;pacman.conf
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;uncomment the IgnorePkg = and add the below&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;IgnorePkg = nvidia-open   
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;after another pacman -Syu the upgrade said it had nothing to do, so hopefully this will by me time to sort out how to negotiate the nvida-open dilemma.&lt;&#x2F;p&gt;
+&lt;p&gt;the AI search in duckduckgo says that the nvidia-open drivers wont work with older cards like maxwell and pascal, but i haven&#x27;t dug into it at all&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>

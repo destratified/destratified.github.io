@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>ink the ghost - blog</title>
+    <link rel="self" type="application/atom+xml" href="https://inktheghost.com/tags/blog/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://inktheghost.com"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2025-10-11T00:00:00+00:00</updated>
+    <id>https://inktheghost.com/tags/blog/atom.xml</id>
+    <entry xml:lang="en">
+        <title>bloggy101</title>
+        <published>2025-10-11T00:00:00+00:00</published>
+        <updated>2025-10-11T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/bloggy101/"/>
+        <id>https://inktheghost.com/blog/bloggy101/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/bloggy101/">&lt;h2 id=&quot;testing-testing&quot;&gt;Testing, testing&lt;&#x2F;h2&gt;
+&lt;h1 id=&quot;here-i-am-looking-to-add-posts-direct-from-my-gitea-repo&quot;&gt;Here I am looking to add posts direct from my gitea repo&lt;&#x2F;h1&gt;
+&lt;ol&gt;
+&lt;li&gt;This is the first one&lt;&#x2F;li&gt;
+&lt;li&gt;The future looks to all posts being done in this fashion &amp;gt; I have gitea private repo with a mirror
+that keeps everything backed up in case the server goes down.&lt;&#x2F;li&gt;
+&lt;li&gt;Testing the *.md &amp;gt; I will also duplicate the about tab for this wp so its saved for posterity.&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;~Thanks for looking at my blog!&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>

@@ -1,0 +1,1043 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>ink the ghost - proxmox</title>
+    <link rel="self" type="application/atom+xml" href="https://inktheghost.com/tags/proxmox/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://inktheghost.com"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2026-01-13T00:00:00+00:00</updated>
+    <id>https://inktheghost.com/tags/proxmox/atom.xml</id>
+    <entry xml:lang="en">
+        <title>backup laptop with PBS</title>
+        <published>2026-01-13T00:00:00+00:00</published>
+        <updated>2026-01-13T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/backup-with-pve-updated/"/>
+        <id>https://inktheghost.com/blog/backup-with-pve-updated/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/backup-with-pve-updated/">&lt;h1 id=&quot;update-1-13-2006-tl-dr&quot;&gt;Update 1-13-2006 TL;DR&lt;&#x2F;h1&gt;
+&lt;p&gt;so i ended up having some issues getting the proxmox-backup-client command to run, using sudo and after getting into the forums realized that i could su to root, move the file there, and append changes, chmod to execute and add the cronjob under the root user.  this eliminates the need all together for the sudo command!&lt;&#x2F;p&gt;
+&lt;p&gt;heres the updated file i saved in the &#x2F;root&#x2F; directory:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;#!&#x2F;bin&#x2F;bash
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;##Setting environmental variables
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;export PBS_USER=jeff
+&lt;&#x2F;span&gt;&lt;span&gt;export PBS_PASSWORD=XXXXXXXX
+&lt;&#x2F;span&gt;&lt;span&gt;export PBS_REPOSITORY=jeff@pbs@192.168.50.3:8007:not-server
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;## backup command
+&lt;&#x2F;span&gt;&lt;span&gt;proxmox-backup-client backup root.pxar:&#x2F; --include-dev &#x2F;home
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;$(date +&amp;quot;%Y-%m-%d %H:%M:%S&amp;quot;) - Backup executed&amp;quot; &amp;gt;&amp;gt; &#x2F;home&#x2F;joe&#x2F;backup_to_PVB.log
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;my cron command is also set to push any errors to a debug.log file, so between the above and that i&#x27;ve got a fail bit of debug info if i need it.&lt;&#x2F;p&gt;
+&lt;p&gt;you can test by running the script backup.sh to make sure it works without erroring out with the above changes.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;og-text&quot;&gt;OG text&lt;&#x2F;h1&gt;
+&lt;p&gt;so i created a bash script and was having it err anytime i wasnt actually logged into a terminal
+after some poking around it hadn&#x27;t executed as sudo for the bash script in a while and realized that there was an issue passing sudo password to the backup command
+i will preface this with i am still not sure if this is working, but i will know by 4pm today.  here&#x27;s my script:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;#!&#x2F;bin&#x2F;bash
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;##Setting environmental variables
+&lt;&#x2F;span&gt;&lt;span&gt;export PBS_USER=archy
+&lt;&#x2F;span&gt;&lt;span&gt;export PBS_PASSWORD=@!Moksha00
+&lt;&#x2F;span&gt;&lt;span&gt;#export SUDO_PASSWORD=$(cat &#x2F;etc&#x2F;backup_password)
+&lt;&#x2F;span&gt;&lt;span&gt;export PBS_REPOSITORY=archy@pbs@192.168.50.3:8007:not-server2
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;##Checking network connectivity
+&lt;&#x2F;span&gt;&lt;span&gt;ping -c 1 192.168.50.3 | grep &amp;quot;bytes from&amp;quot; &amp;gt; &#x2F;dev&#x2F;null
+&lt;&#x2F;span&gt;&lt;span&gt;if [ $? -eq 0 ]; then
+&lt;&#x2F;span&gt;&lt;span&gt;    echo &amp;quot;$(date &amp;#39;+%Y-%m-%d %H:%M:%S&amp;#39;) - Network is connected&amp;quot; &amp;gt;&amp;gt; &#x2F;home&#x2F;joe&#x2F;backup.log
+&lt;&#x2F;span&gt;&lt;span&gt;else
+&lt;&#x2F;span&gt;&lt;span&gt;    echo &amp;quot;$(date &amp;#39;+%Y-%m-%d %H:%M:%S&amp;#39;) - Network is not connected&amp;quot; &amp;gt;&amp;gt; &#x2F;home&#x2F;joe&#x2F;backup.log
+&lt;&#x2F;span&gt;&lt;span&gt;    echo &amp;quot;$(date &amp;#39;+%Y-%m-%d %H:%M:%S&amp;#39;) - Backup failed&amp;quot; &amp;gt;&amp;gt; &#x2F;home&#x2F;joe&#x2F;backup.log
+&lt;&#x2F;span&gt;&lt;span&gt;    exit 1
+&lt;&#x2F;span&gt;&lt;span&gt;fi
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;##Sudo command with -E to preserve the env variables
+&lt;&#x2F;span&gt;&lt;span&gt;sudo -E proxmox-backup-client backup root.pxar:&#x2F; --include-dev &#x2F;home
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#testing backup error loop
+&lt;&#x2F;span&gt;&lt;span&gt;if [ $? -eq 0 ]; then
+&lt;&#x2F;span&gt;&lt;span&gt;    echo &amp;quot;$(date &amp;#39;+%Y-%m-%d %H:%M:%S&amp;#39;) - Backup completed successfully&amp;quot; &amp;gt;&amp;gt; &#x2F;home&#x2F;joe&#x2F;backup.log
+&lt;&#x2F;span&gt;&lt;span&gt;else
+&lt;&#x2F;span&gt;&lt;span&gt;    echo &amp;quot;$(date &amp;#39;+%Y-%m-%d %H:%M:%S&amp;#39;) - Backup failed&amp;quot; &amp;gt;&amp;gt; &#x2F;home&#x2F;joe&#x2F;backup.log
+&lt;&#x2F;span&gt;&lt;span&gt;fi   
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;and the problem seemed to be in this line of code:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;sudo -E proxmox-backup-client backup root.pxar:&#x2F; --include-dev &#x2F;home
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;some digging on the webs (i dont use google, cause you know privacy, data harvesting blah blah blah) recommended using a password setting variable and also adding my user and allowing passwordless execution for the bash scripts.  now this seems to include the use of sudo from within the scripts as well, but we shall see...at 4pm tbd&lt;&#x2F;p&gt;
+&lt;p&gt;so for the sudo command thingy, you can enter the details to fit the command name and user, but it follows the format below:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;echo &amp;quot;username ALL=(ALL) NOPASSWORD: &#x2F;path&#x2F;to&#x2F;script.sh&amp;quot; | sudo tee &#x2F;etc&#x2F;sudoers.d&#x2F;script-no-password
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;mine is:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;echo &amp;quot;joe ALL=(ALL) NOPASSWD: &#x2F;home&#x2F;joe&#x2F;backup.sh&amp;quot; | sudo tee &#x2F;etc&#x2F;sudoers.d&#x2F;script-no-password
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;now i use arch, so i chose to install cronie as i was struggling with the above script (realizing now that the sudo fix should allow me to use systemctl services to do the same as cronie) but i have a little more familiarity with cron, so i wanted to use it for debugging a bit.  here&#x27;s how i got that going on arch:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;sudo pacman -S cronie
+&lt;&#x2F;span&gt;&lt;span&gt;export EDITOR=&#x2F;usr&#x2F;bin&#x2F;nano &amp;amp;&amp;amp; export VISUAL=$EDITOR
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;now you can setup your cron to run, im using some debug stuff and wanting to run daily so here&#x27;s how that looks:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;0 16 * * * &#x2F;home&#x2F;joe&#x2F;backup.sh 2&amp;gt; debug.log 2&amp;gt;&amp;amp;1
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;the export variables tell the system to use nano instead of vi, i don&#x27;t use vi, so this got it going in my favorite editor, and ctrl+x and its saved&lt;&#x2F;p&gt;
+&lt;p&gt;this is a good time to make sure you  had the script made executable as we are testing with the following command, so if you haven&#x27;t already:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;sudo chmod +x &#x2F;path&#x2F;to&#x2F;script.s
+&lt;&#x2F;span&gt;&lt;span&gt;crontab -l | grep -v &amp;#39;^#&amp;#39; | cut -f 6- -d &amp;#39; &amp;#39; | while read CMD; do eval $CMD; done
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;the crontab command above will cycle through and test execution of all of the commands in crontab sequentially, so just keep that in mind.  I only have this one and a gitea script for updating my repo, so nbd to have it execute them all.&lt;&#x2F;p&gt;
+&lt;p&gt;ill report back later if this is the fix, but with some network debugging and script debugging i should get updated on the script as its processed&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>NFS pass-through</title>
+        <published>2025-12-28T00:00:00+00:00</published>
+        <updated>2025-12-28T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/nfspassthrough/"/>
+        <id>https://inktheghost.com/blog/nfspassthrough/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/nfspassthrough/">&lt;h1 id=&quot;nfs-pass-through-in-proxmox-to-arch-linux-vm&quot;&gt;NFS pass-through in proxmox to arch linux vm&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;14-38&quot;&gt;14:38&lt;&#x2F;h2&gt;
+&lt;p&gt;continuing my proxmox install saga...&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;setting-up-nfs&quot;&gt;setting up nfs&lt;&#x2F;h2&gt;
+&lt;p&gt;i got the fans running quietly, now it was time to sort out a few things.  i wanted to migrate my nas container manager data to the new server.  this meant creating a zfs file system raidz1-0 with my big disks (18TBx6) giving me roughly 80gb usable space with redundancy.  i made the zfs &#x2F;storage with the 6 disks selected and voila!  storage.  now i needed to move files to my server.  for this to work i needed to do a couple things.  i needed nfs on my proxmox, so i could serve the folders to both my nas and my future jellyfin instance.  i created a single disk zfs with my 4tb nvme for just transcoding and setup the nfs server on pve host:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;apt install nfs-common
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this downloads the drivers to host, then edit exports file&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;nano &#x2F;etc&#x2F;exports
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;then add your directories in the file:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;# &#x2F;etc&#x2F;exports: the access control list for filesystems which may be exported
+&lt;&#x2F;span&gt;&lt;span&gt;#               to NFS clients.  See exports(5).
+&lt;&#x2F;span&gt;&lt;span&gt;#
+&lt;&#x2F;span&gt;&lt;span&gt;# Example for NFSv2 and NFSv3:
+&lt;&#x2F;span&gt;&lt;span&gt;# &#x2F;srv&#x2F;homes       hostname1(rw,sync,no_subtree_check) hostname2(ro,sync,no_subtree_check)
+&lt;&#x2F;span&gt;&lt;span&gt;#
+&lt;&#x2F;span&gt;&lt;span&gt;# Example for NFSv4:
+&lt;&#x2F;span&gt;&lt;span&gt;# &#x2F;srv&#x2F;nfs4        gss&#x2F;krb5i(rw,sync,fsid=0,crossmnt,no_subtree_check)
+&lt;&#x2F;span&gt;&lt;span&gt;# &#x2F;srv&#x2F;nfs4&#x2F;homes  gss&#x2F;krb5i(rw,sync,no_subtree_check)
+&lt;&#x2F;span&gt;&lt;span&gt;#
+&lt;&#x2F;span&gt;&lt;span&gt;&#x2F;storage&#x2F; 192.168.50.0&#x2F;24(rw,sync,all_squash,no_subtree_check,anonuid=1000,anongid=1000)
+&lt;&#x2F;span&gt;&lt;span&gt;&#x2F;transcode&#x2F; 192.168.50.0&#x2F;24(rw,sync,all_squash,no_subtree_check,anonuid=1000,anongid=1000)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;then i reload nfs with systemctl and export the directories:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;systemctl daemon-reload
+&lt;&#x2F;span&gt;&lt;span&gt;exportfs -arv
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;next you need to chmod and chown your directories:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;chmod 775 -R &#x2F;transcode&#x2F; &#x2F;storage&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;chown -R joe:nfsgroup &#x2F;transcode&#x2F; &#x2F;storage&#x2F;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;the chmod sets to uid1000 basically and i had to create an nfs group nfsgroup and adduser joe so i had gid1000 so the permissions match the export details...this allows easy read writes on jellyfin and all other apps have same permission structure.  the arrs have the storage dir mapped on the client side as well.&lt;&#x2F;p&gt;
+&lt;p&gt;now for the arch client, you have to add the nfs-utils package:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;sudo pacman -Syu nfs-utils
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;then you can add the dirs and edit the etc&#x2F;fstab with &lt;code&gt;nano &#x2F;etc&#x2F;fstab&#x2F;&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;mkdir -p &#x2F;transcode &#x2F;storage
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;192.168.50.2:&#x2F;storage &#x2F;storage nfs rw,defaults,nofail  0 0
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.2:&#x2F;transcode&#x2F; &#x2F;transcode nfs rw,defaults,nofail  0 0
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;add the no fail, so if the nfs blows up or something the mount won&#x27;t bonk the vm boot (i use this on my laptop and desktop too&lt;&#x2F;p&gt;
+&lt;p&gt;at this point you should have the directories setup, so do another &lt;code&gt;systemctl daemon-reload&lt;&#x2F;code&gt; and &lt;code&gt;sudo mount -a&lt;&#x2F;code&gt; to check and make sure everything works.  i like to just put a test file on the server-side before the mount on the client, using &lt;code&gt;touch test.file&lt;&#x2F;code&gt; and that way you should see the file on the clinet side in the directories you just mounted.&lt;&#x2F;p&gt;
+&lt;p&gt;now, some people may have multiple users on the client and the server.  you need to make sure these match.  i also had to make sure the permissions matched on the NAS so when i ran the rsync command all permissions match between server and 2 clients.  at this point i also ran the chmod and chown commands on the clients to assure permission uniformity.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;notes&quot;&gt;notes&lt;&#x2F;h3&gt;
+&lt;p&gt;at this point all should be ready to copy files.  i used a rsync command on my synology NAS that I was ssh&#x27;d into to move all my files over to the server.  i followed trashguides directory structure when i originally setup the &lt;em&gt;arrs&lt;&#x2F;em&gt; on the nas so it looks like this:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;   &#x2F;storage&#x2F;data&#x2F;media
+&lt;&#x2F;span&gt;&lt;span&gt;       &#x2F;books
+&lt;&#x2F;span&gt;&lt;span&gt;       &#x2F;movies
+&lt;&#x2F;span&gt;&lt;span&gt;       &#x2F;music
+&lt;&#x2F;span&gt;&lt;span&gt;       &#x2F;tv
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;update-03-09-2026-07-39&quot;&gt;UPDATE: 03&#x2F;09&#x2F;2026 07:39&lt;&#x2F;h2&gt;
+&lt;p&gt;nfs file mounts in &#x2F;etc&#x2F;fstab:&lt;&#x2F;p&gt;
+&lt;p&gt;the options declarations in the man page state that rw, and defaults are not necessary options...unless you have no other options stated. defaults is a placeholder for the string, and rw is a default.&lt;&#x2F;p&gt;
+&lt;p&gt;so for the mounting of the nfs folders from my server above:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;192.168.50.2:&#x2F;storage &#x2F;storage nfs rw,defaults,nofail  0 0
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.2:&#x2F;transcode&#x2F; &#x2F;transcode nfs rw,defaults,nofail  0 0
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;these can be simplified to:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;192.168.50.2:&#x2F;storage &#x2F;storage nfs nofail  0 0
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.2:&#x2F;transcode&#x2F; &#x2F;transcode nfs nofail  0 0
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;as the rw &lt;em&gt;is&lt;&#x2F;em&gt; a default, and defaults is redundant with nofail. if for some reason you did not want to use nofail (though it will save you someday - ask me how i know), you could just enter defaults and rw is implied.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>jellyfin</title>
+        <published>2025-12-21T00:00:00+00:00</published>
+        <updated>2025-12-21T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/jellyfin/"/>
+        <id>https://inktheghost.com/blog/jellyfin/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/jellyfin/">&lt;h1 id=&quot;jellyfin-destroy-and-rebuild&quot;&gt;jellyfin - destroy and rebuild&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;08-49&quot;&gt;08:49&lt;&#x2F;h2&gt;
+&lt;p&gt;well i&#x27;ve had the unfortunate luxury of arch trying to break my jellyfin instance...this coupled with my adding of an nvme drive that i&#x27;ve wanted to use for transcoding and fully breaking the install by removing the transcode dir&#x2F;files for jellyfin and not copying them :&#x2F;  i was left with a half day trying to get the jellyfin instance back online before i hit the wall.&lt;&#x2F;p&gt;
+&lt;p&gt;since i&#x27;d already managed the gpu passthrus and all that shit on arch (yeah I know it breaks things :) ), as a last shot effort i figured i&#x27;d give the docker version a try.  i was obviously going to need to bring the instance up from the ashes anyway, so why not.  also, as a little precursor, the docker instance was already there, running the full suite of arrs* so that part was done anyways.&lt;&#x2F;p&gt;
+&lt;p&gt;first i had to remove everything that came before, i entered these commands line by line that you see in the code block below:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;sudo pacman -Rscn jellyfin-web jellyfin-server jellyfin-ffmpeg
+&lt;&#x2F;span&gt;&lt;span&gt;sudo rm -R &#x2F;var&#x2F;lib&#x2F;jellyfin
+&lt;&#x2F;span&gt;&lt;span&gt;sudo rm -R &#x2F;var&#x2F;cache&#x2F;jellyfin
+&lt;&#x2F;span&gt;&lt;span&gt;sudo systemctl stop jellyfin
+&lt;&#x2F;span&gt;&lt;span&gt;sudo systemctl disable jellyfin
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;just for good measure i did a reboot after that, and then ran &lt;code&gt;nvidia-smi&lt;&#x2F;code&gt; to make sure the card was working still.  it was, so i went ahead and got into my portainer instance to start working on the docker-compose.  i pulled a few examples from the internet, including the jellyfin recommended one, but kept getting runtime and cdi errors during build.  trying a docker run command i was able to see that i needed to build the container toolkit and so i used yay for that.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;yay -S nvidia-container-toolkit
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;a little into it, it broke on a dependency....wont bother you with the details here, but i had to pull a backup of my arch server from 3 days ago, did a full restore and after boot and &lt;code&gt;nvidia-smi&lt;&#x2F;code&gt; the above command built and installed the files correctly.&lt;&#x2F;p&gt;
+&lt;p&gt;so it seemed I was good, tried to deploy the stack again and had a couple more issues: errors for CDI and for runtime call.  i went out on the internet and found a couple solutions.  i needed to tell docker about the runtime:nvidia call in the docker-compose and have it built before i spun up the container.  used the following commands below:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;sudo nvidia-ctk cdi generate --output=&#x2F;etc&#x2F;cdi&#x2F;nvidia.yaml
+&lt;&#x2F;span&gt;&lt;span&gt;sudo nvidia-ctk config --in-place --set nvidia-container-runtime.mode=cdi
+&lt;&#x2F;span&gt;&lt;span&gt;sudo systemctl restart docker
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;i also needed to add my user to docker so i could issue future docker commands without sudo:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;sudo usermod -aG docker $USER   
+&lt;&#x2F;span&gt;&lt;span&gt;sudo nvidia-ctk runtime configure --runtime=docker
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;finally after this i was able to get the docker jellyfin container to build and was able to bring up the jellyfin server instance back to the boot splash.  the last few details are setting up the transcoding options and directories.  the final docker-compose.yml is:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;services:
+&lt;&#x2F;span&gt;&lt;span&gt;  jellyfin:
+&lt;&#x2F;span&gt;&lt;span&gt;    image: lscr.io&#x2F;linuxserver&#x2F;jellyfin
+&lt;&#x2F;span&gt;&lt;span&gt;    container_name: jellyfin
+&lt;&#x2F;span&gt;&lt;span&gt;    environment:
+&lt;&#x2F;span&gt;&lt;span&gt;      - PUID=1000
+&lt;&#x2F;span&gt;&lt;span&gt;      - PGID=1000
+&lt;&#x2F;span&gt;&lt;span&gt;      - TZ=America&#x2F;Denver
+&lt;&#x2F;span&gt;&lt;span&gt;      - NVIDIA_VISIBLE_DEVICES=all
+&lt;&#x2F;span&gt;&lt;span&gt;    volumes:
+&lt;&#x2F;span&gt;&lt;span&gt;      - &#x2F;home&#x2F;joe&#x2F;jellyfin&#x2F;config:&#x2F;config
+&lt;&#x2F;span&gt;&lt;span&gt;      - &#x2F;zstor&#x2F;data&#x2F;media&#x2F;tv:&#x2F;media&#x2F;tv
+&lt;&#x2F;span&gt;&lt;span&gt;      - &#x2F;zstor&#x2F;data&#x2F;media&#x2F;movies:&#x2F;media&#x2F;movies
+&lt;&#x2F;span&gt;&lt;span&gt;      - &#x2F;zstor&#x2F;data&#x2F;media&#x2F;music:&#x2F;media&#x2F;music
+&lt;&#x2F;span&gt;&lt;span&gt;      - &#x2F;transcode:&#x2F;transcode
+&lt;&#x2F;span&gt;&lt;span&gt;    ports:
+&lt;&#x2F;span&gt;&lt;span&gt;      - 8096:8096
+&lt;&#x2F;span&gt;&lt;span&gt;      - 8920:8920
+&lt;&#x2F;span&gt;&lt;span&gt;    restart: unless-stopped
+&lt;&#x2F;span&gt;&lt;span&gt;    runtime: nvidia
+&lt;&#x2F;span&gt;&lt;span&gt;    deploy:
+&lt;&#x2F;span&gt;&lt;span&gt;      resources:
+&lt;&#x2F;span&gt;&lt;span&gt;        reservations:
+&lt;&#x2F;span&gt;&lt;span&gt;          devices:
+&lt;&#x2F;span&gt;&lt;span&gt;            - capabilities: [gpu]
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;i set up my users, pointed movies, tv and music from my nfs share (being passed thru), transcode directory (nvme passthough) and started setting up the transcode info in the Dashboard &amp;gt; Playback menu.  I used the following from nvidia to search for all my gpu capabilities:
+&lt;a href=&quot;https:&#x2F;&#x2F;developer.nvidia.com&#x2F;video-encode-decode-support-matrix&quot;&gt;https:&#x2F;&#x2F;developer.nvidia.com&#x2F;video-encode-decode-support-matrix&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;and ticked the appropriate boxes.  just out of my image there is also a selection for tone mapping that i selected, and down in the transcode folder, changed from the os files to the &#x2F;transcode nfs share i had mapped in the docker-compose.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;img&#x2F;screenshotjellyfin1.png&quot; alt=&quot;this is a screenshot&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;after this i spun up a movie.  here&#x27;s the output from &lt;code&gt;nvidia-smi&lt;&#x2F;code&gt; both on the host&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;img&#x2F;screenshotjellyfin3.png&quot; alt=&quot;this is a screenshot&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;and using this command to see within the docker container:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;docker exec jellyfin nvidia-smi
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;img&#x2F;screenshotjellyfin2.png&quot; alt=&quot;this is a screenshot&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;i find it interesting that the output of the docker exec comman shows the fan speed and total gpu% outputs, yet does&#x27;t show the call for ffmpeg, in fact no processes at all.  i chalking that up to ffmpeg actually executing on the host and not within the docker containers as it is all a passthough.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;update-block-nvidia-open&quot;&gt;Update - block nvidia-open&lt;&#x2F;h2&gt;
+&lt;p&gt;so the most recent pacman -Syu broke my system - this is probable what caused the problem in the first place ;)&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;sudo nano &#x2F;etc&#x2F;pacman.conf
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;uncomment the IgnorePkg = and add the below&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;IgnorePkg = nvidia-open   
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;after another pacman -Syu the upgrade said it had nothing to do, so hopefully this will by me time to sort out how to negotiate the nvida-open dilemma.&lt;&#x2F;p&gt;
+&lt;p&gt;the AI search in duckduckgo says that the nvidia-open drivers wont work with older cards like maxwell and pascal, but i haven&#x27;t dug into it at all&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>zfs</title>
+        <published>2025-12-20T00:00:00+00:00</published>
+        <updated>2025-12-20T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/zfs/"/>
+        <id>https://inktheghost.com/blog/zfs/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/zfs/">&lt;h1 id=&quot;zfs-adding-a-disk-to-existing-vmpool&quot;&gt;zfs - adding a disk to existing vmpool&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;12-41&quot;&gt;12:41&lt;&#x2F;h2&gt;
+&lt;p&gt;welp i was hoping to increase overall expansion and capactity with this by adding a 4tb disk to the existing 3x1tb raidz1-0 but all it did was add and additional 1TB of storage&#x2F;redundancy.&lt;&#x2F;p&gt;
+&lt;p&gt;that is ok for now, but i will likely want to destroy that zfs partition and setup a different raid with a 4tb mirror for redundancy...however, as it is already done.  it is not reversible without destroying and recreating.&lt;&#x2F;p&gt;
+&lt;p&gt;i had this drive laying around and had to open my server to fix a wonky ram in DIMM B1 anyway so here we are.&lt;&#x2F;p&gt;
+&lt;p&gt;rebooted &amp;gt; new drive detected (this is a 4tb nvme drive) &amp;gt; get all the vm&#x2F;lxc running and to command prompt.&lt;&#x2F;p&gt;
+&lt;p&gt;first i wanted to check that the pool was what i thought it was and id new drive name:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;zpool status -v vmpool
+&lt;&#x2F;span&gt;&lt;span&gt;lsblk
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;the new drive is identified as nvme0n1&lt;&#x2F;p&gt;
+&lt;p&gt;for my pool i see the existing three disks...so now to add the new disk&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;zpool attach vmpool raidz1-0 nvme0n1
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this gave me an error so i had to upgrade the pool with the following command, then retry&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;zpool upgrade vmpool
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;not much info given in this process, just back to prompt so i ran the status line again. this showed me the disk was added, but that the capacity was still the same, after a little websearching ( i dont google anymore ;} ) i found i needed to expand the capacity with the following command:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;zpool set autoexpand=on vmpool  
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;and then to get the drives to reinitialize...&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;zpool online -e vmpool nvme0n1
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;after this command everything showed up correctly using the status command:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;img&#x2F;screenshotzfs.png&quot; alt=&quot;this is a screenshot&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;ostechnix.com&#x2F;move-proxmox-containers-vms-to-different-disk&#x2F;&quot;&gt;https:&#x2F;&#x2F;ostechnix.com&#x2F;move-proxmox-containers-vms-to-different-disk&#x2F;&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;this looks like a pretty good guide, and will update as i go through the process of redoing the storage for my vms and lxc containers.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>proxmox</title>
+        <published>2025-12-18T00:00:00+00:00</published>
+        <updated>2025-12-18T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/proxmox/"/>
+        <id>https://inktheghost.com/blog/proxmox/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/proxmox/">&lt;h1 id=&quot;proxmox-playing-with-setup-and-install-updated&quot;&gt;proxmox - playing with setup and install (updated)&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;15-25&quot;&gt;15:25&lt;&#x2F;h2&gt;
+&lt;p&gt;one of the first things i did when setting up my server, was take it out of the box and check everything out.  i&#x27;ve never had a server before, been mostly building hi-end pcs for years and playing with all os&#x27;s.  but i started looking into homelabbing and ordered what i thought i needed.  i ordered semi-custom and it arrived packaged and ready to go.  i probably could have kept the ram, the cpus, the psus, and the raid card (mini-monolithic), but some initial reading convinced me i needed more.  here&#x27;s what i ended up with (updated):&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt; Dell 730xd chassis with 12x3.5 HDD up front and the rear 2x2.5 HDD
+&lt;&#x2F;span&gt;&lt;span&gt;  - rear slots, 800gb SAS 12gbs HDD&amp;#39;s in raid 0 with zfs for OS, EFI etc
+&lt;&#x2F;span&gt;&lt;span&gt;  - up front, 6x19TB SAS 10gbs HDDs in raidz1-0 for storage
+&lt;&#x2F;span&gt;&lt;span&gt;  - up front, 2x2TB SAS 7gbs HDD in Raidz1-0 for local backup
+&lt;&#x2F;span&gt;&lt;span&gt;  - ASUS Hyper M.2 X16 Gen 4 PCIE 4.0&#x2F;3.0 x4 NVME RAID Expansion Card mgx
+&lt;&#x2F;span&gt;&lt;span&gt;  - Dell HBA330 mini monolithic (=9300-8i) w&#x2F; P16 IT mode
+&lt;&#x2F;span&gt;&lt;span&gt;  - 2x SR2JW INTEL XEON E5-2698V4 2.20GHZ 20-CORE 50MB 135W CPU PROCESSOR
+&lt;&#x2F;span&gt;&lt;span&gt;  - 2x 750W PSUs
+&lt;&#x2F;span&gt;&lt;span&gt;  - 512GB (8x 64gb ) DDR4 2400T 2400Mhz ECC REG RAM
+&lt;&#x2F;span&gt;&lt;span&gt;  - NVIDIA Quadro P2000 5GB GDDR5 Quad PCIe graphics card
+&lt;&#x2F;span&gt;&lt;span&gt;  - 4 port NIC 2x10gb 2x1GB (kept)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;knowing what my average use is rn, i&#x27;d say i overkilled the ram by about 2x...ill move 256GB over to the next build, and I could have kept the processors, but it never hurts and im not sure how many lxc&#x2F;vms i&#x27;ll end up with.&lt;&#x2F;p&gt;
+&lt;p&gt;one of the most fun parts of the initial boot, which took me about 1 month to prep with given all the upgrades above, was the lack of screen&#x2F;mouse&#x2F;keyboard and monitor...i patched this together and after being very frustrated bought an old used console for 50 bucks - shipped! this made startup easier.  the second most interesting thing was the fans absolutely screaming at me.  apparently after adding non-compatible pcie devices the bios defaults to 80% fan.  this is fixable with a script, but made initial boot and install super annoying!&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;to-be-continued&quot;&gt;to be continued...&lt;&#x2F;h1&gt;
+&lt;p&gt;so the first thing to create was a bash script that runs every minute monitoring the ipmi values for cpu.  enable the ipmi in your bios so you can talk to the interface. then create a simple bash script.  i websearched the dell 730-xd fan problem, found a base of code to start with and resolved the code to the below:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;#!&#x2F;bin&#x2F;bash
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# define some temp for server
+&lt;&#x2F;span&gt;&lt;span&gt;low=&amp;quot;45&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;low2=&amp;quot;50&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;mid1=&amp;quot;58&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;mid2=&amp;quot;66&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;high=&amp;quot;74&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;hot=&amp;quot;89&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;maxtemp=0
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Read the max CPU temp from sensors (ipmitools)
+&lt;&#x2F;span&gt;&lt;span&gt;# On Dell R730XD this can figure out the temp of CPU 1 and 2, then use the max value
+&lt;&#x2F;span&gt;&lt;span&gt;tempCpu1=$(ipmitool  sdr entity 3.1|grep Temp|sed &amp;#39;s&#x2F;Temp             | 0Eh | ok  |  3.1 | &#x2F;&#x2F;&amp;#39; | sed &amp;#39;s&#x2F; degrees C&#x2F;&#x2F;&amp;#39;)
+&lt;&#x2F;span&gt;&lt;span&gt;tempCpu2=$(ipmitool  sdr entity 3.2|grep Temp|sed &amp;#39;s&#x2F;Temp             | 0Fh | ok  |  3.2 | &#x2F;&#x2F;&amp;#39; | sed &amp;#39;s&#x2F; degrees C&#x2F;&#x2F;&amp;#39;)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;if [ &amp;quot;$tempCpu1&amp;quot; -gt &amp;quot;$tempCpu2&amp;quot; ]; then
+&lt;&#x2F;span&gt;&lt;span&gt;    maxtemp=$tempCpu1
+&lt;&#x2F;span&gt;&lt;span&gt;else
+&lt;&#x2F;span&gt;&lt;span&gt;    maxtemp=$tempCpu2
+&lt;&#x2F;span&gt;&lt;span&gt;fi
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Define CPU limit
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;if [ $maxtemp -le $low ] ; then
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        ipmitool  raw 0x30 0x30 0x01 0x00 &amp;gt;&amp;gt; &#x2F;dev&#x2F;null
+&lt;&#x2F;span&gt;&lt;span&gt;        ipmitool  raw 0x30 0x30 0x02 0xff 10 &amp;gt;&amp;gt; &#x2F;dev&#x2F;null
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;elif [ $maxtemp -le $low2 ] ; then
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        ipmitool  raw 0x30 0x30 0x01 0x00 &amp;gt;&amp;gt; &#x2F;dev&#x2F;null
+&lt;&#x2F;span&gt;&lt;span&gt;        ipmitool  raw 0x30 0x30 0x02 0xff 15 &amp;gt;&amp;gt; &#x2F;dev&#x2F;null
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;elif [ $maxtemp -le $mid1 ] ; then
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        ipmitool  raw 0x30 0x30 0x01 0x00 &amp;gt;&amp;gt; &#x2F;dev&#x2F;null
+&lt;&#x2F;span&gt;&lt;span&gt;        ipmitool  raw 0x30 0x30 0x02 0xff 20 &amp;gt;&amp;gt; &#x2F;dev&#x2F;null
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;elif [ $maxtemp -le $mid2 ] ; then
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        ipmitool  raw 0x30 0x30 0x01 0x00 &amp;gt;&amp;gt; &#x2F;dev&#x2F;null
+&lt;&#x2F;span&gt;&lt;span&gt;        ipmitool  raw 0x30 0x30 0x02 0xff 25 &amp;gt;&amp;gt; &#x2F;dev&#x2F;null
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;elif [ $maxtemp -le $high ] ; then
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        ipmitool  raw 0x30 0x30 0x01 0x00 &amp;gt;&amp;gt; &#x2F;dev&#x2F;null
+&lt;&#x2F;span&gt;&lt;span&gt;        ipmitool  raw 0x30 0x30 0x02 0xff 30 &amp;gt;&amp;gt; &#x2F;dev&#x2F;null
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;elif [ $maxtemp -le $hot ] ; then
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        ipmitool  raw 0x30 0x30 0x01 0x00 &amp;gt;&amp;gt; &#x2F;dev&#x2F;null
+&lt;&#x2F;span&gt;&lt;span&gt;        ipmitool  raw 0x30 0x30 0x02 0xff 35 &amp;gt;&amp;gt; &#x2F;dev&#x2F;null
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# If temp higher than hot, give fan control back to BIOS
+&lt;&#x2F;span&gt;&lt;span&gt;else
+&lt;&#x2F;span&gt;&lt;span&gt;        ipmitool  raw 0x30 0x30 0x01 0x01 &amp;gt;&amp;gt; &#x2F;dev&#x2F;null
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;fi
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;chmod this to an executable and start a new crontab &lt;code&gt;crontab -e&lt;&#x2F;code&gt; and add a new line as follows:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;*&#x2F;1 * * * * &#x2F;bin&#x2F;bash &#x2F;home&#x2F;scripts&#x2F;fan_speed.sh &amp;gt; &#x2F;dev&#x2F;null 2&amp;gt;&amp;amp;1
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this lets it run every minute.  with this initial setup done, its time to get to work.  i made sure all server updates were applied, updated the os and started to monkey around with installing vms, lxcs and whatnot&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>codeberg pt1</title>
+        <published>2025-12-01T00:00:00+00:00</published>
+        <updated>2025-12-01T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/codeberg-pt1/"/>
+        <id>https://inktheghost.com/blog/codeberg-pt1/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/codeberg-pt1/">&lt;h1 id=&quot;eliminating-github&quot;&gt;eliminating github&lt;&#x2F;h1&gt;
+&lt;p&gt;so i moved all my githhub repos (which were really backups of my forgejo repos - in case the SHTF) to codeberg and setup the mirrors from forgejo like i had with github, just to the codeberg repos instead.  with that done  I only have 2 things happening on Github rn:&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;adding and pushing .md files to blog repo updates my blog on wordpress - looking to move that to codeberg pages or something else.&lt;&#x2F;li&gt;
+&lt;li&gt;logging into tailscale using my same github account - i dont have a great workaround for this, but its just for  authenticating.
+so with all repos moved to codeberg including a new mirror, im exploring now how to use the repos directly to create&#x2F;host my webpage and thus get rid of one of my containerized instances (wordpress) and getting it off my server.
+since i&#x27;m already using forgejo, this seems like it should be logically easy.  lets see.
+current flow should be&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;ul&gt;
+&lt;li&gt;create md file on laptop in obsidian that updates and pushed file to forgejo instance&lt;&#x2F;li&gt;
+&lt;li&gt;forgejo repo is private and has a mirror setup to update on commits to codeberg repo&lt;&#x2F;li&gt;
+&lt;li&gt;codeberg blog repo updates and webpage updates showing new md file as new blog post
+simple right? well, upon inspection it looks like i need woodpecker or zola, maybe both and the codeberg pages instance (perhaps) to get this all done, maybe there&#x27;s another option im missing?
+i feel like the wordpress install was messy and is harder to maintain AND update, so simplification would be great there.  anyways, maybe we will call this part 1 and do some research...rn this is to check if all my mirror syncs are working and updating the existing website while i figure out how to do all of this another way! lets see...still having issues with timeouts, ill have to get into debugging, but it looks like there&#x27;s an issue with webpage serving.  i might try a fail2ban as well
+looking at how to set that up exactly, but after an update, i&#x27;ve had 12 hrs no downtime so so far so good.  seems like connection issues sending updates on commits to mirrors.  maybe an action would be a preferred method for instant updating?&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>forgejo migrations</title>
+        <published>2025-11-26T00:00:00+00:00</published>
+        <updated>2025-11-26T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/forgejo-migrations/"/>
+        <id>https://inktheghost.com/blog/forgejo-migrations/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/forgejo-migrations/">&lt;p&gt;so, just for shits and giggles I switched to FOSS forgejo from gitea. process was basically this:&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;setup new vm or lxc for debian trixie - i just used an lxc template i had and tweaked the settings&lt;&#x2F;li&gt;
+&lt;li&gt;get lxc updated and dist-upgraded.  i used the forgejo-sqlite: follow online setup of repos for forgejo using debian 12 (also works for trixie)&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;apt update &amp;amp;&amp;amp; apt dist-upgrade &amp;amp;&amp;amp; apt install forgejo-sqlite &amp;amp;&amp;amp; apt install cockpit
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;ol start=&quot;3&quot;&gt;
+&lt;li&gt;i also installed cockpit just for funsies, lets me know all the webserver stuff is good.&lt;&#x2F;li&gt;
+&lt;li&gt;go thru the installer by logging into your localhost:3000&lt;&#x2F;li&gt;
+&lt;li&gt;i did a pretty vanilla setup just to get things going, it nagged me about an administrator so i did that too&lt;&#x2F;li&gt;
+&lt;li&gt;now i setup a token in gitea for http access and used it to migtrate all of my repos to the forgejo.  then on my local laptop, i deleted all my gitea folders and cloned the migrated repos from forgejo - yes this required another token.&lt;&#x2F;li&gt;
+&lt;li&gt;probably the most time consuming thing was doing this manually for 5 repos...i can&#x27;t  imagine if i had 70 or something.&lt;&#x2F;li&gt;
+&lt;li&gt;i also deleted and recreated my ansible folders in my ansible lxc with the new forgejo one. this worked exactly as i had hoped. tested with my justfile just to be sure :)&lt;&#x2F;li&gt;
+&lt;li&gt;so after all this and testing, i went in and adjusted my obsidian installs on my phone to the forgejo repos and also did this on my laptop.&lt;&#x2F;li&gt;
+&lt;li&gt;i backup&#x2F;mirror all these repos to a private github as an additional safety.  this was the same method that i used with gitea.  erase all existing mirrored repos, create new ones (public and private as needed), and added back in the forgejo mirror that goes to public on github where my blog pulls posts from.&lt;&#x2F;li&gt;
+&lt;li&gt;everything works and I think forgejo is just as pleasant to use as gitea, even a little snappier than gitea was. the big hurdle i see if for those peeps who have many repos.  perhaps theres an ansible way of doing this.&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>ansible playbooks for proxmox host - pt.1</title>
+        <published>2025-10-31T00:00:00+00:00</published>
+        <updated>2025-10-31T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/ansible-setup-pt1/"/>
+        <id>https://inktheghost.com/blog/ansible-setup-pt1/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/ansible-setup-pt1/">&lt;p&gt;goals:&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;setup ansible in lxc on proxmox&lt;&#x2F;li&gt;
+&lt;li&gt;figure out how the fuck to use it!&lt;&#x2F;li&gt;
+&lt;li&gt;work backwards and forwards and back again on setup of folder heirarchy&lt;&#x2F;li&gt;
+&lt;li&gt;make folders into a git repo (gitea for me)&lt;&#x2F;li&gt;
+&lt;li&gt;sync everything&lt;&#x2F;li&gt;
+&lt;li&gt;nano hosts file, ansible.cfg&lt;&#x2F;li&gt;
+&lt;li&gt;build out playbooks for each system [arch], [ubuntu] and [PVE,PVB], figure out ssh, and ssh-copy-id, sshd_config and what the fuck works for passwords and not - still stuck with a password in the ansible.cfg&lt;&#x2F;li&gt;
+&lt;li&gt;make a comprehensive update-all.yml playbook for a cron job&lt;&#x2F;li&gt;
+&lt;li&gt;do a buncha bit work putting all the sshd_configs back to #PermitRootLogin password_disabled - maybe I can write a playbook for that!&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;h1 id=&quot;so-here-it-goes&quot;&gt;so here it goes:&lt;&#x2F;h1&gt;
+&lt;p&gt;the ansible lxc creation was probably the easiest of all these things to do.  i setup a new lxc container with the usual specs:&lt;&#x2F;p&gt;
+&lt;p&gt;Deb13, 2gb RAM, 8GB disk, network etc...this can be really much smaller than i went with&lt;&#x2F;p&gt;
+&lt;p&gt;boot into LXC login with root and:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;apt update &amp;amp;&amp;amp; apt upgrade &amp;amp;&amp;amp; apt install curl wget ansible sudo 
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;most of these will already be installed, but its good to check, with ansible installed, now i had to figure out how to use it.
+ansible will run from any folder, so its up to you how to configure your folder structure and where.  i went with a new ansible folder off of root:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;mkdir -p &#x2F;ansible &#x2F;ansible&#x2F;playbooks &#x2F;ansible&#x2F;inventory &#x2F;ansible&#x2F;roles
+&lt;&#x2F;span&gt;&lt;span&gt;chmod 775 -R &#x2F;ansible
+&lt;&#x2F;span&gt;&lt;span&gt;touch &#x2F;ansible&#x2F;inventory&#x2F;hosts
+&lt;&#x2F;span&gt;&lt;span&gt;touch &#x2F;ansible&#x2F;ansible.cfg
+&lt;&#x2F;span&gt;&lt;span&gt;touch &#x2F;roles&#x2F;roles.txt
+&lt;&#x2F;span&gt;&lt;span&gt;touch &#x2F;ansible&#x2F;playbooks&#x2F;playbook.yml
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this was a basic folder structure i found on the internet, and is probably fine for most applications, some others have set this up for projects using &#x2F;ansible&#x2F;&amp;lt;project_name&amp;gt;&#x2F;playbooks etc, i just needed it for writing playbooks for my proxmox host, so a single dir is fine
+with the basic folder structure in place, i wanted to get that structure and files all synced with a gitea repo.
+for me, i created a new private ansible repo on gitea, with a readme and nothing else, then followed the instructions to add files&#x2F;folders and sync remotely with a previous gitea token, results will vary, but it looked something like this:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;git init
+&lt;&#x2F;span&gt;&lt;span&gt;git checkout -b main
+&lt;&#x2F;span&gt;&lt;span&gt;git add .
+&lt;&#x2F;span&gt;&lt;span&gt;git commit -m &amp;quot;first commit&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;git remote add origin https:&#x2F;&#x2F;gitea.destratify.pro&#x2F;joe&#x2F;test.git
+&lt;&#x2F;span&gt;&lt;span&gt;git push -u origin main
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;then you can check gitea or github, and verify that the folder structure is all there.  above we added some files with touch to basically become placeholders as the folders wont import unless the directorys have content of some sort.&lt;&#x2F;p&gt;
+&lt;p&gt;so at this point, we have ansible, we have have a directory synced with git (i use a bash script to update all my gitea folders every 8 hrs JIC) but for now we can start building content in those folders.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;building-out-ansible-folders-files&quot;&gt;building out ansible folders&#x2F;files&lt;&#x2F;h1&gt;
+&lt;p&gt;so the first things to do are to create a hosts file.  we have a placeholder so you can just nano into that from the &#x2F;ansible folder
+nano &#x2F;ansible&#x2F;inverntory&#x2F;hosts
+this can follow either ini syntax or yaml...i went with ini, as it was the format i was borrowing from some guide i can&#x27;t find again.  here&#x27;s what mine looks like:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;#hosts file
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;[ubuntu]
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.70
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.75
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.8
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.73
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.205
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.14
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.201
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.20
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.30
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.13
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.206
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.74
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.55
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;[arch]
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.16
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.210
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;[pve]
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.2
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;[pvb]
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.3
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this is how i decided to break it up...now is it the right way? dunno.  serves my purpose.  the reasoning behind it is this: i need to update my lxc and vm based on their systemOS, and I have ubuntu&#x2F;deb, arch and my pve (host),and pvb backup that I want to be able to do individually, or as a whole group.
+to be able to talk to them we need to setup ssh-copy-id for each IP and set root login.  what a pain in the ass that is, has to be a way to do that with ansible too, but lets not get ahead of ourselves.
+from my host gui, enter console the console using root login.  edit the &#x2F;etc&#x2F;ssh&#x2F;sshd_config
+find the commented line, #PermitRootLogin and uncomment and change to yes
+save and exit and reboot - i had some problems getting it to work sometimes with a systemctl deamon-reload and systemctl restart sshd so it was just easier to reboot as i went.
+next setup a key on the ansible machine.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;ssh-keygen -t rsa -b 4096
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;be mindful if you are logged in as something else besides root, i found you just need to be consistent as the dir it gets saved in is the home ~ for the logged in user.  and once that key  is saved you can use ssh-copy-id in the following format:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;ssh-copy-id root@192.168.50.5 
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this will ask to accept fingerprint, say yes. the password (root user pass in my case) is needed for the machine you are ssh-ing into, after that it should so you the key was added and try logging in....now do that like 17 times ;)&lt;&#x2F;p&gt;
+&lt;p&gt;after all that you should be able to use the hosts file to talk to all the machines that you wanna update&#x2F;upgrade.&lt;&#x2F;p&gt;
+&lt;p&gt;next is the ansible.cfg file, here&#x27;s mine:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;#ansible config file
+&lt;&#x2F;span&gt;&lt;span&gt;[defaults]
+&lt;&#x2F;span&gt;&lt;span&gt;inventory = .&#x2F;inventory
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;[privilege_escalation]
+&lt;&#x2F;span&gt;&lt;span&gt;become = True
+&lt;&#x2F;span&gt;&lt;span&gt;become_method = sudo
+&lt;&#x2F;span&gt;&lt;span&gt;become_user = root
+&lt;&#x2F;span&gt;&lt;span&gt;become_user_file = .&#x2F;password.txt
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;here&#x27;s pretty simple....
+in ini format again, under defaults, set your inventory directory so ansible knows where to find the hosts file.
+the rest is pretty obvious - become root, using sudo after sshing into the machine.
+i store my password in a chmod 600 password.txt file in my ansible folder, could be anywhere, really. and while troubleshooting and setting this up i had my root password in plaintext here, cause who gives a fuck.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;playbooks&quot;&gt;playbooks&lt;&#x2F;h1&gt;
+&lt;p&gt;now here&#x27;s the meat and potatoes.  had lotsa ssh issues, troubleshooting was tedious, but after all that i got it sorted and borrowed a playbook from
+https:&#x2F;&#x2F;www.jacob-swanson.com&#x2F;posts&#x2F;automating-proxmox-maintenance-with-ansible&#x2F;
+with a simple command to test connections to all lxcx vms etc in the host file.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;- name: Ping
+&lt;&#x2F;span&gt;&lt;span&gt;  hosts: all
+&lt;&#x2F;span&gt;&lt;span&gt;  tasks:
+&lt;&#x2F;span&gt;&lt;span&gt;    - name: Ping
+&lt;&#x2F;span&gt;&lt;span&gt;      ansible.builtin.ping:
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;for me this was saved as ping.yml in the &#x2F;ansible&#x2F;playbooks dir
+execute it with the following command&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;ansible-playbook playbooks&#x2F;ping.yaml
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;now why did i break my hosts file up with [ubuntu][arch][pve][pvb]?
+so that when i built out the following playbooks i could run individual playbooks for ubuntu arch etc, with different layouts (pacman vs apt) and then have a unified playbook that would call them all: update-all&lt;&#x2F;p&gt;
+&lt;p&gt;heres the playbooks i have:
+update-ubuntu.yml&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;#update ubuntu lxc, vms
+&lt;&#x2F;span&gt;&lt;span&gt;---
+&lt;&#x2F;span&gt;&lt;span&gt;- hosts: [ubuntu]
+&lt;&#x2F;span&gt;&lt;span&gt;  remote_user: root
+&lt;&#x2F;span&gt;&lt;span&gt;  name: update apt
+&lt;&#x2F;span&gt;&lt;span&gt;  #serial: 1
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  tasks:
+&lt;&#x2F;span&gt;&lt;span&gt;  - name: apt update
+&lt;&#x2F;span&gt;&lt;span&gt;    apt:
+&lt;&#x2F;span&gt;&lt;span&gt;      update_cache: yes
+&lt;&#x2F;span&gt;&lt;span&gt;      force_apt_get: yes
+&lt;&#x2F;span&gt;&lt;span&gt;      cache_valid_time: 3600
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  - name: apt dist-upgrade
+&lt;&#x2F;span&gt;&lt;span&gt;    apt:
+&lt;&#x2F;span&gt;&lt;span&gt;      upgrade: dist
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  - name: remove old packages and clean cache
+&lt;&#x2F;span&gt;&lt;span&gt;    apt:
+&lt;&#x2F;span&gt;&lt;span&gt;      autoremove: yes
+&lt;&#x2F;span&gt;&lt;span&gt;      autoclean: yes
+&lt;&#x2F;span&gt;&lt;span&gt;      clean: yes
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  - name: Check if reboot is needed
+&lt;&#x2F;span&gt;&lt;span&gt;    stat:
+&lt;&#x2F;span&gt;&lt;span&gt;      path: &#x2F;var&#x2F;run&#x2F;reboot-required
+&lt;&#x2F;span&gt;&lt;span&gt;    register: reboot_required
+&lt;&#x2F;span&gt;&lt;span&gt;  - name: Check if reboot is needed
+&lt;&#x2F;span&gt;&lt;span&gt;    stat:
+&lt;&#x2F;span&gt;&lt;span&gt;      path: &#x2F;var&#x2F;run&#x2F;reboot-required
+&lt;&#x2F;span&gt;&lt;span&gt;    register: reboot_required
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  - name: End playbook if no reboot is required
+&lt;&#x2F;span&gt;&lt;span&gt;    meta: end_host
+&lt;&#x2F;span&gt;&lt;span&gt;    when: not reboot_required.stat.exists
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  - name: Reboot the system
+&lt;&#x2F;span&gt;&lt;span&gt;    reboot:
+&lt;&#x2F;span&gt;&lt;span&gt;      msg: &amp;quot;Reboot initiated by Ansible due to system updates&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;      pre_reboot_delay: 3600
+&lt;&#x2F;span&gt;&lt;span&gt;      post_reboot_delay: 300
+&lt;&#x2F;span&gt;&lt;span&gt;      reboot_timeout: 5400
+&lt;&#x2F;span&gt;&lt;span&gt;    when: reboot_required.stat.exists   
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;nothing too crazy here.  i have serial: 1 commented out, if you uncomment that, it will step through each IP one-at-a-time.  you should be using dist-upgrade for these, and especially the host and pvb.&lt;&#x2F;p&gt;
+&lt;p&gt;update-arch.yml&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;#update arch
+&lt;&#x2F;span&gt;&lt;span&gt;---
+&lt;&#x2F;span&gt;&lt;span&gt;- hosts: [arch]
+&lt;&#x2F;span&gt;&lt;span&gt;  remote_user: root
+&lt;&#x2F;span&gt;&lt;span&gt;  tasks:
+&lt;&#x2F;span&gt;&lt;span&gt;    - name: Full system upgrade
+&lt;&#x2F;span&gt;&lt;span&gt;      community.general.pacman:
+&lt;&#x2F;span&gt;&lt;span&gt;        update_cache: true
+&lt;&#x2F;span&gt;&lt;span&gt;        upgrade: true
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;nothing unusual here&lt;&#x2F;p&gt;
+&lt;p&gt;update-pvs.yml&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;#update pve,pvb
+&lt;&#x2F;span&gt;&lt;span&gt;---
+&lt;&#x2F;span&gt;&lt;span&gt;- hosts: [pvb, pve]
+&lt;&#x2F;span&gt;&lt;span&gt;  remote_user: root
+&lt;&#x2F;span&gt;&lt;span&gt;  name: update apt
+&lt;&#x2F;span&gt;&lt;span&gt;  serial: 1
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  tasks:
+&lt;&#x2F;span&gt;&lt;span&gt;  - name: apt update
+&lt;&#x2F;span&gt;&lt;span&gt;    apt:
+&lt;&#x2F;span&gt;&lt;span&gt;      update_cache: yes
+&lt;&#x2F;span&gt;&lt;span&gt;      force_apt_get: yes
+&lt;&#x2F;span&gt;&lt;span&gt;      cache_valid_time: 3600
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  - name: apt dist-upgrade
+&lt;&#x2F;span&gt;&lt;span&gt;    apt:
+&lt;&#x2F;span&gt;&lt;span&gt;      upgrade: dist
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  - name: remove old packages and clean cache
+&lt;&#x2F;span&gt;&lt;span&gt;    apt:
+&lt;&#x2F;span&gt;&lt;span&gt;      autoremove: yes
+&lt;&#x2F;span&gt;&lt;span&gt;      autoclean: yes
+&lt;&#x2F;span&gt;&lt;span&gt;      clean: yes
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  - name: Check if reboot is needed
+&lt;&#x2F;span&gt;&lt;span&gt;    stat:
+&lt;&#x2F;span&gt;&lt;span&gt;      path: &#x2F;var&#x2F;run&#x2F;reboot-required
+&lt;&#x2F;span&gt;&lt;span&gt;    register: reboot_required
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  - name: End playbook if no reboot is required
+&lt;&#x2F;span&gt;&lt;span&gt;    meta: end_host
+&lt;&#x2F;span&gt;&lt;span&gt;    when: not reboot_required.stat.exists
+&lt;&#x2F;span&gt;&lt;span&gt;  - name: Reboot the system
+&lt;&#x2F;span&gt;&lt;span&gt;    reboot:
+&lt;&#x2F;span&gt;&lt;span&gt;      msg: &amp;quot;Reboot initiated by Ansible due to system updates&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;      pre_reboot_delay: 3600
+&lt;&#x2F;span&gt;&lt;span&gt;      post_reboot_delay: 300
+&lt;&#x2F;span&gt;&lt;span&gt;      reboot_timeout: 5400
+&lt;&#x2F;span&gt;&lt;span&gt;    when: reboot_required.stat.exists   
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;here serial: 1 is un-commented to step through each proxmox server individually.
+since my ansible instance is on proxmox, if its kernal is updated, the host will reboot and kill the ansible program.  this doesnt happen often - last time my uptime was 59 days.  you could just reboot ita nd run it again. however, i placed the pvb first in the hosts: [pvb][pve] so that does the proxmox host last, so everything is completed before a reboot JIC&lt;&#x2F;p&gt;
+&lt;p&gt;update-all.yml&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;#update whole shebang
+&lt;&#x2F;span&gt;&lt;span&gt;---
+&lt;&#x2F;span&gt;&lt;span&gt;- import_playbook: update-ubuntu.yml
+&lt;&#x2F;span&gt;&lt;span&gt;- import_playbook: update-arch.yml
+&lt;&#x2F;span&gt;&lt;span&gt;- import_playbook: update-pvs.yml
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;here we are using the import function, pulling all other playbooks in, and running in the sequence of line items.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;just-for-funsies&quot;&gt;just for funsies&lt;&#x2F;h1&gt;
+&lt;p&gt;literally ran across the &quot;just&quot; program googling ansible playbooks.  its a pretty nifty program.  it allows you to command run things in the justfile you create and simplifies the commands from the ansible-playbook ... execution.&lt;br &#x2F;&gt;
+install just
+apt update &amp;amp;&amp;amp; apt install just
+then make a justfile, mine lives in the &#x2F;ansible directory
+nano justfile
+here&#x27;s how mine looks:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;# Show help
+&lt;&#x2F;span&gt;&lt;span&gt;help:
+&lt;&#x2F;span&gt;&lt;span&gt;    @just --list --unsorted
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Ping all hosts
+&lt;&#x2F;span&gt;&lt;span&gt;ping:
+&lt;&#x2F;span&gt;&lt;span&gt;    ansible-playbook playbooks&#x2F;ping.yml
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Update all 
+&lt;&#x2F;span&gt;&lt;span&gt;update-all:
+&lt;&#x2F;span&gt;&lt;span&gt;    ansible-playbook playbooks&#x2F;update-all.yml
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Arch Updates
+&lt;&#x2F;span&gt;&lt;span&gt;update-arch:
+&lt;&#x2F;span&gt;&lt;span&gt;    ansible-playbook playbooks&#x2F;update-arch.yml
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Ubuntu Updates
+&lt;&#x2F;span&gt;&lt;span&gt;update-ubuntu:
+&lt;&#x2F;span&gt;&lt;span&gt;    ansible-playbook playbooks&#x2F;update-ubuntu.yml
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Server (host) Updates
+&lt;&#x2F;span&gt;&lt;span&gt;update-pvs:
+&lt;&#x2F;span&gt;&lt;span&gt;    ansible-playbook playbooks&#x2F;update-pvs.yml
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;you can see here i stuck all of my playbook commands in here, they are all broken up by some command name.&lt;br &#x2F;&gt;
+so the sweet thing is that to execute that playbook, you can type &quot;just&quot; and whatever&#x27;s designated in that file.
+just update-all
+just ping
+just update-ubuntu
+etc, etc, etc...
+now the really cool thing is that you can use this &quot;just&quot; command runner anywhere.  so if you have git directories you wanna update automagically you can just drop a justfile in there with a git fetch section, git pull, git push etc.  and execute that instead of going through each dir.  the possibilities are endless!&lt;&#x2F;p&gt;
+&lt;p&gt;so what&#x27;s next?  im working on the proxmoxer and API calls for my proxmox host, to use with ansible so i can create vms, or lxcs with ansible commands etc.  to be continued.... -&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>obsidian git repo sync android app</title>
+        <published>2025-10-14T00:00:00+00:00</published>
+        <updated>2025-10-14T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/obsidian-setup-pt3/"/>
+        <id>https://inktheghost.com/blog/obsidian-setup-pt3/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/obsidian-setup-pt3/">&lt;p&gt;so the basics of this is the app setup essentially has the same access to the git community repository, so the setup between android and linux is pretty much the same, yet different enough that you have to follow the below procedure - this specifically seems to be the way that you have to do it imho&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;if you have another installation of obsidian (like on your laptop&#x2F;desktop): you must delete the .obsidian files in this folder to get this to play nicely when setting up the repo on android. the easiest way for me to do this was to delete the .obsidian folder using rm -r .obsidian&#x2F; on my local gitea folder, then git push to sync with gitea.&lt;&#x2F;li&gt;
+&lt;li&gt;now setup whatever folder you want to access within android through the files app - i have two folders, so i went to my directory root and added notes and blog folders&lt;&#x2F;li&gt;
+&lt;li&gt;on a fresh install use the add existing folder and select the folder you want to use for obsidian.  in my case notes&lt;&#x2F;li&gt;
+&lt;li&gt;now obsidian should take you into the note screen with a fresh directory, no other files present&lt;&#x2F;li&gt;
+&lt;li&gt;go to the menu and settings cog and add communtity repos then search add and install git&lt;&#x2F;li&gt;
+&lt;li&gt;enable git plugin and add as many details as you can.  i like to tweak some settings and add my repo username and gitera access token.&lt;&#x2F;li&gt;
+&lt;li&gt;you will now need to swipe down and enter the same menu you would access with ctrl + p in the desktop version.&lt;&#x2F;li&gt;
+&lt;li&gt;you are now going to type git clone and select what comes up first&lt;&#x2F;li&gt;
+&lt;li&gt;add your gitea url to the repo&lt;&#x2F;li&gt;
+&lt;li&gt;select vault root&lt;&#x2F;li&gt;
+&lt;li&gt;next question will ask you if you have .obsidian files in the remote dir.  before you select yes...access the files app in android, goto the folder you setup (in my case notes and delete the new .obsidian folder thats in the android folder!!!&lt;&#x2F;li&gt;
+&lt;li&gt;now back in the app click NO to the prompt about the .obsidian folders.&lt;&#x2F;li&gt;
+&lt;li&gt;it will now pull the repo and ask you to restart the app.  do that and verify the folders&#x2F;files have shown up&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>now through obsidian</title>
+        <published>2025-10-13T00:00:00+00:00</published>
+        <updated>2025-10-13T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/obsidian-setup-pt2/"/>
+        <id>https://inktheghost.com/blog/obsidian-setup-pt2/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/obsidian-setup-pt2/">&lt;p&gt;So here&#x27;s how everything is setup so far&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Obsidian on laptop, initially with folder obsidian_notes synced to local gitea&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Gitea repo of the same, mirrored to prived github repo&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Added the blog repo to gitea &amp;gt; private repo&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Setup mirror to my github repo of the same name &amp;gt; public&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Added Git it Write plugin to word press&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Pulled gitea repo to local folder&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Added new local folder synce to gitea to obsidian&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Writing this note now.  Once I sync it should sync to gitea &amp;gt; github &amp;gt; wordpress&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;So due to limitations I have cannot sync via obsidian directly as it won&#x27;t manage 2 git folders
+a) however, i have a git push that syncs all my gitea folders if I am on my laptop. If I am editing from the web via gitea, or github it should work
+b) ill manage this with git pull&#x2F;push for now&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Update: I have both my obsidian notes and my blog syncing automagically!!! Everything I was reading online seemed to indicate that I wasn&#x27;t supposed to be able to do this&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>howto create repos and install Obsidian using git remote folders</title>
+        <published>2025-10-12T00:00:00+00:00</published>
+        <updated>2025-10-12T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/obsidian-setup-pt1/"/>
+        <id>https://inktheghost.com/blog/obsidian-setup-pt1/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/obsidian-setup-pt1/">&lt;p&gt;objective: i wanted to use obsidian as my editor for my blog, sync notes via &amp;gt; gitea, but not have on the open web.  i have github for tailscale as ive covered before, so i added a public repo user&#x2F;blog to start adding and editing using markdown and having saved in multiple locations.&lt;&#x2F;p&gt;
+&lt;p&gt;i had obsidian running on the laptop, so the initial setup had my obsidian_notes folder setup and synced local git folder &amp;gt; private gitea repo &amp;gt; mirrored private github repo&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;first-git-folder-setup&quot;&gt;first git folder setup&lt;&#x2F;h1&gt;
+&lt;ol&gt;
+&lt;li&gt;i initally setup the repo through my gitea install on my server.  i didnt intialize the repo, but did set it up as private.&lt;&#x2F;li&gt;
+&lt;li&gt;then i made a new directory - all my folders are under ~&#x2F;gitea on any computer i use for continuity.  i did a git clone to that gitea repo for what i called obsidian_notes&lt;&#x2F;li&gt;
+&lt;li&gt;i use ssh for gitea so I have already setup a ssh key for this purpose which allows ssh based auth so i don&#x27;t always have to input the password - tbh i am not even sure what it is :)&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;the commands look like this:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;code&gt;cd ~&lt;&#x2F;code&gt;
+&lt;code&gt;mkdir gitea&lt;&#x2F;code&gt;
+&lt;code&gt;git clone git@&amp;lt;URL&amp;gt;:&amp;lt;username&amp;gt;&#x2F;&amp;lt;folder&amp;gt;.git&lt;&#x2F;code&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;i recommend using a fresh install of Obsidian.  i was playing around with this and realized that i needed to move&#x2F;swap some folders, so i deleted my old ones, and used:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;code&gt;sudo pacman -Rscn obsidian&lt;&#x2F;code&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;to purge the old files, made sure I had all the old attached obsidian folders deleted. then i reinstalled&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;code&gt;sudo pacman -S obsidian&lt;&#x2F;code&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;now you need to point it to the new existing folder that you have synced with your repo...&lt;&#x2F;p&gt;
+&lt;insert screenshot here&gt; 
+&lt;p&gt;select open folder as vault, then accept the bubbles saying you trust it...of course you do.  now you should be able to edit.  my install also automatically pulled the community git repo and setup all the essential functions.  you should see any existing notes (yes you can use this with an existing repo) and can go in and setup the sync settings, commit messages etc.&lt;&#x2F;p&gt;
+&lt;p&gt;i also like to do &amp;lt;Ctrl+P&amp;gt; and GIt: Open source control panel so i have access to the commits, push pulls etc&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;second-git-folder-setup&quot;&gt;second git folder setup&lt;&#x2F;h2&gt;
+&lt;p&gt;now you can do the same general steps as you did above:&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;goto bottom left corner where it shows the folder you are currently in and click the folder name&lt;&#x2F;li&gt;
+&lt;li&gt;click manage vaults&lt;&#x2F;li&gt;
+&lt;li&gt;select your second repo folder as an existing folder an you will see the files propogate if you have them&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;this time you will have to do the following for the repo to sync:&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;click the cog for settings in the bottom left corner&lt;&#x2F;li&gt;
+&lt;li&gt;goto the community plugins page &amp;gt; search for git&lt;&#x2F;li&gt;
+&lt;li&gt;install the git plugin and dont forget to enable the plugin&lt;&#x2F;li&gt;
+&lt;li&gt;close down the app and restart&lt;&#x2F;li&gt;
+&lt;li&gt;configure the git plugin settings as you did for the previous remote folder that was setup&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;now you can keep doing this for as many repos as you want to create files for!&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>bloggy101</title>
+        <published>2025-10-11T00:00:00+00:00</published>
+        <updated>2025-10-11T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/bloggy101/"/>
+        <id>https://inktheghost.com/blog/bloggy101/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/bloggy101/">&lt;h2 id=&quot;testing-testing&quot;&gt;Testing, testing&lt;&#x2F;h2&gt;
+&lt;h1 id=&quot;here-i-am-looking-to-add-posts-direct-from-my-gitea-repo&quot;&gt;Here I am looking to add posts direct from my gitea repo&lt;&#x2F;h1&gt;
+&lt;ol&gt;
+&lt;li&gt;This is the first one&lt;&#x2F;li&gt;
+&lt;li&gt;The future looks to all posts being done in this fashion &amp;gt; I have gitea private repo with a mirror
+that keeps everything backed up in case the server goes down.&lt;&#x2F;li&gt;
+&lt;li&gt;Testing the *.md &amp;gt; I will also duplicate the about tab for this wp so its saved for posterity.&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;~Thanks for looking at my blog!&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>gitea sync (depricated)</title>
+        <published>2025-09-10T00:00:00+00:00</published>
+        <updated>2025-09-10T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/gitea-depricated/"/>
+        <id>https://inktheghost.com/blog/gitea-depricated/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/gitea-depricated/">&lt;p&gt;pretty much everything is working from my last post, i&#x27;ve been working on getting vm clones playbook functional&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>some useful shit you can do with tailscale</title>
+        <published>2025-08-29T00:00:00+00:00</published>
+        <updated>2025-08-29T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/tailscale/"/>
+        <id>https://inktheghost.com/blog/tailscale/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/tailscale/">&lt;h1 id=&quot;rdp&quot;&gt;RDP&lt;&#x2F;h1&gt;
+&lt;p&gt;so I needed to do this for work, the idea being that I had to have access to a win10+ program on my laptop for work that has Linux arch.&lt;&#x2F;p&gt;
+&lt;p&gt;I don&#x27;t own windows so the gist is this:&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;install virtual box for arch&lt;&#x2F;li&gt;
+&lt;li&gt;download and install win10+&lt;&#x2F;li&gt;
+&lt;li&gt;debloat windows&lt;&#x2F;li&gt;
+&lt;li&gt;enable rdp on win, setup new user and make sure rdp settings are ready&lt;&#x2F;li&gt;
+&lt;li&gt;install and connect tailscale in win&lt;&#x2F;li&gt;
+&lt;li&gt;install remmina and freerdp&lt;&#x2F;li&gt;
+&lt;li&gt;turn on tailscale in laptop and connect to tailscale of rdp for win&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;caveats:  with this method i get a larger fullscreen with rdp, but if like today, windows updated overnight and without having logged back in, i lost my tailscale connection.  I am now trying the rdp function for virtualbox over my desktop tailscale connection, and that should help so i can login as long as the vm is up&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;gnome-notifications-and-menu-toggle-button&quot;&gt;Gnome notifications and menu toggle button&lt;&#x2F;h1&gt;
+&lt;p&gt;most of the nitty gritty is written up in the discussion on github here:
+https:&#x2F;&#x2F;github.com&#x2F;StorageB&#x2F;custom-command-toggle&#x2F;discussions&#x2F;18#discussioncomment-14591824
+add the extension below to gnome using the extensions menu in chrome&#x2F;brave
+command-custom-toggle and install then go into settings and follow the below:&lt;&#x2F;p&gt;
+&lt;p&gt;i was looking for for a solution for any easy start&#x2F;stop option for the custom tailscale bash script i&#x27;ve setup for connecting to my home server while away.  i use the home server as an exit route which helped with the above stuff as well, and use routes for accessing everything on a certain lan at home&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>after proxmox reboot, found a couple issues</title>
+        <published>2025-08-11T00:00:00+00:00</published>
+        <updated>2025-08-11T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/after-install/"/>
+        <id>https://inktheghost.com/blog/after-install/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/after-install/">&lt;p&gt;had some kernel updates go through on my latest dist upgrade for my proxmox host.
+after a clean shutdown I noticed my metrics from telegraf lxc weren&#x27;t getting to my grafana graphs (ipmi-ensor data).  so poking around the lxc it looks like I lost my export INFLUX_TOKEN=xxxx after reboot boot. in hindsight not surprising as I didnt save it anywhere.
+first things first I had to login to my influx browser instance http:&#x2F;&#x2F;&amp;lt;local_IP&amp;gt;:8086 and regen a token and executable command for telegraf (should be writing these down somewhere I suppose 😁)..next, sort out the easy way to boot those and start telegraf&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>

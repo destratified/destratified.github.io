@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>ink the ghost - alpine linux</title>
+    <link rel="self" type="application/atom+xml" href="https://inktheghost.com/tags/alpine-linux/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://inktheghost.com"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2026-09-06T00:00:00+00:00</updated>
+    <id>https://inktheghost.com/tags/alpine-linux/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Alpine Linux Btrfs OpenRC Plasma install</title>
+        <published>2026-09-06T00:00:00+00:00</published>
+        <updated>2026-09-06T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/alpine-linux/"/>
+        <id>https://inktheghost.com/blog/alpine-linux/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/alpine-linux/">&lt;h1 id=&quot;alpine-linux&quot;&gt;Alpine Linux&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;19-06&quot;&gt;19:06&lt;&#x2F;h2&gt;
+&lt;p&gt;in pursuit of trying to find another distro (seems like i always am) its a matter of staying sans systemd. and i tried doing alpine on my laptop before, but i was having touchpad driver issues, so i abandoned it for #gentoo. i was using gentoo on the NUC as my desktop as well, but i think that was the first install where i got gentoo working an it was just a regular old ext4 (included timeshift for backing up). i didn&#x27;t love that configuration so i figured what the hell, lets try alpine.&lt;&#x2F;p&gt;
+&lt;p&gt;i went through 2 or maybe 3 installs till i felt comfortable with the commands and the flow of the install. #alpine is about as bare-bones as you get. reminds me of arch with archinstall. so as it got easier i started to dig into how best to go about it.&lt;&#x2F;p&gt;
+&lt;p&gt;the simplest was to just use the alpine live environment, go figure! the btrfs instructions are excellent, as are all of Alpine&#x27;s docs actually.&lt;&#x2F;p&gt;
+&lt;p&gt;make your USB, config the bootmanager if need be to boot from the USB and you&#x27;ll be met with a very fast boot and an intimidating prompt.&lt;&#x2F;p&gt;
+&lt;p&gt;sign in with &quot;root&quot;, no password.
+here&#x27;s where i found it easiest to setup a few env variables and add a program or two, i would be ssh-ing in after boot, so i wanted the following:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;apk add kitty btrfs-progs  
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;set a environmental variable before you go into setup will streamline things a bit:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;export ROOTFS=btrfs
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;as outlined in the docs, [https:&#x2F;&#x2F;wiki.alpinelinux.org&#x2F;wiki&#x2F;Btrfs?__goaway_challenge=cookie&amp;amp;__goaway_id=ff47e4359cf9f396e0258c979c7850de&amp;amp;_&lt;em&gt;goaway_referer=https%3A%2F%2Fwiki.alpinelinux.org%2Fw%2Findex.php%3Fsearch%3Dbtrfs%2Binstall%26title%3DSpecial%253ASearch%26wprov%3Dacrw1&lt;&#x2F;em&gt;-1](alpine btrfs)&lt;&#x2F;p&gt;
+&lt;p&gt;this allows seamless setup of the btrfs filesystem as much as we need it for apk-snap, grub-btrfs and all the goodies.&lt;&#x2F;p&gt;
+&lt;p&gt;enter the setup with &lt;code&gt;setup-alpine&lt;&#x2F;code&gt; i liked the flow of the installer, you can pretty much rip through all of the prompts. i set my own IP address in the network section, told it which disk i wanted the root partition on and you will see it make the btrfs autmoatically and install everything and you are ready to reboot.&lt;&#x2F;p&gt;
+&lt;p&gt;boot to prompt, enter root or username and passwd and you are again left with a prompt. the next thing i wanted to do was get the system repos updated and install the apk-snapper &lt;code&gt;apk-snap&lt;&#x2F;code&gt; program to start leaving my self breadcrumbs in case i fucked something up. you&#x27;ll need a couple more apps:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;doas apk update &amp;amp;&amp;amp; doas apk upgrade
+&lt;&#x2F;span&gt;&lt;span&gt;doas apk add apk-snap nano
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this will at least get snapshots going, i setup grub btrfs after plasma last time, but it could happen anytime really, i just needed the browser to be able to troubleshoot some issues. so the next step was &lt;code&gt;doas setup-desktop&lt;&#x2F;code&gt;. alpine really excels at its simplicity with everything here...i selected plasma and let it rip.&lt;&#x2F;p&gt;
+&lt;p&gt;reboot once that&#x27;s complete and you&#x27;ll be met with a prompt for logging in on kde plasma.&lt;&#x2F;p&gt;
+&lt;p&gt;after in the desktop, i found my sound was working, bluetooth was off, networkmanager was disabled but internet was working so i could still continue without too much fuss.&lt;&#x2F;p&gt;
+&lt;p&gt;first order of business was changing repos to edge and adding testing. edit &#x2F;etc&#x2F;apk&#x2F;repositories:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;#&#x2F;media&#x2F;sdb&#x2F;apks
+&lt;&#x2F;span&gt;&lt;span&gt;http:&#x2F;&#x2F;mirrors.edge.kernel.org&#x2F;alpine&#x2F;edge&#x2F;main
+&lt;&#x2F;span&gt;&lt;span&gt;http:&#x2F;&#x2F;mirrors.edge.kernel.org&#x2F;alpine&#x2F;edge&#x2F;community
+&lt;&#x2F;span&gt;&lt;span&gt;http:&#x2F;&#x2F;mirrors.edge.kernel.org&#x2F;alpine&#x2F;edge&#x2F;testing
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;then do a simple update to get to the edge (testing) platform and install the edge kernel also:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;doas apk upgrade -U #same as the apk update &amp;amp; apk upgrade combined
+&lt;&#x2F;span&gt;&lt;span&gt;doas apk add linux-edge #pulls linux-stable kernel
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;testing allows you to download librewolf for example.&lt;&#x2F;p&gt;
+&lt;p&gt;i also found that i needed to change shells after alpine login as i use bash on all my other machines and have dot files that i store in a git repo and git clone with every machine setup.&lt;&#x2F;p&gt;
+&lt;p&gt;first install bash, and change user shell (root if you like), add a couple other essentials for editing files, term etc&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;apk add bash shadow kitty nano
+&lt;&#x2F;span&gt;&lt;span&gt;doas chsh joe &#x2F;bin&#x2F;bash
+&lt;&#x2F;span&gt;&lt;span&gt;#doas chsh root &#x2F;bin&#x2F;bash
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;verify the changes took place, this is easily found in the passwd file:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;cat &#x2F;etc&#x2F;passwd | grep joe &amp;amp;&amp;amp; cat &#x2F;etc&#x2F;passwd | grep root
+&lt;&#x2F;span&gt;&lt;span&gt;joe:x:1000:1000:joe:&#x2F;home&#x2F;joe:&#x2F;bin&#x2F;bash
+&lt;&#x2F;span&gt;&lt;span&gt;root:x:0:0:root:&#x2F;root:&#x2F;bin&#x2F;bash
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;also, create a ~&#x2F;.bash_profile you need for ssh logins, etc&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;# Load the interactive Bash configuration for login shells.
+&lt;&#x2F;span&gt;&lt;span&gt;if [ -f &amp;quot;$HOME&#x2F;.bashrc&amp;quot; ]; then
+&lt;&#x2F;span&gt;&lt;span&gt;    . &amp;quot;$HOME&#x2F;.bashrc&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;fi
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this way the ssh login will check for .bashrc and load it on access.&lt;&#x2F;p&gt;
+&lt;p&gt;you essentially have the tools to continue, i like loading kitty term for alpine early because i am usually ssh-ing in off a kitty terminal on another machine and this will eliminate editing errors, i like nano for a simple editor, but use what you like...&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>

@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src-attr 'unsafe-inline'">
+
+    
+    <script defer src="http://uma.destratify.pro/script.js" data-website-id="4fcbcec9-bb7c-4697-8a62-20ad992a6092"></script>
+    
+    <title>Alpine Linux Btrfs OpenRC Plasma install | ink the ghost</title>
+
+    <link href="https://defcon.social/@970uts1d3" rel="me">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="https://inktheghost.com/fonts/FiraCode-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://inktheghost.com/css/style.css?h=287f84ed6c66dca911c6">
+    <link rel="icon" type="image/png" href="https://inktheghost.com/icons/favicon.png">
+    <link rel="apple-touch-icon" href="https://inktheghost.com/processed_images/favicon.ab2897ee8708a1f8.png">
+    <script src="https://inktheghost.com/js/auto-close-popover-on-resize.js?h=4ef87d6fc7b98b22e044" defer></script>
+    <script src="https://inktheghost.com/js/copy-code-to-clipboard.js?h=b34dc626be3e4c8a0f55" defer></script>
+
+    <link rel="canonical" href="https://inktheghost.com/blog/alpine-linux/">
+    
+    <meta name="author" content="970uts1d3">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#211f1a">
+    <meta name="color-scheme" content="dark">
+
+    <meta property="og:title" content="Alpine Linux Btrfs OpenRC Plasma install">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://inktheghost.com/blog/alpine-linux/">
+    <meta property="og:site_name" content="ink the ghost">
+    <meta property="og:updated_time" content="2026-09-12T15:41:55.068767161+00:00">
+    <meta property="article:published_time" content="2026-09-06T00:00:00+00:00">
+    <meta property="article:tag" content="desktop">
+    <meta property="article:tag" content="alpine linux">
+    <meta property="article:tag" content="openrc">
+    <meta property="article:tag" content="btrfs">
+
+</head>
+
+<body class="layout-center" data-theme="terminus">
+    <header class="header">
+        <div class="header-container">
+            <span class="header-logo-container">
+                <a href="https://inktheghost.com">
+                    <span class="logo">ink the ghost</span>
+                </a>
+            </span>
+        </div>
+        <nav class="main-menu" aria-label="Main Menu">
+            <a class="skip-to-content" href="#main">Skip to main content</a>
+            <button class="main-menu-dropdown-button" popovertarget="nav-menu">Menu</button>
+            <ul id="nav-menu" class="main-menu-items" aria-label="Site Navigation" popover>
+                <li><a href="https://inktheghost.com/blog/">blog</a></li>
+                <li><a href="https://inktheghost.com/archive/">archive</a></li>
+                <li><a href="https://inktheghost.com/tags/">tags</a></li>
+                <li><a href="https://inktheghost.com/about/">about</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main id="main">
+        <article class="post content">
+            <header>
+                <h1 class="post-title">
+                    <a href="https://inktheghost.com/blog/alpine-linux/">Alpine Linux Btrfs OpenRC Plasma install</a>
+                </h1>
+                <ul class="post-meta hidden">
+                    <li title="Published on 2026-09-06"><time datetime="2026-09-06">2026.09.06</time></li>
+                    <li role="separator" aria-hidden="true">::</li>
+                    <li title="712 words"><time datetime="PT4M">4 min</time> read</li>
+                </ul>
+                <div class="post-tags">
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/desktop/">desktop</a></span>
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/alpine-linux/">alpine linux</a></span>
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/openrc/">openrc</a></span>
+                    <span>#<a rel="tag" href="https://inktheghost.com/tags/btrfs/">btrfs</a></span>
+                </div>
+            </header>
+
+<h1 id="alpine-linux">Alpine Linux</h1>
+<h2 id="19-06">19:06</h2>
+<p>in pursuit of trying to find another distro (seems like i always am) its a matter of staying sans systemd. and i tried doing alpine on my laptop before, but i was having touchpad driver issues, so i abandoned it for #gentoo. i was using gentoo on the NUC as my desktop as well, but i think that was the first install where i got gentoo working an it was just a regular old ext4 (included timeshift for backing up). i didn't love that configuration so i figured what the hell, lets try alpine.</p>
+<p>i went through 2 or maybe 3 installs till i felt comfortable with the commands and the flow of the install. #alpine is about as bare-bones as you get. reminds me of arch with archinstall. so as it got easier i started to dig into how best to go about it.</p>
+<p>the simplest was to just use the alpine live environment, go figure! the btrfs instructions are excellent, as are all of Alpine's docs actually.</p>
+<p>make your USB, config the bootmanager if need be to boot from the USB and you'll be met with a very fast boot and an intimidating prompt.</p>
+<p>sign in with "root", no password.
+here's where i found it easiest to setup a few env variables and add a program or two, i would be ssh-ing in after boot, so i wanted the following:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>apk add kitty btrfs-progs  
+</span></code></pre>
+<p>set a environmental variable before you go into setup will streamline things a bit:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>export ROOTFS=btrfs
+</span></code></pre>
+<p>as outlined in the docs, [https://wiki.alpinelinux.org/wiki/Btrfs?__goaway_challenge=cookie&amp;__goaway_id=ff47e4359cf9f396e0258c979c7850de&amp;_<em>goaway_referer=https%3A%2F%2Fwiki.alpinelinux.org%2Fw%2Findex.php%3Fsearch%3Dbtrfs%2Binstall%26title%3DSpecial%253ASearch%26wprov%3Dacrw1</em>-1](alpine btrfs)</p>
+<p>this allows seamless setup of the btrfs filesystem as much as we need it for apk-snap, grub-btrfs and all the goodies.</p>
+<p>enter the setup with <code>setup-alpine</code> i liked the flow of the installer, you can pretty much rip through all of the prompts. i set my own IP address in the network section, told it which disk i wanted the root partition on and you will see it make the btrfs autmoatically and install everything and you are ready to reboot.</p>
+<p>boot to prompt, enter root or username and passwd and you are again left with a prompt. the next thing i wanted to do was get the system repos updated and install the apk-snapper <code>apk-snap</code> program to start leaving my self breadcrumbs in case i fucked something up. you'll need a couple more apps:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>doas apk update &amp;&amp; doas apk upgrade
+</span><span>doas apk add apk-snap nano
+</span></code></pre>
+<p>this will at least get snapshots going, i setup grub btrfs after plasma last time, but it could happen anytime really, i just needed the browser to be able to troubleshoot some issues. so the next step was <code>doas setup-desktop</code>. alpine really excels at its simplicity with everything here...i selected plasma and let it rip.</p>
+<p>reboot once that's complete and you'll be met with a prompt for logging in on kde plasma.</p>
+<p>after in the desktop, i found my sound was working, bluetooth was off, networkmanager was disabled but internet was working so i could still continue without too much fuss.</p>
+<p>first order of business was changing repos to edge and adding testing. edit /etc/apk/repositories:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>#/media/sdb/apks
+</span><span>http://mirrors.edge.kernel.org/alpine/edge/main
+</span><span>http://mirrors.edge.kernel.org/alpine/edge/community
+</span><span>http://mirrors.edge.kernel.org/alpine/edge/testing
+</span></code></pre>
+<p>then do a simple update to get to the edge (testing) platform and install the edge kernel also:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>doas apk upgrade -U #same as the apk update &amp; apk upgrade combined
+</span><span>doas apk add linux-edge #pulls linux-stable kernel
+</span></code></pre>
+<p>testing allows you to download librewolf for example.</p>
+<p>i also found that i needed to change shells after alpine login as i use bash on all my other machines and have dot files that i store in a git repo and git clone with every machine setup.</p>
+<p>first install bash, and change user shell (root if you like), add a couple other essentials for editing files, term etc</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>apk add bash shadow kitty nano
+</span><span>doas chsh joe /bin/bash
+</span><span>#doas chsh root /bin/bash
+</span></code></pre>
+<p>verify the changes took place, this is easily found in the passwd file:</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span>cat /etc/passwd | grep joe &amp;&amp; cat /etc/passwd | grep root
+</span><span>joe:x:1000:1000:joe:/home/joe:/bin/bash
+</span><span>root:x:0:0:root:/root:/bin/bash
+</span></code></pre>
+<p>also, create a ~/.bash_profile you need for ssh logins, etc</p>
+<pre data-lang="shell" style="background-color:#272822;color:#f8f8f2;" class="language-shell "><code class="language-shell" data-lang="shell"><span># Load the interactive Bash configuration for login shells.
+</span><span>if [ -f &quot;$HOME/.bashrc&quot; ]; then
+</span><span>    . &quot;$HOME/.bashrc&quot;
+</span><span>fi
+</span></code></pre>
+<p>this way the ssh login will check for .bashrc and load it on access.</p>
+<p>you essentially have the tools to continue, i like loading kitty term for alpine early because i am usually ssh-ing in off a kitty terminal on another machine and this will eliminate editing errors, i like nano for a simple editor, but use what you like...</p>
+
+        </article>
+        <nav class="post-navigation">
+            <header class="post-navigation-title">
+                <h2>Read More Posts</h2>
+                <hr>
+            </header>
+            <div class="post-navigation-buttons">
+                <a rel="prev" href="https://inktheghost.com/blog/fedora-snapper-grub-btrfs/" aria-label="Prev article">
+                    <span aria-hidden="true">[</span>fedora-snapper-grub-btrfs<span aria-hidden="true">]&nbsp;&gt;</span>
+                </a>
+            </div>
+        </nav>
+    </main>
+    <footer class="footer">
+        <address class="socials">
+            <ul>
+                <li>
+                    <a class="social-link" rel="me" href="https://defcon.social/@970uts1d3" title="mastodon" aria-label="mastodon">
+                        <svg role="img" aria-label="mastodon icon">
+                            <use aria-hidden="true" href="https://inktheghost.com/images/social_icons/mastodon.svg#icon" />
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </address>
+        <p class="copyright">
+            <span>© <time>2026</time> 970uts1d3</span>
+            <span>Powered by <a href="https://www.getzola.org">Zola</a></span>
+            <span>Theme by <a href="https://eyalkalderon.com">ebkalderon</a></span>
+        </p>
+    </footer>
+</body>
+
+</html>
