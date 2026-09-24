@@ -14,6 +14,6 @@ dell 730xd running proxmox 9.2 hosting vaultwarden, jellyfin, lxc and docker con
 NitroKey i7-10710U Comet Lake w/ Alpine Linux openRC btrfs snapper and grub-btrfs
 few other experimental boxes...
 
-this static page is hosted on github using zola
+this static page is hosted on github using zola, please consider all these posts under review, deprecated or incomplete ;)
 
 970uts1d3
