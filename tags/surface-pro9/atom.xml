@@ -1,0 +1,613 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>ink the ghost - surface pro9</title>
+    <link rel="self" type="application/atom+xml" href="https://inktheghost.com/tags/surface-pro9/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://inktheghost.com"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2026-08-05T00:00:00+00:00</updated>
+    <id>https://inktheghost.com/tags/surface-pro9/atom.xml</id>
+    <entry xml:lang="en">
+        <title>linux-surface fedora pt 1</title>
+        <published>2026-08-05T00:00:00+00:00</published>
+        <updated>2026-08-05T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/linux-surface-fedora-pt-1/"/>
+        <id>https://inktheghost.com/blog/linux-surface-fedora-pt-1/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/linux-surface-fedora-pt-1/">&lt;h1 id=&quot;linux-surface-fedora-pt-1&quot;&gt;linux-surface fedora pt 1&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;06-59&quot;&gt;06:59&lt;&#x2F;h2&gt;
+&lt;h2 id=&quot;main-installation-instructions&quot;&gt;Main installation instructions&lt;&#x2F;h2&gt;
+&lt;hr &#x2F;&gt;
+&lt;p&gt;this is a brief overview of how i initially got fedora working on my linux-surface pro 9.&lt;&#x2F;p&gt;
+&lt;p&gt;needs:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;fedora44 (or latest) live cd on bootable usb (i used KDE)&lt;&#x2F;li&gt;
+&lt;li&gt;USB-C to USB-A adapter&lt;&#x2F;li&gt;
+&lt;li&gt;USB-A keyboard and mouse plugged into USB-C adapter&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;using bootable live cd on usb and USB-C to USB-A adapter, boot into surface bios and make sure boot from usb is at the top of the boot list, also make sure secureboot is off and restart&lt;&#x2F;p&gt;
+&lt;p&gt;this should bring up the fedora live cd boot screen. once inside click install to get going with the anaconda system installer, you can dual-boot with windows if you first make space by shrinking win partition, i said fuck windows and wiped whole disk
+fedora has wonderful btrfs support out of the box with snapper (for snapshots) and grub-btrfs i recommend that for the install, but you do xfs, ext4 whatever.&lt;&#x2F;p&gt;
+&lt;p&gt;got through the rest of the installation, and reboot&lt;&#x2F;p&gt;
+&lt;p&gt;once rebooted, you can setup some things, i usually start with the grub-btrfs and snapper setup as i like to have snapshots available in case i ruin shit, which i often do.&lt;&#x2F;p&gt;
+&lt;p&gt;its fairly easy compared to the setup i went through on my gentoo install, any way, now you can install linux-surface copr repo and add the linux-surface kernel goodies, which as of late was up to kernel 6.19&lt;&#x2F;p&gt;
+&lt;p&gt;[https:&#x2F;&#x2F;github.com&#x2F;linux-surface&#x2F;linux-surface&#x2F;tree&#x2F;master&#x2F;patches](linux-surface repo)&lt;&#x2F;p&gt;
+&lt;p&gt;the fedora setup is pretty self-explanitory, following the directions here is a good start.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;inktheghost.com&#x2F;blog&#x2F;linux-surface-fedora-pt-1&#x2F;fedora-instructions&quot;&gt;https:&#x2F;&#x2F;github.com&#x2F;linux-surface&#x2F;linux-surface&#x2F;wiki&#x2F;Installation-and-Setup#Fedora&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;then make sure to pay attention to the directions specific for your model - i only have the surface pro 9&lt;&#x2F;p&gt;
+&lt;p&gt;[https:&#x2F;&#x2F;github.com&#x2F;linux-surface&#x2F;linux-surface&#x2F;wiki&#x2F;Surface-Pro-9](surface-pro9 caveats)&lt;&#x2F;p&gt;
+&lt;p&gt;reboot into linux-surface kernal and test things out!&lt;&#x2F;p&gt;
+&lt;p&gt;this gets you into a fairly well-rounded stable install of fedora, which is most likely good for the vast majority of folks...however if you want to take things further, make sure to go through the steps to get secureboot working and make sure that&#x27;s operating nicely and then proceed to pt 2, where i attempt to clone torvalds kernel source starting at linux-7.2-rc4 and modify patches to get them working with the surface.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>linux-surface fedora pt 2</title>
+        <published>2026-08-05T00:00:00+00:00</published>
+        <updated>2026-08-05T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/linux-surface-fedora-pt-2/"/>
+        <id>https://inktheghost.com/blog/linux-surface-fedora-pt-2/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/linux-surface-fedora-pt-2/">&lt;h1 id=&quot;linux-surface-fedora-pt-2-updated&quot;&gt;linux-surface fedora pt 2 - updated&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;09-13&quot;&gt;09:13&lt;&#x2F;h2&gt;
+&lt;p&gt;my initial goal was to get the fedora implementation of linux-surface kernel working and get the surface pro9 i&#x27;d bought plenty usable. but of course then i wanted more. the fedora instructions for the linux-surface kernel mods do work, relatively out of the box, and get you up to kernel 6.19 currently , but i want to run a more bleeding edge version - which is still relatively stable on fedora rawhide and with a repo update to rawhide, i broke all the goodies that went with the fedora44 install.&lt;&#x2F;p&gt;
+&lt;p&gt;i used a mixture of solutions here and with some internet advise, searching reddit, and other nearly similar work arounds, decided on the following:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;install latest kernel&lt;&#x2F;li&gt;
+&lt;li&gt;patch using linux-surface repos (ipts baked into kernel)&lt;&#x2F;li&gt;
+&lt;li&gt;build a repeatable script that would let me do easier next time&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;installing-latest-kernel-with-patches&quot;&gt;installing latest kernel with patches&lt;&#x2F;h3&gt;
+&lt;p&gt;the easiest instructions wound up in the github documentation for the Linus Torvalds github main kernel repo (am i saying that right?) and linked to here &lt;a href=&quot;https:&#x2F;&#x2F;inktheghost.com&#x2F;blog&#x2F;linux-surface-fedora-pt-2&#x2F;kernel&quot;&gt;https:&#x2F;&#x2F;github.com&#x2F;torvalds&#x2F;linux&#x2F;blob&#x2F;master&#x2F;Documentation&#x2F;admin-guide&#x2F;quickly-build-trimmed-linux.rst#id17&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;this is a handy kernel build sheet for a one-time kernel install, of course there&#x27;s options here, but the tl;dr is there and copy&#x2F;paste will get you the latest kernel (7.2-rc5). the instructions worked part way for me.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;git clone --no-checkout --depth 1 -b master \
+&lt;&#x2F;span&gt;&lt;span&gt;  https:&#x2F;&#x2F;git.kernel.org&#x2F;pub&#x2F;scm&#x2F;linux&#x2F;kernel&#x2F;git&#x2F;stable&#x2F;linux.git ~&#x2F;linux&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;cd ~&#x2F;linux&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;git checkout --detach origin&#x2F;master
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this will get you the latest kernel sources. i have mine altered as below:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;cd ~&#x2F;projects&#x2F;kernel
+&lt;&#x2F;span&gt;&lt;span&gt;mkdir -p linux-7.2-rc6
+&lt;&#x2F;span&gt;&lt;span&gt;	git clone --depth 1 https:&#x2F;&#x2F;git.kernel.org&#x2F;pub&#x2F;scm&#x2F;linux&#x2F;kernel&#x2F;git&#x2F;torvalds&#x2F;linux.git
+&lt;&#x2F;span&gt;&lt;span&gt;git checkout v7.2-rc6
+&lt;&#x2F;span&gt;&lt;span&gt;cd linux-7.2-rc6
+&lt;&#x2F;span&gt;&lt;span&gt;git am ~&#x2F;projects&#x2F;kernel&#x2F;patches&#x2F;surface-pro9-final&#x2F;*.patch
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;for manual installation, this will keep the linux sources separate for each kernel.  the patch command that follows wasn&#x27;t quite what i needed. i had to rework a couple things with the help of chatgpt to get the patches to work with some of the new kernel requirements. i put all the patches in the ~&#x2F;projects&#x2F;kernel&#x2F;patches&#x2F;surface-pro9-final and ofc are .patch, here&#x27;s the list of the ones i used:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;0001-Add-Surface-SAM-support.patch&lt;&#x2F;li&gt;
+&lt;li&gt;0002-Add-Surface-IPTS-support.patch&lt;&#x2F;li&gt;
+&lt;li&gt;0003-Remove-patch-backup-files.patch&lt;&#x2F;li&gt;
+&lt;li&gt;0004-Add-Intel-THC-HID-support.patch&lt;&#x2F;li&gt;
+&lt;li&gt;0005-Add-Surface-Pro-9-typecover-support.patch&lt;&#x2F;li&gt;
+&lt;li&gt;0006-Add-Surface-shutdown-support.patch&lt;&#x2F;li&gt;
+&lt;li&gt;0007-Add-Surface-Pro-9-GPE-support.patch&lt;&#x2F;li&gt;
+&lt;li&gt;0008-Add-Surface-camera-support.patch&lt;&#x2F;li&gt;
+&lt;li&gt;0009-Add-Surface-HID-support.patch&lt;&#x2F;li&gt;
+&lt;li&gt;0010-Fix-INT3472-GPIO-type-handling-for-Linux-7.2.patch&lt;&#x2F;li&gt;
+&lt;li&gt;0011-Surface-Pro-9-SSAM-IRQ-lookup-fix.patch&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;the names cross (roughly) to those in the linux-surface patch repo, but some are adapted to kernel specifics for the fedora platform and surface-pro9 specifically.&lt;&#x2F;p&gt;
+&lt;p&gt;to get these applied i instead used&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;git am ~&#x2F;projects&#x2F;kernel&#x2F;patches&#x2F;surface-pro9-final&#x2F;*.patch
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this gave me some blank line indicators and dealt with them while applying the patches without any errors.&lt;&#x2F;p&gt;
+&lt;p&gt;here&#x27;s the build-surface-kernel-2.sh file created to implemented after the git am command for the manual testing: build-surface-kernel-2.sh&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;#!&#x2F;usr&#x2F;bin&#x2F;env bash
+&lt;&#x2F;span&gt;&lt;span&gt;set -euo pipefail
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;exec &amp;gt; &amp;gt;(tee -a &amp;quot;$HOME&#x2F;projects&#x2F;kernel&#x2F;build.log&amp;quot;) 2&amp;gt;&amp;amp;1
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;KERNEL_SRC=&amp;quot;${1:?Give kernel source path}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Normalize (resolve symlinks) if possible
+&lt;&#x2F;span&gt;&lt;span&gt;KERNEL_SRC=&amp;quot;$(readlink -f &amp;quot;$KERNEL_SRC&amp;quot; 2&amp;gt;&#x2F;dev&#x2F;null || echo &amp;quot;$KERNEL_SRC&amp;quot;)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;[[ -d &amp;quot;$KERNEL_SRC&amp;quot; ]] || {
+&lt;&#x2F;span&gt;&lt;span&gt;  echo &amp;quot;Kernel source must be a directory: $KERNEL_SRC&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;  exit 1
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;NAME=&amp;quot;surface-pro9&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;BASE=&amp;quot;$HOME&#x2F;projects&#x2F;kernel&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;CONFIG=&amp;quot;$BASE&#x2F;configs&#x2F;surface-pro9.config&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;BUILD=&amp;quot;$BASE&#x2F;builds&#x2F;$NAME&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;LOCALVERSION=&amp;quot;-surface-pro9&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;MOK_KEY=&amp;quot;$HOME&#x2F;secureboot&#x2F;MOK.key&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;MOK_CERT=&amp;quot;$HOME&#x2F;secureboot&#x2F;MOK.pem&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;RHELVER=&amp;quot;$BASE&#x2F;Makefile.rhelver&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;=================================&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;Kernel source:&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;$KERNEL_SRC&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;Build:&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;$BUILD&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;Config:&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;$CONFIG&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;=================================&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;for f in &amp;quot;$CONFIG&amp;quot; &amp;quot;$MOK_KEY&amp;quot; &amp;quot;$MOK_CERT&amp;quot;; do
+&lt;&#x2F;span&gt;&lt;span&gt;  [[ -f &amp;quot;$f&amp;quot; ]] || {
+&lt;&#x2F;span&gt;&lt;span&gt;    echo &amp;quot;Missing:&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    echo &amp;quot;$f&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    exit 1
+&lt;&#x2F;span&gt;&lt;span&gt;  }
+&lt;&#x2F;span&gt;&lt;span&gt;done
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;mkdir -p &amp;quot;$BUILD&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;[1&#x2F;9] Copy config&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;cp &amp;quot;$CONFIG&amp;quot; &amp;quot;$BUILD&#x2F;.config&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;[2&#x2F;9] Fedora metadata&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# If kernel doesn&amp;#39;t have Makefile.rhelver, link it in for the build.
+&lt;&#x2F;span&gt;&lt;span&gt;if [[ ! -e &amp;quot;$KERNEL_SRC&#x2F;Makefile.rhelver&amp;quot; ]]; then
+&lt;&#x2F;span&gt;&lt;span&gt;  ln -sf &amp;quot;$RHELVER&amp;quot; &amp;quot;$KERNEL_SRC&#x2F;Makefile.rhelver&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;  CLEAN_RHELVER=1
+&lt;&#x2F;span&gt;&lt;span&gt;else
+&lt;&#x2F;span&gt;&lt;span&gt;  CLEAN_RHELVER=0
+&lt;&#x2F;span&gt;&lt;span&gt;fi
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;[3&#x2F;9] Local version&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;$KERNEL_SRC&#x2F;scripts&#x2F;config&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  --file &amp;quot;$BUILD&#x2F;.config&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  --set-str CONFIG_LOCALVERSION &amp;quot;$LOCALVERSION&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;$KERNEL_SRC&#x2F;scripts&#x2F;config&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  --file &amp;quot;$BUILD&#x2F;.config&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  --disable CONFIG_LOCALVERSION_AUTO
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;[4&#x2F;9] olddefconfig&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;make \
+&lt;&#x2F;span&gt;&lt;span&gt;  -C &amp;quot;$KERNEL_SRC&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  O=&amp;quot;$BUILD&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  olddefconfig
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;[5&#x2F;9] Build&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;make \
+&lt;&#x2F;span&gt;&lt;span&gt;  -C &amp;quot;$KERNEL_SRC&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  O=&amp;quot;$BUILD&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  -j&amp;quot;$(nproc)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;KREL=&amp;quot;$(make \
+&lt;&#x2F;span&gt;&lt;span&gt;  -C &amp;quot;$KERNEL_SRC&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  O=&amp;quot;$BUILD&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  -s kernelrelease)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;Built:&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;$KREL&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;[6&#x2F;9] Install modules&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo make \
+&lt;&#x2F;span&gt;&lt;span&gt;  -C &amp;quot;$KERNEL_SRC&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  O=&amp;quot;$BUILD&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  modules_install
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;[7&#x2F;9] Install kernel&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo install \
+&lt;&#x2F;span&gt;&lt;span&gt;  -Dm644 \
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;$BUILD&#x2F;arch&#x2F;x86&#x2F;boot&#x2F;bzImage&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;&#x2F;boot&#x2F;vmlinuz-$KREL&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;[8&#x2F;9] Sign&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo sbsign \
+&lt;&#x2F;span&gt;&lt;span&gt;  --key &amp;quot;$MOK_KEY&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  --cert &amp;quot;$MOK_CERT&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  --output &amp;quot;&#x2F;boot&#x2F;vmlinuz-$KREL.signed&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;&#x2F;boot&#x2F;vmlinuz-$KREL&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo mv \
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;&#x2F;boot&#x2F;vmlinuz-$KREL.signed&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;&#x2F;boot&#x2F;vmlinuz-$KREL&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;[9&#x2F;9] Fedora registration&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo dracut \
+&lt;&#x2F;span&gt;&lt;span&gt;  --force \
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;&#x2F;boot&#x2F;initramfs-$KREL.img&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;$KREL&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo ln -sf \
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;&#x2F;boot&#x2F;vmlinuz-$KREL&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;&#x2F;usr&#x2F;lib&#x2F;modules&#x2F;$KREL&#x2F;vmlinuz&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo kernel-install add \
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;$KREL&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;&#x2F;boot&#x2F;vmlinuz-$KREL&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;if [[ &amp;quot;$CLEAN_RHELVER&amp;quot; == &amp;quot;1&amp;quot; ]]; then
+&lt;&#x2F;span&gt;&lt;span&gt;  rm -f &amp;quot;$KERNEL_SRC&#x2F;Makefile.rhelver&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;fi
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;DONE&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;$KREL installed&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;automations-setting-it-up-for-permanence&quot;&gt;automations - setting it up for permanence&lt;&#x2F;h3&gt;
+&lt;p&gt;build-exp.sh&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;#!&#x2F;usr&#x2F;bin&#x2F;env bash
+&lt;&#x2F;span&gt;&lt;span&gt;set -euo pipefail
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;exec &amp;gt; &amp;gt;(tee -a &amp;quot;$HOME&#x2F;projects&#x2F;kernel&#x2F;build.log&amp;quot;) 2&amp;gt;&amp;amp;1
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;KERNEL_SRC=&amp;quot;${1:?Give kernel source path}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Normalize (resolve symlinks) if possible
+&lt;&#x2F;span&gt;&lt;span&gt;KERNEL_SRC=&amp;quot;$(readlink -f &amp;quot;$KERNEL_SRC&amp;quot; 2&amp;gt;&#x2F;dev&#x2F;null || echo &amp;quot;$KERNEL_SRC&amp;quot;)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;[[ -d &amp;quot;$KERNEL_SRC&amp;quot; ]] || {
+&lt;&#x2F;span&gt;&lt;span&gt;  echo &amp;quot;Kernel source must be a directory: $KERNEL_SRC&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;  exit 1
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;NAME=&amp;quot;surface-pro9&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;BASE=&amp;quot;$HOME&#x2F;projects&#x2F;kernel&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;CONFIG=&amp;quot;$BASE&#x2F;configs&#x2F;surface-pro9.config&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;BUILD=&amp;quot;$BASE&#x2F;builds&#x2F;$NAME&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;LOCALVERSION=&amp;quot;-surface-pro9&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;MOK_KEY=&amp;quot;$HOME&#x2F;secureboot&#x2F;MOK.key&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;MOK_CERT=&amp;quot;$HOME&#x2F;secureboot&#x2F;MOK.pem&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;RHELVER=&amp;quot;$BASE&#x2F;Makefile.rhelver&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;=================================&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;Kernel source:&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;$KERNEL_SRC&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;Build:&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;$BUILD&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;Config:&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;$CONFIG&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;=================================&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;for f in &amp;quot;$CONFIG&amp;quot; &amp;quot;$MOK_KEY&amp;quot; &amp;quot;$MOK_CERT&amp;quot;; do
+&lt;&#x2F;span&gt;&lt;span&gt;  [[ -f &amp;quot;$f&amp;quot; ]] || {
+&lt;&#x2F;span&gt;&lt;span&gt;    echo &amp;quot;Missing:&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    echo &amp;quot;$f&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    exit 1
+&lt;&#x2F;span&gt;&lt;span&gt;  }
+&lt;&#x2F;span&gt;&lt;span&gt;done
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;mkdir -p &amp;quot;$BUILD&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;[1&#x2F;9] Copy config&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;cp &amp;quot;$CONFIG&amp;quot; &amp;quot;$BUILD&#x2F;.config&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;[2&#x2F;9] Fedora metadata&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# If kernel doesn&amp;#39;t have Makefile.rhelver, link it in for the build.
+&lt;&#x2F;span&gt;&lt;span&gt;if [[ ! -e &amp;quot;$KERNEL_SRC&#x2F;Makefile.rhelver&amp;quot; ]]; then
+&lt;&#x2F;span&gt;&lt;span&gt;  ln -sf &amp;quot;$RHELVER&amp;quot; &amp;quot;$KERNEL_SRC&#x2F;Makefile.rhelver&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;  CLEAN_RHELVER=1
+&lt;&#x2F;span&gt;&lt;span&gt;else
+&lt;&#x2F;span&gt;&lt;span&gt;  CLEAN_RHELVER=0
+&lt;&#x2F;span&gt;&lt;span&gt;fi
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;[3&#x2F;9] Local version&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;$KERNEL_SRC&#x2F;scripts&#x2F;config&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  --file &amp;quot;$BUILD&#x2F;.config&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  --set-str CONFIG_LOCALVERSION &amp;quot;$LOCALVERSION&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;$KERNEL_SRC&#x2F;scripts&#x2F;config&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  --file &amp;quot;$BUILD&#x2F;.config&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  --disable CONFIG_LOCALVERSION_AUTO
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;[4&#x2F;9] olddefconfig&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;make \
+&lt;&#x2F;span&gt;&lt;span&gt;  -C &amp;quot;$KERNEL_SRC&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  O=&amp;quot;$BUILD&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  olddefconfig
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;[5&#x2F;9] Build&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;make \
+&lt;&#x2F;span&gt;&lt;span&gt;  -C &amp;quot;$KERNEL_SRC&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  O=&amp;quot;$BUILD&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  -j&amp;quot;$(nproc)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;KREL=&amp;quot;$(make \
+&lt;&#x2F;span&gt;&lt;span&gt;  -C &amp;quot;$KERNEL_SRC&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  O=&amp;quot;$BUILD&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  -s kernelrelease)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;Built:&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;$KREL&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;[6&#x2F;9] Install modules&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo make \
+&lt;&#x2F;span&gt;&lt;span&gt;  -C &amp;quot;$KERNEL_SRC&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  O=&amp;quot;$BUILD&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  modules_install
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;[7&#x2F;9] Install kernel&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo install \
+&lt;&#x2F;span&gt;&lt;span&gt;  -Dm644 \
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;$BUILD&#x2F;arch&#x2F;x86&#x2F;boot&#x2F;bzImage&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;&#x2F;boot&#x2F;vmlinuz-$KREL&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;[8&#x2F;9] Sign&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo sbsign \
+&lt;&#x2F;span&gt;&lt;span&gt;  --key &amp;quot;$MOK_KEY&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  --cert &amp;quot;$MOK_CERT&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  --output &amp;quot;&#x2F;boot&#x2F;vmlinuz-$KREL.signed&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;&#x2F;boot&#x2F;vmlinuz-$KREL&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo mv \
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;&#x2F;boot&#x2F;vmlinuz-$KREL.signed&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;&#x2F;boot&#x2F;vmlinuz-$KREL&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;[9&#x2F;9] Fedora registration&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo dracut \
+&lt;&#x2F;span&gt;&lt;span&gt;  --force \
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;&#x2F;boot&#x2F;initramfs-$KREL.img&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;$KREL&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo ln -sf \
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;&#x2F;boot&#x2F;vmlinuz-$KREL&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;&#x2F;usr&#x2F;lib&#x2F;modules&#x2F;$KREL&#x2F;vmlinuz&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo kernel-install add \
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;$KREL&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;&#x2F;boot&#x2F;vmlinuz-$KREL&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;if [[ &amp;quot;$CLEAN_RHELVER&amp;quot; == &amp;quot;1&amp;quot; ]]; then
+&lt;&#x2F;span&gt;&lt;span&gt;  rm -f &amp;quot;$KERNEL_SRC&#x2F;Makefile.rhelver&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;fi
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;DONE&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;$KREL installed&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;kernel&#x2F;automation  rawhide*​ 
+&lt;&#x2F;span&gt;&lt;span&gt;❯ cat build-exp.sh 
+&lt;&#x2F;span&gt;&lt;span&gt;#!&#x2F;usr&#x2F;bin&#x2F;env bash
+&lt;&#x2F;span&gt;&lt;span&gt;set -euo pipefail
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;usage() {
+&lt;&#x2F;span&gt;&lt;span&gt;  cat &amp;lt;&amp;lt;&amp;#39;EOF&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;Usage:
+&lt;&#x2F;span&gt;&lt;span&gt;  build-surface-kernel-all.sh &amp;lt;kernel_dir&amp;gt; &amp;lt;remote_ref&amp;gt; &amp;lt;localversion_suffix&amp;gt; &amp;lt;patch_glob&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;Examples:
+&lt;&#x2F;span&gt;&lt;span&gt;  build-surface-kernel-all.sh ~&#x2F;projects&#x2F;kernel&#x2F;7.2-rc5 master \
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;quot;-proposed_fix-surface-pro9&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;    ~&#x2F;projects&#x2F;kernel&#x2F;patches&#x2F;surface-pro9-final&#x2F;*.patch
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;remote_ref is the branch name you want from the stable&#x2F;linux repo
+&lt;&#x2F;span&gt;&lt;span&gt;(e.g. &amp;quot;master&amp;quot;, &amp;quot;linux-6.9.y&amp;quot;, etc.). The script fetches origin&#x2F;&amp;lt;remote_ref&amp;gt;.
+&lt;&#x2F;span&gt;&lt;span&gt;EOF
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#enable ccache
+&lt;&#x2F;span&gt;&lt;span&gt;export PATH=&amp;quot;&#x2F;usr&#x2F;lib64&#x2F;ccache:$PATH&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;export CCACHE_DIR=&amp;quot;$HOME&#x2F;.ccache&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;export CCACHE_MAXSIZE=&amp;quot;50G&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;export CCACHE_COMPILERCHECK=&amp;quot;content&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;export CCACHE_SLOPPINESS=&amp;quot;time_macros,include_file_mtime&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;KERNEL_DIR=&amp;quot;${1:-}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;REMOTE_REF=&amp;quot;${2:-}&amp;quot;                   # e.g. master
+&lt;&#x2F;span&gt;&lt;span&gt;LOCALVERSION_SUFFIX=&amp;quot;${3:-}&amp;quot;         # e.g. -proposed_fix-surface-pro9
+&lt;&#x2F;span&gt;&lt;span&gt;PATCH_GLOB=&amp;quot;${4:-}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;if [[ -z &amp;quot;$KERNEL_DIR&amp;quot; || -z &amp;quot;$REMOTE_REF&amp;quot; || -z &amp;quot;$LOCALVERSION_SUFFIX&amp;quot; || -z &amp;quot;$PATCH_GLOB&amp;quot; ]]; then
+&lt;&#x2F;span&gt;&lt;span&gt;  usage
+&lt;&#x2F;span&gt;&lt;span&gt;  exit 1
+&lt;&#x2F;span&gt;&lt;span&gt;fi
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;KERNEL_DIR=&amp;quot;$(readlink -f &amp;quot;$KERNEL_DIR&amp;quot; 2&amp;gt;&#x2F;dev&#x2F;null || echo &amp;quot;$KERNEL_DIR&amp;quot;)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;BASE=&amp;quot;${HOME}&#x2F;projects&#x2F;kernel&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;NAME=&amp;quot;surface-pro9&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;REMOTE_REPO_URL=&amp;quot;https:&#x2F;&#x2F;git.kernel.org&#x2F;pub&#x2F;scm&#x2F;linux&#x2F;kernel&#x2F;git&#x2F;stable&#x2F;linux.git&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;CONFIG=&amp;quot;${BASE}&#x2F;configs&#x2F;surface-pro9.config&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;MOK_KEY=&amp;quot;${HOME}&#x2F;secureboot&#x2F;MOK.key&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;MOK_CERT=&amp;quot;${HOME}&#x2F;secureboot&#x2F;MOK.pem&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;RHELVER=&amp;quot;${BASE}&#x2F;Makefile.rhelver&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;Kernel dir: $KERNEL_DIR&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;Remote ref: origin&#x2F;$REMOTE_REF&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;Localversion: $LOCALVERSION_SUFFIX&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;Patch glob: $PATCH_GLOB&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# -------- clone if missing --------
+&lt;&#x2F;span&gt;&lt;span&gt;if [[ ! -d &amp;quot;${KERNEL_DIR}&#x2F;.git&amp;quot; ]]; then
+&lt;&#x2F;span&gt;&lt;span&gt;  mkdir -p &amp;quot;$(dirname &amp;quot;$KERNEL_DIR&amp;quot;)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;  echo &amp;quot;[1&#x2F;10] Cloning (shallow) kernel into: $KERNEL_DIR&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;  git clone --no-checkout --depth 1 -b &amp;quot;$REMOTE_REF&amp;quot; &amp;quot;$REMOTE_REPO_URL&amp;quot; &amp;quot;$KERNEL_DIR&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;fi
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;cd &amp;quot;$KERNEL_DIR&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# -------- compute current and remote commit IDs (shallow) --------
+&lt;&#x2F;span&gt;&lt;span&gt;# Remote &amp;quot;newness&amp;quot; check:
+&lt;&#x2F;span&gt;&lt;span&gt;# - Ensure origin remote exists
+&lt;&#x2F;span&gt;&lt;span&gt;git remote get-url origin &amp;gt;&#x2F;dev&#x2F;null 2&amp;gt;&amp;amp;1 || git remote add origin &amp;quot;$REMOTE_REPO_URL&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;[2&#x2F;10] Fetching remote commit (shallow) to check if newer&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;git fetch --depth 1 origin &amp;quot;${REMOTE_REF}&amp;quot; &amp;gt;&#x2F;dev&#x2F;null
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;REMOTE_COMMIT=&amp;quot;$(git rev-parse --verify --short &amp;quot;origin&#x2F;${REMOTE_REF}&amp;quot;)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;if git show -s --verify --quiet HEAD &amp;gt;&#x2F;dev&#x2F;null 2&amp;gt;&amp;amp;1; then
+&lt;&#x2F;span&gt;&lt;span&gt;  LOCAL_COMMIT=&amp;quot;$(git rev-parse --verify --short HEAD || echo &amp;quot;&amp;quot;)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;else
+&lt;&#x2F;span&gt;&lt;span&gt;  LOCAL_COMMIT=&amp;quot;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;fi
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;Local HEAD:   ${LOCAL_COMMIT:-&amp;lt;none&amp;gt;}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;Remote commit:${REMOTE_COMMIT}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Optional policy: only continue if remote is newer&#x2F;different.
+&lt;&#x2F;span&gt;&lt;span&gt;# If you prefer always rebuild, delete the if-block and always proceed.
+&lt;&#x2F;span&gt;&lt;span&gt;if [[ -n &amp;quot;$LOCAL_COMMIT&amp;quot; &amp;amp;&amp;amp; &amp;quot;$LOCAL_COMMIT&amp;quot; == &amp;quot;$REMOTE_COMMIT&amp;quot; ]]; then
+&lt;&#x2F;span&gt;&lt;span&gt;  echo &amp;quot;[3&#x2F;10] Remote ref matches local HEAD; nothing to do.&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;  exit 0
+&lt;&#x2F;span&gt;&lt;span&gt;fi
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;[3&#x2F;10] Checking out remote commit (detached)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;git checkout --detach &amp;quot;origin&#x2F;${REMOTE_REF}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# -------- patch stamp keyed by commit + patch set hash --------
+&lt;&#x2F;span&gt;&lt;span&gt;# Compute patch set hash (cheap-ish but solid enough): hash file contents.
+&lt;&#x2F;span&gt;&lt;span&gt;# If you have many patches and want faster, we can instead hash mtimes or names.
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;[4&#x2F;10] Building patch identity hash&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;shopt -s nullglob
+&lt;&#x2F;span&gt;&lt;span&gt;PATCH_FILES=( $PATCH_GLOB )
+&lt;&#x2F;span&gt;&lt;span&gt;shopt -u nullglob
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;if [[ ${#PATCH_FILES[@]} -eq 0 ]]; then
+&lt;&#x2F;span&gt;&lt;span&gt;  echo &amp;quot;No patches matched: $PATCH_GLOB&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;  exit 1
+&lt;&#x2F;span&gt;&lt;span&gt;fi
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;PATCH_HASH=&amp;quot;$(
+&lt;&#x2F;span&gt;&lt;span&gt;  {
+&lt;&#x2F;span&gt;&lt;span&gt;    printf &amp;#39;count=%s\n&amp;#39; &amp;quot;${#PATCH_FILES[@]}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    for p in &amp;quot;${PATCH_FILES[@]}&amp;quot;; do
+&lt;&#x2F;span&gt;&lt;span&gt;      # include path + file content
+&lt;&#x2F;span&gt;&lt;span&gt;      printf &amp;#39;file=%s\n&amp;#39; &amp;quot;$p&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;      sha256sum &amp;quot;$p&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    done
+&lt;&#x2F;span&gt;&lt;span&gt;  } | sha256sum | awk &amp;#39;{print $1}&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;KERNEL_COMMIT_FULL=&amp;quot;$(git rev-parse HEAD)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;STAMP_DIR=&amp;quot;${KERNEL_DIR}&#x2F;.surface-pro9-stamps&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;mkdir -p &amp;quot;$STAMP_DIR&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;STAMP_FILE=&amp;quot;${STAMP_DIR}&#x2F;patches-applied.commit-${KERNEL_COMMIT_FULL}.localversion-${LOCALVERSION_SUFFIX}.hash-${PATCH_HASH}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;if [[ -f &amp;quot;$STAMP_FILE&amp;quot; ]]; then
+&lt;&#x2F;span&gt;&lt;span&gt;  echo &amp;quot;[5&#x2F;10] Patches already applied for this kernel commit + patch set + localversion&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;else
+&lt;&#x2F;span&gt;&lt;span&gt;  echo &amp;quot;[5&#x2F;10] Applying patches via git am&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;  # If previous am is interrupted:
+&lt;&#x2F;span&gt;&lt;span&gt;  if [[ -d &amp;quot;.git&#x2F;rebase-apply&amp;quot; || -f &amp;quot;.git&#x2F;AM_ERROR&amp;quot; ]]; then
+&lt;&#x2F;span&gt;&lt;span&gt;    git am --abort &amp;gt;&#x2F;dev&#x2F;null 2&amp;gt;&amp;amp;1 || true
+&lt;&#x2F;span&gt;&lt;span&gt;  fi
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  # git am needs files in order
+&lt;&#x2F;span&gt;&lt;span&gt;  # We already expanded glob; preserve shell order (usually lexicographic). If you need explicit order,
+&lt;&#x2F;span&gt;&lt;span&gt;  # you can sort PATCH_FILES.
+&lt;&#x2F;span&gt;&lt;span&gt;  git am &amp;quot;${PATCH_FILES[@]}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  touch &amp;quot;$STAMP_FILE&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;fi
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# -------- build directory keyed by localversion + commit --------
+&lt;&#x2F;span&gt;&lt;span&gt;# Avoid mixing configs&#x2F;artifacts from different suffix&#x2F;commits.
+&lt;&#x2F;span&gt;&lt;span&gt;SHORT=&amp;quot;$(git rev-parse --short HEAD)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;SAFE_TAG=&amp;quot;${LOCALVERSION_SUFFIX&#x2F;&#x2F;[^A-Za-z0-9._+-]&#x2F;_}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;BUILD=&amp;quot;${BASE}&#x2F;builds&#x2F;${NAME}-${SHORT}${SAFE_TAG:+-${SAFE_TAG}}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# -------- validate inputs --------
+&lt;&#x2F;span&gt;&lt;span&gt;for f in &amp;quot;$CONFIG&amp;quot; &amp;quot;$MOK_KEY&amp;quot; &amp;quot;$MOK_CERT&amp;quot;; do
+&lt;&#x2F;span&gt;&lt;span&gt;  [[ -f &amp;quot;$f&amp;quot; ]] || { echo &amp;quot;Missing: $f&amp;quot;; exit 1; }
+&lt;&#x2F;span&gt;&lt;span&gt;done
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;mkdir -p &amp;quot;$BUILD&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;KERNEL_SRC=&amp;quot;$(readlink -f &amp;quot;$KERNEL_DIR&amp;quot; 2&amp;gt;&#x2F;dev&#x2F;null || echo &amp;quot;$KERNEL_DIR&amp;quot;)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;CLEAN_RHELVER=0
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Ensure Makefile.rhelver exists during build
+&lt;&#x2F;span&gt;&lt;span&gt;if [[ ! -e &amp;quot;$KERNEL_SRC&#x2F;Makefile.rhelver&amp;quot; ]]; then
+&lt;&#x2F;span&gt;&lt;span&gt;  ln -sf &amp;quot;$RHELVER&amp;quot; &amp;quot;$KERNEL_SRC&#x2F;Makefile.rhelver&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;  CLEAN_RHELVER=1
+&lt;&#x2F;span&gt;&lt;span&gt;fi
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# -------- config + localversion --------
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;[6&#x2F;10] Copy config to build dir&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;cp &amp;quot;$CONFIG&amp;quot; &amp;quot;$BUILD&#x2F;.config&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;[7&#x2F;10] Set CONFIG_LOCALVERSION + disable auto&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;$KERNEL_SRC&#x2F;scripts&#x2F;config&amp;quot; --file &amp;quot;$BUILD&#x2F;.config&amp;quot; --set-str CONFIG_LOCALVERSION &amp;quot;$LOCALVERSION_SUFFIX&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;$KERNEL_SRC&#x2F;scripts&#x2F;config&amp;quot; --file &amp;quot;$BUILD&#x2F;.config&amp;quot; --disable CONFIG_LOCALVERSION_AUTO
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;[8&#x2F;10] olddefconfig + build&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;make -C &amp;quot;$KERNEL_SRC&amp;quot; O=&amp;quot;$BUILD&amp;quot; olddefconfig
+&lt;&#x2F;span&gt;&lt;span&gt;make -C &amp;quot;$KERNEL_SRC&amp;quot; O=&amp;quot;$BUILD&amp;quot; -j&amp;quot;$(nproc)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;KREL=&amp;quot;$(make -C &amp;quot;$KERNEL_SRC&amp;quot; O=&amp;quot;$BUILD&amp;quot; -s kernelrelease)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;Built: $KREL&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# -------- install + sign + dracut --------
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;[9&#x2F;10] Install modules&#x2F;kernel + sign + initramfs&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo make -C &amp;quot;$KERNEL_SRC&amp;quot; O=&amp;quot;$BUILD&amp;quot; modules_install
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo install -Dm644 &amp;quot;$BUILD&#x2F;arch&#x2F;x86&#x2F;boot&#x2F;bzImage&amp;quot; &amp;quot;&#x2F;boot&#x2F;vmlinuz-$KREL&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo sbsign \
+&lt;&#x2F;span&gt;&lt;span&gt;  --key &amp;quot;$MOK_KEY&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  --cert &amp;quot;$MOK_CERT&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  --output &amp;quot;&#x2F;boot&#x2F;vmlinuz-$KREL.signed&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;&#x2F;boot&#x2F;vmlinuz-$KREL&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo mv &amp;quot;&#x2F;boot&#x2F;vmlinuz-$KREL.signed&amp;quot; &amp;quot;&#x2F;boot&#x2F;vmlinuz-$KREL&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo dracut --force &amp;quot;&#x2F;boot&#x2F;initramfs-$KREL.img&amp;quot; &amp;quot;$KREL&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo ln -sf &amp;quot;&#x2F;boot&#x2F;vmlinuz-$KREL&amp;quot; &amp;quot;&#x2F;usr&#x2F;lib&#x2F;modules&#x2F;$KREL&#x2F;vmlinuz&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo kernel-install add &amp;quot;$KREL&amp;quot; &amp;quot;&#x2F;boot&#x2F;vmlinuz-$KREL&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;if [[ &amp;quot;$CLEAN_RHELVER&amp;quot; == &amp;quot;1&amp;quot; ]]; then
+&lt;&#x2F;span&gt;&lt;span&gt;  rm -f &amp;quot;$KERNEL_SRC&#x2F;Makefile.rhelver&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;fi
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;[10&#x2F;10] DONE&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;$KREL installed&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;known-caveats&quot;&gt;known caveats:&lt;&#x2F;h3&gt;
+&lt;p&gt;ipts driver built into kernel, so not exactly sure how i would change any config sensitivity, i will experiment with settings in the config file that iptsd is said to use here: &lt;a href=&quot;https:&#x2F;&#x2F;inktheghost.com&#x2F;blog&#x2F;linux-surface-fedora-pt-2&#x2F;iptsd-config&quot;&gt;https:&#x2F;&#x2F;github.com&#x2F;linux-surface&#x2F;linux-surface&#x2F;wiki&#x2F;Surface-Pro-9&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;quoted below:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;code&gt;The touchscreen may behave erratically due to wrong or missing calibration values.&lt;&#x2F;code&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;code&gt;To fix this, remove any existing calibration files present and create a new calibration file with the below values in &#x2F;etc&#x2F;iptsd.d&#x2F; (for example &#x2F;etc&#x2F;iptsd.d&#x2F;91-calibration.conf), reboot your SP9 and your touchscreen should be smooth as butter:&lt;&#x2F;code&gt;&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;[Contacts]
+&lt;&#x2F;span&gt;&lt;span&gt;ActivationThreshold = 24
+&lt;&#x2F;span&gt;&lt;span&gt;DeactivationThreshold = 20
+&lt;&#x2F;span&gt;&lt;span&gt;OrientationThresholdMax = 5
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Source: &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;linux-surface&#x2F;iptsd&#x2F;issues&#x2F;171#issuecomment-2359625900&quot;&gt;https:&#x2F;&#x2F;github.com&#x2F;linux-surface&#x2F;iptsd&#x2F;issues&#x2F;171#issuecomment-2359625900&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;i have confirmed that i have settings present in the config file above from my previous installation using linux-surface repo w&#x2F; fedora install, but i&#x27;m unsure that value is being used. however, its working fine&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>

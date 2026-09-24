@@ -1,0 +1,862 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>ink the ghost - ghostmirror</title>
+    <link rel="self" type="application/atom+xml" href="https://inktheghost.com/tags/ghostmirror/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://inktheghost.com"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2026-03-01T00:00:00+00:00</updated>
+    <id>https://inktheghost.com/tags/ghostmirror/atom.xml</id>
+    <entry xml:lang="en">
+        <title>ghostmirror</title>
+        <published>2026-03-01T00:00:00+00:00</published>
+        <updated>2026-03-01T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/ghostmirror/"/>
+        <id>https://inktheghost.com/blog/ghostmirror/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/ghostmirror/">&lt;h1 id=&quot;ghostmirror&quot;&gt;ghostmirror&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;16-51&quot;&gt;16:51&lt;&#x2F;h2&gt;
+&lt;p&gt;so i&#x27;ve been playing around with ghostmirror a bit, first i got my rate-mirror script working with the help of CSCS at cachyos forum, this was used to test the command in the update.sh script&lt;&#x2F;p&gt;
+&lt;p&gt;update-mirrors.sh&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;!&#x2F;bin&#x2F;bash
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;rate-mirrors --disable-comments cachyos | sudo tee &#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;rate-mirrors --disable-comments arch | sudo tee &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo cp -f --backup=simple --suffix=&amp;quot;-backup&amp;quot; &amp;quot;&#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist&amp;quot; &amp;quot;&#x2F;etc&#x2F;pacman.d&#x2F;cachyos-v3-mirrorlist&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;#sudo cp -f --backup=simple --suffix=&amp;quot;-backup&amp;quot; &amp;quot;&#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist&amp;quot; &amp;quot;&#x2F;etc&#x2F;pacman.d&#x2F;cachyos-v4-mirrorlist&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo sed -i &amp;#39;s|&#x2F;$arch&#x2F;|&#x2F;$arch_v3&#x2F;|g&amp;#39; &amp;quot;&#x2F;etc&#x2F;pacman.d&#x2F;cachyos-v3-mirrorlist&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;#sudo sed -i &amp;#39;s|&#x2F;$arch&#x2F;|&#x2F;$arch_v4&#x2F;|g&amp;#39; &amp;quot;&#x2F;etc&#x2F;pacman.d&#x2F;cachyos-v4-mirrorlist&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo pacman -Syyu
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;here&#x27;s the output after running my update script on top of the rate-mirror provided mirrorlists:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;==&amp;gt; Starting Update...
+&lt;&#x2F;span&gt;&lt;span&gt;:: Building CachyOS Servers List:
+&lt;&#x2F;span&gt;&lt;span&gt;[sudo] password for joe:
+&lt;&#x2F;span&gt;&lt;span&gt; --&amp;gt; Ranking mirrors for cachyos repository in &#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist...
+&lt;&#x2F;span&gt;&lt;span&gt;# STARTED AT: 2026-03-01 15:22:32.177893597 -07:00
+&lt;&#x2F;span&gt;&lt;span&gt;# VERSION: 0.27.0
+&lt;&#x2F;span&gt;&lt;span&gt;# ARGS: rate-mirrors --save &#x2F;tmp&#x2F;tmp.oVENCYT6oG cachyos
+&lt;&#x2F;span&gt;&lt;span&gt;# MIRRORS LEFT AFTER FILTERING: 24
+&lt;&#x2F;span&gt;&lt;span&gt;# JUMP #1
+&lt;&#x2F;span&gt;&lt;span&gt;# EXPLORING US
+&lt;&#x2F;span&gt;&lt;span&gt;# VISITED US
+&lt;&#x2F;span&gt;&lt;span&gt;# BLANK ITERATION
+&lt;&#x2F;span&gt;&lt;span&gt;# COUNTRY JUMPING YIELDED TOO FEW MIRRORS (0), ADDING OTHERS TO UNLABELED
+&lt;&#x2F;span&gt;&lt;span&gt;#
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# TESTING UNLABELED MIRRORS
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 6.4 MB&#x2F;s; elapsed: 920ms; connection_time: 278ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 866.8 KB&#x2F;s; elapsed: 987ms; connection_time: 224ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 418.7 KB&#x2F;s; elapsed: 934ms; connection_time: 277ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 655.1 KB&#x2F;s; elapsed: 931ms; connection_time: 280ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 1.3 MB&#x2F;s; elapsed: 965ms; connection_time: 328ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 1.1 MB&#x2F;s; elapsed: 979ms; connection_time: 404ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 586.1 KB&#x2F;s; elapsed: 977ms; connection_time: 508ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 894.0 KB&#x2F;s; elapsed: 952ms; connection_time: 525ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 396.9 KB&#x2F;s; elapsed: 990ms; connection_time: 563ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 272.6 KB&#x2F;s; elapsed: 885ms; connection_time: 589ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 523.8 KB&#x2F;s; elapsed: 1.00s; connection_time: 716ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 444.9 KB&#x2F;s; elapsed: 992ms; connection_time: 739ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 202.0 KB&#x2F;s; elapsed: 950ms; connection_time: 731ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 516.9 KB&#x2F;s; elapsed: 982ms; connection_time: 730ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 903.3 KB&#x2F;s; elapsed: 981ms; connection_time: 727ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 686.7 KB&#x2F;s; elapsed: 978ms; connection_time: 732ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 796.8 KB&#x2F;s; elapsed: 945ms; connection_time: 776ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 540.2 KB&#x2F;s; elapsed: 962ms; connection_time: 814ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 575.0 KB&#x2F;s; elapsed: 997ms; connection_time: 950ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 284.0 KB&#x2F;s; elapsed: 993ms; connection_time: 1.02s }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 273.7 KB&#x2F;s; elapsed: 896ms; connection_time: 1.21s }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 231.2 KB&#x2F;s; elapsed: 991ms; connection_time: 1.23s }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 156.2 KB&#x2F;s; elapsed: 837ms; connection_time: 1.44s }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 150.1 KB&#x2F;s; elapsed: 959ms; connection_time: 1.51s }
+&lt;&#x2F;span&gt;&lt;span&gt;#
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# RE-TESTING TOP MIRRORS
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 6.4 MB&#x2F;s; elapsed: 641ms; connection_time: 193ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 2.8 MB&#x2F;s; elapsed: 991ms; connection_time: 393ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 1.8 MB&#x2F;s; elapsed: 990ms; connection_time: 448ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 1.1 MB&#x2F;s; elapsed: 984ms; connection_time: 885ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 2.6 MB&#x2F;s; elapsed: 954ms; connection_time: 415ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# ==== RESULTS (top re-tested) ====
+&lt;&#x2F;span&gt;&lt;span&gt;#   1. SpeedTestResult { speed: 6.4 MB&#x2F;s; elapsed: 641ms; connection_time: 193ms } -&amp;gt; https:&#x2F;&#x2F;us.cachyos.org&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#   2. SpeedTestResult { speed: 2.8 MB&#x2F;s; elapsed: 991ms; connection_time: 393ms } -&amp;gt; https:&#x2F;&#x2F;ca.mirror.cx&#x2F;cachyos&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#   3. SpeedTestResult { speed: 2.6 MB&#x2F;s; elapsed: 954ms; connection_time: 415ms } -&amp;gt; https:&#x2F;&#x2F;mirror.allthingslinux.org&#x2F;cachyos&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#   4. SpeedTestResult { speed: 1.8 MB&#x2F;s; elapsed: 990ms; connection_time: 448ms } -&amp;gt; https:&#x2F;&#x2F;cachyos.doridian.net&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#   5. SpeedTestResult { speed: 1.1 MB&#x2F;s; elapsed: 984ms; connection_time: 885ms } -&amp;gt; https:&#x2F;&#x2F;mirror.cachyos.org&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#   6. SpeedTestResult { speed: 866.8 KB&#x2F;s; elapsed: 987ms; connection_time: 224ms } -&amp;gt; https:&#x2F;&#x2F;us-mnz.soulharsh007.dev&#x2F;cachyos&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#   7. SpeedTestResult { speed: 796.8 KB&#x2F;s; elapsed: 945ms; connection_time: 776ms } -&amp;gt; https:&#x2F;&#x2F;at.cachyos.org&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#   8. SpeedTestResult { speed: 686.7 KB&#x2F;s; elapsed: 978ms; connection_time: 732ms } -&amp;gt; https:&#x2F;&#x2F;de-nue.soulharsh007.dev&#x2F;cachyos&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#   9. SpeedTestResult { speed: 655.1 KB&#x2F;s; elapsed: 931ms; connection_time: 280ms } -&amp;gt; https:&#x2F;&#x2F;cdn.lansing2600.org&#x2F;cachyos&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#  10. SpeedTestResult { speed: 586.1 KB&#x2F;s; elapsed: 977ms; connection_time: 508ms } -&amp;gt; https:&#x2F;&#x2F;cdn77.cachyos.org&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#  11. SpeedTestResult { speed: 575.0 KB&#x2F;s; elapsed: 997ms; connection_time: 950ms } -&amp;gt; https:&#x2F;&#x2F;mirror.jura12.ru&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#  12. SpeedTestResult { speed: 540.2 KB&#x2F;s; elapsed: 962ms; connection_time: 814ms } -&amp;gt; https:&#x2F;&#x2F;mirror.lesviallon.fr&#x2F;cachy&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#  13. SpeedTestResult { speed: 523.8 KB&#x2F;s; elapsed: 1.00s; connection_time: 716ms } -&amp;gt; https:&#x2F;&#x2F;mirror.hb9hil.org&#x2F;cachyos&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#  14. SpeedTestResult { speed: 516.9 KB&#x2F;s; elapsed: 982ms; connection_time: 730ms } -&amp;gt; https:&#x2F;&#x2F;nl.mirror.cx&#x2F;cachyos&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#  15. SpeedTestResult { speed: 444.9 KB&#x2F;s; elapsed: 992ms; connection_time: 739ms } -&amp;gt; https:&#x2F;&#x2F;no.mirror.cx&#x2F;cachyos&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#  16. SpeedTestResult { speed: 418.7 KB&#x2F;s; elapsed: 934ms; connection_time: 277ms } -&amp;gt; https:&#x2F;&#x2F;mirrors.lansing2600.org&#x2F;cachyos&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#  17. SpeedTestResult { speed: 396.9 KB&#x2F;s; elapsed: 990ms; connection_time: 563ms } -&amp;gt; https:&#x2F;&#x2F;cachyos.next-works.it&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#  18. SpeedTestResult { speed: 284.0 KB&#x2F;s; elapsed: 993ms; connection_time: 1.02s } -&amp;gt; https:&#x2F;&#x2F;mirror.zyner.org&#x2F;mirror&#x2F;cachyos&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#  19. SpeedTestResult { speed: 273.7 KB&#x2F;s; elapsed: 896ms; connection_time: 1.21s } -&amp;gt; https:&#x2F;&#x2F;mirror.nju.edu.cn&#x2F;cachyos&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#  20. SpeedTestResult { speed: 272.6 KB&#x2F;s; elapsed: 885ms; connection_time: 589ms } -&amp;gt; https:&#x2F;&#x2F;cdn.cachyos.org&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#  21. SpeedTestResult { speed: 231.2 KB&#x2F;s; elapsed: 991ms; connection_time: 1.23s } -&amp;gt; https:&#x2F;&#x2F;mirrors.ustc.edu.cn&#x2F;cachyos&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#  22. SpeedTestResult { speed: 202.0 KB&#x2F;s; elapsed: 950ms; connection_time: 731ms } -&amp;gt; https:&#x2F;&#x2F;archlinux.gay&#x2F;cachy&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#  23. SpeedTestResult { speed: 156.2 KB&#x2F;s; elapsed: 837ms; connection_time: 1.44s } -&amp;gt; https:&#x2F;&#x2F;mirror.limda.net&#x2F;cachy&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#  24. SpeedTestResult { speed: 150.1 KB&#x2F;s; elapsed: 959ms; connection_time: 1.51s } -&amp;gt; https:&#x2F;&#x2F;mirror.meowsmp.net&#x2F;cachyOS&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;# FINISHED AT: 2026-03-01 15:22:42.491985366 -07:00
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;us.cachyos.org&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;ca.mirror.cx&#x2F;cachyos&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;mirror.allthingslinux.org&#x2F;cachyos&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;cachyos.doridian.net&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;mirror.cachyos.org&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;us-mnz.soulharsh007.dev&#x2F;cachyos&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;at.cachyos.org&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;de-nue.soulharsh007.dev&#x2F;cachyos&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;cdn.lansing2600.org&#x2F;cachyos&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;cdn77.cachyos.org&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;mirror.jura12.ru&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;mirror.lesviallon.fr&#x2F;cachy&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;mirror.hb9hil.org&#x2F;cachyos&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;nl.mirror.cx&#x2F;cachyos&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;no.mirror.cx&#x2F;cachyos&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;mirrors.lansing2600.org&#x2F;cachyos&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;cachyos.next-works.it&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;mirror.zyner.org&#x2F;mirror&#x2F;cachyos&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;mirror.nju.edu.cn&#x2F;cachyos&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;cdn.cachyos.org&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;mirrors.ustc.edu.cn&#x2F;cachyos&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;archlinux.gay&#x2F;cachy&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;mirror.limda.net&#x2F;cachy&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;mirror.meowsmp.net&#x2F;cachyOS&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;==&amp;gt; Done [cachyos] &#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;# STARTED AT: 2026-03-01 15:22:32.177893597 -07:00
+&lt;&#x2F;span&gt;&lt;span&gt;# VERSION: 0.27.0
+&lt;&#x2F;span&gt;&lt;span&gt;# ARGS: rate-mirrors --save &#x2F;tmp&#x2F;tmp.oVENCYT6oG cachyos
+&lt;&#x2F;span&gt;&lt;span&gt;# MIRRORS LEFT AFTER FILTERING: 24
+&lt;&#x2F;span&gt;&lt;span&gt;# JUMP #1
+&lt;&#x2F;span&gt;&lt;span&gt;# EXPLORING US
+&lt;&#x2F;span&gt;&lt;span&gt;# VISITED US
+&lt;&#x2F;span&gt;&lt;span&gt;# BLANK ITERATION
+&lt;&#x2F;span&gt;&lt;span&gt;# COUNTRY JUMPING YIELDED TOO FEW MIRRORS (0), ADDING OTHERS TO UNLABELED
+&lt;&#x2F;span&gt;&lt;span&gt;#
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# TESTING UNLABELED MIRRORS
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 6.4 MB&#x2F;s; elapsed: 920ms; connection_time: 278ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 866.8 KB&#x2F;s; elapsed: 987ms; connection_time: 224ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 418.7 KB&#x2F;s; elapsed: 934ms; connection_time: 277ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 655.1 KB&#x2F;s; elapsed: 931ms; connection_time: 280ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 1.3 MB&#x2F;s; elapsed: 965ms; connection_time: 328ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 1.1 MB&#x2F;s; elapsed: 979ms; connection_time: 404ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 586.1 KB&#x2F;s; elapsed: 977ms; connection_time: 508ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 894.0 KB&#x2F;s; elapsed: 952ms; connection_time: 525ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 396.9 KB&#x2F;s; elapsed: 990ms; connection_time: 563ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 272.6 KB&#x2F;s; elapsed: 885ms; connection_time: 589ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 523.8 KB&#x2F;s; elapsed: 1.00s; connection_time: 716ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 444.9 KB&#x2F;s; elapsed: 992ms; connection_time: 739ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 202.0 KB&#x2F;s; elapsed: 950ms; connection_time: 731ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 516.9 KB&#x2F;s; elapsed: 982ms; connection_time: 730ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 903.3 KB&#x2F;s; elapsed: 981ms; connection_time: 727ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 686.7 KB&#x2F;s; elapsed: 978ms; connection_time: 732ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 796.8 KB&#x2F;s; elapsed: 945ms; connection_time: 776ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 540.2 KB&#x2F;s; elapsed: 962ms; connection_time: 814ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 575.0 KB&#x2F;s; elapsed: 997ms; connection_time: 950ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 284.0 KB&#x2F;s; elapsed: 993ms; connection_time: 1.02s }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 273.7 KB&#x2F;s; elapsed: 896ms; connection_time: 1.21s }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 231.2 KB&#x2F;s; elapsed: 991ms; connection_time: 1.23s }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 156.2 KB&#x2F;s; elapsed: 837ms; connection_time: 1.44s }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 150.1 KB&#x2F;s; elapsed: 959ms; connection_time: 1.51s }
+&lt;&#x2F;span&gt;&lt;span&gt;#
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# RE-TESTING TOP MIRRORS
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 6.4 MB&#x2F;s; elapsed: 641ms; connection_time: 193ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 2.8 MB&#x2F;s; elapsed: 991ms; connection_time: 393ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 1.8 MB&#x2F;s; elapsed: 990ms; connection_time: 448ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 1.1 MB&#x2F;s; elapsed: 984ms; connection_time: 885ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# SpeedTestResult { speed: 2.6 MB&#x2F;s; elapsed: 954ms; connection_time: 415ms }
+&lt;&#x2F;span&gt;&lt;span&gt;# ==== RESULTS (top re-tested) ====
+&lt;&#x2F;span&gt;&lt;span&gt;#   1. SpeedTestResult { speed: 6.4 MB&#x2F;s; elapsed: 641ms; connection_time: 193ms } -&amp;gt; https:&#x2F;&#x2F;us.cachyos.org&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#   2. SpeedTestResult { speed: 2.8 MB&#x2F;s; elapsed: 991ms; connection_time: 393ms } -&amp;gt; https:&#x2F;&#x2F;ca.mirror.cx&#x2F;cachyos&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#   3. SpeedTestResult { speed: 2.6 MB&#x2F;s; elapsed: 954ms; connection_time: 415ms } -&amp;gt; https:&#x2F;&#x2F;mirror.allthingslinux.org&#x2F;cachyos&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#   4. SpeedTestResult { speed: 1.8 MB&#x2F;s; elapsed: 990ms; connection_time: 448ms } -&amp;gt; https:&#x2F;&#x2F;cachyos.doridian.net&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#   5. SpeedTestResult { speed: 1.1 MB&#x2F;s; elapsed: 984ms; connection_time: 885ms } -&amp;gt; https:&#x2F;&#x2F;mirror.cachyos.org&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#   6. SpeedTestResult { speed: 866.8 KB&#x2F;s; elapsed: 987ms; connection_time: 224ms } -&amp;gt; https:&#x2F;&#x2F;us-mnz.soulharsh007.dev&#x2F;cachyos&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#   7. SpeedTestResult { speed: 796.8 KB&#x2F;s; elapsed: 945ms; connection_time: 776ms } -&amp;gt; https:&#x2F;&#x2F;at.cachyos.org&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#   8. SpeedTestResult { speed: 686.7 KB&#x2F;s; elapsed: 978ms; connection_time: 732ms } -&amp;gt; https:&#x2F;&#x2F;de-nue.soulharsh007.dev&#x2F;cachyos&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#   9. SpeedTestResult { speed: 655.1 KB&#x2F;s; elapsed: 931ms; connection_time: 280ms } -&amp;gt; https:&#x2F;&#x2F;cdn.lansing2600.org&#x2F;cachyos&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#  10. SpeedTestResult { speed: 586.1 KB&#x2F;s; elapsed: 977ms; connection_time: 508ms } -&amp;gt; https:&#x2F;&#x2F;cdn77.cachyos.org&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#  11. SpeedTestResult { speed: 575.0 KB&#x2F;s; elapsed: 997ms; connection_time: 950ms } -&amp;gt; https:&#x2F;&#x2F;mirror.jura12.ru&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#  12. SpeedTestResult { speed: 540.2 KB&#x2F;s; elapsed: 962ms; connection_time: 814ms } -&amp;gt; https:&#x2F;&#x2F;mirror.lesviallon.fr&#x2F;cachy&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#  13. SpeedTestResult { speed: 523.8 KB&#x2F;s; elapsed: 1.00s; connection_time: 716ms } -&amp;gt; https:&#x2F;&#x2F;mirror.hb9hil.org&#x2F;cachyos&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#  14. SpeedTestResult { speed: 516.9 KB&#x2F;s; elapsed: 982ms; connection_time: 730ms } -&amp;gt; https:&#x2F;&#x2F;nl.mirror.cx&#x2F;cachyos&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#  15. SpeedTestResult { speed: 444.9 KB&#x2F;s; elapsed: 992ms; connection_time: 739ms } -&amp;gt; https:&#x2F;&#x2F;no.mirror.cx&#x2F;cachyos&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#  16. SpeedTestResult { speed: 418.7 KB&#x2F;s; elapsed: 934ms; connection_time: 277ms } -&amp;gt; https:&#x2F;&#x2F;mirrors.lansing2600.org&#x2F;cachyos&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#  17. SpeedTestResult { speed: 396.9 KB&#x2F;s; elapsed: 990ms; connection_time: 563ms } -&amp;gt; https:&#x2F;&#x2F;cachyos.next-works.it&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#  18. SpeedTestResult { speed: 284.0 KB&#x2F;s; elapsed: 993ms; connection_time: 1.02s } -&amp;gt; https:&#x2F;&#x2F;mirror.zyner.org&#x2F;mirror&#x2F;cachyos&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#  19. SpeedTestResult { speed: 273.7 KB&#x2F;s; elapsed: 896ms; connection_time: 1.21s } -&amp;gt; https:&#x2F;&#x2F;mirror.nju.edu.cn&#x2F;cachyos&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#  20. SpeedTestResult { speed: 272.6 KB&#x2F;s; elapsed: 885ms; connection_time: 589ms } -&amp;gt; https:&#x2F;&#x2F;cdn.cachyos.org&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#  21. SpeedTestResult { speed: 231.2 KB&#x2F;s; elapsed: 991ms; connection_time: 1.23s } -&amp;gt; https:&#x2F;&#x2F;mirrors.ustc.edu.cn&#x2F;cachyos&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#  22. SpeedTestResult { speed: 202.0 KB&#x2F;s; elapsed: 950ms; connection_time: 731ms } -&amp;gt; https:&#x2F;&#x2F;archlinux.gay&#x2F;cachy&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#  23. SpeedTestResult { speed: 156.2 KB&#x2F;s; elapsed: 837ms; connection_time: 1.44s } -&amp;gt; https:&#x2F;&#x2F;mirror.limda.net&#x2F;cachy&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;#  24. SpeedTestResult { speed: 150.1 KB&#x2F;s; elapsed: 959ms; connection_time: 1.51s } -&amp;gt; https:&#x2F;&#x2F;mirror.meowsmp.net&#x2F;cachyOS&#x2F;repo&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;# FINISHED AT: 2026-03-01 15:22:42.491985366 -07:00
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;us.cachyos.org&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;ca.mirror.cx&#x2F;cachyos&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;mirror.allthingslinux.org&#x2F;cachyos&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;cachyos.doridian.net&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;mirror.cachyos.org&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;us-mnz.soulharsh007.dev&#x2F;cachyos&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;at.cachyos.org&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;de-nue.soulharsh007.dev&#x2F;cachyos&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;cdn.lansing2600.org&#x2F;cachyos&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;cdn77.cachyos.org&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;mirror.jura12.ru&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;mirror.lesviallon.fr&#x2F;cachy&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;mirror.hb9hil.org&#x2F;cachyos&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;nl.mirror.cx&#x2F;cachyos&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;no.mirror.cx&#x2F;cachyos&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;mirrors.lansing2600.org&#x2F;cachyos&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;cachyos.next-works.it&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;mirror.zyner.org&#x2F;mirror&#x2F;cachyos&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;mirror.nju.edu.cn&#x2F;cachyos&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;cdn.cachyos.org&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;mirrors.ustc.edu.cn&#x2F;cachyos&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;archlinux.gay&#x2F;cachy&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;mirror.limda.net&#x2F;cachy&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;Server = https:&#x2F;&#x2F;mirror.meowsmp.net&#x2F;cachyOS&#x2F;repo&#x2F;$arch&#x2F;$repo
+&lt;&#x2F;span&gt;&lt;span&gt;:: Building Arch Servers List:
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;berlin.mirror.pkgbuild.com
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;fr.mirrors.cicku.me&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;arch.jsc.mx
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;mirror.moson.org&#x2F;arch
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;ru.mirrors.cicku.me&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;nl.mirrors.cicku.me&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;es.mirrors.cicku.me&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;kr.mirrors.cicku.me&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;mirror.rackspace.com&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;fastly.mirror.pkgbuild.com
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;gluttony.sin.cvut.cz&#x2F;arch
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;ro.arch.niranjan.co
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;lidsol.fi-b.unam.mx&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;mirror.osbeck.com&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;br.mirrors.cicku.me&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;geo.mirror.pkgbuild.com
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;mirror.quantum5.ca&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;it.mirrors.cicku.me&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;mirrors.dotsrc.org&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] https:&#x2F;&#x2F;mirror.1ago.be&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] https:&#x2F;&#x2F;mirrors.uni-plovdiv.net&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] https:&#x2F;&#x2F;arch.mirror.hyperbit.it
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] https:&#x2F;&#x2F;mirror.gi.co.id&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] https:&#x2F;&#x2F;repo.hyron.dev&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] https:&#x2F;&#x2F;at.arch.niranjan.co
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] https:&#x2F;&#x2F;ftp.sh.cvut.cz&#x2F;arch
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] https:&#x2F;&#x2F;ch.mirrors.cicku.me&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] https:&#x2F;&#x2F;singapore.mirror.pkgbuild.com
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] https:&#x2F;&#x2F;london.mirror.pkgbuild.com
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;mirrors.xtom.ee&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] http:&#x2F;&#x2F;arch.softver.org.mk&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] https:&#x2F;&#x2F;glua.ua.pt&#x2F;pub&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] https:&#x2F;&#x2F;mirror.cyberbits.eu&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] https:&#x2F;&#x2F;arch.midov.pl&#x2F;arch
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;mirror.tux.si&#x2F;arch
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] https:&#x2F;&#x2F;us.arch.niranjan.co
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;archlinux.koyanet.lv&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;mirror.sahil.world&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;mirrors.jlu.edu.cn&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;mirrors.ustc.edu.cn&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] https:&#x2F;&#x2F;sg.arch.niranjan.co
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;mirror.scd31.com&#x2F;arch
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;mirror.raiolanetworks.com&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;mirrors.pidginhost.com&#x2F;arch
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;arch.mirror.constant.com
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] https:&#x2F;&#x2F;mirror.neuf.no&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;edgeuno-bog2.mm.fcix.net&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] http:&#x2F;&#x2F;elmirror.cl&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] https:&#x2F;&#x2F;ftp.energotel.sk&#x2F;pub&#x2F;linux&#x2F;arch
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] https:&#x2F;&#x2F;archlinux.uk.mirror.allworldit.com&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] http:&#x2F;&#x2F;tux.rainside.sk&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;at.arch.mirror.kescher.at
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;mirror.ufscar.br&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;jp.mirrors.cicku.me&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;archlinux.kushwanthreddy.com
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;mirror.group.one&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;repository.su&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] https:&#x2F;&#x2F;mirror.ditatompel.com&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] http:&#x2F;&#x2F;mirrors.udenar.edu.co&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;mirror.trapmaid.org&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;no.mirror.cx&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] http:&#x2F;&#x2F;archlinux.iskon.hr
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] https:&#x2F;&#x2F;mirror.anquan.cl&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] https:&#x2F;&#x2F;umea.mirror.pkgbuild.com
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] https:&#x2F;&#x2F;mirror.barata.pt&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] https:&#x2F;&#x2F;ftp.linux.edu.lv&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] https:&#x2F;&#x2F;mirror.juniorjpdj.pl&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] https:&#x2F;&#x2F;mirrors.teamcloud.am&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;mirror.abderraziq.com&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] https:&#x2F;&#x2F;mirror2.keiminem.com&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] https:&#x2F;&#x2F;mirrors.atviras.lt&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] https:&#x2F;&#x2F;mirror.twds.com.tw&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] https:&#x2F;&#x2F;mirror.tiguinet.net&#x2F;arch
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;fi.arch.niranjan.co
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] https:&#x2F;&#x2F;ftpmirror.infania.net&#x2F;mirror&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] https:&#x2F;&#x2F;mirror.sinirlan.net&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] https:&#x2F;&#x2F;theswissbay.ch&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] https:&#x2F;&#x2F;mirror.t-home.mk&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] https:&#x2F;&#x2F;mirror.telepoint.bg&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] https:&#x2F;&#x2F;www.miraa.jp&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] https:&#x2F;&#x2F;mirror.archlinux.si
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] https:&#x2F;&#x2F;arch.yhtez.xyz
+&lt;&#x2F;span&gt;&lt;span&gt;[ fail ] https:&#x2F;&#x2F;taipei.mirror.pkgbuild.com
+&lt;&#x2F;span&gt;&lt;span&gt;[   4.2MiB&#x2F;s ] https:&#x2F;&#x2F;arch.jsc.mx
+&lt;&#x2F;span&gt;&lt;span&gt;[   6.5MiB&#x2F;s ] https:&#x2F;&#x2F;nl.mirrors.cicku.me&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   2.9MiB&#x2F;s ] https:&#x2F;&#x2F;mirror.rackspace.com&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   3.2MiB&#x2F;s ] https:&#x2F;&#x2F;lidsol.fi-b.unam.mx&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   4.2MiB&#x2F;s ] https:&#x2F;&#x2F;br.mirrors.cicku.me&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   5.1MiB&#x2F;s ] https:&#x2F;&#x2F;it.mirrors.cicku.me&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   2.2MiB&#x2F;s ] https:&#x2F;&#x2F;ru.mirrors.cicku.me&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   4.3MiB&#x2F;s ] https:&#x2F;&#x2F;es.mirrors.cicku.me&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   1.4MiB&#x2F;s ] https:&#x2F;&#x2F;fastly.mirror.pkgbuild.com
+&lt;&#x2F;span&gt;&lt;span&gt;[   7.4MiB&#x2F;s ] https:&#x2F;&#x2F;mirror.osbeck.com&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   3.9MiB&#x2F;s ] https:&#x2F;&#x2F;mirror.quantum5.ca&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   1.3MiB&#x2F;s ] https:&#x2F;&#x2F;mirrors.dotsrc.org&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   0.7MiB&#x2F;s ] https:&#x2F;&#x2F;mirror.moson.org&#x2F;arch
+&lt;&#x2F;span&gt;&lt;span&gt;[   2.9MiB&#x2F;s ] https:&#x2F;&#x2F;kr.mirrors.cicku.me&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   0.3MiB&#x2F;s ] https:&#x2F;&#x2F;mirror.scd31.com&#x2F;arch
+&lt;&#x2F;span&gt;&lt;span&gt;[   1.8MiB&#x2F;s ] https:&#x2F;&#x2F;arch.mirror.constant.com
+&lt;&#x2F;span&gt;&lt;span&gt;[   1.9MiB&#x2F;s ] https:&#x2F;&#x2F;at.arch.mirror.kescher.at
+&lt;&#x2F;span&gt;&lt;span&gt;[   2.8MiB&#x2F;s ] https:&#x2F;&#x2F;jp.mirrors.cicku.me&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   2.9MiB&#x2F;s ] https:&#x2F;&#x2F;fr.mirrors.cicku.me&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] https:&#x2F;&#x2F;arch.midov.pl&#x2F;arch
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] https:&#x2F;&#x2F;us.arch.niranjan.co
+&lt;&#x2F;span&gt;&lt;span&gt;[   0.7MiB&#x2F;s ] https:&#x2F;&#x2F;mirror.ufscar.br&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] https:&#x2F;&#x2F;mirror.anquan.cl&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] https:&#x2F;&#x2F;mirror.barata.pt&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   0.4MiB&#x2F;s ] https:&#x2F;&#x2F;geo.mirror.pkgbuild.com
+&lt;&#x2F;span&gt;&lt;span&gt;[   1.1MiB&#x2F;s ] https:&#x2F;&#x2F;mirrors.xtom.ee&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   1.6MiB&#x2F;s ] https:&#x2F;&#x2F;archlinux.koyanet.lv&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   0.8MiB&#x2F;s ] https:&#x2F;&#x2F;mirrors.pidginhost.com&#x2F;arch
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] https:&#x2F;&#x2F;mirrors.atviras.lt&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] https:&#x2F;&#x2F;mirror.twds.com.tw&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   0.8MiB&#x2F;s ] https:&#x2F;&#x2F;ro.arch.niranjan.co
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] http:&#x2F;&#x2F;elmirror.cl&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] https:&#x2F;&#x2F;archlinux.uk.mirror.allworldit.com&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] https:&#x2F;&#x2F;mirror.sinirlan.net&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] https:&#x2F;&#x2F;theswissbay.ch&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] https:&#x2F;&#x2F;taipei.mirror.pkgbuild.com
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] https:&#x2F;&#x2F;arch.mirror.hyperbit.it
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] https:&#x2F;&#x2F;ch.mirrors.cicku.me&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   0.9MiB&#x2F;s ] https:&#x2F;&#x2F;mirrors.jlu.edu.cn&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   1.4MiB&#x2F;s ] https:&#x2F;&#x2F;mirror.raiolanetworks.com&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   0.7MiB&#x2F;s ] http:&#x2F;&#x2F;tux.rainside.sk&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   0.9MiB&#x2F;s ] https:&#x2F;&#x2F;mirror.group.one&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] https:&#x2F;&#x2F;mirrors.uni-plovdiv.net&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] https:&#x2F;&#x2F;singapore.mirror.pkgbuild.com
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] https:&#x2F;&#x2F;mirror.ditatompel.com&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] http:&#x2F;&#x2F;mirrors.udenar.edu.co&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   2.6MiB&#x2F;s ] https:&#x2F;&#x2F;mirror.trapmaid.org&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] https:&#x2F;&#x2F;www.miraa.jp&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   0.9MiB&#x2F;s ] https:&#x2F;&#x2F;gluttony.sin.cvut.cz&#x2F;arch
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] https:&#x2F;&#x2F;mirror.neuf.no&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] https:&#x2F;&#x2F;ftp.energotel.sk&#x2F;pub&#x2F;linux&#x2F;arch
+&lt;&#x2F;span&gt;&lt;span&gt;[   0.8MiB&#x2F;s ] https:&#x2F;&#x2F;repository.su&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   0.8MiB&#x2F;s ] https:&#x2F;&#x2F;no.mirror.cx&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   0.7MiB&#x2F;s ] https:&#x2F;&#x2F;fi.arch.niranjan.co
+&lt;&#x2F;span&gt;&lt;span&gt;[   0.7MiB&#x2F;s ] https:&#x2F;&#x2F;berlin.mirror.pkgbuild.com
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] https:&#x2F;&#x2F;glua.ua.pt&#x2F;pub&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] https:&#x2F;&#x2F;mirror.cyberbits.eu&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   1.4MiB&#x2F;s ] https:&#x2F;&#x2F;edgeuno-bog2.mm.fcix.net&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] https:&#x2F;&#x2F;mirror.tiguinet.net&#x2F;arch
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] https:&#x2F;&#x2F;ftpmirror.infania.net&#x2F;mirror&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] https:&#x2F;&#x2F;mirror.1ago.be&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] https:&#x2F;&#x2F;repo.hyron.dev&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   0.8MiB&#x2F;s ] https:&#x2F;&#x2F;mirror.tux.si&#x2F;arch
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] http:&#x2F;&#x2F;archlinux.iskon.hr
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] https:&#x2F;&#x2F;mirror.juniorjpdj.pl&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   0.8MiB&#x2F;s ] https:&#x2F;&#x2F;mirror.abderraziq.com&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] https:&#x2F;&#x2F;at.arch.niranjan.co
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] https:&#x2F;&#x2F;london.mirror.pkgbuild.com
+&lt;&#x2F;span&gt;&lt;span&gt;[   3.1MiB&#x2F;s ] https:&#x2F;&#x2F;mirror.sahil.world&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] https:&#x2F;&#x2F;umea.mirror.pkgbuild.com
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] https:&#x2F;&#x2F;ftp.linux.edu.lv&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] https:&#x2F;&#x2F;mirror.archlinux.si
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] https:&#x2F;&#x2F;mirror.gi.co.id&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] http:&#x2F;&#x2F;arch.softver.org.mk&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   1.5MiB&#x2F;s ] https:&#x2F;&#x2F;mirrors.ustc.edu.cn&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] https:&#x2F;&#x2F;mirrors.teamcloud.am&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] https:&#x2F;&#x2F;mirror2.keiminem.com&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] https:&#x2F;&#x2F;arch.yhtez.xyz
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] https:&#x2F;&#x2F;ftp.sh.cvut.cz&#x2F;arch
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] https:&#x2F;&#x2F;sg.arch.niranjan.co
+&lt;&#x2F;span&gt;&lt;span&gt;[   0.7MiB&#x2F;s ] https:&#x2F;&#x2F;archlinux.kushwanthreddy.com
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] https:&#x2F;&#x2F;mirror.t-home.mk&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[      error ] https:&#x2F;&#x2F;mirror.telepoint.bg&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;┌───────────────┬────────────────────────────────────────────────────┬─────┬─────────┬─────────┬─────────┬──────────┬────────────┬─────────┬─────────┐
+&lt;&#x2F;span&gt;&lt;span&gt;│    country    │                       mirror                       │proxy│  state  │outofdate│uptodate │morerecent│   speed    │  ping   │estimated│
+&lt;&#x2F;span&gt;&lt;span&gt;├───────────────┼────────────────────────────────────────────────────┼─────┼─────────┼─────────┼─────────┼──────────┼────────────┼─────────┼─────────┤
+&lt;&#x2F;span&gt;&lt;span&gt;│Sweden         │https:&#x2F;&#x2F;mirror.osbeck.com&#x2F;archlinux                 │false│success  │   0.00% │  99.99% │   0.01%  │   7.4MiB&#x2F;s │  38.6ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Canada         │https:&#x2F;&#x2F;mirror.quantum5.ca&#x2F;archlinux                │false│success  │   0.00% │  99.99% │   0.01%  │   3.9MiB&#x2F;s │  54.9ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│India          │https:&#x2F;&#x2F;mirror.sahil.world&#x2F;archlinux                │false│success  │   0.00% │  99.99% │   0.01%  │   3.1MiB&#x2F;s │  33.7ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Ukraine        │https:&#x2F;&#x2F;mirror.trapmaid.org&#x2F;archlinux               │false│success  │   0.00% │  99.99% │   0.01%  │   2.6MiB&#x2F;s │ 175.5ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Austria        │https:&#x2F;&#x2F;at.arch.mirror.kescher.at                   │false│success  │   0.00% │  99.99% │   0.01%  │   1.9MiB&#x2F;s │ 201.3ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│United States  │https:&#x2F;&#x2F;arch.mirror.constant.com                    │false│success  │   0.00% │  99.99% │   0.01%  │   1.8MiB&#x2F;s │ 169.6ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│China          │https:&#x2F;&#x2F;mirrors.ustc.edu.cn&#x2F;archlinux               │false│success  │   0.00% │  99.99% │   0.01%  │   1.5MiB&#x2F;s │ 277.1ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Worldwide      │https:&#x2F;&#x2F;fastly.mirror.pkgbuild.com                  │false│success  │   0.00% │  99.99% │   0.01%  │   1.4MiB&#x2F;s │  26.8ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Spain          │https:&#x2F;&#x2F;mirror.raiolanetworks.com&#x2F;archlinux         │false│success  │   0.00% │  99.99% │   0.01%  │   1.4MiB&#x2F;s │ 193.8ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Romania        │https:&#x2F;&#x2F;ro.arch.niranjan.co                         │false│success  │   0.00% │  99.99% │   0.01%  │   0.8MiB&#x2F;s │ 181.4ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Germany        │https:&#x2F;&#x2F;berlin.mirror.pkgbuild.com                  │false│success  │   0.00% │  99.99% │   0.01%  │   0.7MiB&#x2F;s │ 229.8ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Finland        │https:&#x2F;&#x2F;fi.arch.niranjan.co                         │false│success  │   0.00% │  99.99% │   0.01%  │   0.7MiB&#x2F;s │ 163.6ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Germany        │https:&#x2F;&#x2F;mirror.moson.org&#x2F;arch                       │false│success  │   0.00% │  99.99% │   0.01%  │   0.7MiB&#x2F;s │ 230.5ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Brazil         │https:&#x2F;&#x2F;mirror.ufscar.br&#x2F;archlinux                  │false│success  │   0.00% │  99.99% │   0.01%  │   0.7MiB&#x2F;s │ 187.2ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Worldwide      │https:&#x2F;&#x2F;geo.mirror.pkgbuild.com                     │false│success  │   0.00% │  99.99% │   0.01%  │   0.4MiB&#x2F;s │ 158.2ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Russia         │https:&#x2F;&#x2F;ru.mirrors.cicku.me&#x2F;archlinux               │false│success  │   0.00% │ 100.00% │   0.00%  │   2.2MiB&#x2F;s │  94.1ms │  10gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Denmark        │https:&#x2F;&#x2F;mirrors.dotsrc.org&#x2F;archlinux                │false│success  │   0.00% │ 100.00% │   0.00%  │   1.3MiB&#x2F;s │ 185.0ms │  10gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Denmark        │https:&#x2F;&#x2F;mirror.group.one&#x2F;archlinux                  │false│success  │   0.00% │ 100.00% │   0.00%  │   0.9MiB&#x2F;s │ 188.4ms │  10gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│China          │https:&#x2F;&#x2F;mirrors.jlu.edu.cn&#x2F;archlinux                │false│success  │   0.00% │ 100.00% │   0.00%  │   0.9MiB&#x2F;s │ 289.0ms │  10gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Romania        │https:&#x2F;&#x2F;mirrors.pidginhost.com&#x2F;arch                 │false│success  │   0.00% │ 100.00% │   0.00%  │   0.8MiB&#x2F;s │ 184.6ms │  10gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Norway         │https:&#x2F;&#x2F;no.mirror.cx&#x2F;archlinux                      │false│success  │   0.00% │ 100.00% │   0.00%  │   0.8MiB&#x2F;s │ 161.9ms │  10gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Russia         │https:&#x2F;&#x2F;repository.su&#x2F;archlinux                     │false│success  │   0.00% │ 100.00% │   0.00%  │   0.8MiB&#x2F;s │ 187.5ms │  10gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Slovenia       │https:&#x2F;&#x2F;mirror.tux.si&#x2F;arch                          │false│success  │   0.00% │ 100.00% │   0.00%  │   0.8MiB&#x2F;s │ 227.4ms │  10gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Morocco        │https:&#x2F;&#x2F;mirror.abderraziq.com&#x2F;archlinux             │false│success  │   0.00% │ 100.00% │   0.00%  │   0.8MiB&#x2F;s │ 247.0ms │  10gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│India          │https:&#x2F;&#x2F;archlinux.kushwanthreddy.com                │false│success  │   0.00% │ 100.00% │   0.00%  │   0.7MiB&#x2F;s │ 303.6ms │  10gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Canada         │https:&#x2F;&#x2F;mirror.scd31.com&#x2F;arch                       │false│success  │   0.00% │ 100.00% │   0.00%  │   0.3MiB&#x2F;s │  error  │  10gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│France         │https:&#x2F;&#x2F;fr.mirrors.cicku.me&#x2F;archlinux               │false│success  │   0.00% │ 100.00% │   0.00%  │   2.9MiB&#x2F;s │  99.2ms │   9gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│South Korea    │https:&#x2F;&#x2F;kr.mirrors.cicku.me&#x2F;archlinux               │false│success  │   0.00% │ 100.00% │   0.00%  │   2.9MiB&#x2F;s │ 193.5ms │   9gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Japan          │https:&#x2F;&#x2F;jp.mirrors.cicku.me&#x2F;archlinux               │false│success  │   0.00% │ 100.00% │   0.00%  │   2.8MiB&#x2F;s │  31.1ms │   9gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Spain          │https:&#x2F;&#x2F;es.mirrors.cicku.me&#x2F;archlinux               │false│success  │   0.00% │ 100.00% │   0.00%  │   4.3MiB&#x2F;s │  38.5ms │   7gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Mexico         │https:&#x2F;&#x2F;arch.jsc.mx                                 │false│success  │   0.00% │ 100.00% │   0.00%  │   4.2MiB&#x2F;s │  94.2ms │   7gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Italy          │https:&#x2F;&#x2F;it.mirrors.cicku.me&#x2F;archlinux               │false│success  │   0.00% │ 100.00% │   0.00%  │   5.1MiB&#x2F;s │  87.2ms │   6gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Netherlands    │https:&#x2F;&#x2F;nl.mirrors.cicku.me&#x2F;archlinux               │false│success  │   0.00% │ 100.00% │   0.00%  │   6.5MiB&#x2F;s │  25.1ms │   4gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Latvia         │https:&#x2F;&#x2F;archlinux.koyanet.lv&#x2F;archlinux              │false│success  │   0.01% │  99.99% │   0.00%  │   1.6MiB&#x2F;s │ 210.2ms │   4gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Colombia       │https:&#x2F;&#x2F;edgeuno-bog2.mm.fcix.net&#x2F;archlinux          │false│success  │   0.01% │  99.99% │   0.00%  │   1.4MiB&#x2F;s │ 141.3ms │   4gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Estonia        │https:&#x2F;&#x2F;mirrors.xtom.ee&#x2F;archlinux                   │false│success  │   0.01% │  99.99% │   0.00%  │   1.1MiB&#x2F;s │ 199.1ms │   4gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Czechia        │https:&#x2F;&#x2F;gluttony.sin.cvut.cz&#x2F;arch                   │false│success  │   0.01% │  99.99% │   0.00%  │   0.9MiB&#x2F;s │ 231.2ms │   4gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Brazil         │https:&#x2F;&#x2F;br.mirrors.cicku.me&#x2F;archlinux               │false│success  │   0.01% │  99.99% │   0.00%  │   4.2MiB&#x2F;s │  46.8ms │   3gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Mexico         │https:&#x2F;&#x2F;lidsol.fi-b.unam.mx&#x2F;archlinux               │false│success  │   0.09% │  99.91% │   0.00%  │   3.2MiB&#x2F;s │  85.0ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Slovakia       │http:&#x2F;&#x2F;tux.rainside.sk&#x2F;archlinux                    │false│success  │   0.14% │  99.86% │   0.00%  │   0.7MiB&#x2F;s │ 170.5ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Worldwide      │https:&#x2F;&#x2F;mirror.rackspace.com&#x2F;archlinux              │false│success  │   0.19% │  99.81% │   0.00%  │   2.9MiB&#x2F;s │  96.6ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Poland         │https:&#x2F;&#x2F;arch.midov.pl&#x2F;arch                          │false│error    │   0.00% │   0.00% │   0.00%  │   0.0MiB&#x2F;s │ 191.1ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│United States  │https:&#x2F;&#x2F;us.arch.niranjan.co                         │false│error    │   err   │   err   │   err    │   0.0MiB&#x2F;s │  60.4ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Chile          │https:&#x2F;&#x2F;mirror.anquan.cl&#x2F;archlinux                  │false│error    │   0.00% │   0.00% │   0.00%  │   0.0MiB&#x2F;s │ 204.9ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Portugal       │https:&#x2F;&#x2F;mirror.barata.pt&#x2F;archlinux                  │false│error    │   err   │   err   │   err    │   0.0MiB&#x2F;s │ 167.7ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Lithuania      │https:&#x2F;&#x2F;mirrors.atviras.lt&#x2F;archlinux                │false│error    │   0.00% │   0.00% │   0.00%  │   0.0MiB&#x2F;s │ 196.8ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Taiwan         │https:&#x2F;&#x2F;mirror.twds.com.tw&#x2F;archlinux                │false│error    │   err   │   err   │   err    │   0.0MiB&#x2F;s │ 176.2ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Chile          │http:&#x2F;&#x2F;elmirror.cl&#x2F;archlinux                        │false│error    │   0.00% │   0.00% │   0.00%  │   0.0MiB&#x2F;s │ 225.0ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│United Kingdom │https:&#x2F;&#x2F;archlinux.uk.mirror.allworldit.com&#x2F;archlinux│false│error    │   err   │   err   │   err    │   0.0MiB&#x2F;s │ 180.4ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Lithuania      │https:&#x2F;&#x2F;mirror.sinirlan.net&#x2F;archlinux               │false│error    │   0.00% │   0.00% │   0.00%  │   0.0MiB&#x2F;s │  error  │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Switzerland    │https:&#x2F;&#x2F;theswissbay.ch&#x2F;archlinux                    │false│error    │   err   │   err   │   err    │   0.0MiB&#x2F;s │ 157.0ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Taiwan         │https:&#x2F;&#x2F;taipei.mirror.pkgbuild.com                  │false│error    │   0.00% │   0.00% │   0.00%  │   0.0MiB&#x2F;s │ 226.6ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Italy          │https:&#x2F;&#x2F;arch.mirror.hyperbit.it                     │false│error    │   0.00% │   0.00% │   0.00%  │   0.0MiB&#x2F;s │ 218.2ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Switzerland    │https:&#x2F;&#x2F;ch.mirrors.cicku.me&#x2F;archlinux               │false│error    │   err   │   err   │   err    │   0.0MiB&#x2F;s │  57.8ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Bulgaria       │https:&#x2F;&#x2F;mirrors.uni-plovdiv.net&#x2F;archlinux           │false│error    │   0.00% │   0.00% │   0.00%  │   0.0MiB&#x2F;s │ 231.5ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Singapore      │https:&#x2F;&#x2F;singapore.mirror.pkgbuild.com               │false│error    │   err   │   err   │   err    │   0.0MiB&#x2F;s │ 283.0ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Indonesia      │https:&#x2F;&#x2F;mirror.ditatompel.com&#x2F;archlinux             │false│error    │   0.00% │   0.00% │   0.00%  │   0.0MiB&#x2F;s │ 233.1ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Colombia       │http:&#x2F;&#x2F;mirrors.udenar.edu.co&#x2F;archlinux              │false│error    │   err   │   err   │   err    │   0.0MiB&#x2F;s │ 132.5ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Japan          │https:&#x2F;&#x2F;www.miraa.jp&#x2F;archlinux                      │false│error    │   0.00% │   0.00% │   0.00%  │   0.0MiB&#x2F;s │ 156.6ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Norway         │https:&#x2F;&#x2F;mirror.neuf.no&#x2F;archlinux                    │false│error    │   0.00% │   0.00% │   0.00%  │   0.0MiB&#x2F;s │ 174.2ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Slovakia       │https:&#x2F;&#x2F;ftp.energotel.sk&#x2F;pub&#x2F;linux&#x2F;arch             │false│error    │   err   │   err   │   err    │   0.0MiB&#x2F;s │ 202.0ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Portugal       │https:&#x2F;&#x2F;glua.ua.pt&#x2F;pub&#x2F;archlinux                    │false│error    │   0.00% │   0.00% │   0.00%  │   0.0MiB&#x2F;s │ 222.9ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│France         │https:&#x2F;&#x2F;mirror.cyberbits.eu&#x2F;archlinux               │false│error    │   err   │   err   │   err    │   0.0MiB&#x2F;s │ 148.0ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Belgium        │https:&#x2F;&#x2F;mirror.tiguinet.net&#x2F;arch                    │false│error    │   0.00% │   0.00% │   0.00%  │   0.0MiB&#x2F;s │ 175.1ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Worldwide      │https:&#x2F;&#x2F;ftpmirror.infania.net&#x2F;mirror&#x2F;archlinux      │false│error    │   err   │   err   │   err    │   0.0MiB&#x2F;s │ 154.5ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Belgium        │https:&#x2F;&#x2F;mirror.1ago.be&#x2F;archlinux                    │false│error    │   0.00% │   0.00% │   0.00%  │   0.0MiB&#x2F;s │ 232.7ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Ukraine        │https:&#x2F;&#x2F;repo.hyron.dev&#x2F;archlinux                    │false│error    │   err   │   err   │   err    │   0.0MiB&#x2F;s │ 173.3ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Croatia        │http:&#x2F;&#x2F;archlinux.iskon.hr                           │false│error    │   0.00% │   0.00% │   0.00%  │   0.0MiB&#x2F;s │ 289.0ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Poland         │https:&#x2F;&#x2F;mirror.juniorjpdj.pl&#x2F;archlinux              │false│error    │   err   │   err   │   err    │   0.0MiB&#x2F;s │ 188.1ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Austria        │https:&#x2F;&#x2F;at.arch.niranjan.co                         │false│error    │   0.00% │   0.00% │   0.00%  │   0.0MiB&#x2F;s │ 219.2ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│United Kingdom │https:&#x2F;&#x2F;london.mirror.pkgbuild.com                  │false│error    │   err   │   err   │   err    │   0.0MiB&#x2F;s │ 215.1ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Sweden         │https:&#x2F;&#x2F;umea.mirror.pkgbuild.com                    │false│error    │   0.00% │   0.00% │   0.00%  │   0.0MiB&#x2F;s │ 196.2ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Latvia         │https:&#x2F;&#x2F;ftp.linux.edu.lv&#x2F;archlinux                  │false│error    │   err   │   err   │   err    │   0.0MiB&#x2F;s │ 173.4ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Slovenia       │https:&#x2F;&#x2F;mirror.archlinux.si                         │false│error    │   0.00% │   0.00% │   0.00%  │   0.0MiB&#x2F;s │ 236.2ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Indonesia      │https:&#x2F;&#x2F;mirror.gi.co.id&#x2F;archlinux                   │false│error    │   0.00% │   0.00% │   0.00%  │   0.0MiB&#x2F;s │ 266.1ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│North Macedonia│http:&#x2F;&#x2F;arch.softver.org.mk&#x2F;archlinux                │false│error    │   err   │   err   │   err    │   0.0MiB&#x2F;s │ 218.7ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Armenia        │https:&#x2F;&#x2F;mirrors.teamcloud.am&#x2F;archlinux              │false│error    │   0.00% │   0.00% │   0.00%  │   0.0MiB&#x2F;s │ 282.5ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│South Korea    │https:&#x2F;&#x2F;mirror2.keiminem.com&#x2F;archlinux              │false│error    │   err   │   err   │   err    │   0.0MiB&#x2F;s │  error  │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Finland        │https:&#x2F;&#x2F;arch.yhtez.xyz                              │false│error    │   0.00% │   0.00% │   0.00%  │   0.0MiB&#x2F;s │ 165.7ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Czechia        │https:&#x2F;&#x2F;ftp.sh.cvut.cz&#x2F;arch                         │false│error    │   0.00% │   0.00% │   0.00%  │   0.0MiB&#x2F;s │ 218.3ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Singapore      │https:&#x2F;&#x2F;sg.arch.niranjan.co                         │false│error    │   err   │   err   │   err    │   0.0MiB&#x2F;s │ 278.6ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│North Macedonia│https:&#x2F;&#x2F;mirror.t-home.mk&#x2F;archlinux                  │false│error    │   0.00% │   0.00% │   0.00%  │   0.0MiB&#x2F;s │ 203.7ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Bulgaria       │https:&#x2F;&#x2F;mirror.telepoint.bg&#x2F;archlinux               │false│error    │   err   │   err   │   err    │   0.0MiB&#x2F;s │ 271.1ms │   1gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;└───────────────┴────────────────────────────────────────────────────┴─────┴─────────┴─────────┴─────────┴──────────┴────────────┴─────────┴─────────┘
+&lt;&#x2F;span&gt;&lt;span&gt;# lastsync&amp;lt;dd.mm.yyyy&amp;gt; 01.03.2026
+&lt;&#x2F;span&gt;&lt;span&gt;## Sweden
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirror.osbeck.com&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Canada
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirror.quantum5.ca&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## India
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirror.sahil.world&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Ukraine
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirror.trapmaid.org&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Austria
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;at.arch.mirror.kescher.at&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## United States
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;arch.mirror.constant.com&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## China
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirrors.ustc.edu.cn&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Worldwide
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;fastly.mirror.pkgbuild.com&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Spain
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirror.raiolanetworks.com&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Romania
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;ro.arch.niranjan.co&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Germany
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;berlin.mirror.pkgbuild.com&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Finland
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;fi.arch.niranjan.co&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Germany
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirror.moson.org&#x2F;arch&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Brazil
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirror.ufscar.br&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Worldwide
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;geo.mirror.pkgbuild.com&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Russia
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;ru.mirrors.cicku.me&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Denmark
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirrors.dotsrc.org&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirror.group.one&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## China
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirrors.jlu.edu.cn&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Romania
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirrors.pidginhost.com&#x2F;arch&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Norway
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;no.mirror.cx&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Russia
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;repository.su&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Slovenia
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirror.tux.si&#x2F;arch&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Morocco
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirror.abderraziq.com&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## India
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;archlinux.kushwanthreddy.com&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Canada
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirror.scd31.com&#x2F;arch&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## France
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;fr.mirrors.cicku.me&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## South Korea
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;kr.mirrors.cicku.me&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Japan
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;jp.mirrors.cicku.me&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Spain
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;es.mirrors.cicku.me&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Mexico
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;arch.jsc.mx&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Italy
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;it.mirrors.cicku.me&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Netherlands
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;nl.mirrors.cicku.me&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Latvia
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;archlinux.koyanet.lv&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Colombia
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;edgeuno-bog2.mm.fcix.net&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Estonia
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirrors.xtom.ee&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Czechia
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;gluttony.sin.cvut.cz&#x2F;arch&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Brazil
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;br.mirrors.cicku.me&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Mexico
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;lidsol.fi-b.unam.mx&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Slovakia
+&lt;&#x2F;span&gt;&lt;span&gt;Server=http:&#x2F;&#x2F;tux.rainside.sk&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Worldwide
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirror.rackspace.com&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Poland
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;arch.midov.pl&#x2F;arch&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## United States
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;us.arch.niranjan.co&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Chile
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirror.anquan.cl&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Portugal
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirror.barata.pt&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Lithuania
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirrors.atviras.lt&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Taiwan
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirror.twds.com.tw&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Chile
+&lt;&#x2F;span&gt;&lt;span&gt;Server=http:&#x2F;&#x2F;elmirror.cl&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## United Kingdom
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;archlinux.uk.mirror.allworldit.com&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Lithuania
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirror.sinirlan.net&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Switzerland
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;theswissbay.ch&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Taiwan
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;taipei.mirror.pkgbuild.com&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Italy
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;arch.mirror.hyperbit.it&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Switzerland
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;ch.mirrors.cicku.me&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Bulgaria
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirrors.uni-plovdiv.net&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Singapore
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;singapore.mirror.pkgbuild.com&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Indonesia
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirror.ditatompel.com&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Colombia
+&lt;&#x2F;span&gt;&lt;span&gt;Server=http:&#x2F;&#x2F;mirrors.udenar.edu.co&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Japan
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;www.miraa.jp&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Norway
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirror.neuf.no&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Slovakia
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;ftp.energotel.sk&#x2F;pub&#x2F;linux&#x2F;arch&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Portugal
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;glua.ua.pt&#x2F;pub&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## France
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirror.cyberbits.eu&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Belgium
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirror.tiguinet.net&#x2F;arch&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Worldwide
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;ftpmirror.infania.net&#x2F;mirror&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Belgium
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirror.1ago.be&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Ukraine
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;repo.hyron.dev&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Croatia
+&lt;&#x2F;span&gt;&lt;span&gt;Server=http:&#x2F;&#x2F;archlinux.iskon.hr&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Poland
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirror.juniorjpdj.pl&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Austria
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;at.arch.niranjan.co&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## United Kingdom
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;london.mirror.pkgbuild.com&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Sweden
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;umea.mirror.pkgbuild.com&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Latvia
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;ftp.linux.edu.lv&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Slovenia
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirror.archlinux.si&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Indonesia
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirror.gi.co.id&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## North Macedonia
+&lt;&#x2F;span&gt;&lt;span&gt;Server=http:&#x2F;&#x2F;arch.softver.org.mk&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Armenia
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirrors.teamcloud.am&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## South Korea
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirror2.keiminem.com&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Finland
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;arch.yhtez.xyz&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Czechia
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;ftp.sh.cvut.cz&#x2F;arch&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Singapore
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;sg.arch.niranjan.co&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## North Macedonia
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirror.t-home.mk&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Bulgaria
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirror.telepoint.bg&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;here&#x27;s the update script using ghostmirror working off the arch rate-mirror lists - i feel the rate-mirror or the forked cachyos-rate-mirrors perform pretty much the same.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;#!&#x2F;bin&#x2F;bash
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Colors
+&lt;&#x2F;span&gt;&lt;span&gt;bold_cyan=&amp;quot;\e[1;36m&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;bold_white=&amp;quot;\e[1;37m&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;reset=&amp;quot;\e[0m&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Starting Update...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo -e &amp;quot;${bold_cyan}:: ${bold_white}Building CachyOS Servers List:${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo ~&#x2F;forge&#x2F;scripts&#x2F;cachyos&#x2F;cachyos-update
+&lt;&#x2F;span&gt;&lt;span&gt;cat &#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo -e &amp;quot;${bold_cyan}:: ${bold_white}Building Arch Servers List:${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo ghostmirror -PmuolsS  &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist light state,outofdate,morerecent,estimated,speed
+&lt;&#x2F;span&gt;&lt;span&gt;cat &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Starting Pacman:${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo pacman -Syyu
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;it will work off whatever the existing mirrorlist is. add the following line to the code or run it separately:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;sudo ghostmirror -PoclLS &amp;quot;United States&amp;quot;,Canada,Mexico &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist 20 state,outofdate,morerecent,ping
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this produced this mirrorlist:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;# lastsync&amp;lt;dd.mm.yyyy&amp;gt; 01.03.2026
+&lt;&#x2F;span&gt;&lt;span&gt;## Mexico
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;arch.jsc.mx&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## United States
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;ord.mirror.rackspace.com&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;Server=http:&#x2F;&#x2F;ord.mirror.rackspace.com&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Canada
+&lt;&#x2F;span&gt;&lt;span&gt;Server=http:&#x2F;&#x2F;mirror.csclub.uwaterloo.ca&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## United States
+&lt;&#x2F;span&gt;&lt;span&gt;Server=http:&#x2F;&#x2F;mirrors.lug.mtu.edu&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;Server=http:&#x2F;&#x2F;arch.mirror.constant.com&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;arlm.tyzoid.com&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;Server=http:&#x2F;&#x2F;arlm.tyzoid.com&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Canada
+&lt;&#x2F;span&gt;&lt;span&gt;Server=http:&#x2F;&#x2F;mirror.quantum5.ca&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## United States
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirror.theash.xyz&#x2F;arch&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;Server=http:&#x2F;&#x2F;mirrors.sonic.net&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;arch.hu.fo&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;losangeles.mirror.pkgbuild.com&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;arch.mirror.constant.com&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;us.arch.niranjan.co&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;Server=http:&#x2F;&#x2F;mirrors.rit.edu&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirror.givebytes.net&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Canada
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirror.franscorack.com&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## United States
+&lt;&#x2F;span&gt;&lt;span&gt;Server=http:&#x2F;&#x2F;arch.hu.fo&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirrors.rit.edu&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;and with the update.sh script executed again, here&#x27;s the ghostmirror results:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;:: Building Arch Servers List:
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;arlm.tyzoid.com
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] http:&#x2F;&#x2F;mirrors.sonic.net&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] http:&#x2F;&#x2F;ord.mirror.rackspace.com&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;mirrors.rit.edu&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;arch.jsc.mx
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;arch.mirror.constant.com
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] http:&#x2F;&#x2F;arch.hu.fo&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] http:&#x2F;&#x2F;mirror.quantum5.ca&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] http:&#x2F;&#x2F;mirrors.rit.edu&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;mirror.givebytes.net&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] http:&#x2F;&#x2F;mirror.csclub.uwaterloo.ca&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;arch.hu.fo&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] http:&#x2F;&#x2F;arlm.tyzoid.com
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;ord.mirror.rackspace.com&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;mirror.theash.xyz&#x2F;arch
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;us.arch.niranjan.co
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;mirror.franscorack.com&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] https:&#x2F;&#x2F;losangeles.mirror.pkgbuild.com
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] http:&#x2F;&#x2F;mirrors.lug.mtu.edu&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[ pass ] http:&#x2F;&#x2F;arch.mirror.constant.com
+&lt;&#x2F;span&gt;&lt;span&gt;[   3.2MiB&#x2F;s ] https:&#x2F;&#x2F;arch.jsc.mx
+&lt;&#x2F;span&gt;&lt;span&gt;[   2.2MiB&#x2F;s ] https:&#x2F;&#x2F;ord.mirror.rackspace.com&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   3.6MiB&#x2F;s ] http:&#x2F;&#x2F;ord.mirror.rackspace.com&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   5.6MiB&#x2F;s ] http:&#x2F;&#x2F;mirror.csclub.uwaterloo.ca&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   0.4MiB&#x2F;s ] http:&#x2F;&#x2F;mirrors.lug.mtu.edu&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   2.6MiB&#x2F;s ] http:&#x2F;&#x2F;arch.mirror.constant.com
+&lt;&#x2F;span&gt;&lt;span&gt;[   3.3MiB&#x2F;s ] https:&#x2F;&#x2F;arlm.tyzoid.com
+&lt;&#x2F;span&gt;&lt;span&gt;[   2.4MiB&#x2F;s ] http:&#x2F;&#x2F;arlm.tyzoid.com
+&lt;&#x2F;span&gt;&lt;span&gt;[   2.3MiB&#x2F;s ] http:&#x2F;&#x2F;mirror.quantum5.ca&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   1.8MiB&#x2F;s ] https:&#x2F;&#x2F;mirror.theash.xyz&#x2F;arch
+&lt;&#x2F;span&gt;&lt;span&gt;[   3.7MiB&#x2F;s ] http:&#x2F;&#x2F;mirrors.sonic.net&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   3.3MiB&#x2F;s ] https:&#x2F;&#x2F;arch.hu.fo&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   0.3MiB&#x2F;s ] https:&#x2F;&#x2F;losangeles.mirror.pkgbuild.com
+&lt;&#x2F;span&gt;&lt;span&gt;[   2.6MiB&#x2F;s ] https:&#x2F;&#x2F;arch.mirror.constant.com
+&lt;&#x2F;span&gt;&lt;span&gt;[   0.4MiB&#x2F;s ] https:&#x2F;&#x2F;us.arch.niranjan.co
+&lt;&#x2F;span&gt;&lt;span&gt;[   2.3MiB&#x2F;s ] http:&#x2F;&#x2F;mirrors.rit.edu&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   3.6MiB&#x2F;s ] https:&#x2F;&#x2F;mirror.givebytes.net&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   0.5MiB&#x2F;s ] https:&#x2F;&#x2F;mirror.franscorack.com&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   4.8MiB&#x2F;s ] http:&#x2F;&#x2F;arch.hu.fo&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;[   3.8MiB&#x2F;s ] https:&#x2F;&#x2F;mirrors.rit.edu&#x2F;archlinux
+&lt;&#x2F;span&gt;&lt;span&gt;┌─────────────┬───────────────────────────────────────────┬─────┬─────────┬─────────┬─────────┬──────────┬────────────┬─────────┬─────────┐
+&lt;&#x2F;span&gt;&lt;span&gt;│   country   │                  mirror                   │proxy│  state  │outofdate│uptodate │morerecent│   speed    │  ping   │estimated│
+&lt;&#x2F;span&gt;&lt;span&gt;├─────────────┼───────────────────────────────────────────┼─────┼─────────┼─────────┼─────────┼──────────┼────────────┼─────────┼─────────┤
+&lt;&#x2F;span&gt;&lt;span&gt;│United States│http:&#x2F;&#x2F;arch.hu.fo&#x2F;archlinux                │false│success  │   0.00% │  99.99% │   0.01%  │   4.8MiB&#x2F;s │  73.7ms │   4gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│United States│https:&#x2F;&#x2F;mirrors.rit.edu&#x2F;archlinux          │false│success  │   0.00% │  99.99% │   0.01%  │   3.8MiB&#x2F;s │  82.1ms │   4gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│United States│http:&#x2F;&#x2F;mirrors.sonic.net&#x2F;archlinux         │false│success  │   0.00% │  99.99% │   0.01%  │   3.7MiB&#x2F;s │  80.3ms │   4gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│United States│https:&#x2F;&#x2F;mirror.givebytes.net&#x2F;archlinux     │false│success  │   0.00% │  99.99% │   0.01%  │   3.6MiB&#x2F;s │  93.2ms │   4gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│United States│http:&#x2F;&#x2F;ord.mirror.rackspace.com&#x2F;archlinux  │false│success  │   0.00% │  99.99% │   0.01%  │   3.6MiB&#x2F;s │  64.3ms │   4gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│United States│https:&#x2F;&#x2F;arlm.tyzoid.com                    │false│success  │   0.00% │  99.99% │   0.01%  │   3.3MiB&#x2F;s │  91.4ms │   4gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│United States│https:&#x2F;&#x2F;arch.hu.fo&#x2F;archlinux               │false│success  │   0.00% │  99.99% │   0.01%  │   3.3MiB&#x2F;s │  74.9ms │   4gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Mexico       │https:&#x2F;&#x2F;arch.jsc.mx                        │false│success  │   0.00% │  99.99% │   0.01%  │   3.2MiB&#x2F;s │  46.0ms │   4gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│United States│http:&#x2F;&#x2F;arch.mirror.constant.com            │false│success  │   0.00% │  99.99% │   0.01%  │   2.6MiB&#x2F;s │  66.2ms │   4gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│United States│https:&#x2F;&#x2F;arch.mirror.constant.com           │false│success  │   0.00% │  99.99% │   0.01%  │   2.6MiB&#x2F;s │  84.2ms │   4gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│United States│http:&#x2F;&#x2F;arlm.tyzoid.com                     │false│success  │   0.00% │  99.99% │   0.01%  │   2.4MiB&#x2F;s │ 100.0ms │   4gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Canada       │http:&#x2F;&#x2F;mirror.quantum5.ca&#x2F;archlinux        │false│success  │   0.00% │  99.99% │   0.01%  │   2.3MiB&#x2F;s │  62.2ms │   4gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│United States│http:&#x2F;&#x2F;mirrors.rit.edu&#x2F;archlinux           │false│success  │   0.00% │  99.99% │   0.01%  │   2.3MiB&#x2F;s │  82.1ms │   4gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│United States│https:&#x2F;&#x2F;ord.mirror.rackspace.com&#x2F;archlinux │false│success  │   0.00% │  99.99% │   0.01%  │   2.2MiB&#x2F;s │  55.4ms │   4gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│United States│https:&#x2F;&#x2F;mirror.theash.xyz&#x2F;arch             │false│success  │   0.00% │  99.99% │   0.01%  │   1.8MiB&#x2F;s │  70.0ms │   4gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Canada       │https:&#x2F;&#x2F;mirror.franscorack.com&#x2F;archlinux   │false│success  │   0.00% │  99.99% │   0.01%  │   0.5MiB&#x2F;s │  87.0ms │   4gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│United States│http:&#x2F;&#x2F;mirrors.lug.mtu.edu&#x2F;archlinux       │false│success  │   0.00% │  99.99% │   0.01%  │   0.4MiB&#x2F;s │  74.5ms │   4gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│United States│https:&#x2F;&#x2F;us.arch.niranjan.co                │false│success  │   0.00% │  99.99% │   0.01%  │   0.4MiB&#x2F;s │  80.1ms │   4gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│United States│https:&#x2F;&#x2F;losangeles.mirror.pkgbuild.com     │false│success  │   0.00% │  99.99% │   0.01%  │   0.3MiB&#x2F;s │  89.4ms │   4gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;│Canada       │http:&#x2F;&#x2F;mirror.csclub.uwaterloo.ca&#x2F;archlinux│false│success  │   0.00% │  99.99% │   0.01%  │   5.6MiB&#x2F;s │ 286.7ms │   3gg   │
+&lt;&#x2F;span&gt;&lt;span&gt;└─────────────┴───────────────────────────────────────────┴─────┴─────────┴─────────┴─────────┴──────────┴────────────┴─────────┴─────────┘
+&lt;&#x2F;span&gt;&lt;span&gt;# lastsync&amp;lt;dd.mm.yyyy&amp;gt; 01.03.2026
+&lt;&#x2F;span&gt;&lt;span&gt;## United States
+&lt;&#x2F;span&gt;&lt;span&gt;Server=http:&#x2F;&#x2F;arch.hu.fo&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirrors.rit.edu&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;Server=http:&#x2F;&#x2F;mirrors.sonic.net&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirror.givebytes.net&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;Server=http:&#x2F;&#x2F;ord.mirror.rackspace.com&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;arlm.tyzoid.com&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;arch.hu.fo&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Mexico
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;arch.jsc.mx&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## United States
+&lt;&#x2F;span&gt;&lt;span&gt;Server=http:&#x2F;&#x2F;arch.mirror.constant.com&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;arch.mirror.constant.com&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;Server=http:&#x2F;&#x2F;arlm.tyzoid.com&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Canada
+&lt;&#x2F;span&gt;&lt;span&gt;Server=http:&#x2F;&#x2F;mirror.quantum5.ca&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## United States
+&lt;&#x2F;span&gt;&lt;span&gt;Server=http:&#x2F;&#x2F;mirrors.rit.edu&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;ord.mirror.rackspace.com&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirror.theash.xyz&#x2F;arch&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Canada
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;mirror.franscorack.com&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## United States
+&lt;&#x2F;span&gt;&lt;span&gt;Server=http:&#x2F;&#x2F;mirrors.lug.mtu.edu&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;us.arch.niranjan.co&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;Server=https:&#x2F;&#x2F;losangeles.mirror.pkgbuild.com&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;span&gt;## Canada
+&lt;&#x2F;span&gt;&lt;span&gt;Server=http:&#x2F;&#x2F;mirror.csclub.uwaterloo.ca&#x2F;archlinux&#x2F;$repo&#x2F;os&#x2F;$arch
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;with some tweaking from the ghostmirror developer, it looks like you could likely produce some great fast mirrors and be able to add user defined variables building a string for cachyos AND arch.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;caveats&quot;&gt;caveats&lt;&#x2F;h2&gt;
+&lt;p&gt;you really need to run ghostmirror twice, once to build the mirrorlist, and once to update and rate it. so if you are doing a cachyos mirrorlist and a arch one, then that&#x27;s four executable commands. however, using the first run and truncating the rate-able results seems worth it. this also provides a pause where if you needed to address some formating for pacman.conf you would be able to do that before executing a pacman -Syyu and getting it into production.&lt;&#x2F;p&gt;
+&lt;p&gt;the developer also recommends in their readme that the first run of the command could be done just once, or very seldom so only the update command would need to be done, say, weekly and of course there&#x27;s a timer option available for automating this.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;wrapper&quot;&gt;wrapper&lt;&#x2F;h2&gt;
+&lt;p&gt;this would obviously need done in a wrapper and with the storage of an intermediary file in a config directory for modding etc. but the general flow might look something like this:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;use user-defined country or locale, maybe IP (not ideal for VPN use), to determine country, develop string for adjactent countries. i.e. europe grouping DE,NE etc in addition to France. i used &quot;United States&quot;,Canada,Mexico for my string.&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;next a user-defined storage location or the choice to use the pacman.d directory directly&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;amount of mirrors to add to repo...user-defined or default&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;select based on state of operation, date synced, more recent and time to ping&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;these can be passed on where applicable to the final string executed in the update command.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;sudo ghostmirror -PmuolsS  &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist light state,outofdate,morerecent,estimated,speed
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;the above string re-sorts and can be executed more often...speed is the important factor here.&lt;&#x2F;p&gt;
+&lt;p&gt;i like the output as well, pretty.&lt;&#x2F;p&gt;
+&lt;p&gt;so a tentative executable would take the user-inputs or defaults above, save the mirrorlist, then potentially allow operations to tweak the results, save everything and if its already been run and files are set, update and rank the mirrors for pacman -Syu operations:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;#!&#x2F;bin&#x2F;bash
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Colors
+&lt;&#x2F;span&gt;&lt;span&gt;bold_cyan=&amp;quot;\e[1;36m&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;bold_white=&amp;quot;\e[1;37m&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;reset=&amp;quot;\e[0m&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Starting Update...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo -e &amp;quot;${bold_cyan}:: ${bold_white}Building CachyOS Servers List:${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo ghostmirror -PmuolsS  {temp mirrorlist location} &#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist light state,outofdate,morerecent,estimated,speed
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#display output
+&lt;&#x2F;span&gt;&lt;span&gt;cat &#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo -e &amp;quot;${bold_cyan}:: ${bold_white}Building Arch Servers List:${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo ghostmirror -PmuolsS {temp mirrorlist location} &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist light state,outofdate,morerecent,estimated,speed
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#display output
+&lt;&#x2F;span&gt;&lt;span&gt;cat &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Starting Pacman:${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo pacman -Syyu
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+</content>
+        
+    </entry>
+</feed>

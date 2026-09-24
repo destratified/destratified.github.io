@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>ink the ghost - keyboard_remapping</title>
+    <link rel="self" type="application/atom+xml" href="https://inktheghost.com/tags/keyboard-remapping/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://inktheghost.com"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2026-03-07T00:00:00+00:00</updated>
+    <id>https://inktheghost.com/tags/keyboard-remapping/atom.xml</id>
+    <entry xml:lang="en">
+        <title>keyd</title>
+        <published>2026-03-07T00:00:00+00:00</published>
+        <updated>2026-03-07T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/keyd/"/>
+        <id>https://inktheghost.com/blog/keyd/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/keyd/">&lt;h1 id=&quot;keyd&quot;&gt;keyd&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;17-31-updated&quot;&gt;17:31 - UPDATED&lt;&#x2F;h2&gt;
+&lt;p&gt;so i definately started over here...forgot entirely how i modded the keymappings for my laptop. the lemur13 from system76 is a smaller 13&quot; laptop and thus a small keyboard. in addition to a few smaller keys, the caplock i never use and hit often. and the page up&#x2F;page down are both 1&#x2F;2 key above the 1&#x2F;2 key left&#x2F;right arrows.&lt;&#x2F;p&gt;
+&lt;p&gt;objectives:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;map caplocks to leftshift&lt;&#x2F;li&gt;
+&lt;li&gt;map page up&#x2F;page down to left&#x2F;right&lt;&#x2F;li&gt;
+&lt;li&gt;map left ctrl + page up&#x2F;page down to page up&#x2F;page down&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;first theres a few commands to pull the github repo and install thanks to &lt;a href=&quot;https:&#x2F;&#x2F;www.karimarttila.fi&#x2F;keyboard&#x2F;2023&#x2F;11&#x2F;16&#x2F;linux-keyboard-configuration-with-keyd.html&quot;&gt;Kari Martilla Blog&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;git clone https:&#x2F;&#x2F;github.com&#x2F;rvaiya&#x2F;keyd
+&lt;&#x2F;span&gt;&lt;span&gt;cd keyd
+&lt;&#x2F;span&gt;&lt;span&gt;make &amp;amp;&amp;amp; sudo make install
+&lt;&#x2F;span&gt;&lt;span&gt;sudo systemctl enable keyd &amp;amp;&amp;amp; sudo systemctl start keyd
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this gets everything loaded. i remember last time that i used &lt;code&gt;sudo keyd monitor&lt;&#x2F;code&gt; to get all the keystroke names sorted for the keys i wanted to map, left control, pageup pagedown, left right etc so i could begin adding to the configuration file and testing the changes. i also had this on the desktop clackity keyboard since i kept fat fingering the capslock - at least there it gave me an led indicatior capslock was on ;)&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;sudo nano &#x2F;etc&#x2F;keyd&#x2F;default.conf
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;and here&#x27;s my final config...who the fuck uses capslock anyways???&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;# NOTE: The panic sequence *&amp;lt;backspace&amp;gt;+&amp;lt;escape&amp;gt;+&amp;lt;enter&amp;gt;* will force keyd to terminate.
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;### NOTE:
+&lt;&#x2F;span&gt;&lt;span&gt;# This file needs to be in:
+&lt;&#x2F;span&gt;&lt;span&gt;# &#x2F;etc&#x2F;keyd&#x2F;default.conf
+&lt;&#x2F;span&gt;&lt;span&gt;# If you are reading the ~&#x2F;info&#x2F;default.conf file, it is a backup file.
+&lt;&#x2F;span&gt;&lt;span&gt;# NOTE: Remember to add changes in &#x2F;etc&#x2F;keyd to git!
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;### HELP SECTION BEGIN ###
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Web site: https:&#x2F;&#x2F;github.com&#x2F;rvaiya&#x2F;keyd
+&lt;&#x2F;span&gt;&lt;span&gt;# See also Finnish keyboard layout:
+&lt;&#x2F;span&gt;&lt;span&gt;# https:&#x2F;&#x2F;www.vero.fi&#x2F;en&#x2F;About-us&#x2F;contact-us&#x2F;efil&#x2F;information-on-mytax&#x2F;less-commonly-used-latin-characters-on-a-finnish-pc-keyboard&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;##### KEYD #################
+&lt;&#x2F;span&gt;&lt;span&gt;# When you edit &#x2F;etc&#x2F;keyd&#x2F;default.conf file:
+&lt;&#x2F;span&gt;&lt;span&gt;# cd &#x2F;etc&#x2F;keyd
+&lt;&#x2F;span&gt;&lt;span&gt;# cn # Open VSCode
+&lt;&#x2F;span&gt;&lt;span&gt;# In another terminal:
+&lt;&#x2F;span&gt;&lt;span&gt;# sudo journalctl -eu keyd -f
+&lt;&#x2F;span&gt;&lt;span&gt;# ... this way you immediately see if there is some error,
+&lt;&#x2F;span&gt;&lt;span&gt;# when you load new configuration (after saving the file):
+&lt;&#x2F;span&gt;&lt;span&gt;# sudo keyd reload
+&lt;&#x2F;span&gt;&lt;span&gt;# Finally when you are ready, in the &#x2F;etc&#x2F;keyd: add changes to git.
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Find keys with tool:
+&lt;&#x2F;span&gt;&lt;span&gt;# sudo keyd monitor
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# List keys that you can use with keyd:
+&lt;&#x2F;span&gt;&lt;span&gt;# sudo keyd list-keys
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;### HELP SECTION END ###
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;### TODO BEGIN ###
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# No issues at the moment.
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;### TODO END ###
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;###### KEYBOARD IDENTIFICATIONS #####
+&lt;&#x2F;span&gt;&lt;span&gt;# NOTE: Later on if you find out that some configuration does not work on Dygma vs Laptop keyboard,
+&lt;&#x2F;span&gt;&lt;span&gt;# you can use separate ids sections.
+&lt;&#x2F;span&gt;&lt;span&gt;[ids]
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;*
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;###### MAIN #####
+&lt;&#x2F;span&gt;&lt;span&gt;[main]
+&lt;&#x2F;span&gt;&lt;span&gt;# Using sudo keyd monitor:
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#remap pageup&#x2F;pagedown to left&#x2F;right
+&lt;&#x2F;span&gt;&lt;span&gt;pageup = left
+&lt;&#x2F;span&gt;&lt;span&gt;pagedown = right
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#remap capslock to Left Shift
+&lt;&#x2F;span&gt;&lt;span&gt;capslock = leftshift
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#with rightcontrol pageup&#x2F;down return to normal
+&lt;&#x2F;span&gt;&lt;span&gt;rightcontrol = layer(returnpageupdown)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;[returnpageupdown]
+&lt;&#x2F;span&gt;&lt;span&gt;pageup = pageup
+&lt;&#x2F;span&gt;&lt;span&gt;pagedown = pagedown
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#poured coffee on keyboard, only del doesnt worl, remap to leftatl + backspace
+&lt;&#x2F;span&gt;&lt;span&gt;leftalt = overload(leftalt, esc)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;[alt:C]
+&lt;&#x2F;span&gt;&lt;span&gt;backspace = delete
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this does exactly what i needed. added the coffee spill fix to update the blog.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>

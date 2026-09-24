@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>ink the ghost - OS</title>
+    <link rel="self" type="application/atom+xml" href="https://inktheghost.com/tags/os/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://inktheghost.com"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2026-03-25T00:00:00+00:00</updated>
+    <id>https://inktheghost.com/tags/os/atom.xml</id>
+    <entry xml:lang="en">
+        <title>debian - OpenRC</title>
+        <published>2026-03-25T00:00:00+00:00</published>
+        <updated>2026-03-25T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/debian-openrc/"/>
+        <id>https://inktheghost.com/blog/debian-openrc/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/debian-openrc/">&lt;h1 id=&quot;debian-openrc-install-and-tweaks-also-debian-testing-repos-work&quot;&gt;debian - OpenRC install and tweaks, also debian testing repos work&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;15-58&quot;&gt;15:58&lt;&#x2F;h2&gt;
+&lt;p&gt;so poking around on the internet, i was trying to find some distros that are sans systemd - i didn&#x27;t like the maintainer, Lennart Poettering, just pushing through the merge request from the one guy who decided he would accept the verify ID laws as truth, without consulting anyone else, and interlock it with systemd. bad move, and i think it both caught alot of developers off guard and has raised hackles on many in the community who&#x27;d disagree that this is even legal (as its yet to be decided in court whats even enforcable)...i could go on, maybe that&#x27;s why you are here, maybe not.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.sambent.com&#x2F;the-engineer-who-tried-to-put-age-verification-into-linux-5&#x2F;&quot;&gt;https:&#x2F;&#x2F;www.sambent.com&#x2F;the-engineer-who-tried-to-put-age-verification-into-linux-5&#x2F;&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;so what are the options? plenty of distros out there come sans systemd, but what are the tradeoffs and negatives? well, i spent a good bit of time distro hopping again - even accidentally wiped the wrong partition, wiping out my cachyOS, so i&#x27;m writing this now, from my laptop running openRC Debian.&lt;&#x2F;p&gt;
+&lt;p&gt;now there are other distros, tried void, tried venom, i&#x27;m tinkering with freebsd also...gentoo (very difficult install) in search of a somewhat easy to convert distro with no drawbacks in package systems (i.e special repos, etc) and surprisingly only 2 really fit the bill.  Alpine Linux and Debian. Alpine would work on a desktop well, but it couldn&#x27;t easily pickup the touchpad, so it was out (again laptop daily driver is important here), and that left Debian.&lt;&#x2F;p&gt;
+&lt;p&gt;found an article by CyberSecGuru that helped lead me in the right direction &lt;a href=&quot;https:&#x2F;&#x2F;thecybersecguru.com&#x2F;tutorials&#x2F;switch-systemd-to-openrc&#x2F;#comments&quot;&gt;https:&#x2F;&#x2F;thecybersecguru.com&#x2F;tutorials&#x2F;switch-systemd-to-openrc&#x2F;#comments&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;and some references to the openRC conversion in the debian docs &lt;a href=&quot;https:&#x2F;&#x2F;wiki.debian.org&#x2F;OpenRC&quot;&gt;https:&#x2F;&#x2F;wiki.debian.org&#x2F;OpenRC&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;so the simplistic take debian states is not helpful in getting this working, and is also partially implemented in CyberSecGuru&#x27;s guide anyways, so i just followed that.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;getting-started&quot;&gt;getting started&lt;&#x2F;h3&gt;
+&lt;p&gt;now will this work for you? maybe. it seemed like every time i went through this i ended up using a different command, but first off, get the debian netinstall iso and boot from it, install the barebones system only, you can just add the other stuff after.&lt;&#x2F;p&gt;
+&lt;p&gt;boot from the clean install, login as root and starting at the prompt,
+enter some iteration of the below:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;apt update &amp;amp;&amp;amp; apt upgrade
+&lt;&#x2F;span&gt;&lt;span&gt;apt purge --allow-remove-essential systemd-sysv &amp;amp;&amp;amp; apt install openrc sysvinit-core 
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;essentially, just add and remove stuff that keeps bonking on the dependencies until you get a y&#x2F;n prompt and boom.&lt;&#x2F;p&gt;
+&lt;p&gt;now the installer will tell you the following line to type in, you don&#x27;t have any GUI or copy and paste ability from tty1, so just be careful typing things in and double check before hitting enter:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;for file in &#x2F;etc&#x2F;rc0.d&#x2F;K*; do s=`basename $(readlink &amp;quot;$file&amp;quot;)` ; &#x2F;etc&#x2F;init.d&#x2F;$s stop; done
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;it should reboot after that. i had to force shutdown with the power button, but it booted up ok and then you are able to start adding packages.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;network settings should remain after the boot, its using the ifupdown package, so lookup whatever you may need to do to get that working (again on a laptop - so i manually set a network and password in &#x2F;etc&#x2F;network&#x2F;interfaces file).&lt;&#x2F;strong&gt;&lt;&#x2F;em&gt;
+for me this looked like:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;ifdown wlp0s20f3
+&lt;&#x2F;span&gt;&lt;span&gt;ifup wlp0s20f3
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;i had on multiple occasions the need to set ifdown and bring it back up to get apt update working while i was in the same session, but it works.&lt;&#x2F;p&gt;
+&lt;p&gt;after hosing a previous installation with a dual boot issue, i started wondering if there would be a good point in this process to change the repos to debian testing, and it seemed like while there were just a few packages installed that would be a good time. i made sure to add the package blocker for systemd in &#x2F;etc&#x2F;apt&#x2F;preferences.d&#x2F;systemd and made sure none of the systemd packages were brought in during the update&#x2F;upgrade process.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;the below works, but i would recommend the debian testing netinstall iso as the greatest difficulty i&#x27;ve had was if the kernel would update properly, and with the testing iso you don&#x27;t have to worry about that&lt;&#x2F;strong&gt;&lt;&#x2F;em&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;i changed the repos to testing from trixie in &#x2F;etc&#x2F;apt&#x2F;sources.list and commented out the update repos as per the debian instructions for upgrading to the testing repos and did a quick &lt;code&gt;apt update and apt dist upgrade&lt;&#x2F;code&gt; adding the programs recommended by Cybersecguru, your needs maybe different. i did a reboot after those and then started pulling more with my apt command as follows...&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;apt install build-essential git curl wget kde-plasma-desktop network-manager ssh 
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;you can add others later, but that basically pulls like 1100 some odd packages and with a reboot gets you into the login prompt in kde.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;nuances&quot;&gt;nuances&lt;&#x2F;h3&gt;
+&lt;h3 id=&quot;update&quot;&gt;***update&lt;&#x2F;h3&gt;
+&lt;p&gt;with kde-plasma-desktop installed using debian testing repos, there is a weird quirk that doesn&#x27;t let you reboot or shutdown from the menu. i traced this back to &#x2F;etc&#x2F;init.d&#x2F;turnstile hanging the reboot and shutdown process. looking like it just duplicates the sddm login manager functions (believe its a pre-cursor to kde-plasma-loginmanager), i just removed it from the init sequence with:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;sudo rc-update del turnstile
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;so far i have not had any issues and menu buttons are working fine again.***&lt;&#x2F;p&gt;
+&lt;p&gt;after boot, ifupdown and network-manager were conflicting. remove ifupdown completely:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;apt purge ifupdown
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;after that comment out everything in the &#x2F;etc&#x2F;network&#x2F;interfaces file and reboot. this is what was throwing off network-manager.&lt;&#x2F;p&gt;
+&lt;p&gt;other things that i consider essential are as follows:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;tailscale&lt;&#x2F;li&gt;
+&lt;li&gt;remmina -with rdp&lt;&#x2F;li&gt;
+&lt;li&gt;obsidian&lt;&#x2F;li&gt;
+&lt;li&gt;power-profiles-daemon&lt;&#x2F;li&gt;
+&lt;li&gt;kitty terminal&lt;&#x2F;li&gt;
+&lt;li&gt;ssh (which worked out of the box)&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;tailscale was a bitch to get working, and the takeaways i have from my limited workings with openRC is if its a package that runs as a service, install it from the command line, setup a file in &#x2F;etc&#x2F;init.d&#x2F;&quot;whatever&quot; and add the instructions there. i loosely followed this using a few different methods, and openRC converter on the web and was able to get it working after tweaking the init file (depends- net wasnt working for network-manger, it might for ifupdown but i wasn&#x27;t on an eth connection).&lt;&#x2F;p&gt;
+&lt;p&gt;get the tailscale scripts from here:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;curl -fsSL https:&#x2F;&#x2F;tailscale.com&#x2F;install.sh | sh
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;create a rc-service init.d file - here&#x27;s my working &#x2F;etc&#x2F;init.d&#x2F;tailscale file...&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;#!&#x2F;sbin&#x2F;openrc-run
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;name=Tailscale
+&lt;&#x2F;span&gt;&lt;span&gt;description=&amp;quot;Tailscale node agent&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;supervisor=&amp;quot;supervise-daemon&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;command=&amp;quot;&#x2F;usr&#x2F;bin&#x2F;tailscaled&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;command_args=&amp;quot;--statedir &#x2F;var&#x2F;lib&#x2F;tailscale&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;depend() {
+&lt;&#x2F;span&gt;&lt;span&gt;	after network-online 
+&lt;&#x2F;span&gt;&lt;span&gt;	use network-online 
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;start() {
+&lt;&#x2F;span&gt;&lt;span&gt;    ebegin &amp;quot;Starting Tailscale&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    &#x2F;usr&#x2F;sbin&#x2F;tailscaled --state=&#x2F;var&#x2F;lib&#x2F;tailscale&#x2F;tailscaled.state
+&lt;&#x2F;span&gt;&lt;span&gt;    eend $?
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;stop() {
+&lt;&#x2F;span&gt;&lt;span&gt;    ebegin &amp;quot;Stopping Tailscale&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    killall tailscaled
+&lt;&#x2F;span&gt;&lt;span&gt;    eend $?
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;status() {
+&lt;&#x2F;span&gt;&lt;span&gt;    if pgrep tailscaled &amp;gt; &#x2F;dev&#x2F;null; then
+&lt;&#x2F;span&gt;&lt;span&gt;        ebegin &amp;quot;Tailscale is running&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        eend 0
+&lt;&#x2F;span&gt;&lt;span&gt;    else
+&lt;&#x2F;span&gt;&lt;span&gt;        ebegin &amp;quot;Tailscale is not running&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        eend 1
+&lt;&#x2F;span&gt;&lt;span&gt;    fi
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;if i remember correctly, some of this was borrowed from tailscale-openrc script in Alpine, some of it was digested using the &lt;a href=&quot;http:&#x2F;&#x2F;openrc.run&#x2F;&quot;&gt;http:&#x2F;&#x2F;openrc.run&#x2F;&lt;&#x2F;a&gt; website and i was really skeptical that it would even work, but it did!&lt;&#x2F;p&gt;
+&lt;p&gt;lastly you need to chmod it, add to openrc-run with the following command and start it, or reboot up to you.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;sudo chmod +x &#x2F;etc&#x2F;init.d&#x2F;tailscale
+&lt;&#x2F;span&gt;&lt;span&gt;sudo rc-update add tailscale default
+&lt;&#x2F;span&gt;&lt;span&gt;sudo rc-service tailscale start
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;then, give it a shot with &lt;code&gt;sudo tailscale up&lt;&#x2F;code&gt; and you should get the login prompt if everything went ok. those last commands came from &lt;a href=&quot;https:&#x2F;&#x2F;peet.io&#x2F;blog&#x2F;0004-tailscale-on-alpine-linux&quot;&gt;https:&#x2F;&#x2F;peet.io&#x2F;blog&#x2F;0004-tailscale-on-alpine-linux&lt;&#x2F;a&gt; which i&#x27;d referenced in getting the init script up and running, but kept having the net-depends error...&lt;&#x2F;p&gt;
+&lt;p&gt;tested it out over numerous reboots and running a remote remmina from a phone hotspot to make sure it actually worked with the home network connection and all was well.&lt;&#x2F;p&gt;
+&lt;p&gt;the power-profiles-daemon also was non-functional on boot and that was a little easier guide to follow that i pulled from Alpine linux:
+&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;h8d13&#x2F;ppd-openrc&quot;&gt;https:&#x2F;&#x2F;github.com&#x2F;h8d13&#x2F;ppd-openrc&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;i cloned the repo and followed the instructions, replacing apk and doas lingo as needed:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;sudo apt install power-profiles-daemon
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this downloads the daemon, possibly re-installs, if its already there, then i confirmed the file location with the whereis command:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;whereis power-profiles-daemon
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;knowing that location matched the instructions in the github directions i just followed the rest of the guide:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;sudo cp power-profiles-daemon.initd &#x2F;etc&#x2F;init.d&#x2F;power-profiles-daemon
+&lt;&#x2F;span&gt;&lt;span&gt;sudo chmod +x &#x2F;etc&#x2F;init.d&#x2F;power-profiles-daemon
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo cp power-profiles-daemon.confd &#x2F;etc&#x2F;conf.d&#x2F;power-profiles-daemon
+&lt;&#x2F;span&gt;&lt;span&gt;sudo chmod +x &#x2F;etc&#x2F;conf.d&#x2F;power-profiles-daemon
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo cp ppd-profile &#x2F;usr&#x2F;bin&#x2F;ppd-profile
+&lt;&#x2F;span&gt;&lt;span&gt;sudo chmod +x &#x2F;usr&#x2F;bin&#x2F;ppd-profile
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo rc-update add power-profiles-daemon default
+&lt;&#x2F;span&gt;&lt;span&gt;sudo rc-service power-profiles-daemon start
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo ppd-profile balanced
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;on reboot the power profiles was no longer greyed out in the settings&lt;&#x2F;p&gt;
+&lt;p&gt;remmina, kitty, ssh all worked outta the box, obsidian i installed the deb file from the obsidian website&lt;del&gt;, and the only thing i seem to have to troubleshoot is getting sound to play over bluetooth (wireless bluetooth headphones do not appear under sounds &amp;gt; outputs, but play fine over the speakers). i will update once i get that working...&lt;&#x2F;del&gt;&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;bluetooth-fix-not-hard&quot;&gt;bluetooth fix...not hard&lt;&#x2F;h2&gt;
+&lt;p&gt;thanks to a forum recommending the debian forums ;) i went to &lt;a href=&quot;https:&#x2F;&#x2F;wiki.debian.org&#x2F;BluetoothUser&#x2F;a2dp&quot;&gt;https:&#x2F;&#x2F;wiki.debian.org&#x2F;BluetoothUser&#x2F;a2dp&lt;&#x2F;a&gt; and under pre-configuration step one did the following:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt;sudo apt install pulseaudio-module-bluetooth
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;with a quick system reboot i was listening to audio on my wireless bluetooth Sony WH1000-XM5! booyah.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;takeaways&quot;&gt;takeaways?&lt;&#x2F;h3&gt;
+&lt;p&gt;holy shit does the same system boot way faster! digestible output in the boot sequence, systemd is a monolith and the memory footprint is huge comparatively. little bit of work to get it all done, but you have the advantages of the full debian repos over the limited proprietary ones in Devuan for instance. i&#x27;d love to see an arch distro just up and tell systemd to fuckoff. the artix linux is lacking (cant boot video on my laptop without the nomodeset kernel line variable) and has a proprietary repo scenario as well, so i think i might dig into that next, but arch is significantly intertwined with systemd it appears. which is a major bummer, as pacman is by far the best package manager in linux oses, but whatever...also Cosmic-Desktop (system76) if you are listening, get off systemd.&lt;&#x2F;p&gt;
+&lt;p&gt;now i need to figure out why my media &#x2F; play buttons have disappeared in my browser - likely a site setting blocked in librewolf&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>

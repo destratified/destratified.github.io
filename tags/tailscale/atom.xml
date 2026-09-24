@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>ink the ghost - tailscale</title>
+    <link rel="self" type="application/atom+xml" href="https://inktheghost.com/tags/tailscale/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://inktheghost.com"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2026-02-24T00:00:00+00:00</updated>
+    <id>https://inktheghost.com/tags/tailscale/atom.xml</id>
+    <entry xml:lang="en">
+        <title>HaOS</title>
+        <published>2026-02-24T00:00:00+00:00</published>
+        <updated>2026-02-24T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/haos/"/>
+        <id>https://inktheghost.com/blog/haos/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/haos/">&lt;h1 id=&quot;haos-getting-ratgdo32-working-over-tailscale&quot;&gt;HaOS - getting ratgdo32 working over tailscale&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;11-43&quot;&gt;11:43&lt;&#x2F;h2&gt;
+&lt;p&gt;this was a bit of a bugger and i am still not sure why it worked. but here&#x27;s the process...&lt;&#x2F;p&gt;
+&lt;p&gt;setup tailscale on whatever network you are trying to access first. i have the GLi-net router that has an internal tailscale app configuration that i needed to access the 2nd location. i only have starlink at that site and with their cgnat shit its the only way to get through. after the router setup and enabling the tailscale app you login and then toggle a few settings (this is key). the subnet routing for the local IP (your router subnet - in my case 192.168.8.1&#x2F;24) and the option for the wan subnet (192.168.0.0 - since this is where i had setup the ratgdo wifi originally) enabled me to connect over tailscale on my phone to the garage door openers. now i just needed to get it working in HaOS.&lt;&#x2F;p&gt;
+&lt;p&gt;next i was stumped. i setup my tailscale on HaOS using the link below:
+&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;hassio-addons&#x2F;app-tailscale&#x2F;blob&#x2F;main&#x2F;tailscale&#x2F;DOCS.md&quot;&gt;https:&#x2F;&#x2F;github.com&#x2F;hassio-addons&#x2F;app-tailscale&#x2F;blob&#x2F;main&#x2F;tailscale&#x2F;DOCS.md&lt;&#x2F;a&gt;
+and selected the button &lt;code&gt;show app on myHA&lt;&#x2F;code&gt; this took me to prompt asking if i wanted to add to my HaOS at the local network IP and port to which i said yes...install, turn on the service and start it.&lt;&#x2F;p&gt;
+&lt;p&gt;installed the app as per the instructions, then you had to login to tailscale, confirm the device and agree to use subnet routes. i did not need to use as an exit router, so i left that off and disabled key expiry.&lt;&#x2F;p&gt;
+&lt;p&gt;back in the haOS tailscale application page make sure the watchdog, start on boot, auto-update and show on sidebar options are all ticked on...&lt;&#x2F;p&gt;
+&lt;p&gt;then i couldn&#x27;t get it to work. i was able to access the ratgdo32 interface via web on any tailscale device (checked through my phone and the laptop) and connect to any device on the 192.168.0.0&#x2F;24 network, so the issue had to be in the settings on HaOS. i did find a couple posts online, but they referenced a setting that did nothing for me.&lt;&#x2F;p&gt;
+&lt;p&gt;eventually making it back to the settings &amp;gt; apps page i went to the tailscale app and configuration tab, (which somehow i&#x27;d overlooked many times before) and found a buncha semi-hidden HaOs specific tailscale settings. to see all options toggle the &quot;Show unused optional configuration options&quot; to on. i tried a few options in there, one at a time, with reboots in between and finally found one that worked. the following settings worked:&lt;&#x2F;p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Source NAT subnet routes (this was off and I set to ON)
+This option allows subnet devices to see the traffic originating from the subnet router, and this simplifies routing configuration. To support advanced Site-to-site networking (eg. to traverse multiple networks), you can disable this functionality. When not set, this option is enabled by default.&lt;&#x2F;p&gt;
+&lt;p&gt;Userspace networking mode (this was off, and I left it off)
+This option allows you to enable userspace networking mode. If you need to access other clients on your tailnet from your Home Assistant instance, disable userspace networking mode, which will create a &lt;code&gt;tailscale0&lt;&#x2F;code&gt; network interface on your host. When not set, this option is enabled by default.&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;the &quot;Source NAT subnet routes&quot; description is confusing...sounds like it wasn&#x27;t supposed to be off, by default, but it was and when i enabled and rebooted, and the userspace netwerking name description wasnt any better. but with the two changed, and a reboot of haOS i was finally able to ping my esphome ratgdo32 devices on the separate network and add them to my configuration&#x2F;dashboard.&lt;&#x2F;p&gt;
+&lt;p&gt;adventures in home networking for sure... maybe this will help someone else. i&#x27;m now going to try this again at a 3rd location and see if i can get that one to talk to my HaOS as well.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>some useful shit you can do with tailscale</title>
+        <published>2025-08-29T00:00:00+00:00</published>
+        <updated>2025-08-29T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/tailscale/"/>
+        <id>https://inktheghost.com/blog/tailscale/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/tailscale/">&lt;h1 id=&quot;rdp&quot;&gt;RDP&lt;&#x2F;h1&gt;
+&lt;p&gt;so I needed to do this for work, the idea being that I had to have access to a win10+ program on my laptop for work that has Linux arch.&lt;&#x2F;p&gt;
+&lt;p&gt;I don&#x27;t own windows so the gist is this:&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;install virtual box for arch&lt;&#x2F;li&gt;
+&lt;li&gt;download and install win10+&lt;&#x2F;li&gt;
+&lt;li&gt;debloat windows&lt;&#x2F;li&gt;
+&lt;li&gt;enable rdp on win, setup new user and make sure rdp settings are ready&lt;&#x2F;li&gt;
+&lt;li&gt;install and connect tailscale in win&lt;&#x2F;li&gt;
+&lt;li&gt;install remmina and freerdp&lt;&#x2F;li&gt;
+&lt;li&gt;turn on tailscale in laptop and connect to tailscale of rdp for win&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;caveats:  with this method i get a larger fullscreen with rdp, but if like today, windows updated overnight and without having logged back in, i lost my tailscale connection.  I am now trying the rdp function for virtualbox over my desktop tailscale connection, and that should help so i can login as long as the vm is up&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;gnome-notifications-and-menu-toggle-button&quot;&gt;Gnome notifications and menu toggle button&lt;&#x2F;h1&gt;
+&lt;p&gt;most of the nitty gritty is written up in the discussion on github here:
+https:&#x2F;&#x2F;github.com&#x2F;StorageB&#x2F;custom-command-toggle&#x2F;discussions&#x2F;18#discussioncomment-14591824
+add the extension below to gnome using the extensions menu in chrome&#x2F;brave
+command-custom-toggle and install then go into settings and follow the below:&lt;&#x2F;p&gt;
+&lt;p&gt;i was looking for for a solution for any easy start&#x2F;stop option for the custom tailscale bash script i&#x27;ve setup for connecting to my home server while away.  i use the home server as an exit route which helped with the above stuff as well, and use routes for accessing everything on a certain lan at home&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>

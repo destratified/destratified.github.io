@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>ink the ghost - github</title>
+    <link rel="self" type="application/atom+xml" href="https://inktheghost.com/tags/github/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://inktheghost.com"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2026-01-15T00:00:00+00:00</updated>
+    <id>https://inktheghost.com/tags/github/atom.xml</id>
+    <entry xml:lang="en">
+        <title>fork-terminus</title>
+        <published>2026-01-15T00:00:00+00:00</published>
+        <updated>2026-01-15T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/fork-terminus/"/>
+        <id>https://inktheghost.com/blog/fork-terminus/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/fork-terminus/">&lt;h1 id=&quot;fork-terminus&quot;&gt;fork-terminus&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;15-52&quot;&gt;15:52&lt;&#x2F;h2&gt;
+&lt;p&gt;trying to fork themes&#x2F;terminus with an edit in base.html allowing umami to check webpage stats...see how this goes. so not sure if anyone even looks at this. haha...but anyway.&lt;&#x2F;p&gt;
+&lt;p&gt;fork the &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;ebkalderon&#x2F;terminus&quot;&gt;terminus&lt;&#x2F;a&gt; github repo with an edit in main branch to themes&#x2F;terminus&#x2F;base.html&lt;&#x2F;p&gt;
+&lt;p&gt;i added the script from the umami website settings, find that by highlighting the webpage and clicking edit for the website.&lt;&#x2F;p&gt;
+&lt;p&gt;navigate to the folder in the repo you are trying to fork. i had to open up base.html for editing in the github editor and then pasted the script into the &lt;code&gt;&amp;lt;head&amp;gt;&lt;&#x2F;code&gt; section of the base.html file, clicked commit changes and asked it to save as a fork. this pulled the repo into my github and then i had to delete the old git submodule and add my own.&lt;&#x2F;p&gt;
+&lt;p&gt;this was done by:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;nano .gitmodules
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;rm .gitmodules #i had no other submodules so i deleted whole file
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;nano .git&#x2F;config #i had no refs to the submodule here so exited
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;git rm --cached themes&#x2F;terminus
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;rm -rf themes&#x2F;terminus
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;git commit -m &amp;quot;removed submodule&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;git push
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;git submodule add https:&#x2F;&#x2F;github.com&#x2F;destratified&#x2F;terminus.git
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;cd themes&#x2F;terminus&#x2F;templates&#x2F;base.html #check that the file i updated synced
+&lt;&#x2F;span&gt;&lt;span&gt;cd themes&#x2F;terminus
+&lt;&#x2F;span&gt;&lt;span&gt;git pull #updates submodule
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;cd &#x2F; #whatever your repo root is
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;git add .
+&lt;&#x2F;span&gt;&lt;span&gt;git commit -m &amp;quot;new submodule&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;git push
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;voila!&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>

@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>ink the ghost - gentoo</title>
+    <link rel="self" type="application/atom+xml" href="https://inktheghost.com/tags/gentoo/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://inktheghost.com"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2026-05-07T00:00:00+00:00</updated>
+    <id>https://inktheghost.com/tags/gentoo/atom.xml</id>
+    <entry xml:lang="en">
+        <title>gentoo and btrfs</title>
+        <published>2026-05-07T00:00:00+00:00</published>
+        <updated>2026-05-07T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/gentoo-and-btrfs/"/>
+        <id>https://inktheghost.com/blog/gentoo-and-btrfs/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/gentoo-and-btrfs/">&lt;h1 id=&quot;gentoo-and-btrfs&quot;&gt;gentoo and btrfs&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;10-03&quot;&gt;10:03&lt;&#x2F;h2&gt;
+&lt;p&gt;well, the gentoo bug has bit me i suppose. i&#x27;ve got gentoo on a ext4 setup on my laptop and its working great, used timeshift with rsync to create a reliable and usable backup and restore. tested and works great as long as you can boot into it. now, i had my desktop miniPC a NitroPC with open bootloader and had been running debian with openRC on it, but kept coming back to the idea if i wanna run openRC, why not just go to the source. gentoo is well integrated and having to adapt an build my own init files was fun, but a little annoying. its baked in, and just works.&lt;&#x2F;p&gt;
+&lt;p&gt;so i set about finding a couple guides, used the handbook where it makes sense, and seemed after some arduous trial and error got it functioning. so the first guide i used, which got me to a boot prompt was &lt;a href=&quot;https:&#x2F;&#x2F;gist.github.com&#x2F;xmawja&#x2F;da6a7ee664271631ae5cd4de0dc4f249&quot;&gt;https:&#x2F;&#x2F;gist.github.com&#x2F;xmawja&#x2F;da6a7ee664271631ae5cd4de0dc4f249&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;in this guide, everything worked for the most part, but i found i was having trouble updating grub when a new kernel was loaded - couldnt properly find boot partition and i was only able to boot from an efi stub that i&#x27;d copied and not from grub.&lt;&#x2F;p&gt;
+&lt;p&gt;this issue i think was in the two partitions that were being setup in the guide, so after i was in my WM - id gone as far as to setup kde, i decided that in order to get dracut, intiramfs and mkconfig-grub to all play nice together i needed to redo the boot partition.&lt;&#x2F;p&gt;
+&lt;p&gt;this was not for the faint of heart, as i had to wipe it from the liveCD and chroot in...which is a pain in the butt with a btrfs setup as you have many partitions to load.  i was able to shortcut this with the guide a bit as alot of the mount commands were copy and paste but it kinda went like this:&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;using partition-manager in gentoo liveCD, delete the &#x2F;boot (&#x2F;dev&#x2F;sda1 - ext4) and &#x2F;boot&#x2F;efi (&#x2F;dev&#x2F;sda-2 EFI) partitions - this leave swap (if you need it) and the btrfs partition with &#x2F; and others - apply changes&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;following the guide principles create one new partition for boot, i used 10GB and set it as fat32. apply changes, then select the partition (right-click) and toggle boot flags (make sure partition is not mounted) and apply changes&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;when you follow the guide above, this will give you 3 partitions - &#x2F;dev&#x2F;sda1 (EFI - fat32), &#x2F;dev&#x2F;sda2 (swap) and &#x2F;dev&#x2F;sda3 (root - btrfs). you can then continue along with the guide and just be mindful of the mounting locations later and the fstab entries.&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;# mount root
+&lt;&#x2F;span&gt;&lt;span&gt;mount -o defaults,noatime,space_cache=v2,compress-force=zstd,autodefrag,subvol=@ &#x2F;dev&#x2F;sda4 &#x2F;mnt&#x2F;gentoo
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Create BOOT and other Directory to be mount on boot partion|
+&lt;&#x2F;span&gt;&lt;span&gt;# create desire directorys to be mountes as a SubVolume|
+&lt;&#x2F;span&gt;&lt;span&gt;mkdir -p &#x2F;mnt&#x2F;gentoo&#x2F;{boot,home,opt,srv,tmp,usr,var,vms,.snapshots}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# mount other subvolumes|
+&lt;&#x2F;span&gt;&lt;span&gt;mount -o defaults,noatime,space_cache=v2,compress-force=zstd,autodefrag,subvol=@home &#x2F;dev&#x2F;sda4 &#x2F;mnt&#x2F;gentoo&#x2F;home
+&lt;&#x2F;span&gt;&lt;span&gt;mount -o defaults,noatime,space_cache=v2,compress-force=zstd,autodefrag,subvol=@opt &#x2F;dev&#x2F;sda4 &#x2F;mnt&#x2F;gentoo&#x2F;opt
+&lt;&#x2F;span&gt;&lt;span&gt;mount -o defaults,noatime,space_cache=v2,compress-force=zstd,autodefrag,subvol=@srv &#x2F;dev&#x2F;sda4 &#x2F;mnt&#x2F;gentoo&#x2F;srv
+&lt;&#x2F;span&gt;&lt;span&gt;mount -o defaults,noatime,space_cache=v2,compress-force=zstd,autodefrag,subvol=@tmp &#x2F;dev&#x2F;sda4 &#x2F;mnt&#x2F;gentoo&#x2F;tmp
+&lt;&#x2F;span&gt;&lt;span&gt;mount -o defaults,noatime,space_cache=v2,compress-force=zstd,autodefrag,subvol=@usr &#x2F;dev&#x2F;sda4 &#x2F;mnt&#x2F;gentoo&#x2F;usr
+&lt;&#x2F;span&gt;&lt;span&gt;mount -o defaults,noatime,space_cache=v2,compress-force=zstd,autodefrag,subvol=@var &#x2F;dev&#x2F;sda4 &#x2F;mnt&#x2F;gentoo&#x2F;var
+&lt;&#x2F;span&gt;&lt;span&gt;mount -o defaults,noatime,space_cache=v2,compress-force=zstd,autodefrag,subvol=@vms &#x2F;dev&#x2F;sda4 &#x2F;mnt&#x2F;gentoo&#x2F;vms
+&lt;&#x2F;span&gt;&lt;span&gt;mount -o defaults,noatime,space_cache=v2,compress-force=zstd,autodefrag,subvol=@snapshots &#x2F;dev&#x2F;sda4 &#x2F;mnt&#x2F;gentoo&#x2F;.snapshots
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;use whatever your drive partitions are called (mine were nvme0n1). i did not reinstall the tarball, so i the &#x2F;boot partition on root was empty at this point after everything was unmounted and deleted.&lt;&#x2F;p&gt;
+&lt;p&gt;at this point you can just mount stuff and chroot in:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;# Copy DNS info
+&lt;&#x2F;span&gt;&lt;span&gt;cp --dereference &#x2F;etc&#x2F;resolv.conf &#x2F;mnt&#x2F;gentoo&#x2F;etc&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Mounting the necessary filesystems
+&lt;&#x2F;span&gt;&lt;span&gt;mount --types proc &#x2F;proc &#x2F;mnt&#x2F;gentoo&#x2F;proc
+&lt;&#x2F;span&gt;&lt;span&gt;mount --rbind &#x2F;sys &#x2F;mnt&#x2F;gentoo&#x2F;sys
+&lt;&#x2F;span&gt;&lt;span&gt;mount --make-rslave &#x2F;mnt&#x2F;gentoo&#x2F;sys
+&lt;&#x2F;span&gt;&lt;span&gt;mount --rbind &#x2F;dev &#x2F;mnt&#x2F;gentoo&#x2F;dev
+&lt;&#x2F;span&gt;&lt;span&gt;mount --make-rslave &#x2F;mnt&#x2F;gentoo&#x2F;dev
+&lt;&#x2F;span&gt;&lt;span&gt;mount --rbind &#x2F;run &#x2F;mnt&#x2F;gentoo&#x2F;run
+&lt;&#x2F;span&gt;&lt;span&gt;mount --make-rslave &#x2F;mnt&#x2F;gentoo&#x2F;run
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Entering the new environment
+&lt;&#x2F;span&gt;&lt;span&gt;# chroot
+&lt;&#x2F;span&gt;&lt;span&gt;#env -i HOME=@ TERM=linux chroot . bash -l|
+&lt;&#x2F;span&gt;&lt;span&gt;chroot &#x2F;mnt&#x2F;gentoo &#x2F;bin&#x2F;bash
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Source ENV
+&lt;&#x2F;span&gt;&lt;span&gt;source &#x2F;etc&#x2F;profile
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Change Terminal PS1 Name
+&lt;&#x2F;span&gt;&lt;span&gt;export PS1=&amp;quot;(chroot) ${PS1}&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;after the chroot i was able to follow the gentoo handbook a bit regarding the &#x2F;efi partition.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;mount &#x2F;dev&#x2F;sda1 &#x2F;efi
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;now to make sure dracut, initramfs and all that shit points at the right place, i re-installed my kernel...&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;emerge -avU gentoo-kernel-bin
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;and let things rebuild, it did pickup the &#x2F;efi location this time.&lt;&#x2F;p&gt;
+&lt;p&gt;then i did grub-install&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;grub-install --efi-directory=&#x2F;efi
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;and no errors were showing...so kept moving along in the guide with the applicable parts.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;grub-mkconfig -o &#x2F;boot&#x2F;grub&#x2F;grub.cfg
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this was the moment of truth! now all output showed the efi detected, kernel found, and snapshots! another thing that i think was helpful was i had installed the grub-btrfs program before i wiped everything out and started over. that was the utility that picked up the snapshots. grub-btrfs has its own config file, so take a look at that with &lt;code&gt;nano &#x2F;etc&#x2F;default&#x2F;grub-btrfs&#x2F;config&lt;&#x2F;code&gt; and tweak anything you lost, or preferred working, # of snapshots in the list etc.&lt;&#x2F;p&gt;
+&lt;p&gt;i also wiped out the pretty boot screen and had to find a way to get that back.  fortunately its on github...
+&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;Telemin&#x2F;gentoo-grub-themes&quot;&gt;https:&#x2F;&#x2F;github.com&#x2F;Telemin&#x2F;gentoo-grub-themes&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;so go ahead and reboot back into the machine and then you can fuck with grub, also check out the new snapshot menu item if you have grub-btrfs installed.&lt;&#x2F;p&gt;
+&lt;p&gt;to get the gentoo glass theme back, you need to figure out the proper directory from the config file...mine only had starfield (which is not as nice) and so i had to make the directory &#x2F;boot&#x2F;grub&#x2F;themes&#x2F;glass and then i cloned the full repo from the link above and &lt;code&gt;cp -r &#x2F;gentoo-glass&#x2F; &#x2F;boot&#x2F;grub&#x2F;themes&#x2F;glass&#x2F;&lt;&#x2F;code&gt; from the cloned directory&lt;&#x2F;p&gt;
+&lt;p&gt;verify that the files were in the right place, and change the line for the grub theme location in &#x2F;etc&#x2F;default&#x2F;grub to&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;GRUB_THEME=&amp;quot;&#x2F;boot&#x2F;grub&#x2F;themes&#x2F;glass&#x2F;theme.txt&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;or whatever your directory is named, and voila a pretty bootsplash menu and working btrfs, timeshift, snapshots, all in grub!&lt;&#x2F;p&gt;
+&lt;p&gt;and a small update...i have torched my gentoo a couple of times now. and i have used timeshift to restore it as well. now, in one dumb blow i accidentally removed my 7.0.5 kernel image, and purposefully tampered with modemmanager and was left with a flashing boot screen at prompt. thats new to me. thankfully i have a debian openRC install as backup on the laptop that has timeshift installed. according to the website, all you have to do is tell it where to find the rsync backups and you can point it to other partitions! i showed it my timeshift partition, selected the root partition and told it where the bootloader was to be installed and after some acknowledgements it worked, i was able to get back into my snapshot before i fucked everything up.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>gentoo on my laptop</title>
+        <published>2026-04-25T00:00:00+00:00</published>
+        <updated>2026-04-25T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/gentoo-on-my-laptop/"/>
+        <id>https://inktheghost.com/blog/gentoo-on-my-laptop/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/gentoo-on-my-laptop/">&lt;h1 id=&quot;gentoo-on-my-laptop&quot;&gt;gentoo on my laptop&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;08-58&quot;&gt;08:58&lt;&#x2F;h2&gt;
+&lt;p&gt;it&#x27;s not surprising how i got here i guess...after running debian forky (14) on my laptop with openrc for over a month and really liking it, i thought to myself - since openRC is a gentoo native product, how hard could it be getting gentoo to install on the laptop??&lt;&#x2F;p&gt;
+&lt;p&gt;well, that&#x27;s harder than you think. i could tell from running the openrc live cd that everything would function, but since the gentoo install is way more manual, and difficult, the 2-day+ process began.&lt;&#x2F;p&gt;
+&lt;p&gt;now after sitting down and forcing my way through all the setup, then the tweaks, i&#x27;ve got myself a usable DD that has everything my openRC deb install does, with less glitches in the boot system (i&#x27;ve had to build my own openRC init files on deb, and gentoo&#x27;s were provided, natively).&lt;&#x2F;p&gt;
+&lt;p&gt;here&#x27;s what i have left to do, nfs access to local file server, when at home (shouldn&#x27;t be too bad), and getting my librewolf &#x2F; proxmox browser configuration to work (doesn&#x27;t like the vnc aspect), but that&#x27;s a browser issue, and i can ssh in anyway, which is usually better. i will also eventually setup keyd, as its not hard, but my pesky delete button still doesn&#x27;t work and I FUCKING HATE THE CAPLOCKS BUTTON &amp;lt;-- see what i did there?&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;gentoo-install&quot;&gt;gentoo install:&lt;&#x2F;h3&gt;
+&lt;ul&gt;
+&lt;li&gt;difficult&lt;&#x2F;li&gt;
+&lt;li&gt;time-consuming&lt;&#x2F;li&gt;
+&lt;li&gt;learing new commands and how system functions&lt;&#x2F;li&gt;
+&lt;li&gt;USE flags, holy shit&lt;&#x2F;li&gt;
+&lt;li&gt;stable and custom built&lt;&#x2F;li&gt;
+&lt;li&gt;fast&lt;&#x2F;li&gt;
+&lt;li&gt;openRC natively&lt;&#x2F;li&gt;
+&lt;li&gt;has a handbook, follow it to a &quot;t&quot;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h4 id=&quot;starting-off&quot;&gt;starting off&lt;&#x2F;h4&gt;
+&lt;hr &#x2F;&gt;
+&lt;p&gt;follow the handbook, until you get a feel for how this is gunna go, i setup and wiped out 3 installations before i felt i had a handle on it, and not in VMs. if you have installed arch from the commandline, and NO, not with archinstall, this will seem very familiar. i started with the liveCD and after i understood how it was working, ended up using my running debOS to install via changeroot.&lt;&#x2F;p&gt;
+&lt;p&gt;things that helped me...if you have an entirely separate drive install it there - i went with my second nvme drive and created 3 partitions. i used 10GB for efi, 20GB for swap and 100GB for the &#x2F; - ext4 i have not had the pleasure of installing btrfs with gentoo or openRC debian, and i may not. i was using it for snapshots, but timeshift, which works in debian and gentoo works with the ext4 partitions and i&#x27;ve been able to restore using it - &lt;em&gt;with access to the system&lt;&#x2F;em&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;keep the efi boot partitions separate, you can update-grub to each individually and with os-prober it will pickup the other distro. this is easier and more safe than writing two different installs to the same partition...if i change anything there, it would be to use refind or limine and have it chain boot.&lt;&#x2F;p&gt;
+&lt;p&gt;once partitioned, you can use mkfs to format the partitions with the appropriate types &quot;efi,swap and ext4&quot;, in my case, and then mount.  gentoo handbook directions state to mkdir and mount to &#x2F;mnt&#x2F;gentoo initially, i found after that and the &#x2F;proc &#x2F;dev etc that you can also mount the efi to &#x2F;mnt&#x2F;gentoo&#x2F;boot to save a little time later and keep with the flow.&lt;&#x2F;p&gt;
+&lt;p&gt;at this point you can changeroot and follow the handbook and get the system to a booting state.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;reboot-and-start-installing-stuff&quot;&gt;reboot and start installing stuff&lt;&#x2F;h4&gt;
+&lt;hr &#x2F;&gt;
+&lt;p&gt;instead of trying to do everything at once, i found it was best to get to a point where i had a boot and prompt with root login. there are a few guides out there for kde installs that will have you setup kde, user and such before initial boot. i liked the gentoo handbook way and after a solid reboot sort of start the install process.  i have binpackages enabled, which helps cut some install time down, but mostly i found that i needed to setup some global flags.&lt;&#x2F;p&gt;
+&lt;p&gt;here is my &#x2F;etc&#x2F;portage&#x2F;make.conf:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;# ------------------------------------------------------------
+&lt;&#x2F;span&gt;&lt;span&gt;#  Compiler flags (all languages)
+&lt;&#x2F;span&gt;&lt;span&gt;# ------------------------------------------------------------
+&lt;&#x2F;span&gt;&lt;span&gt;COMMON_FLAGS=&amp;quot;-march=alderlake -mabm -mno-kl -mno-pconfig -mno-sgx -mno-widekl -mshstk --param=l1-cache-line-size=64 --param=l1-cache-size=32 --param=l2-cache-size=12288 -O2 -pipe&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;CFLAGS=&amp;quot;${COMMON_FLAGS}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;CXXFLAGS=&amp;quot;${COMMON_FLAGS}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;RUSTFLAGS=&amp;quot;${RUSTFLAGS} -C target-cpu=alderlake&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# ------------------------------------------------------------
+&lt;&#x2F;span&gt;&lt;span&gt;#  Locale (English messages)
+&lt;&#x2F;span&gt;&lt;span&gt;# ------------------------------------------------------------
+&lt;&#x2F;span&gt;&lt;span&gt;LC_MESSAGES=&amp;quot;C.UTF-8&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# ------------------------------------------------------------
+&lt;&#x2F;span&gt;&lt;span&gt;#  Global USE flags
+&lt;&#x2F;span&gt;&lt;span&gt;# ------------------------------------------------------------
+&lt;&#x2F;span&gt;&lt;span&gt;USE=&amp;quot;wayland bluetooth elogind networkmanager nfs ext4 -gtk -gnome -systemd cups foomaticdb ppds usb&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# ------------------------------------------------------------
+&lt;&#x2F;span&gt;&lt;span&gt;#  Portage FEATURES (single line, no self‑reference)
+&lt;&#x2F;span&gt;&lt;span&gt;# ------------------------------------------------------------
+&lt;&#x2F;span&gt;&lt;span&gt;FEATURES=&amp;quot;getbinpkg binpkg-request-signature ccache&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# ------------------------------------------------------------
+&lt;&#x2F;span&gt;&lt;span&gt;#  License handling
+&lt;&#x2F;span&gt;&lt;span&gt;# ------------------------------------------------------------
+&lt;&#x2F;span&gt;&lt;span&gt;ACCEPT_LICENSE=&amp;quot;* @FREE @BINARY-REDISTRIBUTABLE @GPL-COMPATIBLE&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# ------------------------------------------------------------
+&lt;&#x2F;span&gt;&lt;span&gt;#  Bootloader configuration
+&lt;&#x2F;span&gt;&lt;span&gt;# ------------------------------------------------------------
+&lt;&#x2F;span&gt;&lt;span&gt;GRUB_PLATFORMS=&amp;quot;efi-64&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# ------------------------------------------------------------
+&lt;&#x2F;span&gt;&lt;span&gt;#  Architecture &#x2F; keyword selection
+&lt;&#x2F;span&gt;&lt;span&gt;# ------------------------------------------------------------
+&lt;&#x2F;span&gt;&lt;span&gt;ACCEPT_KEYWORDS=&amp;quot;~amd64&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# ------------------------------------------------------------
+&lt;&#x2F;span&gt;&lt;span&gt;#  Emerge default options (no duplicate --getbinpkg)
+&lt;&#x2F;span&gt;&lt;span&gt;# ------------------------------------------------------------
+&lt;&#x2F;span&gt;&lt;span&gt;EMERGE_DEFAULT_OPTS=&amp;quot;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# ------------------------------------------------------------
+&lt;&#x2F;span&gt;&lt;span&gt;#  Video driver selection
+&lt;&#x2F;span&gt;&lt;span&gt;# ------------------------------------------------------------
+&lt;&#x2F;span&gt;&lt;span&gt;VIDEO_CARDS=&amp;quot;intel&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# ------------------------------------------------------------
+&lt;&#x2F;span&gt;&lt;span&gt;#  Parallel builds &amp;amp; ccache location
+&lt;&#x2F;span&gt;&lt;span&gt;# ------------------------------------------------------------
+&lt;&#x2F;span&gt;&lt;span&gt;# Replace “8” with the number of CPU threads you actually have.
+&lt;&#x2F;span&gt;&lt;span&gt;# If you have less RAM, lower the “-l” value (e.g., -l4).
+&lt;&#x2F;span&gt;&lt;span&gt;MAKEOPTS=&amp;quot;-j10 -l12&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;CCACHE_DIR=&amp;quot;&#x2F;var&#x2F;cache&#x2F;ccache&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;there&#x27;s probably a few things here that could be consolidated, but overall its pretty neat. i&#x27;ve got 50 some packages from world and total 1180, so pretty lean for a DM.&lt;&#x2F;p&gt;
+&lt;p&gt;the guru package and nerd-fonts, are helpful, timeshift using rsync for ext4...i might play with a btrfs and timeshift install next, but thats probably for the desktop. i&#x27;ve rescued the system a few times already, the latest when i did something to my package manager where it would only pull the same gentoo repo over and over...sometimes easier to just go back and start over.&lt;&#x2F;p&gt;
+&lt;p&gt;i&#x27;d recommend timeshift for pretty much any install at this point, even vanilla ones.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>ink the ghost - btrfs</title>
+    <link rel="self" type="application/atom+xml" href="https://inktheghost.com/tags/btrfs/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://inktheghost.com"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2026-09-06T00:00:00+00:00</updated>
+    <id>https://inktheghost.com/tags/btrfs/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Alpine Linux Btrfs OpenRC Plasma install</title>
+        <published>2026-09-06T00:00:00+00:00</published>
+        <updated>2026-09-06T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/alpine-linux/"/>
+        <id>https://inktheghost.com/blog/alpine-linux/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/alpine-linux/">&lt;h1 id=&quot;alpine-linux&quot;&gt;Alpine Linux&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;19-06&quot;&gt;19:06&lt;&#x2F;h2&gt;
+&lt;p&gt;in pursuit of trying to find another distro (seems like i always am) its a matter of staying sans systemd. and i tried doing alpine on my laptop before, but i was having touchpad driver issues, so i abandoned it for #gentoo. i was using gentoo on the NUC as my desktop as well, but i think that was the first install where i got gentoo working an it was just a regular old ext4 (included timeshift for backing up). i didn&#x27;t love that configuration so i figured what the hell, lets try alpine.&lt;&#x2F;p&gt;
+&lt;p&gt;i went through 2 or maybe 3 installs till i felt comfortable with the commands and the flow of the install. #alpine is about as bare-bones as you get. reminds me of arch with archinstall. so as it got easier i started to dig into how best to go about it.&lt;&#x2F;p&gt;
+&lt;p&gt;the simplest was to just use the alpine live environment, go figure! the btrfs instructions are excellent, as are all of Alpine&#x27;s docs actually.&lt;&#x2F;p&gt;
+&lt;p&gt;make your USB, config the bootmanager if need be to boot from the USB and you&#x27;ll be met with a very fast boot and an intimidating prompt.&lt;&#x2F;p&gt;
+&lt;p&gt;sign in with &quot;root&quot;, no password.
+here&#x27;s where i found it easiest to setup a few env variables and add a program or two, i would be ssh-ing in after boot, so i wanted the following:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;apk add kitty btrfs-progs  
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;set a environmental variable before you go into setup will streamline things a bit:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;export ROOTFS=btrfs
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;as outlined in the docs, [https:&#x2F;&#x2F;wiki.alpinelinux.org&#x2F;wiki&#x2F;Btrfs?__goaway_challenge=cookie&amp;amp;__goaway_id=ff47e4359cf9f396e0258c979c7850de&amp;amp;_&lt;em&gt;goaway_referer=https%3A%2F%2Fwiki.alpinelinux.org%2Fw%2Findex.php%3Fsearch%3Dbtrfs%2Binstall%26title%3DSpecial%253ASearch%26wprov%3Dacrw1&lt;&#x2F;em&gt;-1](alpine btrfs)&lt;&#x2F;p&gt;
+&lt;p&gt;this allows seamless setup of the btrfs filesystem as much as we need it for apk-snap, grub-btrfs and all the goodies.&lt;&#x2F;p&gt;
+&lt;p&gt;enter the setup with &lt;code&gt;setup-alpine&lt;&#x2F;code&gt; i liked the flow of the installer, you can pretty much rip through all of the prompts. i set my own IP address in the network section, told it which disk i wanted the root partition on and you will see it make the btrfs autmoatically and install everything and you are ready to reboot.&lt;&#x2F;p&gt;
+&lt;p&gt;boot to prompt, enter root or username and passwd and you are again left with a prompt. the next thing i wanted to do was get the system repos updated and install the apk-snapper &lt;code&gt;apk-snap&lt;&#x2F;code&gt; program to start leaving my self breadcrumbs in case i fucked something up. you&#x27;ll need a couple more apps:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;doas apk update &amp;amp;&amp;amp; doas apk upgrade
+&lt;&#x2F;span&gt;&lt;span&gt;doas apk add apk-snap nano
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this will at least get snapshots going, i setup grub btrfs after plasma last time, but it could happen anytime really, i just needed the browser to be able to troubleshoot some issues. so the next step was &lt;code&gt;doas setup-desktop&lt;&#x2F;code&gt;. alpine really excels at its simplicity with everything here...i selected plasma and let it rip.&lt;&#x2F;p&gt;
+&lt;p&gt;reboot once that&#x27;s complete and you&#x27;ll be met with a prompt for logging in on kde plasma.&lt;&#x2F;p&gt;
+&lt;p&gt;after in the desktop, i found my sound was working, bluetooth was off, networkmanager was disabled but internet was working so i could still continue without too much fuss.&lt;&#x2F;p&gt;
+&lt;p&gt;first order of business was changing repos to edge and adding testing. edit &#x2F;etc&#x2F;apk&#x2F;repositories:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;#&#x2F;media&#x2F;sdb&#x2F;apks
+&lt;&#x2F;span&gt;&lt;span&gt;http:&#x2F;&#x2F;mirrors.edge.kernel.org&#x2F;alpine&#x2F;edge&#x2F;main
+&lt;&#x2F;span&gt;&lt;span&gt;http:&#x2F;&#x2F;mirrors.edge.kernel.org&#x2F;alpine&#x2F;edge&#x2F;community
+&lt;&#x2F;span&gt;&lt;span&gt;http:&#x2F;&#x2F;mirrors.edge.kernel.org&#x2F;alpine&#x2F;edge&#x2F;testing
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;then do a simple update to get to the edge (testing) platform and install the edge kernel also:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;doas apk upgrade -U #same as the apk update &amp;amp; apk upgrade combined
+&lt;&#x2F;span&gt;&lt;span&gt;doas apk add linux-edge #pulls linux-stable kernel
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;testing allows you to download librewolf for example.&lt;&#x2F;p&gt;
+&lt;p&gt;i also found that i needed to change shells after alpine login as i use bash on all my other machines and have dot files that i store in a git repo and git clone with every machine setup.&lt;&#x2F;p&gt;
+&lt;p&gt;first install bash, and change user shell (root if you like), add a couple other essentials for editing files, term etc&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;apk add bash shadow kitty nano
+&lt;&#x2F;span&gt;&lt;span&gt;doas chsh joe &#x2F;bin&#x2F;bash
+&lt;&#x2F;span&gt;&lt;span&gt;#doas chsh root &#x2F;bin&#x2F;bash
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;verify the changes took place, this is easily found in the passwd file:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;cat &#x2F;etc&#x2F;passwd | grep joe &amp;amp;&amp;amp; cat &#x2F;etc&#x2F;passwd | grep root
+&lt;&#x2F;span&gt;&lt;span&gt;joe:x:1000:1000:joe:&#x2F;home&#x2F;joe:&#x2F;bin&#x2F;bash
+&lt;&#x2F;span&gt;&lt;span&gt;root:x:0:0:root:&#x2F;root:&#x2F;bin&#x2F;bash
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;also, create a ~&#x2F;.bash_profile you need for ssh logins, etc&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;# Load the interactive Bash configuration for login shells.
+&lt;&#x2F;span&gt;&lt;span&gt;if [ -f &amp;quot;$HOME&#x2F;.bashrc&amp;quot; ]; then
+&lt;&#x2F;span&gt;&lt;span&gt;    . &amp;quot;$HOME&#x2F;.bashrc&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;fi
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this way the ssh login will check for .bashrc and load it on access.&lt;&#x2F;p&gt;
+&lt;p&gt;you essentially have the tools to continue, i like loading kitty term for alpine early because i am usually ssh-ing in off a kitty terminal on another machine and this will eliminate editing errors, i like nano for a simple editor, but use what you like...&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>gentoo and btrfs</title>
+        <published>2026-05-07T00:00:00+00:00</published>
+        <updated>2026-05-07T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/gentoo-and-btrfs/"/>
+        <id>https://inktheghost.com/blog/gentoo-and-btrfs/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/gentoo-and-btrfs/">&lt;h1 id=&quot;gentoo-and-btrfs&quot;&gt;gentoo and btrfs&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;10-03&quot;&gt;10:03&lt;&#x2F;h2&gt;
+&lt;p&gt;well, the gentoo bug has bit me i suppose. i&#x27;ve got gentoo on a ext4 setup on my laptop and its working great, used timeshift with rsync to create a reliable and usable backup and restore. tested and works great as long as you can boot into it. now, i had my desktop miniPC a NitroPC with open bootloader and had been running debian with openRC on it, but kept coming back to the idea if i wanna run openRC, why not just go to the source. gentoo is well integrated and having to adapt an build my own init files was fun, but a little annoying. its baked in, and just works.&lt;&#x2F;p&gt;
+&lt;p&gt;so i set about finding a couple guides, used the handbook where it makes sense, and seemed after some arduous trial and error got it functioning. so the first guide i used, which got me to a boot prompt was &lt;a href=&quot;https:&#x2F;&#x2F;gist.github.com&#x2F;xmawja&#x2F;da6a7ee664271631ae5cd4de0dc4f249&quot;&gt;https:&#x2F;&#x2F;gist.github.com&#x2F;xmawja&#x2F;da6a7ee664271631ae5cd4de0dc4f249&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;in this guide, everything worked for the most part, but i found i was having trouble updating grub when a new kernel was loaded - couldnt properly find boot partition and i was only able to boot from an efi stub that i&#x27;d copied and not from grub.&lt;&#x2F;p&gt;
+&lt;p&gt;this issue i think was in the two partitions that were being setup in the guide, so after i was in my WM - id gone as far as to setup kde, i decided that in order to get dracut, intiramfs and mkconfig-grub to all play nice together i needed to redo the boot partition.&lt;&#x2F;p&gt;
+&lt;p&gt;this was not for the faint of heart, as i had to wipe it from the liveCD and chroot in...which is a pain in the butt with a btrfs setup as you have many partitions to load.  i was able to shortcut this with the guide a bit as alot of the mount commands were copy and paste but it kinda went like this:&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;using partition-manager in gentoo liveCD, delete the &#x2F;boot (&#x2F;dev&#x2F;sda1 - ext4) and &#x2F;boot&#x2F;efi (&#x2F;dev&#x2F;sda-2 EFI) partitions - this leave swap (if you need it) and the btrfs partition with &#x2F; and others - apply changes&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;following the guide principles create one new partition for boot, i used 10GB and set it as fat32. apply changes, then select the partition (right-click) and toggle boot flags (make sure partition is not mounted) and apply changes&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;when you follow the guide above, this will give you 3 partitions - &#x2F;dev&#x2F;sda1 (EFI - fat32), &#x2F;dev&#x2F;sda2 (swap) and &#x2F;dev&#x2F;sda3 (root - btrfs). you can then continue along with the guide and just be mindful of the mounting locations later and the fstab entries.&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;# mount root
+&lt;&#x2F;span&gt;&lt;span&gt;mount -o defaults,noatime,space_cache=v2,compress-force=zstd,autodefrag,subvol=@ &#x2F;dev&#x2F;sda4 &#x2F;mnt&#x2F;gentoo
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Create BOOT and other Directory to be mount on boot partion|
+&lt;&#x2F;span&gt;&lt;span&gt;# create desire directorys to be mountes as a SubVolume|
+&lt;&#x2F;span&gt;&lt;span&gt;mkdir -p &#x2F;mnt&#x2F;gentoo&#x2F;{boot,home,opt,srv,tmp,usr,var,vms,.snapshots}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# mount other subvolumes|
+&lt;&#x2F;span&gt;&lt;span&gt;mount -o defaults,noatime,space_cache=v2,compress-force=zstd,autodefrag,subvol=@home &#x2F;dev&#x2F;sda4 &#x2F;mnt&#x2F;gentoo&#x2F;home
+&lt;&#x2F;span&gt;&lt;span&gt;mount -o defaults,noatime,space_cache=v2,compress-force=zstd,autodefrag,subvol=@opt &#x2F;dev&#x2F;sda4 &#x2F;mnt&#x2F;gentoo&#x2F;opt
+&lt;&#x2F;span&gt;&lt;span&gt;mount -o defaults,noatime,space_cache=v2,compress-force=zstd,autodefrag,subvol=@srv &#x2F;dev&#x2F;sda4 &#x2F;mnt&#x2F;gentoo&#x2F;srv
+&lt;&#x2F;span&gt;&lt;span&gt;mount -o defaults,noatime,space_cache=v2,compress-force=zstd,autodefrag,subvol=@tmp &#x2F;dev&#x2F;sda4 &#x2F;mnt&#x2F;gentoo&#x2F;tmp
+&lt;&#x2F;span&gt;&lt;span&gt;mount -o defaults,noatime,space_cache=v2,compress-force=zstd,autodefrag,subvol=@usr &#x2F;dev&#x2F;sda4 &#x2F;mnt&#x2F;gentoo&#x2F;usr
+&lt;&#x2F;span&gt;&lt;span&gt;mount -o defaults,noatime,space_cache=v2,compress-force=zstd,autodefrag,subvol=@var &#x2F;dev&#x2F;sda4 &#x2F;mnt&#x2F;gentoo&#x2F;var
+&lt;&#x2F;span&gt;&lt;span&gt;mount -o defaults,noatime,space_cache=v2,compress-force=zstd,autodefrag,subvol=@vms &#x2F;dev&#x2F;sda4 &#x2F;mnt&#x2F;gentoo&#x2F;vms
+&lt;&#x2F;span&gt;&lt;span&gt;mount -o defaults,noatime,space_cache=v2,compress-force=zstd,autodefrag,subvol=@snapshots &#x2F;dev&#x2F;sda4 &#x2F;mnt&#x2F;gentoo&#x2F;.snapshots
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;use whatever your drive partitions are called (mine were nvme0n1). i did not reinstall the tarball, so i the &#x2F;boot partition on root was empty at this point after everything was unmounted and deleted.&lt;&#x2F;p&gt;
+&lt;p&gt;at this point you can just mount stuff and chroot in:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;# Copy DNS info
+&lt;&#x2F;span&gt;&lt;span&gt;cp --dereference &#x2F;etc&#x2F;resolv.conf &#x2F;mnt&#x2F;gentoo&#x2F;etc&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Mounting the necessary filesystems
+&lt;&#x2F;span&gt;&lt;span&gt;mount --types proc &#x2F;proc &#x2F;mnt&#x2F;gentoo&#x2F;proc
+&lt;&#x2F;span&gt;&lt;span&gt;mount --rbind &#x2F;sys &#x2F;mnt&#x2F;gentoo&#x2F;sys
+&lt;&#x2F;span&gt;&lt;span&gt;mount --make-rslave &#x2F;mnt&#x2F;gentoo&#x2F;sys
+&lt;&#x2F;span&gt;&lt;span&gt;mount --rbind &#x2F;dev &#x2F;mnt&#x2F;gentoo&#x2F;dev
+&lt;&#x2F;span&gt;&lt;span&gt;mount --make-rslave &#x2F;mnt&#x2F;gentoo&#x2F;dev
+&lt;&#x2F;span&gt;&lt;span&gt;mount --rbind &#x2F;run &#x2F;mnt&#x2F;gentoo&#x2F;run
+&lt;&#x2F;span&gt;&lt;span&gt;mount --make-rslave &#x2F;mnt&#x2F;gentoo&#x2F;run
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Entering the new environment
+&lt;&#x2F;span&gt;&lt;span&gt;# chroot
+&lt;&#x2F;span&gt;&lt;span&gt;#env -i HOME=@ TERM=linux chroot . bash -l|
+&lt;&#x2F;span&gt;&lt;span&gt;chroot &#x2F;mnt&#x2F;gentoo &#x2F;bin&#x2F;bash
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Source ENV
+&lt;&#x2F;span&gt;&lt;span&gt;source &#x2F;etc&#x2F;profile
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Change Terminal PS1 Name
+&lt;&#x2F;span&gt;&lt;span&gt;export PS1=&amp;quot;(chroot) ${PS1}&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;after the chroot i was able to follow the gentoo handbook a bit regarding the &#x2F;efi partition.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;mount &#x2F;dev&#x2F;sda1 &#x2F;efi
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;now to make sure dracut, initramfs and all that shit points at the right place, i re-installed my kernel...&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;emerge -avU gentoo-kernel-bin
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;and let things rebuild, it did pickup the &#x2F;efi location this time.&lt;&#x2F;p&gt;
+&lt;p&gt;then i did grub-install&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;grub-install --efi-directory=&#x2F;efi
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;and no errors were showing...so kept moving along in the guide with the applicable parts.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;grub-mkconfig -o &#x2F;boot&#x2F;grub&#x2F;grub.cfg
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this was the moment of truth! now all output showed the efi detected, kernel found, and snapshots! another thing that i think was helpful was i had installed the grub-btrfs program before i wiped everything out and started over. that was the utility that picked up the snapshots. grub-btrfs has its own config file, so take a look at that with &lt;code&gt;nano &#x2F;etc&#x2F;default&#x2F;grub-btrfs&#x2F;config&lt;&#x2F;code&gt; and tweak anything you lost, or preferred working, # of snapshots in the list etc.&lt;&#x2F;p&gt;
+&lt;p&gt;i also wiped out the pretty boot screen and had to find a way to get that back.  fortunately its on github...
+&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;Telemin&#x2F;gentoo-grub-themes&quot;&gt;https:&#x2F;&#x2F;github.com&#x2F;Telemin&#x2F;gentoo-grub-themes&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;so go ahead and reboot back into the machine and then you can fuck with grub, also check out the new snapshot menu item if you have grub-btrfs installed.&lt;&#x2F;p&gt;
+&lt;p&gt;to get the gentoo glass theme back, you need to figure out the proper directory from the config file...mine only had starfield (which is not as nice) and so i had to make the directory &#x2F;boot&#x2F;grub&#x2F;themes&#x2F;glass and then i cloned the full repo from the link above and &lt;code&gt;cp -r &#x2F;gentoo-glass&#x2F; &#x2F;boot&#x2F;grub&#x2F;themes&#x2F;glass&#x2F;&lt;&#x2F;code&gt; from the cloned directory&lt;&#x2F;p&gt;
+&lt;p&gt;verify that the files were in the right place, and change the line for the grub theme location in &#x2F;etc&#x2F;default&#x2F;grub to&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;GRUB_THEME=&amp;quot;&#x2F;boot&#x2F;grub&#x2F;themes&#x2F;glass&#x2F;theme.txt&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;or whatever your directory is named, and voila a pretty bootsplash menu and working btrfs, timeshift, snapshots, all in grub!&lt;&#x2F;p&gt;
+&lt;p&gt;and a small update...i have torched my gentoo a couple of times now. and i have used timeshift to restore it as well. now, in one dumb blow i accidentally removed my 7.0.5 kernel image, and purposefully tampered with modemmanager and was left with a flashing boot screen at prompt. thats new to me. thankfully i have a debian openRC install as backup on the laptop that has timeshift installed. according to the website, all you have to do is tell it where to find the rsync backups and you can point it to other partitions! i showed it my timeshift partition, selected the root partition and told it where the bootloader was to be installed and after some acknowledgements it worked, i was able to get back into my snapshot before i fucked everything up.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>
