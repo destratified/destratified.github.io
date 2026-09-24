@@ -16,4 +16,4 @@ and a few other experimental boxes...
 
 this static page is hosted on github using zola, please consider all these posts under review, deprecated or incomplete ;)
 
-970uts1d3
+970uts1d3 - i_moo #NO-AI
