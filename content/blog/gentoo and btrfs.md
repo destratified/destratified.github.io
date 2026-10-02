@@ -10,19 +10,26 @@ tags = ["gentoo", "btrfs"]
  ## 08:03
 
 **updating**
-***this is a work in progress - i shit-canned my whole install wiped and restarted from scratch.  WHY? well, after looking at how many OS's DE MW etc were OK with LLM contributions, i sought a new path.  current approach which is working that i will update this with here:
-gentoo w/ openRC- no-multilib profile
-btrfs filesystem
-snapper
-grub-btrfs
-niri WM
-sddm login w/ niceness
-waybar
-laptop stuff - power 
-my apps***
+***this is a work in progress - i shit-canned my whole install wiped and restarted from scratch.  WHY? well, after looking at how many OS's DE MW etc were OK with LLM contributions, i sought a new path. current approach which is working that i will update this with here:
+- btrfs filesystem
+- gentoo w/ openRC- no-multilib profile
+- snapper
+- grub-btrfs
+- sddm login w/ niceness
+- niri WM
+- bluetooth
+- networkmanager
+- waybar
+- laptop stuff - power 
+- my apps
 
 ***what i'm still trying to get working:
-screenlock***
+- screenlock - swaylock maybe?
+- brighnessctl for keyboard illumination
+- prettier waybar or alternative
+- sound
+
+______________
 
 1) using partition-manager in gentoo liveCD, delete the /boot (/dev/sda1 - ext4) and /boot/efi (/dev/sda-2 EFI) partitions - this leave swap (if you need it) and the btrfs partition with / and others - apply changes
 
