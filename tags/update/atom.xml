@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>ink the ghost - update</title>
+    <link rel="self" type="application/atom+xml" href="https://inktheghost.com/tags/update/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://inktheghost.com"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2026-03-07T00:00:00+00:00</updated>
+    <id>https://inktheghost.com/tags/update/atom.xml</id>
+    <entry xml:lang="en">
+        <title>ghostmirror-pt2</title>
+        <published>2026-03-07T00:00:00+00:00</published>
+        <updated>2026-03-07T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/ghostmirror-pt2/"/>
+        <id>https://inktheghost.com/blog/ghostmirror-pt2/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/ghostmirror-pt2/">&lt;h1 id=&quot;ghostmirror-pt2&quot;&gt;ghostmirror-pt2&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;17-32&quot;&gt;17:32&lt;&#x2F;h2&gt;
+&lt;p&gt;finally settled on a temp solution. ghostmirror is writing an update, looking to be able to pull any mirrorlist in and evaluating for rates&#x2F;etc. i helped a little re-formating their readme.md - I&#x27;m an actual contributer! while i am waiting for their update, i fixed up my little script.&lt;&#x2F;p&gt;
+&lt;p&gt;it checks a timestamp file, if it doesnt exist, it does a full pull of cachyos through rate-mirrors and uses a global list with reflector and runs ghostmirror on top of that. if the file exists and its less than 7 days old, it will just run pacman -Syu, if its older than 7 days it will do a minor rebuild:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;#!&#x2F;bin&#x2F;bash
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Colors
+&lt;&#x2F;span&gt;&lt;span&gt;bold_cyan=&amp;quot;\e[1;36m&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;bold_white=&amp;quot;\e[1;37m&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;reset=&amp;quot;\e[0m&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Path to the timestamp file
+&lt;&#x2F;span&gt;&lt;span&gt;timestamp_file=&amp;quot;$HOME&#x2F;update_timestamp&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Current time in seconds since epoch
+&lt;&#x2F;span&gt;&lt;span&gt;current_time=$(date +%s)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Check if the file exists
+&lt;&#x2F;span&gt;&lt;span&gt;if [[ -f &amp;quot;$timestamp_file&amp;quot; ]]; then
+&lt;&#x2F;span&gt;&lt;span&gt;    # Get the last modified time of the timestamp file
+&lt;&#x2F;span&gt;&lt;span&gt;    file_mod_time=$(stat -c %Y &amp;quot;$timestamp_file&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;    # Compute the age of the file
+&lt;&#x2F;span&gt;&lt;span&gt;    file_age=$((current_time - file_mod_time))
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    # Check if the file age is &amp;lt; than 7 days (604800 seconds)
+&lt;&#x2F;span&gt;&lt;span&gt;    if [[ $file_age -lt 604800 ]]; then
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}:: ${bold_white}Mirrors &amp;lt; 7 days old...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}:: ${bold_white}Current CachyOS Servers:${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        cat &#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;	echo -e &amp;quot;${bold_cyan}:: ${bold_white}Current Arch Servers:${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        cat &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Starting pacman -Syu...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        sudo pacman -Syu
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}[Done]${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        exit 0
+&lt;&#x2F;span&gt;&lt;span&gt;    else
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}:: ${bold_white}Mirrors older than 7 days, updating...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Starting Rate-mirrors...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        rate-mirrors cachyos --disable-comments | sudo tee &#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;        # Add corrections for proper pacman.conf formatting
+&lt;&#x2F;span&gt;&lt;span&gt;        cp -f --backup=simple --suffix=&amp;quot;-backup&amp;quot; &amp;quot;&#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist&amp;quot; &amp;quot;&#x2F;etc&#x2F;pacman.d&#x2F;cachyos-v3-mirrorlist&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        sed -i &amp;#39;s|&#x2F;$arch&#x2F;|&#x2F;$arch_v3&#x2F;|g&amp;#39; &amp;quot;&#x2F;etc&#x2F;pacman.d&#x2F;cachyos-v3-mirrorlist&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}:: ${bold_white}CachyOS Selected Servers:${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        cat &#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Ranking existing mirrors with ghostmirror...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        #ranking with ghostmirror
+&lt;&#x2F;span&gt;&lt;span&gt;        sudo ghostmirror -PomulsS &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist light state,uptodate,speed,estimated
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}:: ${bold_white}Arch Selected Servers:${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        cat &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Starting pacman -Syu...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        sudo pacman -Syu
+&lt;&#x2F;span&gt;&lt;span&gt;    fi
+&lt;&#x2F;span&gt;&lt;span&gt;else
+&lt;&#x2F;span&gt;&lt;span&gt;    echo -e &amp;quot;${bold_cyan}:: ${bold_white}Timestamp file does not exist...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Starting Rate-mirrors...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    rate-mirrors --disable-comments cachyos | sudo tee &#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;    # Add corrections for proper pacman.conf formatting
+&lt;&#x2F;span&gt;&lt;span&gt;    sudo cp -f --backup=simple --suffix=&amp;quot;-backup&amp;quot; &amp;quot;&#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist&amp;quot; &amp;quot;&#x2F;etc&#x2F;pacman.d&#x2F;cachyos-v3-mirrorlist&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    sudo sed -i &amp;#39;s|&#x2F;$arch&#x2F;|&#x2F;$arch_v3&#x2F;|g&amp;#39; &amp;quot;&#x2F;etc&#x2F;pacman.d&#x2F;cachyos-v3-mirrorlist&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    #echo -e &amp;quot;${bold_cyan}:: ${bold_white}CachyOS Selected Servers:${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    #cat &#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Starting Reflector...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    sudo reflector --verbose -c CA -c MX -c US --protocol https --sort rate --number 50 --download-timeout 5 --save &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    echo -e &amp;quot;${bold_cyan}== ${bold_white}Ranking mirrorlist with Ghostmirror...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    sudo ghostmirror -PomulsS &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist light state,uptodate,speed,estimated
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    echo -e &amp;quot;${bold_cyan}:: ${bold_white}Arch Selected Servers:${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    cat &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Starting pacman -Syu...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    sudo pacman -Syu
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    # Update timestamp file
+&lt;&#x2F;span&gt;&lt;span&gt;    echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Saving timestamp file...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    touch &amp;quot;$timestamp_file&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    echo -e &amp;quot;${bold_cyan}[Done]${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    exit 0
+&lt;&#x2F;span&gt;&lt;span&gt;fi
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Update the timestamp file with the current time
+&lt;&#x2F;span&gt;&lt;span&gt;echo -e &amp;quot;${bold_cyan}==&amp;gt; Updating timestamp file now...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;touch &amp;quot;$timestamp_file&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;echo -e &amp;quot;${bold_cyan}[Done]${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;works fine. polished a bit with a conversion to functions to keep the language simpler:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;#!&#x2F;bin&#x2F;bash
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;set -x
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Colors
+&lt;&#x2F;span&gt;&lt;span&gt;bold_cyan=&amp;quot;\e[1;36m&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;bold_white=&amp;quot;\e[1;37m&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;reset=&amp;quot;\e[0m&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Path to the timestamp file
+&lt;&#x2F;span&gt;&lt;span&gt;timestamp_file=&amp;quot;$HOME&#x2F;update_timestamp&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Current time in seconds since epoch
+&lt;&#x2F;span&gt;&lt;span&gt;current_time=$(date +%s)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Function to run rate-mirrors
+&lt;&#x2F;span&gt;&lt;span&gt;run_rate_mirrors() {
+&lt;&#x2F;span&gt;&lt;span&gt;  echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Starting Rate-mirrors...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;  rate-mirrors --disable-comments cachyos | sudo tee &#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  # Add corrections for proper pacman.conf formatting
+&lt;&#x2F;span&gt;&lt;span&gt;  sudo cp -f --backup=simple --suffix=&amp;quot;-backup&amp;quot; &amp;quot;&#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist&amp;quot; &amp;quot;&#x2F;etc&#x2F;pacman.d&#x2F;cachyos-v3-mirrorlist&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;  sudo sed -i &amp;#39;s|&#x2F;$arch&#x2F;|&#x2F;$arch_v3&#x2F;|g&amp;#39; &amp;quot;&#x2F;etc&#x2F;pacman.d&#x2F;cachyos-v3-mirrorlist&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Function to run ghostmirror
+&lt;&#x2F;span&gt;&lt;span&gt;run_ghostmirror() {
+&lt;&#x2F;span&gt;&lt;span&gt;  echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Ranking mirrorlist with Ghostmirror...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;  sudo ghostmirror -PomulsS &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist light state,uptodate,speed,estimated
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Function to run reflector
+&lt;&#x2F;span&gt;&lt;span&gt;run_reflector() {
+&lt;&#x2F;span&gt;&lt;span&gt;  echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Starting Reflector...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;  sudo reflector --verbose -c CA -c MX -c US --protocol https --sort rate --number 50 --download-timeout 5 --save &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Function to run pacman-syu
+&lt;&#x2F;span&gt;&lt;span&gt;run_pacman_syu() {
+&lt;&#x2F;span&gt;&lt;span&gt;  echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Starting pacman -Syu...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;  sudo pacman -Syu
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Function to run pacman-syyu
+&lt;&#x2F;span&gt;&lt;span&gt;run_pacman_syyu() {
+&lt;&#x2F;span&gt;&lt;span&gt;  echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Starting pacman -Syyu...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;  sudo pacman -Syyu
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#Function to update timestamp
+&lt;&#x2F;span&gt;&lt;span&gt;run_update_ts() {
+&lt;&#x2F;span&gt;&lt;span&gt;  echo -e &amp;quot;${bold_cyan}==&amp;gt; Updating timestamp file now...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;  touch &amp;quot;$timestamp_file&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;### Main script ###
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Check if the file exists
+&lt;&#x2F;span&gt;&lt;span&gt;if [[ -f &amp;quot;$timestamp_file&amp;quot; ]]; then
+&lt;&#x2F;span&gt;&lt;span&gt;    # Get the last modified time of the timestamp file
+&lt;&#x2F;span&gt;&lt;span&gt;    file_mod_time=$(stat -c %Y &amp;quot;$timestamp_file&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;    # Compute the age of the file
+&lt;&#x2F;span&gt;&lt;span&gt;    file_age=$((current_time - file_mod_time))
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    # Check if the file age is &amp;lt; than 24 hours (86400 seconds)
+&lt;&#x2F;span&gt;&lt;span&gt;    if [[ $file_age -lt 86400 ]]; then
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}:: ${bold_white}Mirrors &amp;lt; 24 hrs old...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}:: ${bold_white}Current CachyOS Servers:${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        cat &#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;	echo -e &amp;quot;${bold_cyan}:: ${bold_white}Current Arch Servers:${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        cat &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;        run_pacman_syu
+&lt;&#x2F;span&gt;&lt;span&gt;    else
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}:: ${bold_white}Mirrors older than 24 hours, updating...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        run_rate_mirrors
+&lt;&#x2F;span&gt;&lt;span&gt;        run_ghostmirror
+&lt;&#x2F;span&gt;&lt;span&gt;        run_pacman_syyu
+&lt;&#x2F;span&gt;&lt;span&gt;        run_update_ts
+&lt;&#x2F;span&gt;&lt;span&gt;   fi
+&lt;&#x2F;span&gt;&lt;span&gt;else
+&lt;&#x2F;span&gt;&lt;span&gt;    echo -e &amp;quot;${bold_cyan}:: ${bold_white}Timestamp file does not exist...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    run_rate_mirrors
+&lt;&#x2F;span&gt;&lt;span&gt;    run_reflector
+&lt;&#x2F;span&gt;&lt;span&gt;    run_ghostmirror
+&lt;&#x2F;span&gt;&lt;span&gt;    run_pacman_syyu
+&lt;&#x2F;span&gt;&lt;span&gt;    run_update_ts
+&lt;&#x2F;span&gt;&lt;span&gt;fi
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo  -e &amp;quot;${bold_cyan}[Done]${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+</content>
+        
+    </entry>
+</feed>

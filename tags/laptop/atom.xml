@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>ink the ghost - laptop</title>
+    <link rel="self" type="application/atom+xml" href="https://inktheghost.com/tags/laptop/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://inktheghost.com"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2026-01-14T00:00:00+00:00</updated>
+    <id>https://inktheghost.com/tags/laptop/atom.xml</id>
+    <entry xml:lang="en">
+        <title>laptop-cosmic-pt2</title>
+        <published>2026-01-14T00:00:00+00:00</published>
+        <updated>2026-01-14T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/laptop-cosmic-pt2/"/>
+        <id>https://inktheghost.com/blog/laptop-cosmic-pt2/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/laptop-cosmic-pt2/">&lt;h1 id=&quot;laptop-cosmic-pt2&quot;&gt;laptop-cosmic-pt2&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;18-29&quot;&gt;18:29&lt;&#x2F;h2&gt;
+&lt;p&gt;so i&#x27;ve been doing alot of configuring since the laptop&#x27;s come back online, some things broke as indicated in the last post, but i hadn&#x27;t written anything down yet. here&#x27;s a list of topics:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;bash&lt;&#x2F;li&gt;
+&lt;li&gt;snapper&#x2F;btrfs-assistant&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;inktheghost.com&#x2F;blog&#x2F;backup-with-pve-updated&#x2F;&quot;&gt;backup-with-pbs-updated&lt;&#x2F;a&gt;(again)&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;inktheghost.com&#x2F;blog&#x2F;obsidian-setup-pt2&#x2F;&quot;&gt;obsidian-pt2&lt;&#x2F;a&gt;(again)&lt;&#x2F;li&gt;
+&lt;li&gt;bash backup and &#x2F;builds to git repo for easier install&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;bash&quot;&gt;bash&lt;&#x2F;h3&gt;
+&lt;p&gt;after getting the browser working, i decided to venture into souping up the bash prompt, as i was working with fish in the garuda install and liked some of extra features.  a little internet searching and i was starting to see some great options, and i get to stay in the bash work - shebang!&lt;&#x2F;p&gt;
+&lt;p&gt;first things first, the bash prompt is boring. teasing you for more, even the defaults in the .bashrc are underwhelming compared to the fish config.  a couple options stood out, starship prompt, ble.sh seemed to cover most of what i wanted with a little tweaking to be done.&lt;&#x2F;p&gt;
+&lt;p&gt;so first, i installed starship:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;sudo pacman -S starship nerd-fonts 
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this is in the arch repos so no issues there, everything is controlled from the starship.toml in ~&#x2F;.config and the webpage has install instructions and some presets that can point you in the right direction. i chose the pure preset which is fairly simple.  i highly recommend installing the nerd-fonts package too as seen above as you will then have access to nerd-font symbols and some different fonts if you want it. i added all of them and also set my computer to Firacode which is like an old timer programming &#x2F;typewriter stlye font.&lt;&#x2F;p&gt;
+&lt;p&gt;for starship to work follow the install per your shell, many options even if you use fish or bash, or zsh
+&lt;a href=&quot;https:&#x2F;&#x2F;starship.rs&#x2F;guide&#x2F;#%F0%9F%9A%80-installation&quot;&gt;https:&#x2F;&#x2F;starship.rs&#x2F;guide&#x2F;#%F0%9F%9A%80-installation&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;for bash add the below to the &lt;code&gt;.bashrc&lt;&#x2F;code&gt; file:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;eval &amp;quot;$(starship init bash)&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;for pure preset you issue the following command at prompt:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;starship preset pure-preset -o ~&#x2F;.config&#x2F;starship.toml
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;if that&#x27;s all you want it&#x27;s pretty clean and fresh. i also installed ble.sh which gives me autocomplete and history&#x2F;search functions at the prompt. works incredibly well. here&#x27;s that process below:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;mkdir -p build 
+&lt;&#x2F;span&gt;&lt;span&gt;cd build 
+&lt;&#x2F;span&gt;&lt;span&gt;git clone --recursive https:&#x2F;&#x2F;github.com&#x2F;akinomyoga&#x2F;ble.sh.git
+&lt;&#x2F;span&gt;&lt;span&gt;cd ble.sh
+&lt;&#x2F;span&gt;&lt;span&gt;make
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;then add the source (plugin) to the &lt;code&gt;.bashrc.&lt;&#x2F;code&gt; file:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;source out&#x2F;ble.sh
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;i then tweaked colors, added a git icon and a buncha aliases for my (sort-of) final &lt;code&gt;.bashrc&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;# ~&#x2F;.bashrc
+&lt;&#x2F;span&gt;&lt;span&gt;#
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# If not running interactively, don&amp;#39;t do anything
+&lt;&#x2F;span&gt;&lt;span&gt;[[ $- != *i* ]] &amp;amp;&amp;amp; return
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;##PATH##
+&lt;&#x2F;span&gt;&lt;span&gt;# set PATH so it includes user&amp;#39;s private ~&#x2F;.local&#x2F;bin if it exists
+&lt;&#x2F;span&gt;&lt;span&gt;if [ -d &amp;quot;$HOME&#x2F;.local&#x2F;bin&amp;quot; ] ; then
+&lt;&#x2F;span&gt;&lt;span&gt;    PATH=&amp;quot;$HOME&#x2F;.local&#x2F;bin:$PATH&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;fi
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#bash time 24hr clock
+&lt;&#x2F;span&gt;&lt;span&gt;alias date=&amp;quot;date +&amp;#39;%H:%M:%S&amp;#39;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#unlimited bash history
+&lt;&#x2F;span&gt;&lt;span&gt;HISTSIZE=-1
+&lt;&#x2F;span&gt;&lt;span&gt;HISTFILESIZE=-1
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#ASCII art and greeting
+&lt;&#x2F;span&gt;&lt;span&gt;paleofetch
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#plugins
+&lt;&#x2F;span&gt;&lt;span&gt;source -- ~&#x2F;.local&#x2F;share&#x2F;blesh&#x2F;ble.sh
+&lt;&#x2F;span&gt;&lt;span&gt;eval &amp;quot;$(starship init bash)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;##Set some $ENVIRONMENTAL variable
+&lt;&#x2F;span&gt;&lt;span&gt;export VISUAL=nano
+&lt;&#x2F;span&gt;&lt;span&gt;export EDITOR=nano
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Replace ls with exa
+&lt;&#x2F;span&gt;&lt;span&gt;alias ls=&amp;#39;exa -al --color=always --group-directories-first --icons&amp;#39; # preferred listing
+&lt;&#x2F;span&gt;&lt;span&gt;alias la=&amp;#39;exa -a --color=always --group-directories-first --icons&amp;#39;  # all files and dirs
+&lt;&#x2F;span&gt;&lt;span&gt;alias ll=&amp;#39;exa -l --color=always --group-directories-first --icons&amp;#39;  # long format
+&lt;&#x2F;span&gt;&lt;span&gt;alias lt=&amp;#39;exa -aT --color=always --group-directories-first --icons&amp;#39; # tree listing
+&lt;&#x2F;span&gt;&lt;span&gt;alias l.=&amp;quot;exa -a | egrep &amp;#39;^\.&amp;#39;&amp;quot;                                     # show only dotfiles
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Common use
+&lt;&#x2F;span&gt;&lt;span&gt;alias aup=&amp;quot;pamac upgrade --aur&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;#alias grubup=&amp;quot;sudo update-grub&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;#alias fixpacman=&amp;quot;sudo rm &#x2F;var&#x2F;lib&#x2F;pacman&#x2F;db.lck&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;alias tarnow=&amp;#39;tar -acf &amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;alias untar=&amp;#39;tar -zxvf &amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;alias wget=&amp;#39;wget -c &amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;alias rmpkg=&amp;quot;sudo pacman -Rdd&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;#alias psmem=&amp;#39;ps auxf | sort -nr -k 4&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;#alias psmem10=&amp;#39;ps auxf | sort -nr -k 4 | head -10&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;#alias upd=&amp;#39;sudo reflector --latest 5 --age 2 --fastest 5 --protocol https --sort rate --save &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist &amp;amp;&amp;amp; cat &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist &amp;amp;&amp;amp; sudo pacman -Syu &amp;amp;&amp;amp; fish_update_completions &amp;amp;&amp;amp; sudo updatedb&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;alias ..=&amp;#39;cd ..&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;alias ...=&amp;#39;cd ..&#x2F;..&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;alias ....=&amp;#39;cd ..&#x2F;..&#x2F;..&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;alias .....=&amp;#39;cd ..&#x2F;..&#x2F;..&#x2F;..&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;alias ......=&amp;#39;cd ..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;alias dir=&amp;#39;dir --color=auto&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;alias vdir=&amp;#39;vdir --color=auto&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;alias grep=&amp;#39;grep --color=auto&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;alias fgrep=&amp;#39;fgrep --color=auto&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;alias egrep=&amp;#39;egrep --color=auto&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;alias hw=&amp;#39;hwinfo --short&amp;#39;                                   # Hardware Info
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Cleanup orphaned packages
+&lt;&#x2F;span&gt;&lt;span&gt;alias cleanup=&amp;#39;sudo pacman -Rns (pacman -Qtdq)&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Get the error messages from journalctl
+&lt;&#x2F;span&gt;&lt;span&gt;alias jctl=&amp;quot;journalctl -p 3 -xb&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Recent installed packages
+&lt;&#x2F;span&gt;&lt;span&gt;alias rip=&amp;quot;expac --timefmt=&amp;#39;%Y-%m-%d %T&amp;#39; &amp;#39;%l\t%n %v&amp;#39; | sort | tail -200 | nl&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#personal
+&lt;&#x2F;span&gt;&lt;span&gt;alias gitup=&amp;#39;~&#x2F;forge&#x2F;scripts&#x2F;forge.update.sh&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;alias gitpu=&amp;#39;~&#x2F;forge&#x2F;scripts&#x2F;forge.push.sh&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;alias up=&amp;#39;~&#x2F;forge&#x2F;scripts&#x2F;arch&#x2F;update.sh&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;alias src=&amp;#39;source ~&#x2F;.bashrc&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;alias tailup=&amp;#39;~&#x2F;forge&#x2F;scripts&#x2F;tailup.sh&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;alias taildn=&amp;#39;tailscale down&amp;#39;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;and my final `~&#x2F;.config&#x2F;startship.toml&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;# &amp;quot;$schema&amp;quot; = &amp;#39;https:&#x2F;&#x2F;starship.rs&#x2F;config-schema.json&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;# ~&#x2F;.config&#x2F;starship.toml
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;add_newline = true
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;format = &amp;quot;&amp;quot;&amp;quot;\
+&lt;&#x2F;span&gt;&lt;span&gt;  $directory\
+&lt;&#x2F;span&gt;&lt;span&gt;  $git_branch$git_commit$git_state $git_status\
+&lt;&#x2F;span&gt;&lt;span&gt;  $line_break $character
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&amp;quot;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;right_format = &amp;quot;&amp;quot;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;$status&amp;quot;&amp;quot;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;continuation_prompt = &amp;#39;▶▶ &amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# style_choices:
+&lt;&#x2F;span&gt;&lt;span&gt;# bold
+&lt;&#x2F;span&gt;&lt;span&gt;# italic
+&lt;&#x2F;span&gt;&lt;span&gt;# underline
+&lt;&#x2F;span&gt;&lt;span&gt;# dimmed
+&lt;&#x2F;span&gt;&lt;span&gt;# inverted
+&lt;&#x2F;span&gt;&lt;span&gt;# blink
+&lt;&#x2F;span&gt;&lt;span&gt;# hidden
+&lt;&#x2F;span&gt;&lt;span&gt;# strikethrough
+&lt;&#x2F;span&gt;&lt;span&gt;# bg:&amp;lt;color&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# fg:&amp;lt;color&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# &amp;lt;color&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# none
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#NOTE: you can customize the symbols, e.g:
+&lt;&#x2F;span&gt;&lt;span&gt;[character]
+&lt;&#x2F;span&gt;&lt;span&gt;success_symbol = &amp;quot;[  ]($bold fg:bright-blue)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;error_symbol = &amp;quot;[  ]($bold fg:bright-red)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;[directory]
+&lt;&#x2F;span&gt;&lt;span&gt;disabled = false
+&lt;&#x2F;span&gt;&lt;span&gt;format = &amp;quot; [$path](bold $style)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;style = &amp;quot;cyan&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;truncate_to_repo = false
+&lt;&#x2F;span&gt;&lt;span&gt;#home_symbol = &amp;quot;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;[hostname]
+&lt;&#x2F;span&gt;&lt;span&gt;ssh_only = false
+&lt;&#x2F;span&gt;&lt;span&gt;format = &amp;#39;(white bold)[$hostname](#50fa7b bold)&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;disabled = false
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#[username]
+&lt;&#x2F;span&gt;&lt;span&gt;#format = &amp;#39;(white bold)[$username  @ ](#50fa7b bold)&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;#disabled= false
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;[git_branch]
+&lt;&#x2F;span&gt;&lt;span&gt;format = &amp;quot; [ $branch]($style)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;style = &amp;quot;red&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;[git_status]
+&lt;&#x2F;span&gt;&lt;span&gt;ahead = &amp;#39;⇡${count}&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;behind = &amp;#39;⇣${count}&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;diverged = &amp;#39;⇕⇡${ahead_count}⇣${behind_count}&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;format = &amp;#39;[[( $all_status$ahead_behind )](fg:yellow)]($style)&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;style = &amp;quot;bg:bright-yellow&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;[time]
+&lt;&#x2F;span&gt;&lt;span&gt;disabled = false
+&lt;&#x2F;span&gt;&lt;span&gt;format = &amp;#39;[[  $time ](fg:#a0a9cb )]($style)&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;time_format = &amp;quot;%R&amp;quot;                            # Hour:Minute Format
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;[python]
+&lt;&#x2F;span&gt;&lt;span&gt;format = &amp;quot;[${symbol}(${virtualenv}) ${version}]($style)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;style = &amp;quot;bold bright-yellow&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;symbol = &amp;quot;[ ](bold bright-blue)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;version_format = &amp;quot;${raw}&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;there&#x27;s alot to play with here, but here&#x27;s my prompt with the terminal called:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;img&#x2F;screenshotbash.png&quot; alt=&quot;this is a screenshot&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;i also installed paleofetch and added that to the $PATH and &lt;code&gt;.bashrc &lt;&#x2F;code&gt; in place of the depricated neofetch following directions at
+&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;ss7m&#x2F;paleofetch.git&quot;&gt;https:&#x2F;&#x2F;github.com&#x2F;ss7m&#x2F;paleofetch.git&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;snapper-and-btrfs-assistant&quot;&gt;snapper and btrfs-assistant&lt;&#x2F;h3&gt;
+&lt;p&gt;this is obviously only applicable to those using btrfs, which i recomend for this purpose.&lt;&#x2F;p&gt;
+&lt;p&gt;install snapper, snap-pac and btrfs-assistant:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;sudo pacman -S snapper btrfs-assistant
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;we will install snap-pac after setting up the root and home configs:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;sudo snapper -c root create-config &#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo snapper -c home create-config &#x2F;home
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this is assuming you have a &#x2F;home partition thats on separate media, which i do and highly recommend, otherwise, the root partition could do it all in that scenario. or you could run:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;sudo btrfs subvolume create &#x2F;home
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;the idea being that you can setup different config and thus backup schedules for &#x2F;home or &#x2F;, the &#x2F;home partition does not need regular backups.  however, root benefits from many per day, or per hour, or per pacman install if you add the below command. if you have a desktop, install use btrfs-assistant and tweak the snapshot and retention policies for the config(s) you have, then install the below:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;sudo pacman -S snap-pac
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;after creation and setup of the root and home configs, now on execution of the pacman routine, you will see a snapshot happens both before and after the install.&lt;&#x2F;p&gt;
+&lt;p&gt;caveats:  I am running system-d boot and as of right now, it doesn&#x27;t allow snapshots in the menu, at least easily.  will work fine with grub.  this means that if you absolutely hose your system, you will at least need a prompt to get back in and restore a previous snapshot - just FYI&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;backing-up-bash-installing-cronie-and-git-submodules&quot;&gt;backing up bash, installing cronie and git-submodules&lt;&#x2F;h3&gt;
+&lt;p&gt;i am trying to make it so all my important data and work is stored locally, in a repo i have direct control of, also on codeberg for the 3x backup method.&lt;&#x2F;p&gt;
+&lt;p&gt;this means writing little scripts with nano editor and executing them on a schedule. the systemd method i find a little cumbersome, its probably more robust, and secure, but cron does the job and its faster IMHO to create and implement. arch doesn&#x27;t have cron natively, so install the cronie package:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;sudo pacman -S cronie
+&lt;&#x2F;span&gt;&lt;span&gt;sudo systemctl start croniie 
+&lt;&#x2F;span&gt;&lt;span&gt;sudo systemctl enable --now cronie
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;that is all you need for backend stuff. if you have editors like VIM, you won&#x27;t need to do much as it will default to open in that app when editing with &lt;code&gt;crontab -e&lt;&#x2F;code&gt;, but if you prefer nano...you need to specify the $VISUAL and $EDITOR variables in your &lt;code&gt;.bashrc.&lt;&#x2F;code&gt; or set them via command line everytime before executing the cron command. this varies as well, shell to shell, but for bash i added the lines below:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;##Set some $ENVIRONMENTAL variable
+&lt;&#x2F;span&gt;&lt;span&gt;export VISUAL=nano
+&lt;&#x2F;span&gt;&lt;span&gt;export EDITOR=nano
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this was also above in my &lt;code&gt;.bashrc&lt;&#x2F;code&gt; output, look in there for some extra goodies floating around ;)&lt;&#x2F;p&gt;
+&lt;p&gt;anyways, with all that setup, here&#x27;s my current backup for my user, and i also run another one within the root user.&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;###[Min][HR][Day][Mth][DOW]###
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#run bash backup @ 2am daily
+&lt;&#x2F;span&gt;&lt;span&gt;* 2 * * * ~&#x2F;backup_bash.sh
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#run git update 2x daily @3, and @15 hrs
+&lt;&#x2F;span&gt;&lt;span&gt;* 3,15 * * * ~&#x2F;forge&#x2F;scripts&#x2F;forge.update.sh
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;backup_bash.sh is as follows:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;#!&#x2F;bin&#x2F;bash
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#backup bash
+&lt;&#x2F;span&gt;&lt;span&gt;cd ~
+&lt;&#x2F;span&gt;&lt;span&gt;cp .bashrc ~&#x2F;forge&#x2F;scripts&#x2F;bash&#x2F;.bashrc.bak
+&lt;&#x2F;span&gt;&lt;span&gt;cp .bash_history ~&#x2F;forge&#x2F;scripts&#x2F;bash&#x2F;.bash_history.bak
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#backup starship
+&lt;&#x2F;span&gt;&lt;span&gt;cd .config
+&lt;&#x2F;span&gt;&lt;span&gt;cp starship.toml ~&#x2F;forge&#x2F;scripts&#x2F;bash&#x2F;starship.toml.bak
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#sync with forgejo
+&lt;&#x2F;span&gt;&lt;span&gt;cd ~
+&lt;&#x2F;span&gt;&lt;span&gt;~&#x2F;forge&#x2F;scripts&#x2F;forge.update.sh
+&lt;&#x2F;span&gt;&lt;span&gt;~&#x2F;forge&#x2F;scripts&#x2F;forge.push.sh
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;Backup completed - $(date)&amp;quot; &amp;gt;&amp;gt; .bash_bak
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;i have a little logging going on as well, but this puts all the work i did in bash prompt and my starship setup into my repo for easy retrieval later.  now i can copy and stick in any computer for the flow i like.&lt;&#x2F;p&gt;
+&lt;p&gt;the ~&#x2F;forge&#x2F;scripts&#x2F;forge.update.sh command also executes the git update on a 2x day schedule, here&#x27;s that executable:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;#!&#x2F;bin&#x2F;bash
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Change to the gitea directory
+&lt;&#x2F;span&gt;&lt;span&gt;cd ~&#x2F;forge
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Loop through all directories and subdirectories
+&lt;&#x2F;span&gt;&lt;span&gt;for dir in *&#x2F;; do
+&lt;&#x2F;span&gt;&lt;span&gt;    # Check if it&amp;#39;s a directory
+&lt;&#x2F;span&gt;&lt;span&gt;    if [ -d &amp;quot;$dir&amp;quot; ]; then
+&lt;&#x2F;span&gt;&lt;span&gt;        # If so, navigate into it and update the repository
+&lt;&#x2F;span&gt;&lt;span&gt;        cd $dir &amp;amp;&amp;amp; echo &amp;quot;Moving into $dir&amp;quot; &amp;amp;&amp;amp; git pull
+&lt;&#x2F;span&gt;&lt;span&gt;        # Navigate back to the parent directory
+&lt;&#x2F;span&gt;&lt;span&gt;        cd ..
+&lt;&#x2F;span&gt;&lt;span&gt;    fi
+&lt;&#x2F;span&gt;&lt;span&gt;done
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;cd ~
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;i also have an alias setup in &lt;code&gt;.bashrc.&lt;&#x2F;code&gt; if you look closely, i use gitup to do the same and execute the above simply anywhere in my &#x2F;dir to update all my repos.&lt;&#x2F;p&gt;
+&lt;p&gt;last but not least, i wanted to backup my &#x2F;build directory to my ~&#x2F;forge&#x2F;scripts directory and had some errors when doing that. since they are all pulled off github, you will throw an error saying that direct copy will not find the source. simple solution, just use the git submodule command. it will then sync those to the latest updated repo version anytime you git clone your repo into a new system. a little bit extra work, but its nice to know if i rebuild that system, i can have the updated repo already. i may write a script to help with that so its a little simpler, but that&#x27;s plenty for now.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>laptop_cosmic</title>
+        <published>2026-01-10T00:00:00+00:00</published>
+        <updated>2026-01-10T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/laptop-cosmic/"/>
+        <id>https://inktheghost.com/blog/laptop-cosmic/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/laptop-cosmic/">&lt;h1 id=&quot;laptop-cosmic-installation&quot;&gt;laptop cosmic installation&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;17-26&quot;&gt;17:26&lt;&#x2F;h2&gt;
+&lt;p&gt;since the last time i&#x27;d attempted to install arch on my laptop, i opted for the garuda arch variation because it took figuring out the iwctl protocol off the table and just worked.  well, i found garuda kinda bloaty and many things i didnt need, so i though i&#x27;d test out the cosmic desktop experience.  i&#x27;ve used it for a while on my desktop and now it was time to try installing it on my laptop.  plus, its now out of alpha and is included in the archinstall desktops options.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;so-what-is-new&quot;&gt;so what is new?&lt;&#x2F;h2&gt;
+&lt;p&gt;the archinstall included the wifi setup at initial prompt, its buggy, kept closing...then working, but saying it didn&#x27;t, after a couple trys, on the third archinstall command, the installer started pulling repos, indicating it actually had worked. archinsttall itself was pretty much the same, just selected cosmic in the type menu and left pretty much barebones.&lt;&#x2F;p&gt;
+&lt;p&gt;it installed in about 3 min and was ready to reboot.  startup was un-eventful, but started with a few buggy issues.  going through the initial setup, any prompt asking for the admin password was unresponsive.  i pulled up a terminal &lt;code&gt;Super + T&lt;&#x2F;code&gt; and a quick interrnet search on my phone indicated that it was a polkit issue, and the remedy was a quick chmod command...im sure that will get ironed out soo, easy fix either way:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;sudo chmod 4755 &#x2F;usr&#x2F;lib&#x2F;polkit-1&#x2F;polkit-agent-helper-1
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;and back in business.  this assisted me in setting up nearest city for time settings.&lt;&#x2F;p&gt;
+&lt;p&gt;installer assisted with the internet connection as well (i chose network manager)&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;headaches&quot;&gt;headaches&lt;&#x2F;h2&gt;
+&lt;p&gt;so i had a bitch of a time installing all my  usual shit and after having the laptop mostly working, yay or paru would cause a change in required files by pacman and tanked my reflector command operation and fucked up my rustdesk and trivalent pulls from chaotic AUR.&lt;&#x2F;p&gt;
+&lt;p&gt;workarounds:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;rustdesk: download the pkg file&lt;&#x2F;li&gt;
+&lt;li&gt;trivalent: build direct from git&lt;&#x2F;li&gt;
+&lt;li&gt;dont install yay or paru (probably shouldnt anyways)&lt;&#x2F;li&gt;
+&lt;li&gt;forgejo mirror to my github repo stopped pushing (403 error) - likely unrelated&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;rustdeck&quot;&gt;rustdeck:&lt;&#x2F;h3&gt;
+&lt;p&gt;i&#x27;ve tried teamviewer, remmina and was having no love connecting to my win11 vm remotely via any of them.  teamviewer and remmina were buggy and slow, and i ran across rustdeck online and thought id give it a try.  at first go it worked flawlessly connecting out to the win11 vm.  i was able to setup permanent passwords.  it wouldn&#x27;t connect to the laptop running wayland from win11, they were pretty clear it was still experimental, but it dd connect to windows, which is what i needed anyways. there was a ready indication for the connection at the bottom which recommended self-hosting.  i tried the rustdesk option for the server creating my own lxc w? debian 13 on my homelab and installing with the script:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;wget https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;techahold&#x2F;rustdeskinstall&#x2F;master&#x2F;install.sh
+&lt;&#x2F;span&gt;&lt;span&gt;sudo chmod +x install.sh
+&lt;&#x2F;span&gt;&lt;span&gt;sudo .&#x2F;install.sh
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this didnt work at all for me, the webpage wasn&#x27;t showing any useable info, couldnt get the terminals to connect.  i did notice a small blurb during the rustdesk server install that said that there was an alternative FOSS version put out by &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;infiniteremote&#x2F;installer&quot;&gt;https:&#x2F;&#x2F;github.com&#x2F;infiniteremote&#x2F;installer&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;the README.md states:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;### Why Infinite Remote?
+&lt;&#x2F;span&gt;&lt;span&gt;We have started our own project due to the lack of transparency of the RustDesk project and intend on forking and maintaining our own servers and clients, the vulnerabilities in the RustDesk client is too much for business use so we will be working hard on improving the codebase and security.
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this install went fine.  the webportal signin brought me to a more usable and understandable interface, the copy links didn&#x27;t work in the installer page, but the important parts, API webpage and key were easy to see and copy.  the portal indicated the logins from each instance, with relevant details and the api login worked ok on the win11, i could use the addressbook showing the opensource api was working great! what a nice free add-on.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;trivalent-secureblue-browser&quot;&gt;trivalent - secureBLUE browser&lt;&#x2F;h3&gt;
+&lt;p&gt;i have a pretty long history of being a brave browser user, since it first was in alpha.  the gimmicky shit with rewards etc were annoying and the founder turned out to be a big shithead so i started looking for alternatives.  i wanted to keep with chrome (albeit a hardened version) and mainly for use of extensions - i like functionality of bit-warden since i have a self-hosted instance, and privacy badger doesnt hurt either.  i wish there was a true graphene vanadium port for linux, but the secureBLUE chromium port from Fedora is hardened and uses vanadium patches for additional tightening.  you will have to enable extensions from settings and all pop-ups blocked automagically.  here&#x27;s the code for the install from git:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;sudo pacman -S --needed git base-devel
+&lt;&#x2F;span&gt;&lt;span&gt;cd ~
+&lt;&#x2F;span&gt;&lt;span&gt;git clone https:&#x2F;&#x2F;aur.archlinux.org&#x2F;trivalent-bin.git
+&lt;&#x2F;span&gt;&lt;span&gt;cd trivalent-bin
+&lt;&#x2F;span&gt;&lt;span&gt;makepkg -si
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;read the deep wiki for more build info &lt;a href=&quot;https:&#x2F;&#x2F;deepwiki.com&#x2F;secureblue&#x2F;Trivalent&quot;&gt;https:&#x2F;&#x2F;deepwiki.com&#x2F;secureblue&#x2F;Trivalent&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>

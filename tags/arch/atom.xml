@@ -1,0 +1,1250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>ink the ghost - arch</title>
+    <link rel="self" type="application/atom+xml" href="https://inktheghost.com/tags/arch/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://inktheghost.com"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2026-03-08T00:00:00+00:00</updated>
+    <id>https://inktheghost.com/tags/arch/atom.xml</id>
+    <entry xml:lang="en">
+        <title>automatic-keyboard-backlight</title>
+        <published>2026-03-08T00:00:00+00:00</published>
+        <updated>2026-03-08T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/automatic-keyboard-backlight/"/>
+        <id>https://inktheghost.com/blog/automatic-keyboard-backlight/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/automatic-keyboard-backlight/">&lt;h1 id=&quot;automatic-keyboard-backight&quot;&gt;automatic-keyboard-backight&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;16-02&quot;&gt;16:02&lt;&#x2F;h2&gt;
+&lt;p&gt;so i had a small issue. when i put cachyos, or arch on my system76 laptop, the system76-drivers and a few other system76 packages need built for the system. since i am running only cosmic, some of the gnome specific things don&#x27;t work - like gnome-power-management and some others. i had under the advisement of system76 techs installed paru and then build packages for some better functionality.&lt;&#x2F;p&gt;
+&lt;p&gt;these included system76-drivers, system76-firmware-git and system76-firmware manager at the bare minimum.&lt;&#x2F;p&gt;
+&lt;p&gt;see &lt;a href=&quot;https:&#x2F;&#x2F;support.system76.com&#x2F;articles&#x2F;system76-driver&#x2F;&quot;&gt;https:&#x2F;&#x2F;support.system76.com&#x2F;articles&#x2F;system76-driver&#x2F;&lt;&#x2F;a&gt; for details and additional instructions.&lt;&#x2F;p&gt;
+&lt;p&gt;AFAIK this adds some additional functionality, like airplane-mode toggle in the panel and led (keyboard backlight) functions as well as some keyboard shortcuts specific to the keyboard layout.&lt;&#x2F;p&gt;
+&lt;p&gt;now, i&#x27;ve spilled coffee on the keyboard, used keyd to fix that and address the small pageup&#x2F;down buttons i keep smashing with my sausage fingers, but one annoyance remained...using my keyboard&#x2F;laptop at night alot i needed the keys backlit. the functions work, albiet a little funny using fn + f4 to toggle through, but they would always remain lit.&lt;&#x2F;p&gt;
+&lt;p&gt;thats not the annoying part, thats fine while im using it. however, if i left the laptop screen open and just let the computer suspend (@15min in settings) the keypad would remain lit, even in the suspend state. now if i closed the lid, autoshutoff works. if i had it plugged in, i could care less, but in battery mode...thats wasteful.&lt;&#x2F;p&gt;
+&lt;p&gt;i googled solutions, couldn&#x27;t find much other than some others with suspend problems, very little reports of system76 laptop users with the same model. i went down the rabbit hole and out the other side and found the post and github of Alex Mohr and &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;alexmohr&#x2F;keyboard-backlight&quot;&gt;https:&#x2F;&#x2F;github.com&#x2F;alexmohr&#x2F;keyboard-backlight&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;now i thought i would need to fork the repo and edit their code because the program was originally for a thinkpad (i think). so i reached out to the developer and there was a way to get it working for my laptop!&lt;&#x2F;p&gt;
+&lt;p&gt;the program is in the AUR with a funny name, but i downloaded it...&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;paru -S tp-kb-backlight-git
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;once installed you can access the program with:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt; sudo keyboard_backlight -h    
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;through the help, although not super obvious, you can actually set the command for the backlight service with the -b option.&lt;&#x2F;p&gt;
+&lt;p&gt;with the help of the dev i found the command at:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;cd &#x2F;sys&#x2F;class&#x2F;leds
+&lt;&#x2F;span&gt;&lt;span&gt;ls
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;the file shows up as&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;system76_acpi::kbd_backlight
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;and the path can be passed with the command:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;keyboard_backlight -b &#x2F;sys&#x2F;class&#x2F;leds&#x2F;system76_acpi::kbd_backlight&#x2F;brightness
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;the brightness is key...couldn&#x27;t get it to work otherwise. now i also set &quot;-t&quot; to 15 and the command works.&lt;&#x2F;p&gt;
+&lt;p&gt;now in the readme, alex describes being able to use the service. i was unable to get this functioning right away, so with their help, dug into the settings a bit:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;sudo nano &#x2F;etc&#x2F;systemd&#x2F;system&#x2F;keyboard_backlight.service
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;now in that file, i needed to make the same adjustments adding the -b and string to the file so it reads like the below:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;[Unit]
+&lt;&#x2F;span&gt;&lt;span&gt;Description=Controls the backlight of the keyboard
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;[Service]
+&lt;&#x2F;span&gt;&lt;span&gt;Type=forking
+&lt;&#x2F;span&gt;&lt;span&gt;# Options can be passed via command line
+&lt;&#x2F;span&gt;&lt;span&gt;ExecStart=&#x2F;usr&#x2F;bin&#x2F;keyboard_backlight -t 10 -b &#x2F;sys&#x2F;class&#x2F;leds&#x2F;system76_acpi::kbd_backlight&#x2F;brightness
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;[Install]
+&lt;&#x2F;span&gt;&lt;span&gt;WantedBy=default.target
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;i adjusted the time down to 10 sec for the autooff and saved the file.&lt;&#x2F;p&gt;
+&lt;p&gt;with a quick:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;sudo systemctl daemon-reload 
+&lt;&#x2F;span&gt;&lt;span&gt;sudo systemctl enable --now keyboard_backlight
+&lt;&#x2F;span&gt;&lt;span&gt;sudo systemctl start keyboard_backlight
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;now i tested it all with a reboot. i think its obvious that you have to have the backlights actually on to check operation, but its working well on stops and restarts if i&#x27;m suspending, sleeping, whatever.
+for shits and giggles i&#x27;m gunna leave the laptop unplugged and lid open overnight and see how it changes the battery use, will report back on that. for now, it fixes that pesky workaround and reminds me how my old macbook pro worked. simple fix, thanks Alex!&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;update-battery-usage&quot;&gt;Update: Battery usage&lt;&#x2F;h2&gt;
+&lt;p&gt;happy to report overnight battery usage with lid open was at 60% down from 100. it was at 20% down from 80% before the backlight autoshutoff. still gunna just close the lid, but much better, and i like the effect.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>keyd</title>
+        <published>2026-03-07T00:00:00+00:00</published>
+        <updated>2026-03-07T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/keyd/"/>
+        <id>https://inktheghost.com/blog/keyd/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/keyd/">&lt;h1 id=&quot;keyd&quot;&gt;keyd&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;17-31-updated&quot;&gt;17:31 - UPDATED&lt;&#x2F;h2&gt;
+&lt;p&gt;so i definately started over here...forgot entirely how i modded the keymappings for my laptop. the lemur13 from system76 is a smaller 13&quot; laptop and thus a small keyboard. in addition to a few smaller keys, the caplock i never use and hit often. and the page up&#x2F;page down are both 1&#x2F;2 key above the 1&#x2F;2 key left&#x2F;right arrows.&lt;&#x2F;p&gt;
+&lt;p&gt;objectives:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;map caplocks to leftshift&lt;&#x2F;li&gt;
+&lt;li&gt;map page up&#x2F;page down to left&#x2F;right&lt;&#x2F;li&gt;
+&lt;li&gt;map left ctrl + page up&#x2F;page down to page up&#x2F;page down&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;first theres a few commands to pull the github repo and install thanks to &lt;a href=&quot;https:&#x2F;&#x2F;www.karimarttila.fi&#x2F;keyboard&#x2F;2023&#x2F;11&#x2F;16&#x2F;linux-keyboard-configuration-with-keyd.html&quot;&gt;Kari Martilla Blog&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;git clone https:&#x2F;&#x2F;github.com&#x2F;rvaiya&#x2F;keyd
+&lt;&#x2F;span&gt;&lt;span&gt;cd keyd
+&lt;&#x2F;span&gt;&lt;span&gt;make &amp;amp;&amp;amp; sudo make install
+&lt;&#x2F;span&gt;&lt;span&gt;sudo systemctl enable keyd &amp;amp;&amp;amp; sudo systemctl start keyd
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this gets everything loaded. i remember last time that i used &lt;code&gt;sudo keyd monitor&lt;&#x2F;code&gt; to get all the keystroke names sorted for the keys i wanted to map, left control, pageup pagedown, left right etc so i could begin adding to the configuration file and testing the changes. i also had this on the desktop clackity keyboard since i kept fat fingering the capslock - at least there it gave me an led indicatior capslock was on ;)&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;sudo nano &#x2F;etc&#x2F;keyd&#x2F;default.conf
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;and here&#x27;s my final config...who the fuck uses capslock anyways???&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;# NOTE: The panic sequence *&amp;lt;backspace&amp;gt;+&amp;lt;escape&amp;gt;+&amp;lt;enter&amp;gt;* will force keyd to terminate.
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;### NOTE:
+&lt;&#x2F;span&gt;&lt;span&gt;# This file needs to be in:
+&lt;&#x2F;span&gt;&lt;span&gt;# &#x2F;etc&#x2F;keyd&#x2F;default.conf
+&lt;&#x2F;span&gt;&lt;span&gt;# If you are reading the ~&#x2F;info&#x2F;default.conf file, it is a backup file.
+&lt;&#x2F;span&gt;&lt;span&gt;# NOTE: Remember to add changes in &#x2F;etc&#x2F;keyd to git!
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;### HELP SECTION BEGIN ###
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Web site: https:&#x2F;&#x2F;github.com&#x2F;rvaiya&#x2F;keyd
+&lt;&#x2F;span&gt;&lt;span&gt;# See also Finnish keyboard layout:
+&lt;&#x2F;span&gt;&lt;span&gt;# https:&#x2F;&#x2F;www.vero.fi&#x2F;en&#x2F;About-us&#x2F;contact-us&#x2F;efil&#x2F;information-on-mytax&#x2F;less-commonly-used-latin-characters-on-a-finnish-pc-keyboard&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;##### KEYD #################
+&lt;&#x2F;span&gt;&lt;span&gt;# When you edit &#x2F;etc&#x2F;keyd&#x2F;default.conf file:
+&lt;&#x2F;span&gt;&lt;span&gt;# cd &#x2F;etc&#x2F;keyd
+&lt;&#x2F;span&gt;&lt;span&gt;# cn # Open VSCode
+&lt;&#x2F;span&gt;&lt;span&gt;# In another terminal:
+&lt;&#x2F;span&gt;&lt;span&gt;# sudo journalctl -eu keyd -f
+&lt;&#x2F;span&gt;&lt;span&gt;# ... this way you immediately see if there is some error,
+&lt;&#x2F;span&gt;&lt;span&gt;# when you load new configuration (after saving the file):
+&lt;&#x2F;span&gt;&lt;span&gt;# sudo keyd reload
+&lt;&#x2F;span&gt;&lt;span&gt;# Finally when you are ready, in the &#x2F;etc&#x2F;keyd: add changes to git.
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Find keys with tool:
+&lt;&#x2F;span&gt;&lt;span&gt;# sudo keyd monitor
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# List keys that you can use with keyd:
+&lt;&#x2F;span&gt;&lt;span&gt;# sudo keyd list-keys
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;### HELP SECTION END ###
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;### TODO BEGIN ###
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# No issues at the moment.
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;### TODO END ###
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;###### KEYBOARD IDENTIFICATIONS #####
+&lt;&#x2F;span&gt;&lt;span&gt;# NOTE: Later on if you find out that some configuration does not work on Dygma vs Laptop keyboard,
+&lt;&#x2F;span&gt;&lt;span&gt;# you can use separate ids sections.
+&lt;&#x2F;span&gt;&lt;span&gt;[ids]
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;*
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;###### MAIN #####
+&lt;&#x2F;span&gt;&lt;span&gt;[main]
+&lt;&#x2F;span&gt;&lt;span&gt;# Using sudo keyd monitor:
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#remap pageup&#x2F;pagedown to left&#x2F;right
+&lt;&#x2F;span&gt;&lt;span&gt;pageup = left
+&lt;&#x2F;span&gt;&lt;span&gt;pagedown = right
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#remap capslock to Left Shift
+&lt;&#x2F;span&gt;&lt;span&gt;capslock = leftshift
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#with rightcontrol pageup&#x2F;down return to normal
+&lt;&#x2F;span&gt;&lt;span&gt;rightcontrol = layer(returnpageupdown)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;[returnpageupdown]
+&lt;&#x2F;span&gt;&lt;span&gt;pageup = pageup
+&lt;&#x2F;span&gt;&lt;span&gt;pagedown = pagedown
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#poured coffee on keyboard, only del doesnt worl, remap to leftatl + backspace
+&lt;&#x2F;span&gt;&lt;span&gt;leftalt = overload(leftalt, esc)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;[alt:C]
+&lt;&#x2F;span&gt;&lt;span&gt;backspace = delete
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this does exactly what i needed. added the coffee spill fix to update the blog.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>arch-cachyos-updater</title>
+        <published>2026-02-27T00:00:00+00:00</published>
+        <updated>2026-02-27T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/arch-cachyos-updater/"/>
+        <id>https://inktheghost.com/blog/arch-cachyos-updater/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/arch-cachyos-updater/">&lt;h1 id=&quot;arch-cachyos-updater-scripts&quot;&gt;arch-cachyos-updater scripts&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;20-01&quot;&gt;20:01&lt;&#x2F;h2&gt;
+&lt;p&gt;two scripts i&#x27;ve setup for updating arch or cachyos respectively.
+setting some cool colors and icons, mimic-ing pacman...and some feedback&#x2F;letting you know what its doing notifications.&lt;&#x2F;p&gt;
+&lt;p&gt;i setup a file reflector_timestamp that won&#x27;t run reflector in the execution if the mirrors were updated within last 12 hours, just pacman -Syu. runs reflector and pacman -Syu and creates the timestamp file if it isn&#x27;t detected...&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;arch-updater-script&quot;&gt;arch updater script&lt;&#x2F;h2&gt;
+&lt;p&gt;update.sh&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;#!&#x2F;bin&#x2F;bash
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Colors
+&lt;&#x2F;span&gt;&lt;span&gt;bold_cyan=&amp;quot;\e[1;36m&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;bold_white=&amp;quot;\e[1;37m&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;reset=&amp;quot;\e[0m&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo -e &amp;quot;${bold_cyan}:: ${bold_white}Starting Update...&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Path to the timestamp file
+&lt;&#x2F;span&gt;&lt;span&gt;timestamp_file=&amp;quot;$HOME&#x2F;reflector_timestamp&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Current time in seconds since epoch
+&lt;&#x2F;span&gt;&lt;span&gt;current_time=$(date +%s)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Check if the file exists
+&lt;&#x2F;span&gt;&lt;span&gt;if [[ -f &amp;quot;$timestamp_file&amp;quot; ]]; then
+&lt;&#x2F;span&gt;&lt;span&gt;    # Get the last modified time of the timestamp file
+&lt;&#x2F;span&gt;&lt;span&gt;    file_mod_time=$(stat -c %Y &amp;quot;$timestamp_file&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;    # Compute the age of the file
+&lt;&#x2F;span&gt;&lt;span&gt;    file_age=$((current_time - file_mod_time))
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    # Check if the file age is less than 12 hours (43200 seconds)
+&lt;&#x2F;span&gt;&lt;span&gt;    if [[ $file_age -lt 43200 ]]; then
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}:: ${bold_white}Reflector mirrors &amp;lt; 12hr old...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        cat &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Starting pacman -Syu...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        sudo pacman -Syu 
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}[Done]${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        exit 0
+&lt;&#x2F;span&gt;&lt;span&gt;    else
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}:: ${bold_white}Reflector mirrors old...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Starting Reflector...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        sudo reflector --verbose -c CA -c MX -c US --protocol https --sort rate --latest 10 --download-timeout 5 --save &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}:: ${bold_white}Selected Servers:${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        cat &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Starting pacman -Syu...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        sudo pacman -Syu 
+&lt;&#x2F;span&gt;&lt;span&gt;    fi
+&lt;&#x2F;span&gt;&lt;span&gt;else
+&lt;&#x2F;span&gt;&lt;span&gt;    echo -e &amp;quot;${bold_cyan}:: ${bold_white}Timestamp file does not exist...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Starting Reflector...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    sudo reflector --verbose -c CA -c MX -c US --protocol https --sort rate --latest 10 --download-timeout 5 --save &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;    echo -e &amp;quot;${bold_cyan}:: ${bold_white}Selected Servers:${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    cat &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;    echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Starting pacman -Syu...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    sudo pacman -Syu
+&lt;&#x2F;span&gt;&lt;span&gt;    # Create the timestamp file
+&lt;&#x2F;span&gt;&lt;span&gt;    echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Saving timestamp file...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    touch &amp;quot;$timestamp_file&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    echo -e &amp;quot;${bold_cyan}[Done]${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    exit 0
+&lt;&#x2F;span&gt;&lt;span&gt;fi
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Update the timestamp file with the current time
+&lt;&#x2F;span&gt;&lt;span&gt;echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Updating timestamp file now...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;touch &amp;quot;$timestamp_file&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;echo -e &amp;quot;${bold_cyan}[Done]${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;cachyos-updater-script&quot;&gt;cachyos updater script&lt;&#x2F;h2&gt;
+&lt;p&gt;similar, but added in the cachyos-rate-mirrors script as well for the cachyos specific mirrors.  i also edited the cachyos-rate-mirrors script to block it trying to use rate-mirror method to update arch repos, as i prefer how reflector does that...&lt;&#x2F;p&gt;
+&lt;p&gt;update.sh&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;#!&#x2F;bin&#x2F;bash
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Colors
+&lt;&#x2F;span&gt;&lt;span&gt;bold_cyan=&amp;quot;\e[1;36m&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;bold_white=&amp;quot;\e[1;37m&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;reset=&amp;quot;\e[0m&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Path to the timestamp file
+&lt;&#x2F;span&gt;&lt;span&gt;timestamp_file=&amp;quot;$HOME&#x2F;update_timestamp&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Current time in seconds since epoch
+&lt;&#x2F;span&gt;&lt;span&gt;current_time=$(date +%s)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Check if the file exists
+&lt;&#x2F;span&gt;&lt;span&gt;if [[ -f &amp;quot;$timestamp_file&amp;quot; ]]; then
+&lt;&#x2F;span&gt;&lt;span&gt;    # Get the last modified time of the timestamp file
+&lt;&#x2F;span&gt;&lt;span&gt;    file_mod_time=$(stat -c %Y &amp;quot;$timestamp_file&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;    # Compute the age of the file
+&lt;&#x2F;span&gt;&lt;span&gt;    file_age=$((current_time - file_mod_time))
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    # Check if the file age is less than 12 hours (43200 seconds)
+&lt;&#x2F;span&gt;&lt;span&gt;    if [[ $file_age -lt 43200 ]]; then
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}:: ${bold_white}Mirrors &amp;lt; 12hr old...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}:: ${bold_white}CachyOS Servers:${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        cat &#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;	    echo -e &amp;quot;${bold_cyan}:: ${bold_white}Arch Servers:${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        cat &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Starting pacman -Syu...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        sudo pacman -Syu
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan} [Done]${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        exit 0
+&lt;&#x2F;span&gt;&lt;span&gt;    else
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}:: ${bold_white}Mirrors old, updating...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Starting Rate-mirrors...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        sudo cachyos-rate-mirrors
+&lt;&#x2F;span&gt;&lt;span&gt;	    cat &#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist | sed &amp;#39;&#x2F;^\s*#&#x2F;d;&#x2F;^$&#x2F;d&amp;#39; | sudo tee &#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Starting Reflector...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        sudo reflector --verbose -c CA -c MX -c US --protocol https --sort rate --latest 10 --download-timeout 5 --save &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}:: ${bold_white}Selected Servers:${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        cat &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;        echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Starting pacman -Syu...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        sudo pacman -Syu
+&lt;&#x2F;span&gt;&lt;span&gt;    fi
+&lt;&#x2F;span&gt;&lt;span&gt;else
+&lt;&#x2F;span&gt;&lt;span&gt;    echo -e &amp;quot;${bold_cyan}:: ${bold_white}Timestamp file does not exist...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Starting Rate-mirrors...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    sudo cachyos-rate-mirrors
+&lt;&#x2F;span&gt;&lt;span&gt;    cat &#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist | sed &amp;#39;&#x2F;^\s*#&#x2F;d;&#x2F;^$&#x2F;d&amp;#39; | sudo tee &#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;    echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Starting Reflector...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    sudo reflector --verbose -c CA -c MX -c US --protocol https --sort rate --latest 10 --download-timeout 5 --save &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;    echo -e &amp;quot;${bold_cyan}:: ${bold_white}Selected Servers:${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    cat &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;    echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Starting pacman -Syu...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    sudo pacman -Syu 
+&lt;&#x2F;span&gt;&lt;span&gt;    # Create the timestamp file
+&lt;&#x2F;span&gt;&lt;span&gt;    echo -e &amp;quot;${bold_cyan}==&amp;gt; ${bold_white}Saving timestamp file...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    touch &amp;quot;$timestamp_file&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    echo -e &amp;quot;${bold_cyan} [Done]${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    exit 0
+&lt;&#x2F;span&gt;&lt;span&gt;fi
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Update the timestamp file with the current time
+&lt;&#x2F;span&gt;&lt;span&gt;echo -e &amp;quot;${bold_cyan}==&amp;gt; Updating timestamp file now...${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;touch &amp;quot;$timestamp_file&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;echo -e &amp;quot;${bold_cyan} [Done]${reset}&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;commenting out the arch repo section in the cachyos-rate-mirror script
+usually found at &#x2F;usr&#x2F;bin&#x2F;cachyos-rate-mirrors&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;whereis cachyos-rate-mirrors
+&lt;&#x2F;span&gt;&lt;span&gt;sudo nano {above result}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;cachyos-rate-mirror mods&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;# Always insert CDN77 mirror to the start, unless RU and CN region is detected
+&lt;&#x2F;span&gt;&lt;span&gt;#if [ &amp;quot;$country&amp;quot; != &amp;quot;RU&amp;quot; ] &amp;amp;&amp;amp; [ &amp;quot;$country&amp;quot; != &amp;quot;CN&amp;quot; ]; then
+&lt;&#x2F;span&gt;&lt;span&gt;#    sed -i &amp;#39;1iServer = https:&#x2F;&#x2F;archlinux.cachyos.org&#x2F;repo&#x2F;$repo&#x2F;os&#x2F;$arch&amp;#39; &amp;quot;${MIRRORS_DEFAULT_DIR}&#x2F;mirrorlist-cach&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#fi
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;rate_repository_mirrors cachyos &amp;quot;${MIRRORS_DEFAULT_DIR}&#x2F;cachyos-mirrorlist&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;and comment out the CDN77 shit or it&#x27;ll keep adding to your reflector mirrorlist for arch. took me a minute to see where that was coming from&lt;&#x2F;p&gt;
+&lt;p&gt;seems to do the trick... some caveats: this is a very meaty way to have and update look pretty. it is definately easier to use just cachyos-rate-mirrors to do all the above. i would probably do that if i didn&#x27;t enjoy messing with stuff and making a pretty terminal output. that said cachyos-rate-mirrors is a bit hacky itself.&lt;&#x2F;p&gt;
+&lt;p&gt;rate-mirrors can cleanup output with a cli command --disable-comments but doesn&#x27;t handle the cachyos-v3 v4 repo nomenclature properly, hence the garbage at the end of the cachyos-rate-mirror file:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt; Always insert local mirrors as first due to blockings in RU region
+&lt;&#x2F;span&gt;&lt;span&gt;if [ &amp;quot;$country&amp;quot; = &amp;quot;RU&amp;quot; ]; then
+&lt;&#x2F;span&gt;&lt;span&gt;    force_ru_mirrors
+&lt;&#x2F;span&gt;&lt;span&gt;fi
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;cp -f --backup=simple --suffix=&amp;quot;-backup&amp;quot; &amp;quot;${MIRRORS_DEFAULT_DIR}&#x2F;cachyos-mirrorlist&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;quot;${MIRRORS_DEFAULT_DIR}&#x2F;cachyos-v3-mirrorlist&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;cp -f --backup=simple --suffix=&amp;quot;-backup&amp;quot; &amp;quot;${MIRRORS_DEFAULT_DIR}&#x2F;cachyos-mirrorlist&amp;quot; \
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;quot;${MIRRORS_DEFAULT_DIR}&#x2F;cachyos-v4-mirrorlist&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;sed -i &amp;#39;s|&#x2F;$arch&#x2F;|&#x2F;$arch_v3&#x2F;|g&amp;#39; &amp;quot;${MIRRORS_DEFAULT_DIR}&#x2F;cachyos-v3-mirrorlist&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;sed -i &amp;#39;s|&#x2F;$arch&#x2F;|&#x2F;$arch_v4&#x2F;|g&amp;#39; &amp;quot;${MIRRORS_DEFAULT_DIR}&#x2F;cachyos-v4-mirrorlist&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#cat &#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist | sed &amp;#39;&#x2F;^\s*#&#x2F;d&amp;#39; | sudo tee &#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# In the case of a more restrictive umask setting ( 0077 for example ), give read-permissions back to &amp;#39;Group&#x2F;Other&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# This fixes a case where the third party package wrapper Aura ( https:&#x2F;&#x2F;github.com&#x2F;fosskers&#x2F;aura ) tries to parse
+&lt;&#x2F;span&gt;&lt;span&gt;# &#x2F;etc&#x2F;pacman.conf and can&amp;#39;t read the &amp;quot;include&amp;quot;ded mirror files. By default, Aura intentionally runs without root
+&lt;&#x2F;span&gt;&lt;span&gt;# permissions for most non-modify operations.
+&lt;&#x2F;span&gt;&lt;span&gt;chmod go+r &amp;quot;${MIRRORS_DEFAULT_DIR}&amp;quot;&#x2F;*mirrorlist*
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;i also don&#x27;t like how cachyos-rate-mirrors passes all comments to the mirrorlist files...hence my use of the below to clean up output:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;cat &#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist | sed &amp;#39;&#x2F;^\s*#&#x2F;d&amp;#39; | sudo tee &#x2F;etc&#x2F;pacman.d&#x2F;cachyos-mirrorlist
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this clarifies the mirrorlist to only the server entries. i could do alot of this in the background. using the .service and .timer files for reflector and the same for cachyos-rate-mirrors, but again i like the pretty terminal output ;)&lt;&#x2F;p&gt;
+&lt;p&gt;does this cure that, yes, is it for everyone, probably not&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>fastfetch</title>
+        <published>2026-02-16T00:00:00+00:00</published>
+        <updated>2026-02-16T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/fastfetch/"/>
+        <id>https://inktheghost.com/blog/fastfetch/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/fastfetch/">&lt;h1 id=&quot;fastfetch&quot;&gt;fastfetch&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;09-06&quot;&gt;09:06&lt;&#x2F;h2&gt;
+&lt;p&gt;inspired by the cachyos default terminal splash i started digging in to the defaults, configs to tweak and make it my own.
+&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;fastfetch-cli&#x2F;fastfetch&#x2F;blob&#x2F;dev&#x2F;README.md&quot;&gt;https:&#x2F;&#x2F;github.com&#x2F;fastfetch-cli&#x2F;fastfetch&#x2F;blob&#x2F;dev&#x2F;README.md&lt;&#x2F;a&gt;
+following the instructions from above, the install was easy
+&lt;code&gt;sudo pacman -Syu fastfetch&lt;&#x2F;code&gt;
+the config file is a default so if you wanna start editing you can use the &lt;code&gt;fastfetch --gen-config&lt;&#x2F;code&gt; or using one of the examples in the example folder of the repo.
+i liked the 07.jsonc and based the below off of that:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;&#x2F;&#x2F; Load with --config examples&#x2F;2.jsonc
+&lt;&#x2F;span&gt;&lt;span&gt;&#x2F;&#x2F; Note that you must replace the image path to an existing image to display it.
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;quot;$schema&amp;quot;: &amp;quot;https:&#x2F;&#x2F;github.com&#x2F;fastfetch-cli&#x2F;fastfetch&#x2F;raw&#x2F;dev&#x2F;doc&#x2F;json_schema.json&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;quot;logo&amp;quot;: {
+&lt;&#x2F;span&gt;&lt;span&gt;        &amp;quot;type&amp;quot;: &amp;quot;auto&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;	&amp;quot;source&amp;quot;: &amp;quot;arch&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;        &amp;quot;padding&amp;quot;: {
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;top&amp;quot;: 3,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;left&amp;quot; : 5,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;right&amp;quot;: 6
+&lt;&#x2F;span&gt;&lt;span&gt;        }
+&lt;&#x2F;span&gt;&lt;span&gt;    },
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;quot;display&amp;quot;: {
+&lt;&#x2F;span&gt;&lt;span&gt;        &amp;quot;separator&amp;quot;: &amp;quot; -&amp;gt; &amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    },
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;quot;modules&amp;quot;: [
+&lt;&#x2F;span&gt;&lt;span&gt;        &amp;quot;title&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;        &amp;quot;separator&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;        {
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;type&amp;quot;: &amp;quot;os&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;key&amp;quot;: &amp;quot;OS&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;keyColor&amp;quot;: &amp;quot;cyan&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;format&amp;quot;: &amp;quot;{2}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        },
+&lt;&#x2F;span&gt;&lt;span&gt;        {
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;type&amp;quot;: &amp;quot;os&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;key&amp;quot;: &amp;quot;├─{icon}&amp;quot;, &#x2F;&#x2F; Just get your distro&amp;#39;s logo off nerdfonts.com
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;keyColor&amp;quot;: &amp;quot;cyan&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        },
+&lt;&#x2F;span&gt;&lt;span&gt;        {
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;type&amp;quot;: &amp;quot;kernel&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;key&amp;quot;: &amp;quot;├─Kernel&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;keyColor&amp;quot;: &amp;quot;cyan&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        },
+&lt;&#x2F;span&gt;&lt;span&gt;        {
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;type&amp;quot;: &amp;quot;packages&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;key&amp;quot;: &amp;quot;├─Packages&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;keyColor&amp;quot;: &amp;quot;cyan&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        },
+&lt;&#x2F;span&gt;&lt;span&gt;        {
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;type&amp;quot;: &amp;quot;shell&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;key&amp;quot;: &amp;quot;╰─Shell&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;keyColor&amp;quot;: &amp;quot;cyan&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        },
+&lt;&#x2F;span&gt;&lt;span&gt;        &amp;quot;break&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        {
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;type&amp;quot;: &amp;quot;wm&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;key&amp;quot;: &amp;quot; DE&#x2F;WM&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;keyColor&amp;quot;: &amp;quot;cyan&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        },
+&lt;&#x2F;span&gt;&lt;span&gt;        {
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;type&amp;quot;: &amp;quot;lm&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;key&amp;quot;: &amp;quot;├─LM&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;keyColor&amp;quot;: &amp;quot;cyan&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        },
+&lt;&#x2F;span&gt;&lt;span&gt;        {
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;type&amp;quot;: &amp;quot;wmtheme&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;key&amp;quot;: &amp;quot;├─WM&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;keyColor&amp;quot;: &amp;quot;cyan&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        },
+&lt;&#x2F;span&gt;&lt;span&gt;        {
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;type&amp;quot;: &amp;quot;icons&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;key&amp;quot;: &amp;quot;├─Icons&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;keyColor&amp;quot;: &amp;quot;cyan&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        },
+&lt;&#x2F;span&gt;&lt;span&gt;        {
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;type&amp;quot;: &amp;quot;terminal&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;key&amp;quot;: &amp;quot;╰─Terminal&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;keyColor&amp;quot;: &amp;quot;cyan&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        },
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        &amp;quot;break&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;        {
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;type&amp;quot;: &amp;quot;host&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;key&amp;quot;: &amp;quot;󰌢 PC&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;keyColor&amp;quot;: &amp;quot;red&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        },
+&lt;&#x2F;span&gt;&lt;span&gt;        {
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;type&amp;quot;: &amp;quot;cpu&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;key&amp;quot;: &amp;quot;├─CPU&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;keyColor&amp;quot;: &amp;quot;red&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        },
+&lt;&#x2F;span&gt;&lt;span&gt;        {
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;type&amp;quot;: &amp;quot;gpu&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;key&amp;quot;: &amp;quot;├─GPU&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;keyColor&amp;quot;: &amp;quot;red&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        },
+&lt;&#x2F;span&gt;&lt;span&gt;        {
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;type&amp;quot;: &amp;quot;disk&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;key&amp;quot;: &amp;quot;├─{mount-from}-{mountpoint}&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;keyColor&amp;quot;: &amp;quot;red&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        },
+&lt;&#x2F;span&gt;&lt;span&gt;	{
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;type&amp;quot;: &amp;quot;memory&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;key&amp;quot;: &amp;quot;├─Memory&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;keyColor&amp;quot;: &amp;quot;red&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        },
+&lt;&#x2F;span&gt;&lt;span&gt;        {
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;type&amp;quot;: &amp;quot;swap&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;key&amp;quot;: &amp;quot;├─Swap&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;keyColor&amp;quot;: &amp;quot;red&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        },
+&lt;&#x2F;span&gt;&lt;span&gt;        {
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;type&amp;quot;: &amp;quot;display&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;key&amp;quot;: &amp;quot;├─Display&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;keyColor&amp;quot;: &amp;quot;red&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        },
+&lt;&#x2F;span&gt;&lt;span&gt;	{
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;type&amp;quot;: &amp;quot;localip&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;key&amp;quot;: &amp;quot;├─IP&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;compact&amp;quot;: true,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;keyColor&amp;quot;: &amp;quot;red&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        },
+&lt;&#x2F;span&gt;&lt;span&gt;        {
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;type&amp;quot;: &amp;quot;wifi&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;key&amp;quot;: &amp;quot;├─Wifi-network&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;format&amp;quot;: &amp;quot;{ssid}&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;keyColor&amp;quot;: &amp;quot;red&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        },
+&lt;&#x2F;span&gt;&lt;span&gt;        {
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;type&amp;quot;: &amp;quot;uptime&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;key&amp;quot;: &amp;quot;╰─Uptime&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;keyColor&amp;quot;: &amp;quot;red&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        },
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        &amp;quot;break&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;        {
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;type&amp;quot;: &amp;quot;sound&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;key&amp;quot;: &amp;quot; SOUND&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;keyColor&amp;quot;: &amp;quot;cyan&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        },
+&lt;&#x2F;span&gt;&lt;span&gt;        {
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;type&amp;quot;: &amp;quot;player&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;key&amp;quot;: &amp;quot;├󰥠&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;keyColor&amp;quot;: &amp;quot;cyan&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        },
+&lt;&#x2F;span&gt;&lt;span&gt;        {
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;type&amp;quot;: &amp;quot;media&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;key&amp;quot;: &amp;quot;└󰝚&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;keyColor&amp;quot;: &amp;quot;cyan&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        },
+&lt;&#x2F;span&gt;&lt;span&gt;    ]
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;deleted the item i didnt care about, set icons and words to help readibility and got rid of the cachyos logo in place of the arch default&lt;&#x2F;p&gt;
+&lt;p&gt;i spent a good amount of time futzing with the Disk(s) section as it would just print without telling me the disk or mountpoint...if you need to see what the format options are you can use the following command:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;fastfetch -h {modulename}-format
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this gave me the details so i could insert it into the json.  it will then do that for any disks&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;    {
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;type&amp;quot;: &amp;quot;disk&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;key&amp;quot;: &amp;quot;├─{mount-from}-{mountpoint}&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;keyColor&amp;quot;: &amp;quot;red&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        },
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>laptop-cosmic-pt2</title>
+        <published>2026-01-14T00:00:00+00:00</published>
+        <updated>2026-01-14T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/laptop-cosmic-pt2/"/>
+        <id>https://inktheghost.com/blog/laptop-cosmic-pt2/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/laptop-cosmic-pt2/">&lt;h1 id=&quot;laptop-cosmic-pt2&quot;&gt;laptop-cosmic-pt2&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;18-29&quot;&gt;18:29&lt;&#x2F;h2&gt;
+&lt;p&gt;so i&#x27;ve been doing alot of configuring since the laptop&#x27;s come back online, some things broke as indicated in the last post, but i hadn&#x27;t written anything down yet. here&#x27;s a list of topics:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;bash&lt;&#x2F;li&gt;
+&lt;li&gt;snapper&#x2F;btrfs-assistant&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;inktheghost.com&#x2F;blog&#x2F;backup-with-pve-updated&#x2F;&quot;&gt;backup-with-pbs-updated&lt;&#x2F;a&gt;(again)&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;inktheghost.com&#x2F;blog&#x2F;obsidian-setup-pt2&#x2F;&quot;&gt;obsidian-pt2&lt;&#x2F;a&gt;(again)&lt;&#x2F;li&gt;
+&lt;li&gt;bash backup and &#x2F;builds to git repo for easier install&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;bash&quot;&gt;bash&lt;&#x2F;h3&gt;
+&lt;p&gt;after getting the browser working, i decided to venture into souping up the bash prompt, as i was working with fish in the garuda install and liked some of extra features.  a little internet searching and i was starting to see some great options, and i get to stay in the bash work - shebang!&lt;&#x2F;p&gt;
+&lt;p&gt;first things first, the bash prompt is boring. teasing you for more, even the defaults in the .bashrc are underwhelming compared to the fish config.  a couple options stood out, starship prompt, ble.sh seemed to cover most of what i wanted with a little tweaking to be done.&lt;&#x2F;p&gt;
+&lt;p&gt;so first, i installed starship:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;sudo pacman -S starship nerd-fonts 
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this is in the arch repos so no issues there, everything is controlled from the starship.toml in ~&#x2F;.config and the webpage has install instructions and some presets that can point you in the right direction. i chose the pure preset which is fairly simple.  i highly recommend installing the nerd-fonts package too as seen above as you will then have access to nerd-font symbols and some different fonts if you want it. i added all of them and also set my computer to Firacode which is like an old timer programming &#x2F;typewriter stlye font.&lt;&#x2F;p&gt;
+&lt;p&gt;for starship to work follow the install per your shell, many options even if you use fish or bash, or zsh
+&lt;a href=&quot;https:&#x2F;&#x2F;starship.rs&#x2F;guide&#x2F;#%F0%9F%9A%80-installation&quot;&gt;https:&#x2F;&#x2F;starship.rs&#x2F;guide&#x2F;#%F0%9F%9A%80-installation&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;for bash add the below to the &lt;code&gt;.bashrc&lt;&#x2F;code&gt; file:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;eval &amp;quot;$(starship init bash)&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;for pure preset you issue the following command at prompt:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;starship preset pure-preset -o ~&#x2F;.config&#x2F;starship.toml
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;if that&#x27;s all you want it&#x27;s pretty clean and fresh. i also installed ble.sh which gives me autocomplete and history&#x2F;search functions at the prompt. works incredibly well. here&#x27;s that process below:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;mkdir -p build 
+&lt;&#x2F;span&gt;&lt;span&gt;cd build 
+&lt;&#x2F;span&gt;&lt;span&gt;git clone --recursive https:&#x2F;&#x2F;github.com&#x2F;akinomyoga&#x2F;ble.sh.git
+&lt;&#x2F;span&gt;&lt;span&gt;cd ble.sh
+&lt;&#x2F;span&gt;&lt;span&gt;make
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;then add the source (plugin) to the &lt;code&gt;.bashrc.&lt;&#x2F;code&gt; file:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;source out&#x2F;ble.sh
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;i then tweaked colors, added a git icon and a buncha aliases for my (sort-of) final &lt;code&gt;.bashrc&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;# ~&#x2F;.bashrc
+&lt;&#x2F;span&gt;&lt;span&gt;#
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# If not running interactively, don&amp;#39;t do anything
+&lt;&#x2F;span&gt;&lt;span&gt;[[ $- != *i* ]] &amp;amp;&amp;amp; return
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;##PATH##
+&lt;&#x2F;span&gt;&lt;span&gt;# set PATH so it includes user&amp;#39;s private ~&#x2F;.local&#x2F;bin if it exists
+&lt;&#x2F;span&gt;&lt;span&gt;if [ -d &amp;quot;$HOME&#x2F;.local&#x2F;bin&amp;quot; ] ; then
+&lt;&#x2F;span&gt;&lt;span&gt;    PATH=&amp;quot;$HOME&#x2F;.local&#x2F;bin:$PATH&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;fi
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#bash time 24hr clock
+&lt;&#x2F;span&gt;&lt;span&gt;alias date=&amp;quot;date +&amp;#39;%H:%M:%S&amp;#39;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#unlimited bash history
+&lt;&#x2F;span&gt;&lt;span&gt;HISTSIZE=-1
+&lt;&#x2F;span&gt;&lt;span&gt;HISTFILESIZE=-1
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#ASCII art and greeting
+&lt;&#x2F;span&gt;&lt;span&gt;paleofetch
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#plugins
+&lt;&#x2F;span&gt;&lt;span&gt;source -- ~&#x2F;.local&#x2F;share&#x2F;blesh&#x2F;ble.sh
+&lt;&#x2F;span&gt;&lt;span&gt;eval &amp;quot;$(starship init bash)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;##Set some $ENVIRONMENTAL variable
+&lt;&#x2F;span&gt;&lt;span&gt;export VISUAL=nano
+&lt;&#x2F;span&gt;&lt;span&gt;export EDITOR=nano
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Replace ls with exa
+&lt;&#x2F;span&gt;&lt;span&gt;alias ls=&amp;#39;exa -al --color=always --group-directories-first --icons&amp;#39; # preferred listing
+&lt;&#x2F;span&gt;&lt;span&gt;alias la=&amp;#39;exa -a --color=always --group-directories-first --icons&amp;#39;  # all files and dirs
+&lt;&#x2F;span&gt;&lt;span&gt;alias ll=&amp;#39;exa -l --color=always --group-directories-first --icons&amp;#39;  # long format
+&lt;&#x2F;span&gt;&lt;span&gt;alias lt=&amp;#39;exa -aT --color=always --group-directories-first --icons&amp;#39; # tree listing
+&lt;&#x2F;span&gt;&lt;span&gt;alias l.=&amp;quot;exa -a | egrep &amp;#39;^\.&amp;#39;&amp;quot;                                     # show only dotfiles
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Common use
+&lt;&#x2F;span&gt;&lt;span&gt;alias aup=&amp;quot;pamac upgrade --aur&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;#alias grubup=&amp;quot;sudo update-grub&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;#alias fixpacman=&amp;quot;sudo rm &#x2F;var&#x2F;lib&#x2F;pacman&#x2F;db.lck&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;alias tarnow=&amp;#39;tar -acf &amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;alias untar=&amp;#39;tar -zxvf &amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;alias wget=&amp;#39;wget -c &amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;alias rmpkg=&amp;quot;sudo pacman -Rdd&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;#alias psmem=&amp;#39;ps auxf | sort -nr -k 4&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;#alias psmem10=&amp;#39;ps auxf | sort -nr -k 4 | head -10&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;#alias upd=&amp;#39;sudo reflector --latest 5 --age 2 --fastest 5 --protocol https --sort rate --save &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist &amp;amp;&amp;amp; cat &#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist &amp;amp;&amp;amp; sudo pacman -Syu &amp;amp;&amp;amp; fish_update_completions &amp;amp;&amp;amp; sudo updatedb&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;alias ..=&amp;#39;cd ..&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;alias ...=&amp;#39;cd ..&#x2F;..&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;alias ....=&amp;#39;cd ..&#x2F;..&#x2F;..&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;alias .....=&amp;#39;cd ..&#x2F;..&#x2F;..&#x2F;..&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;alias ......=&amp;#39;cd ..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;alias dir=&amp;#39;dir --color=auto&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;alias vdir=&amp;#39;vdir --color=auto&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;alias grep=&amp;#39;grep --color=auto&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;alias fgrep=&amp;#39;fgrep --color=auto&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;alias egrep=&amp;#39;egrep --color=auto&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;alias hw=&amp;#39;hwinfo --short&amp;#39;                                   # Hardware Info
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Cleanup orphaned packages
+&lt;&#x2F;span&gt;&lt;span&gt;alias cleanup=&amp;#39;sudo pacman -Rns (pacman -Qtdq)&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Get the error messages from journalctl
+&lt;&#x2F;span&gt;&lt;span&gt;alias jctl=&amp;quot;journalctl -p 3 -xb&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Recent installed packages
+&lt;&#x2F;span&gt;&lt;span&gt;alias rip=&amp;quot;expac --timefmt=&amp;#39;%Y-%m-%d %T&amp;#39; &amp;#39;%l\t%n %v&amp;#39; | sort | tail -200 | nl&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#personal
+&lt;&#x2F;span&gt;&lt;span&gt;alias gitup=&amp;#39;~&#x2F;forge&#x2F;scripts&#x2F;forge.update.sh&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;alias gitpu=&amp;#39;~&#x2F;forge&#x2F;scripts&#x2F;forge.push.sh&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;alias up=&amp;#39;~&#x2F;forge&#x2F;scripts&#x2F;arch&#x2F;update.sh&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;alias src=&amp;#39;source ~&#x2F;.bashrc&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;alias tailup=&amp;#39;~&#x2F;forge&#x2F;scripts&#x2F;tailup.sh&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;alias taildn=&amp;#39;tailscale down&amp;#39;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;and my final `~&#x2F;.config&#x2F;startship.toml&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;# &amp;quot;$schema&amp;quot; = &amp;#39;https:&#x2F;&#x2F;starship.rs&#x2F;config-schema.json&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;# ~&#x2F;.config&#x2F;starship.toml
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;add_newline = true
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;format = &amp;quot;&amp;quot;&amp;quot;\
+&lt;&#x2F;span&gt;&lt;span&gt;  $directory\
+&lt;&#x2F;span&gt;&lt;span&gt;  $git_branch$git_commit$git_state $git_status\
+&lt;&#x2F;span&gt;&lt;span&gt;  $line_break $character
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&amp;quot;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;right_format = &amp;quot;&amp;quot;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;$status&amp;quot;&amp;quot;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;continuation_prompt = &amp;#39;▶▶ &amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# style_choices:
+&lt;&#x2F;span&gt;&lt;span&gt;# bold
+&lt;&#x2F;span&gt;&lt;span&gt;# italic
+&lt;&#x2F;span&gt;&lt;span&gt;# underline
+&lt;&#x2F;span&gt;&lt;span&gt;# dimmed
+&lt;&#x2F;span&gt;&lt;span&gt;# inverted
+&lt;&#x2F;span&gt;&lt;span&gt;# blink
+&lt;&#x2F;span&gt;&lt;span&gt;# hidden
+&lt;&#x2F;span&gt;&lt;span&gt;# strikethrough
+&lt;&#x2F;span&gt;&lt;span&gt;# bg:&amp;lt;color&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# fg:&amp;lt;color&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# &amp;lt;color&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# none
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#NOTE: you can customize the symbols, e.g:
+&lt;&#x2F;span&gt;&lt;span&gt;[character]
+&lt;&#x2F;span&gt;&lt;span&gt;success_symbol = &amp;quot;[  ]($bold fg:bright-blue)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;error_symbol = &amp;quot;[  ]($bold fg:bright-red)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;[directory]
+&lt;&#x2F;span&gt;&lt;span&gt;disabled = false
+&lt;&#x2F;span&gt;&lt;span&gt;format = &amp;quot; [$path](bold $style)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;style = &amp;quot;cyan&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;truncate_to_repo = false
+&lt;&#x2F;span&gt;&lt;span&gt;#home_symbol = &amp;quot;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;[hostname]
+&lt;&#x2F;span&gt;&lt;span&gt;ssh_only = false
+&lt;&#x2F;span&gt;&lt;span&gt;format = &amp;#39;(white bold)[$hostname](#50fa7b bold)&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;disabled = false
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#[username]
+&lt;&#x2F;span&gt;&lt;span&gt;#format = &amp;#39;(white bold)[$username  @ ](#50fa7b bold)&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;#disabled= false
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;[git_branch]
+&lt;&#x2F;span&gt;&lt;span&gt;format = &amp;quot; [ $branch]($style)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;style = &amp;quot;red&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;[git_status]
+&lt;&#x2F;span&gt;&lt;span&gt;ahead = &amp;#39;⇡${count}&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;behind = &amp;#39;⇣${count}&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;diverged = &amp;#39;⇕⇡${ahead_count}⇣${behind_count}&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;format = &amp;#39;[[( $all_status$ahead_behind )](fg:yellow)]($style)&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;style = &amp;quot;bg:bright-yellow&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;[time]
+&lt;&#x2F;span&gt;&lt;span&gt;disabled = false
+&lt;&#x2F;span&gt;&lt;span&gt;format = &amp;#39;[[  $time ](fg:#a0a9cb )]($style)&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;time_format = &amp;quot;%R&amp;quot;                            # Hour:Minute Format
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;[python]
+&lt;&#x2F;span&gt;&lt;span&gt;format = &amp;quot;[${symbol}(${virtualenv}) ${version}]($style)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;style = &amp;quot;bold bright-yellow&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;symbol = &amp;quot;[ ](bold bright-blue)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;version_format = &amp;quot;${raw}&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;there&#x27;s alot to play with here, but here&#x27;s my prompt with the terminal called:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;img&#x2F;screenshotbash.png&quot; alt=&quot;this is a screenshot&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;i also installed paleofetch and added that to the $PATH and &lt;code&gt;.bashrc &lt;&#x2F;code&gt; in place of the depricated neofetch following directions at
+&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;ss7m&#x2F;paleofetch.git&quot;&gt;https:&#x2F;&#x2F;github.com&#x2F;ss7m&#x2F;paleofetch.git&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;snapper-and-btrfs-assistant&quot;&gt;snapper and btrfs-assistant&lt;&#x2F;h3&gt;
+&lt;p&gt;this is obviously only applicable to those using btrfs, which i recomend for this purpose.&lt;&#x2F;p&gt;
+&lt;p&gt;install snapper, snap-pac and btrfs-assistant:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;sudo pacman -S snapper btrfs-assistant
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;we will install snap-pac after setting up the root and home configs:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;sudo snapper -c root create-config &#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;sudo snapper -c home create-config &#x2F;home
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this is assuming you have a &#x2F;home partition thats on separate media, which i do and highly recommend, otherwise, the root partition could do it all in that scenario. or you could run:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;sudo btrfs subvolume create &#x2F;home
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;the idea being that you can setup different config and thus backup schedules for &#x2F;home or &#x2F;, the &#x2F;home partition does not need regular backups.  however, root benefits from many per day, or per hour, or per pacman install if you add the below command. if you have a desktop, install use btrfs-assistant and tweak the snapshot and retention policies for the config(s) you have, then install the below:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;sudo pacman -S snap-pac
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;after creation and setup of the root and home configs, now on execution of the pacman routine, you will see a snapshot happens both before and after the install.&lt;&#x2F;p&gt;
+&lt;p&gt;caveats:  I am running system-d boot and as of right now, it doesn&#x27;t allow snapshots in the menu, at least easily.  will work fine with grub.  this means that if you absolutely hose your system, you will at least need a prompt to get back in and restore a previous snapshot - just FYI&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;backing-up-bash-installing-cronie-and-git-submodules&quot;&gt;backing up bash, installing cronie and git-submodules&lt;&#x2F;h3&gt;
+&lt;p&gt;i am trying to make it so all my important data and work is stored locally, in a repo i have direct control of, also on codeberg for the 3x backup method.&lt;&#x2F;p&gt;
+&lt;p&gt;this means writing little scripts with nano editor and executing them on a schedule. the systemd method i find a little cumbersome, its probably more robust, and secure, but cron does the job and its faster IMHO to create and implement. arch doesn&#x27;t have cron natively, so install the cronie package:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;sudo pacman -S cronie
+&lt;&#x2F;span&gt;&lt;span&gt;sudo systemctl start croniie 
+&lt;&#x2F;span&gt;&lt;span&gt;sudo systemctl enable --now cronie
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;that is all you need for backend stuff. if you have editors like VIM, you won&#x27;t need to do much as it will default to open in that app when editing with &lt;code&gt;crontab -e&lt;&#x2F;code&gt;, but if you prefer nano...you need to specify the $VISUAL and $EDITOR variables in your &lt;code&gt;.bashrc.&lt;&#x2F;code&gt; or set them via command line everytime before executing the cron command. this varies as well, shell to shell, but for bash i added the lines below:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;##Set some $ENVIRONMENTAL variable
+&lt;&#x2F;span&gt;&lt;span&gt;export VISUAL=nano
+&lt;&#x2F;span&gt;&lt;span&gt;export EDITOR=nano
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this was also above in my &lt;code&gt;.bashrc&lt;&#x2F;code&gt; output, look in there for some extra goodies floating around ;)&lt;&#x2F;p&gt;
+&lt;p&gt;anyways, with all that setup, here&#x27;s my current backup for my user, and i also run another one within the root user.&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;###[Min][HR][Day][Mth][DOW]###
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#run bash backup @ 2am daily
+&lt;&#x2F;span&gt;&lt;span&gt;* 2 * * * ~&#x2F;backup_bash.sh
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#run git update 2x daily @3, and @15 hrs
+&lt;&#x2F;span&gt;&lt;span&gt;* 3,15 * * * ~&#x2F;forge&#x2F;scripts&#x2F;forge.update.sh
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;backup_bash.sh is as follows:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;#!&#x2F;bin&#x2F;bash
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#backup bash
+&lt;&#x2F;span&gt;&lt;span&gt;cd ~
+&lt;&#x2F;span&gt;&lt;span&gt;cp .bashrc ~&#x2F;forge&#x2F;scripts&#x2F;bash&#x2F;.bashrc.bak
+&lt;&#x2F;span&gt;&lt;span&gt;cp .bash_history ~&#x2F;forge&#x2F;scripts&#x2F;bash&#x2F;.bash_history.bak
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#backup starship
+&lt;&#x2F;span&gt;&lt;span&gt;cd .config
+&lt;&#x2F;span&gt;&lt;span&gt;cp starship.toml ~&#x2F;forge&#x2F;scripts&#x2F;bash&#x2F;starship.toml.bak
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#sync with forgejo
+&lt;&#x2F;span&gt;&lt;span&gt;cd ~
+&lt;&#x2F;span&gt;&lt;span&gt;~&#x2F;forge&#x2F;scripts&#x2F;forge.update.sh
+&lt;&#x2F;span&gt;&lt;span&gt;~&#x2F;forge&#x2F;scripts&#x2F;forge.push.sh
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;Backup completed - $(date)&amp;quot; &amp;gt;&amp;gt; .bash_bak
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;i have a little logging going on as well, but this puts all the work i did in bash prompt and my starship setup into my repo for easy retrieval later.  now i can copy and stick in any computer for the flow i like.&lt;&#x2F;p&gt;
+&lt;p&gt;the ~&#x2F;forge&#x2F;scripts&#x2F;forge.update.sh command also executes the git update on a 2x day schedule, here&#x27;s that executable:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;#!&#x2F;bin&#x2F;bash
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Change to the gitea directory
+&lt;&#x2F;span&gt;&lt;span&gt;cd ~&#x2F;forge
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Loop through all directories and subdirectories
+&lt;&#x2F;span&gt;&lt;span&gt;for dir in *&#x2F;; do
+&lt;&#x2F;span&gt;&lt;span&gt;    # Check if it&amp;#39;s a directory
+&lt;&#x2F;span&gt;&lt;span&gt;    if [ -d &amp;quot;$dir&amp;quot; ]; then
+&lt;&#x2F;span&gt;&lt;span&gt;        # If so, navigate into it and update the repository
+&lt;&#x2F;span&gt;&lt;span&gt;        cd $dir &amp;amp;&amp;amp; echo &amp;quot;Moving into $dir&amp;quot; &amp;amp;&amp;amp; git pull
+&lt;&#x2F;span&gt;&lt;span&gt;        # Navigate back to the parent directory
+&lt;&#x2F;span&gt;&lt;span&gt;        cd ..
+&lt;&#x2F;span&gt;&lt;span&gt;    fi
+&lt;&#x2F;span&gt;&lt;span&gt;done
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;cd ~
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;i also have an alias setup in &lt;code&gt;.bashrc.&lt;&#x2F;code&gt; if you look closely, i use gitup to do the same and execute the above simply anywhere in my &#x2F;dir to update all my repos.&lt;&#x2F;p&gt;
+&lt;p&gt;last but not least, i wanted to backup my &#x2F;build directory to my ~&#x2F;forge&#x2F;scripts directory and had some errors when doing that. since they are all pulled off github, you will throw an error saying that direct copy will not find the source. simple solution, just use the git submodule command. it will then sync those to the latest updated repo version anytime you git clone your repo into a new system. a little bit extra work, but its nice to know if i rebuild that system, i can have the updated repo already. i may write a script to help with that so its a little simpler, but that&#x27;s plenty for now.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>backup laptop with PBS</title>
+        <published>2026-01-13T00:00:00+00:00</published>
+        <updated>2026-01-13T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/backup-with-pve-updated/"/>
+        <id>https://inktheghost.com/blog/backup-with-pve-updated/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/backup-with-pve-updated/">&lt;h1 id=&quot;update-1-13-2006-tl-dr&quot;&gt;Update 1-13-2006 TL;DR&lt;&#x2F;h1&gt;
+&lt;p&gt;so i ended up having some issues getting the proxmox-backup-client command to run, using sudo and after getting into the forums realized that i could su to root, move the file there, and append changes, chmod to execute and add the cronjob under the root user.  this eliminates the need all together for the sudo command!&lt;&#x2F;p&gt;
+&lt;p&gt;heres the updated file i saved in the &#x2F;root&#x2F; directory:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;#!&#x2F;bin&#x2F;bash
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;##Setting environmental variables
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;export PBS_USER=jeff
+&lt;&#x2F;span&gt;&lt;span&gt;export PBS_PASSWORD=XXXXXXXX
+&lt;&#x2F;span&gt;&lt;span&gt;export PBS_REPOSITORY=jeff@pbs@192.168.50.3:8007:not-server
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;## backup command
+&lt;&#x2F;span&gt;&lt;span&gt;proxmox-backup-client backup root.pxar:&#x2F; --include-dev &#x2F;home
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;echo &amp;quot;$(date +&amp;quot;%Y-%m-%d %H:%M:%S&amp;quot;) - Backup executed&amp;quot; &amp;gt;&amp;gt; &#x2F;home&#x2F;joe&#x2F;backup_to_PVB.log
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;my cron command is also set to push any errors to a debug.log file, so between the above and that i&#x27;ve got a fail bit of debug info if i need it.&lt;&#x2F;p&gt;
+&lt;p&gt;you can test by running the script backup.sh to make sure it works without erroring out with the above changes.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;og-text&quot;&gt;OG text&lt;&#x2F;h1&gt;
+&lt;p&gt;so i created a bash script and was having it err anytime i wasnt actually logged into a terminal
+after some poking around it hadn&#x27;t executed as sudo for the bash script in a while and realized that there was an issue passing sudo password to the backup command
+i will preface this with i am still not sure if this is working, but i will know by 4pm today.  here&#x27;s my script:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;#!&#x2F;bin&#x2F;bash
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;##Setting environmental variables
+&lt;&#x2F;span&gt;&lt;span&gt;export PBS_USER=archy
+&lt;&#x2F;span&gt;&lt;span&gt;export PBS_PASSWORD=@!Moksha00
+&lt;&#x2F;span&gt;&lt;span&gt;#export SUDO_PASSWORD=$(cat &#x2F;etc&#x2F;backup_password)
+&lt;&#x2F;span&gt;&lt;span&gt;export PBS_REPOSITORY=archy@pbs@192.168.50.3:8007:not-server2
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;##Checking network connectivity
+&lt;&#x2F;span&gt;&lt;span&gt;ping -c 1 192.168.50.3 | grep &amp;quot;bytes from&amp;quot; &amp;gt; &#x2F;dev&#x2F;null
+&lt;&#x2F;span&gt;&lt;span&gt;if [ $? -eq 0 ]; then
+&lt;&#x2F;span&gt;&lt;span&gt;    echo &amp;quot;$(date &amp;#39;+%Y-%m-%d %H:%M:%S&amp;#39;) - Network is connected&amp;quot; &amp;gt;&amp;gt; &#x2F;home&#x2F;joe&#x2F;backup.log
+&lt;&#x2F;span&gt;&lt;span&gt;else
+&lt;&#x2F;span&gt;&lt;span&gt;    echo &amp;quot;$(date &amp;#39;+%Y-%m-%d %H:%M:%S&amp;#39;) - Network is not connected&amp;quot; &amp;gt;&amp;gt; &#x2F;home&#x2F;joe&#x2F;backup.log
+&lt;&#x2F;span&gt;&lt;span&gt;    echo &amp;quot;$(date &amp;#39;+%Y-%m-%d %H:%M:%S&amp;#39;) - Backup failed&amp;quot; &amp;gt;&amp;gt; &#x2F;home&#x2F;joe&#x2F;backup.log
+&lt;&#x2F;span&gt;&lt;span&gt;    exit 1
+&lt;&#x2F;span&gt;&lt;span&gt;fi
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;##Sudo command with -E to preserve the env variables
+&lt;&#x2F;span&gt;&lt;span&gt;sudo -E proxmox-backup-client backup root.pxar:&#x2F; --include-dev &#x2F;home
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#testing backup error loop
+&lt;&#x2F;span&gt;&lt;span&gt;if [ $? -eq 0 ]; then
+&lt;&#x2F;span&gt;&lt;span&gt;    echo &amp;quot;$(date &amp;#39;+%Y-%m-%d %H:%M:%S&amp;#39;) - Backup completed successfully&amp;quot; &amp;gt;&amp;gt; &#x2F;home&#x2F;joe&#x2F;backup.log
+&lt;&#x2F;span&gt;&lt;span&gt;else
+&lt;&#x2F;span&gt;&lt;span&gt;    echo &amp;quot;$(date &amp;#39;+%Y-%m-%d %H:%M:%S&amp;#39;) - Backup failed&amp;quot; &amp;gt;&amp;gt; &#x2F;home&#x2F;joe&#x2F;backup.log
+&lt;&#x2F;span&gt;&lt;span&gt;fi   
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;and the problem seemed to be in this line of code:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;sudo -E proxmox-backup-client backup root.pxar:&#x2F; --include-dev &#x2F;home
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;some digging on the webs (i dont use google, cause you know privacy, data harvesting blah blah blah) recommended using a password setting variable and also adding my user and allowing passwordless execution for the bash scripts.  now this seems to include the use of sudo from within the scripts as well, but we shall see...at 4pm tbd&lt;&#x2F;p&gt;
+&lt;p&gt;so for the sudo command thingy, you can enter the details to fit the command name and user, but it follows the format below:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;echo &amp;quot;username ALL=(ALL) NOPASSWORD: &#x2F;path&#x2F;to&#x2F;script.sh&amp;quot; | sudo tee &#x2F;etc&#x2F;sudoers.d&#x2F;script-no-password
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;mine is:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;echo &amp;quot;joe ALL=(ALL) NOPASSWD: &#x2F;home&#x2F;joe&#x2F;backup.sh&amp;quot; | sudo tee &#x2F;etc&#x2F;sudoers.d&#x2F;script-no-password
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;now i use arch, so i chose to install cronie as i was struggling with the above script (realizing now that the sudo fix should allow me to use systemctl services to do the same as cronie) but i have a little more familiarity with cron, so i wanted to use it for debugging a bit.  here&#x27;s how i got that going on arch:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;sudo pacman -S cronie
+&lt;&#x2F;span&gt;&lt;span&gt;export EDITOR=&#x2F;usr&#x2F;bin&#x2F;nano &amp;amp;&amp;amp; export VISUAL=$EDITOR
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;now you can setup your cron to run, im using some debug stuff and wanting to run daily so here&#x27;s how that looks:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;0 16 * * * &#x2F;home&#x2F;joe&#x2F;backup.sh 2&amp;gt; debug.log 2&amp;gt;&amp;amp;1
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;the export variables tell the system to use nano instead of vi, i don&#x27;t use vi, so this got it going in my favorite editor, and ctrl+x and its saved&lt;&#x2F;p&gt;
+&lt;p&gt;this is a good time to make sure you  had the script made executable as we are testing with the following command, so if you haven&#x27;t already:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;sudo chmod +x &#x2F;path&#x2F;to&#x2F;script.s
+&lt;&#x2F;span&gt;&lt;span&gt;crontab -l | grep -v &amp;#39;^#&amp;#39; | cut -f 6- -d &amp;#39; &amp;#39; | while read CMD; do eval $CMD; done
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;the crontab command above will cycle through and test execution of all of the commands in crontab sequentially, so just keep that in mind.  I only have this one and a gitea script for updating my repo, so nbd to have it execute them all.&lt;&#x2F;p&gt;
+&lt;p&gt;ill report back later if this is the fix, but with some network debugging and script debugging i should get updated on the script as its processed&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>laptop_cosmic</title>
+        <published>2026-01-10T00:00:00+00:00</published>
+        <updated>2026-01-10T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/laptop-cosmic/"/>
+        <id>https://inktheghost.com/blog/laptop-cosmic/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/laptop-cosmic/">&lt;h1 id=&quot;laptop-cosmic-installation&quot;&gt;laptop cosmic installation&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;17-26&quot;&gt;17:26&lt;&#x2F;h2&gt;
+&lt;p&gt;since the last time i&#x27;d attempted to install arch on my laptop, i opted for the garuda arch variation because it took figuring out the iwctl protocol off the table and just worked.  well, i found garuda kinda bloaty and many things i didnt need, so i though i&#x27;d test out the cosmic desktop experience.  i&#x27;ve used it for a while on my desktop and now it was time to try installing it on my laptop.  plus, its now out of alpha and is included in the archinstall desktops options.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;so-what-is-new&quot;&gt;so what is new?&lt;&#x2F;h2&gt;
+&lt;p&gt;the archinstall included the wifi setup at initial prompt, its buggy, kept closing...then working, but saying it didn&#x27;t, after a couple trys, on the third archinstall command, the installer started pulling repos, indicating it actually had worked. archinsttall itself was pretty much the same, just selected cosmic in the type menu and left pretty much barebones.&lt;&#x2F;p&gt;
+&lt;p&gt;it installed in about 3 min and was ready to reboot.  startup was un-eventful, but started with a few buggy issues.  going through the initial setup, any prompt asking for the admin password was unresponsive.  i pulled up a terminal &lt;code&gt;Super + T&lt;&#x2F;code&gt; and a quick interrnet search on my phone indicated that it was a polkit issue, and the remedy was a quick chmod command...im sure that will get ironed out soo, easy fix either way:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;sudo chmod 4755 &#x2F;usr&#x2F;lib&#x2F;polkit-1&#x2F;polkit-agent-helper-1
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;and back in business.  this assisted me in setting up nearest city for time settings.&lt;&#x2F;p&gt;
+&lt;p&gt;installer assisted with the internet connection as well (i chose network manager)&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;headaches&quot;&gt;headaches&lt;&#x2F;h2&gt;
+&lt;p&gt;so i had a bitch of a time installing all my  usual shit and after having the laptop mostly working, yay or paru would cause a change in required files by pacman and tanked my reflector command operation and fucked up my rustdesk and trivalent pulls from chaotic AUR.&lt;&#x2F;p&gt;
+&lt;p&gt;workarounds:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;rustdesk: download the pkg file&lt;&#x2F;li&gt;
+&lt;li&gt;trivalent: build direct from git&lt;&#x2F;li&gt;
+&lt;li&gt;dont install yay or paru (probably shouldnt anyways)&lt;&#x2F;li&gt;
+&lt;li&gt;forgejo mirror to my github repo stopped pushing (403 error) - likely unrelated&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;rustdeck&quot;&gt;rustdeck:&lt;&#x2F;h3&gt;
+&lt;p&gt;i&#x27;ve tried teamviewer, remmina and was having no love connecting to my win11 vm remotely via any of them.  teamviewer and remmina were buggy and slow, and i ran across rustdeck online and thought id give it a try.  at first go it worked flawlessly connecting out to the win11 vm.  i was able to setup permanent passwords.  it wouldn&#x27;t connect to the laptop running wayland from win11, they were pretty clear it was still experimental, but it dd connect to windows, which is what i needed anyways. there was a ready indication for the connection at the bottom which recommended self-hosting.  i tried the rustdesk option for the server creating my own lxc w? debian 13 on my homelab and installing with the script:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;wget https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;techahold&#x2F;rustdeskinstall&#x2F;master&#x2F;install.sh
+&lt;&#x2F;span&gt;&lt;span&gt;sudo chmod +x install.sh
+&lt;&#x2F;span&gt;&lt;span&gt;sudo .&#x2F;install.sh
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this didnt work at all for me, the webpage wasn&#x27;t showing any useable info, couldnt get the terminals to connect.  i did notice a small blurb during the rustdesk server install that said that there was an alternative FOSS version put out by &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;infiniteremote&#x2F;installer&quot;&gt;https:&#x2F;&#x2F;github.com&#x2F;infiniteremote&#x2F;installer&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;the README.md states:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;### Why Infinite Remote?
+&lt;&#x2F;span&gt;&lt;span&gt;We have started our own project due to the lack of transparency of the RustDesk project and intend on forking and maintaining our own servers and clients, the vulnerabilities in the RustDesk client is too much for business use so we will be working hard on improving the codebase and security.
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this install went fine.  the webportal signin brought me to a more usable and understandable interface, the copy links didn&#x27;t work in the installer page, but the important parts, API webpage and key were easy to see and copy.  the portal indicated the logins from each instance, with relevant details and the api login worked ok on the win11, i could use the addressbook showing the opensource api was working great! what a nice free add-on.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;trivalent-secureblue-browser&quot;&gt;trivalent - secureBLUE browser&lt;&#x2F;h3&gt;
+&lt;p&gt;i have a pretty long history of being a brave browser user, since it first was in alpha.  the gimmicky shit with rewards etc were annoying and the founder turned out to be a big shithead so i started looking for alternatives.  i wanted to keep with chrome (albeit a hardened version) and mainly for use of extensions - i like functionality of bit-warden since i have a self-hosted instance, and privacy badger doesnt hurt either.  i wish there was a true graphene vanadium port for linux, but the secureBLUE chromium port from Fedora is hardened and uses vanadium patches for additional tightening.  you will have to enable extensions from settings and all pop-ups blocked automagically.  here&#x27;s the code for the install from git:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;sudo pacman -S --needed git base-devel
+&lt;&#x2F;span&gt;&lt;span&gt;cd ~
+&lt;&#x2F;span&gt;&lt;span&gt;git clone https:&#x2F;&#x2F;aur.archlinux.org&#x2F;trivalent-bin.git
+&lt;&#x2F;span&gt;&lt;span&gt;cd trivalent-bin
+&lt;&#x2F;span&gt;&lt;span&gt;makepkg -si
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;read the deep wiki for more build info &lt;a href=&quot;https:&#x2F;&#x2F;deepwiki.com&#x2F;secureblue&#x2F;Trivalent&quot;&gt;https:&#x2F;&#x2F;deepwiki.com&#x2F;secureblue&#x2F;Trivalent&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>cosmic-desktop</title>
+        <published>2026-01-08T00:00:00+00:00</published>
+        <updated>2026-01-08T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/cosmic-desktop/"/>
+        <id>https://inktheghost.com/blog/cosmic-desktop/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/cosmic-desktop/">&lt;h1 id=&quot;cosmic-desktop-install-and-experience&quot;&gt;cosmic-desktop install and experience&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;11-37&quot;&gt;11:37&lt;&#x2F;h2&gt;
+&lt;p&gt;so...ive grown a little tired of garuda on the desktop.  it was time to change things up a bit.  i made sure to keep my btrfs sdd current and copied all necessary &#x2F;home files etc before taking the plunge.  i decided i was going to make it my only DE and so i needed to start completely over from scratch.  some things are easier than others and i found that i&#x27;ll need some work arounds to get things working with my server connections etc. booting it up will tell me alot.&lt;&#x2F;p&gt;
+&lt;p&gt;so i started with the most recent arch iso, pulled from their repo, i found the below to download at about 10Mb&#x2F;s which took like 4 min,  not bad for an iso mirror.
+&lt;a href=&quot;https:&#x2F;&#x2F;losangeles.mirror.pkgbuild.com&#x2F;iso&#x2F;2026.01.01&#x2F;archlinux-2026.01.01-x86_64.iso&quot;&gt;https:&#x2F;&#x2F;losangeles.mirror.pkgbuild.com&#x2F;iso&#x2F;2026.01.01&#x2F;archlinux-2026.01.01-x86_64.iso&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;i used gnome-disk-utility to copy the iso to the USB and make it bootable...just use the restore function and select  the .iso file and it&#x27;ll take a couple minutes.&lt;&#x2F;p&gt;
+&lt;p&gt;i booted the OS into my bios, setup the USB boot first, and restarted. the MSI board i have also has a boot disk menu, i just wanted to make sure secure boot was off.&lt;&#x2F;p&gt;
+&lt;p&gt;on boot, the desktop, which is pretty fast, got to a prompt in about 30s.  as I always do, i typed in &lt;code&gt;archinstall --advanced&lt;&#x2F;code&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;i went through the usual items, setup partitioning to recommended layout and used btrfs here, and also left off the 7tb ssd so files wouldn&#x27;t be overwritten.  in the type menu, i selected cosmic and made sure to setup cosmic-greeter as the &#x27;login manager&#x27;.  i also selected nvidia since my 4070ti was detected. i used the new &#x27;open&#x27; drivers 590.xx which is the general direction we are moving with that stuff. no additional packages needed as i wanted to see what would come installed.&lt;&#x2F;p&gt;
+&lt;p&gt;after setting up password, user and static IP, i was ready to boot.  total install time from first arch prompt was about 5 min to done.  reboot option selected and away we go. cosmic-greeter was nice, and set to default background both monitors came up and i entered my password i setup.  i was greeted by an informational bubble to walk me through some cosmic nuances.  i just clicked through it as i would rather just poke around.  some main differences off the bat:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;terminal was not fish - ill change that later&lt;&#x2F;li&gt;
+&lt;li&gt;a little better notification panel out of the box over gnome (what i usually use)&lt;&#x2F;li&gt;
+&lt;li&gt;some nuances in the always-on dock (adjustable to hide)&lt;&#x2F;li&gt;
+&lt;li&gt;panel usability is a little different, not sure if ill be able to add things, like my tailscale button in the settings panel as those are all individualized&lt;&#x2F;li&gt;
+&lt;li&gt;the dock has some configurable buttons that are specific to cosmic, launcher, workspace switching, etc&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;some similarities:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;has a gnome (feel) to it for sure&lt;&#x2F;li&gt;
+&lt;li&gt;upper panel pretty much the same with layout, perhaps a little more control in the cosmic-tweak function&lt;&#x2F;li&gt;
+&lt;li&gt;the super button brings up the application folder, with a tabbed layout rather than scroll (grouping function seems easier), but very familiar&lt;&#x2F;li&gt;
+&lt;li&gt;easier theming than gnome through settings &amp;gt; appearance and cosmic-tweaks&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;overall a little nuanced but familiar feel.  the animations are snappy and the details are nice. opted for a darker them with rounded windows and contrasting &#x27;current window&#x27; highlights.&lt;&#x2F;p&gt;
+&lt;p&gt;things i&#x27;ve tested out so far:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;virtualbox - same experience as garuda, causes fans to ramp even with low load in vm.  ive since setup virt-manager and have been very pleased with loads dropping to near idle with vm running (seeing 1% CPU load with virtmanager, rather than 4-7% with vbox) - HUGE difference. and i&#x27;ll detail that experience in another post.&lt;&#x2F;li&gt;
+&lt;li&gt;remmina - pretty much abandoned.  was having vnc issues with virt-manager, just ended up installing rustdesk in my windows vm, on the cosmic-desktop and on my arch garuda laptop, works just as well maybe even a little better than remmina (has a teamviewer feel) and becasuse it keeps telling me its faster if i self-host, i&#x27;m also working on a rustdesk-server OSS implementation on my &#x2F;homelab now.  will detail that more later.&lt;&#x2F;li&gt;
+&lt;li&gt;apps:  i dont use office or anything, so i cant speak to that, but pretty much all arch packages are installed.&lt;&#x2F;li&gt;
+&lt;li&gt;chaotic AUR: setup was pretty much the same as garuda, though not included&lt;&#x2F;li&gt;
+&lt;li&gt;system: i have a few things to do still, fstab edit for nfs mounts.  i did move my &#x2F;home files to the new dir from my 7tb ssd and reformatted it and added it to the new &#x2F;home dir (same as last time). ive detailed that below, cause i forgot how i did it last time.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;btrfs stuff:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;sudo mkfs.btrfs -f &#x2F;dev&#x2F;sda1
+&lt;&#x2F;span&gt;&lt;span&gt;sudo btrfs device add -f &#x2F;dev&#x2F;sda &#x2F;home #this will basically do the same thing
+&lt;&#x2F;span&gt;&lt;span&gt;sudo btrfs balance start &#x2F;home
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;i redid all the git mounts to my forgejo server and setup obsidian to folder (notes).
+i also installed yay and used it for building trivalent-bin &lt;code&gt;yay-S trivalent-bin&lt;&#x2F;code&gt; , which is a FOSS browser (chromium-based) hardened and borrowing heavily from graphene OS vanadium browser and originally built for fedora secureBLUE.  try it out if you have a chance.  way better than Brave browser.&lt;&#x2F;p&gt;
+&lt;p&gt;ive gotten docker up and running also, with my ollama instance on bare-metal...i&#x27;ve got to get openweb-UI or something else to interface with it like i did before, but i didnt save the compose file to my forgejo, so im having to work that out from scratch again...rn its not seeing my models on the disk.&lt;&#x2F;p&gt;
+&lt;p&gt;that&#x27;s it for now! so far smooth sailing and i might even redo the laptop at some point.  the virt-manager and rustdesk solutions were probably the most difficult part of getting back to where I was.  overall i had probably a 1&#x2F;2 day doing setup.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>NFS pass-through</title>
+        <published>2025-12-28T00:00:00+00:00</published>
+        <updated>2025-12-28T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/nfspassthrough/"/>
+        <id>https://inktheghost.com/blog/nfspassthrough/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/nfspassthrough/">&lt;h1 id=&quot;nfs-pass-through-in-proxmox-to-arch-linux-vm&quot;&gt;NFS pass-through in proxmox to arch linux vm&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;14-38&quot;&gt;14:38&lt;&#x2F;h2&gt;
+&lt;p&gt;continuing my proxmox install saga...&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;setting-up-nfs&quot;&gt;setting up nfs&lt;&#x2F;h2&gt;
+&lt;p&gt;i got the fans running quietly, now it was time to sort out a few things.  i wanted to migrate my nas container manager data to the new server.  this meant creating a zfs file system raidz1-0 with my big disks (18TBx6) giving me roughly 80gb usable space with redundancy.  i made the zfs &#x2F;storage with the 6 disks selected and voila!  storage.  now i needed to move files to my server.  for this to work i needed to do a couple things.  i needed nfs on my proxmox, so i could serve the folders to both my nas and my future jellyfin instance.  i created a single disk zfs with my 4tb nvme for just transcoding and setup the nfs server on pve host:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;apt install nfs-common
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this downloads the drivers to host, then edit exports file&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;nano &#x2F;etc&#x2F;exports
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;then add your directories in the file:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;# &#x2F;etc&#x2F;exports: the access control list for filesystems which may be exported
+&lt;&#x2F;span&gt;&lt;span&gt;#               to NFS clients.  See exports(5).
+&lt;&#x2F;span&gt;&lt;span&gt;#
+&lt;&#x2F;span&gt;&lt;span&gt;# Example for NFSv2 and NFSv3:
+&lt;&#x2F;span&gt;&lt;span&gt;# &#x2F;srv&#x2F;homes       hostname1(rw,sync,no_subtree_check) hostname2(ro,sync,no_subtree_check)
+&lt;&#x2F;span&gt;&lt;span&gt;#
+&lt;&#x2F;span&gt;&lt;span&gt;# Example for NFSv4:
+&lt;&#x2F;span&gt;&lt;span&gt;# &#x2F;srv&#x2F;nfs4        gss&#x2F;krb5i(rw,sync,fsid=0,crossmnt,no_subtree_check)
+&lt;&#x2F;span&gt;&lt;span&gt;# &#x2F;srv&#x2F;nfs4&#x2F;homes  gss&#x2F;krb5i(rw,sync,no_subtree_check)
+&lt;&#x2F;span&gt;&lt;span&gt;#
+&lt;&#x2F;span&gt;&lt;span&gt;&#x2F;storage&#x2F; 192.168.50.0&#x2F;24(rw,sync,all_squash,no_subtree_check,anonuid=1000,anongid=1000)
+&lt;&#x2F;span&gt;&lt;span&gt;&#x2F;transcode&#x2F; 192.168.50.0&#x2F;24(rw,sync,all_squash,no_subtree_check,anonuid=1000,anongid=1000)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;then i reload nfs with systemctl and export the directories:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;systemctl daemon-reload
+&lt;&#x2F;span&gt;&lt;span&gt;exportfs -arv
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;next you need to chmod and chown your directories:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;chmod 775 -R &#x2F;transcode&#x2F; &#x2F;storage&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;chown -R joe:nfsgroup &#x2F;transcode&#x2F; &#x2F;storage&#x2F;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;the chmod sets to uid1000 basically and i had to create an nfs group nfsgroup and adduser joe so i had gid1000 so the permissions match the export details...this allows easy read writes on jellyfin and all other apps have same permission structure.  the arrs have the storage dir mapped on the client side as well.&lt;&#x2F;p&gt;
+&lt;p&gt;now for the arch client, you have to add the nfs-utils package:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;sudo pacman -Syu nfs-utils
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;then you can add the dirs and edit the etc&#x2F;fstab with &lt;code&gt;nano &#x2F;etc&#x2F;fstab&#x2F;&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;mkdir -p &#x2F;transcode &#x2F;storage
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;192.168.50.2:&#x2F;storage &#x2F;storage nfs rw,defaults,nofail  0 0
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.2:&#x2F;transcode&#x2F; &#x2F;transcode nfs rw,defaults,nofail  0 0
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;add the no fail, so if the nfs blows up or something the mount won&#x27;t bonk the vm boot (i use this on my laptop and desktop too&lt;&#x2F;p&gt;
+&lt;p&gt;at this point you should have the directories setup, so do another &lt;code&gt;systemctl daemon-reload&lt;&#x2F;code&gt; and &lt;code&gt;sudo mount -a&lt;&#x2F;code&gt; to check and make sure everything works.  i like to just put a test file on the server-side before the mount on the client, using &lt;code&gt;touch test.file&lt;&#x2F;code&gt; and that way you should see the file on the clinet side in the directories you just mounted.&lt;&#x2F;p&gt;
+&lt;p&gt;now, some people may have multiple users on the client and the server.  you need to make sure these match.  i also had to make sure the permissions matched on the NAS so when i ran the rsync command all permissions match between server and 2 clients.  at this point i also ran the chmod and chown commands on the clients to assure permission uniformity.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;notes&quot;&gt;notes&lt;&#x2F;h3&gt;
+&lt;p&gt;at this point all should be ready to copy files.  i used a rsync command on my synology NAS that I was ssh&#x27;d into to move all my files over to the server.  i followed trashguides directory structure when i originally setup the &lt;em&gt;arrs&lt;&#x2F;em&gt; on the nas so it looks like this:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;   &#x2F;storage&#x2F;data&#x2F;media
+&lt;&#x2F;span&gt;&lt;span&gt;       &#x2F;books
+&lt;&#x2F;span&gt;&lt;span&gt;       &#x2F;movies
+&lt;&#x2F;span&gt;&lt;span&gt;       &#x2F;music
+&lt;&#x2F;span&gt;&lt;span&gt;       &#x2F;tv
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;update-03-09-2026-07-39&quot;&gt;UPDATE: 03&#x2F;09&#x2F;2026 07:39&lt;&#x2F;h2&gt;
+&lt;p&gt;nfs file mounts in &#x2F;etc&#x2F;fstab:&lt;&#x2F;p&gt;
+&lt;p&gt;the options declarations in the man page state that rw, and defaults are not necessary options...unless you have no other options stated. defaults is a placeholder for the string, and rw is a default.&lt;&#x2F;p&gt;
+&lt;p&gt;so for the mounting of the nfs folders from my server above:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;192.168.50.2:&#x2F;storage &#x2F;storage nfs rw,defaults,nofail  0 0
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.2:&#x2F;transcode&#x2F; &#x2F;transcode nfs rw,defaults,nofail  0 0
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;these can be simplified to:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;192.168.50.2:&#x2F;storage &#x2F;storage nfs nofail  0 0
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.2:&#x2F;transcode&#x2F; &#x2F;transcode nfs nofail  0 0
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;as the rw &lt;em&gt;is&lt;&#x2F;em&gt; a default, and defaults is redundant with nofail. if for some reason you did not want to use nofail (though it will save you someday - ask me how i know), you could just enter defaults and rw is implied.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>jellyfin</title>
+        <published>2025-12-21T00:00:00+00:00</published>
+        <updated>2025-12-21T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/jellyfin/"/>
+        <id>https://inktheghost.com/blog/jellyfin/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/jellyfin/">&lt;h1 id=&quot;jellyfin-destroy-and-rebuild&quot;&gt;jellyfin - destroy and rebuild&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;08-49&quot;&gt;08:49&lt;&#x2F;h2&gt;
+&lt;p&gt;well i&#x27;ve had the unfortunate luxury of arch trying to break my jellyfin instance...this coupled with my adding of an nvme drive that i&#x27;ve wanted to use for transcoding and fully breaking the install by removing the transcode dir&#x2F;files for jellyfin and not copying them :&#x2F;  i was left with a half day trying to get the jellyfin instance back online before i hit the wall.&lt;&#x2F;p&gt;
+&lt;p&gt;since i&#x27;d already managed the gpu passthrus and all that shit on arch (yeah I know it breaks things :) ), as a last shot effort i figured i&#x27;d give the docker version a try.  i was obviously going to need to bring the instance up from the ashes anyway, so why not.  also, as a little precursor, the docker instance was already there, running the full suite of arrs* so that part was done anyways.&lt;&#x2F;p&gt;
+&lt;p&gt;first i had to remove everything that came before, i entered these commands line by line that you see in the code block below:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;sudo pacman -Rscn jellyfin-web jellyfin-server jellyfin-ffmpeg
+&lt;&#x2F;span&gt;&lt;span&gt;sudo rm -R &#x2F;var&#x2F;lib&#x2F;jellyfin
+&lt;&#x2F;span&gt;&lt;span&gt;sudo rm -R &#x2F;var&#x2F;cache&#x2F;jellyfin
+&lt;&#x2F;span&gt;&lt;span&gt;sudo systemctl stop jellyfin
+&lt;&#x2F;span&gt;&lt;span&gt;sudo systemctl disable jellyfin
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;just for good measure i did a reboot after that, and then ran &lt;code&gt;nvidia-smi&lt;&#x2F;code&gt; to make sure the card was working still.  it was, so i went ahead and got into my portainer instance to start working on the docker-compose.  i pulled a few examples from the internet, including the jellyfin recommended one, but kept getting runtime and cdi errors during build.  trying a docker run command i was able to see that i needed to build the container toolkit and so i used yay for that.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;yay -S nvidia-container-toolkit
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;a little into it, it broke on a dependency....wont bother you with the details here, but i had to pull a backup of my arch server from 3 days ago, did a full restore and after boot and &lt;code&gt;nvidia-smi&lt;&#x2F;code&gt; the above command built and installed the files correctly.&lt;&#x2F;p&gt;
+&lt;p&gt;so it seemed I was good, tried to deploy the stack again and had a couple more issues: errors for CDI and for runtime call.  i went out on the internet and found a couple solutions.  i needed to tell docker about the runtime:nvidia call in the docker-compose and have it built before i spun up the container.  used the following commands below:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;sudo nvidia-ctk cdi generate --output=&#x2F;etc&#x2F;cdi&#x2F;nvidia.yaml
+&lt;&#x2F;span&gt;&lt;span&gt;sudo nvidia-ctk config --in-place --set nvidia-container-runtime.mode=cdi
+&lt;&#x2F;span&gt;&lt;span&gt;sudo systemctl restart docker
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;i also needed to add my user to docker so i could issue future docker commands without sudo:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;sudo usermod -aG docker $USER   
+&lt;&#x2F;span&gt;&lt;span&gt;sudo nvidia-ctk runtime configure --runtime=docker
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;finally after this i was able to get the docker jellyfin container to build and was able to bring up the jellyfin server instance back to the boot splash.  the last few details are setting up the transcoding options and directories.  the final docker-compose.yml is:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;services:
+&lt;&#x2F;span&gt;&lt;span&gt;  jellyfin:
+&lt;&#x2F;span&gt;&lt;span&gt;    image: lscr.io&#x2F;linuxserver&#x2F;jellyfin
+&lt;&#x2F;span&gt;&lt;span&gt;    container_name: jellyfin
+&lt;&#x2F;span&gt;&lt;span&gt;    environment:
+&lt;&#x2F;span&gt;&lt;span&gt;      - PUID=1000
+&lt;&#x2F;span&gt;&lt;span&gt;      - PGID=1000
+&lt;&#x2F;span&gt;&lt;span&gt;      - TZ=America&#x2F;Denver
+&lt;&#x2F;span&gt;&lt;span&gt;      - NVIDIA_VISIBLE_DEVICES=all
+&lt;&#x2F;span&gt;&lt;span&gt;    volumes:
+&lt;&#x2F;span&gt;&lt;span&gt;      - &#x2F;home&#x2F;joe&#x2F;jellyfin&#x2F;config:&#x2F;config
+&lt;&#x2F;span&gt;&lt;span&gt;      - &#x2F;zstor&#x2F;data&#x2F;media&#x2F;tv:&#x2F;media&#x2F;tv
+&lt;&#x2F;span&gt;&lt;span&gt;      - &#x2F;zstor&#x2F;data&#x2F;media&#x2F;movies:&#x2F;media&#x2F;movies
+&lt;&#x2F;span&gt;&lt;span&gt;      - &#x2F;zstor&#x2F;data&#x2F;media&#x2F;music:&#x2F;media&#x2F;music
+&lt;&#x2F;span&gt;&lt;span&gt;      - &#x2F;transcode:&#x2F;transcode
+&lt;&#x2F;span&gt;&lt;span&gt;    ports:
+&lt;&#x2F;span&gt;&lt;span&gt;      - 8096:8096
+&lt;&#x2F;span&gt;&lt;span&gt;      - 8920:8920
+&lt;&#x2F;span&gt;&lt;span&gt;    restart: unless-stopped
+&lt;&#x2F;span&gt;&lt;span&gt;    runtime: nvidia
+&lt;&#x2F;span&gt;&lt;span&gt;    deploy:
+&lt;&#x2F;span&gt;&lt;span&gt;      resources:
+&lt;&#x2F;span&gt;&lt;span&gt;        reservations:
+&lt;&#x2F;span&gt;&lt;span&gt;          devices:
+&lt;&#x2F;span&gt;&lt;span&gt;            - capabilities: [gpu]
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;i set up my users, pointed movies, tv and music from my nfs share (being passed thru), transcode directory (nvme passthough) and started setting up the transcode info in the Dashboard &amp;gt; Playback menu.  I used the following from nvidia to search for all my gpu capabilities:
+&lt;a href=&quot;https:&#x2F;&#x2F;developer.nvidia.com&#x2F;video-encode-decode-support-matrix&quot;&gt;https:&#x2F;&#x2F;developer.nvidia.com&#x2F;video-encode-decode-support-matrix&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;and ticked the appropriate boxes.  just out of my image there is also a selection for tone mapping that i selected, and down in the transcode folder, changed from the os files to the &#x2F;transcode nfs share i had mapped in the docker-compose.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;img&#x2F;screenshotjellyfin1.png&quot; alt=&quot;this is a screenshot&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;after this i spun up a movie.  here&#x27;s the output from &lt;code&gt;nvidia-smi&lt;&#x2F;code&gt; both on the host&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;img&#x2F;screenshotjellyfin3.png&quot; alt=&quot;this is a screenshot&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;and using this command to see within the docker container:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;docker exec jellyfin nvidia-smi
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;img&#x2F;screenshotjellyfin2.png&quot; alt=&quot;this is a screenshot&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;i find it interesting that the output of the docker exec comman shows the fan speed and total gpu% outputs, yet does&#x27;t show the call for ffmpeg, in fact no processes at all.  i chalking that up to ffmpeg actually executing on the host and not within the docker containers as it is all a passthough.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;update-block-nvidia-open&quot;&gt;Update - block nvidia-open&lt;&#x2F;h2&gt;
+&lt;p&gt;so the most recent pacman -Syu broke my system - this is probable what caused the problem in the first place ;)&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;sudo nano &#x2F;etc&#x2F;pacman.conf
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;uncomment the IgnorePkg = and add the below&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;IgnorePkg = nvidia-open   
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;after another pacman -Syu the upgrade said it had nothing to do, so hopefully this will by me time to sort out how to negotiate the nvida-open dilemma.&lt;&#x2F;p&gt;
+&lt;p&gt;the AI search in duckduckgo says that the nvidia-open drivers wont work with older cards like maxwell and pascal, but i haven&#x27;t dug into it at all&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>
