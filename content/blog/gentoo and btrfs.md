@@ -9,8 +9,8 @@ tags = ["gentoo", "btrfs"]
 # gentoo and btrfs 
  ## 08:03
 
-**updating**
-***this is a work in progress - i shit-canned my whole install wiped and restarted from scratch.  WHY? well, after looking at how many OS's DE MW etc were OK with LLM contributions, i sought a new path. current approach which is working that i will update this with here:
+### updating
+***this is a work in progress - i shit-canned my whole install wiped and restarted from scratch.  WHY? well, after looking at how many OS's DE MW etc were OK with LLM contributions, i sought a new path. current approach which is working that i will update this with here:***
 - btrfs filesystem
 - gentoo w/ openRC- no-multilib profile
 - snapper
@@ -23,7 +23,7 @@ tags = ["gentoo", "btrfs"]
 - laptop stuff - power 
 - my apps
 
-***what i'm still trying to get working:
+***what i'm still trying to get working:***
 - screenlock - swaylock maybe?
 - brighnessctl for keyboard illumination
 - prettier waybar or alternative
