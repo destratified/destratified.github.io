@@ -27,7 +27,7 @@ tags = ["gentoo", "btrfs"]
 - screenlock - swaylock maybe?
 - brighnessctl for keyboard illumination
 - prettier waybar or alternative
-- sound
+- sound - shows in soundbar but pavucontrol not working
 
 ______________
 
