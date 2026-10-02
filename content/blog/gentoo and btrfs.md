@@ -1,23 +1,28 @@
 +++
 title = "gentoo and btrfs"
-date = "2026-05-07"
+date = "2026-10-02"
 
 [taxonomies]
 tags = ["gentoo", "btrfs"]
 +++
 
 # gentoo and btrfs 
- ## 10:03
+ ## 08:03
 
-well, the gentoo bug has bit me i suppose. i've got gentoo on a ext4 setup on my laptop and its working great, used timeshift with rsync to create a reliable and usable backup and restore. tested and works great as long as you can boot into it. now, i had my desktop miniPC a NitroPC with open bootloader and had been running debian with openRC on it, but kept coming back to the idea if i wanna run openRC, why not just go to the source. gentoo is well integrated and having to adapt an build my own init files was fun, but a little annoying. its baked in, and just works.
+**updating**
+***this is a work in progress - i shit-canned my whole install wiped and restarted from scratch.  WHY? well, after looking at how many OS's DE MW etc were OK with LLM contributions, i sought a new path.  current approach which is working that i will update this with here:
+gentoo w/ openRC- no-multilib profile
+btrfs filesystem
+snapper
+grub-btrfs
+niri WM
+sddm login w/ niceness
+waybar
+laptop stuff - power 
+my apps***
 
-so i set about finding a couple guides, used the handbook where it makes sense, and seemed after some arduous trial and error got it functioning. so the first guide i used, which got me to a boot prompt was <https://gist.github.com/xmawja/da6a7ee664271631ae5cd4de0dc4f249>
-
-in this guide, everything worked for the most part, but i found i was having trouble updating grub when a new kernel was loaded - couldnt properly find boot partition and i was only able to boot from an efi stub that i'd copied and not from grub.
-
-this issue i think was in the two partitions that were being setup in the guide, so after i was in my WM - id gone as far as to setup kde, i decided that in order to get dracut, intiramfs and mkconfig-grub to all play nice together i needed to redo the boot partition.  
-
-this was not for the faint of heart, as i had to wipe it from the liveCD and chroot in...which is a pain in the butt with a btrfs setup as you have many partitions to load.  i was able to shortcut this with the guide a bit as alot of the mount commands were copy and paste but it kinda went like this:
+***what i'm still trying to get working:
+screenlock***
 
 1) using partition-manager in gentoo liveCD, delete the /boot (/dev/sda1 - ext4) and /boot/efi (/dev/sda-2 EFI) partitions - this leave swap (if you need it) and the btrfs partition with / and others - apply changes
 
