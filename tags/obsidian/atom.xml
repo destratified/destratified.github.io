@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>ink the ghost - obsidian</title>
+    <link rel="self" type="application/atom+xml" href="https://inktheghost.com/tags/obsidian/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://inktheghost.com"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2025-10-14T00:00:00+00:00</updated>
+    <id>https://inktheghost.com/tags/obsidian/atom.xml</id>
+    <entry xml:lang="en">
+        <title>obsidian git repo sync android app</title>
+        <published>2025-10-14T00:00:00+00:00</published>
+        <updated>2025-10-14T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/obsidian-setup-pt3/"/>
+        <id>https://inktheghost.com/blog/obsidian-setup-pt3/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/obsidian-setup-pt3/">&lt;p&gt;so the basics of this is the app setup essentially has the same access to the git community repository, so the setup between android and linux is pretty much the same, yet different enough that you have to follow the below procedure - this specifically seems to be the way that you have to do it imho&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;if you have another installation of obsidian (like on your laptop&#x2F;desktop): you must delete the .obsidian files in this folder to get this to play nicely when setting up the repo on android. the easiest way for me to do this was to delete the .obsidian folder using rm -r .obsidian&#x2F; on my local gitea folder, then git push to sync with gitea.&lt;&#x2F;li&gt;
+&lt;li&gt;now setup whatever folder you want to access within android through the files app - i have two folders, so i went to my directory root and added notes and blog folders&lt;&#x2F;li&gt;
+&lt;li&gt;on a fresh install use the add existing folder and select the folder you want to use for obsidian.  in my case notes&lt;&#x2F;li&gt;
+&lt;li&gt;now obsidian should take you into the note screen with a fresh directory, no other files present&lt;&#x2F;li&gt;
+&lt;li&gt;go to the menu and settings cog and add communtity repos then search add and install git&lt;&#x2F;li&gt;
+&lt;li&gt;enable git plugin and add as many details as you can.  i like to tweak some settings and add my repo username and gitera access token.&lt;&#x2F;li&gt;
+&lt;li&gt;you will now need to swipe down and enter the same menu you would access with ctrl + p in the desktop version.&lt;&#x2F;li&gt;
+&lt;li&gt;you are now going to type git clone and select what comes up first&lt;&#x2F;li&gt;
+&lt;li&gt;add your gitea url to the repo&lt;&#x2F;li&gt;
+&lt;li&gt;select vault root&lt;&#x2F;li&gt;
+&lt;li&gt;next question will ask you if you have .obsidian files in the remote dir.  before you select yes...access the files app in android, goto the folder you setup (in my case notes and delete the new .obsidian folder thats in the android folder!!!&lt;&#x2F;li&gt;
+&lt;li&gt;now back in the app click NO to the prompt about the .obsidian folders.&lt;&#x2F;li&gt;
+&lt;li&gt;it will now pull the repo and ask you to restart the app.  do that and verify the folders&#x2F;files have shown up&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>now through obsidian</title>
+        <published>2025-10-13T00:00:00+00:00</published>
+        <updated>2025-10-13T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/obsidian-setup-pt2/"/>
+        <id>https://inktheghost.com/blog/obsidian-setup-pt2/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/obsidian-setup-pt2/">&lt;p&gt;So here&#x27;s how everything is setup so far&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Obsidian on laptop, initially with folder obsidian_notes synced to local gitea&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Gitea repo of the same, mirrored to prived github repo&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Added the blog repo to gitea &amp;gt; private repo&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Setup mirror to my github repo of the same name &amp;gt; public&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Added Git it Write plugin to word press&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Pulled gitea repo to local folder&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Added new local folder synce to gitea to obsidian&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Writing this note now.  Once I sync it should sync to gitea &amp;gt; github &amp;gt; wordpress&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;So due to limitations I have cannot sync via obsidian directly as it won&#x27;t manage 2 git folders
+a) however, i have a git push that syncs all my gitea folders if I am on my laptop. If I am editing from the web via gitea, or github it should work
+b) ill manage this with git pull&#x2F;push for now&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Update: I have both my obsidian notes and my blog syncing automagically!!! Everything I was reading online seemed to indicate that I wasn&#x27;t supposed to be able to do this&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>howto create repos and install Obsidian using git remote folders</title>
+        <published>2025-10-12T00:00:00+00:00</published>
+        <updated>2025-10-12T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/obsidian-setup-pt1/"/>
+        <id>https://inktheghost.com/blog/obsidian-setup-pt1/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/obsidian-setup-pt1/">&lt;p&gt;objective: i wanted to use obsidian as my editor for my blog, sync notes via &amp;gt; gitea, but not have on the open web.  i have github for tailscale as ive covered before, so i added a public repo user&#x2F;blog to start adding and editing using markdown and having saved in multiple locations.&lt;&#x2F;p&gt;
+&lt;p&gt;i had obsidian running on the laptop, so the initial setup had my obsidian_notes folder setup and synced local git folder &amp;gt; private gitea repo &amp;gt; mirrored private github repo&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;first-git-folder-setup&quot;&gt;first git folder setup&lt;&#x2F;h1&gt;
+&lt;ol&gt;
+&lt;li&gt;i initally setup the repo through my gitea install on my server.  i didnt intialize the repo, but did set it up as private.&lt;&#x2F;li&gt;
+&lt;li&gt;then i made a new directory - all my folders are under ~&#x2F;gitea on any computer i use for continuity.  i did a git clone to that gitea repo for what i called obsidian_notes&lt;&#x2F;li&gt;
+&lt;li&gt;i use ssh for gitea so I have already setup a ssh key for this purpose which allows ssh based auth so i don&#x27;t always have to input the password - tbh i am not even sure what it is :)&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;the commands look like this:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;code&gt;cd ~&lt;&#x2F;code&gt;
+&lt;code&gt;mkdir gitea&lt;&#x2F;code&gt;
+&lt;code&gt;git clone git@&amp;lt;URL&amp;gt;:&amp;lt;username&amp;gt;&#x2F;&amp;lt;folder&amp;gt;.git&lt;&#x2F;code&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;i recommend using a fresh install of Obsidian.  i was playing around with this and realized that i needed to move&#x2F;swap some folders, so i deleted my old ones, and used:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;code&gt;sudo pacman -Rscn obsidian&lt;&#x2F;code&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;to purge the old files, made sure I had all the old attached obsidian folders deleted. then i reinstalled&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;code&gt;sudo pacman -S obsidian&lt;&#x2F;code&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;now you need to point it to the new existing folder that you have synced with your repo...&lt;&#x2F;p&gt;
+&lt;insert screenshot here&gt; 
+&lt;p&gt;select open folder as vault, then accept the bubbles saying you trust it...of course you do.  now you should be able to edit.  my install also automatically pulled the community git repo and setup all the essential functions.  you should see any existing notes (yes you can use this with an existing repo) and can go in and setup the sync settings, commit messages etc.&lt;&#x2F;p&gt;
+&lt;p&gt;i also like to do &amp;lt;Ctrl+P&amp;gt; and GIt: Open source control panel so i have access to the commits, push pulls etc&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;second-git-folder-setup&quot;&gt;second git folder setup&lt;&#x2F;h2&gt;
+&lt;p&gt;now you can do the same general steps as you did above:&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;goto bottom left corner where it shows the folder you are currently in and click the folder name&lt;&#x2F;li&gt;
+&lt;li&gt;click manage vaults&lt;&#x2F;li&gt;
+&lt;li&gt;select your second repo folder as an existing folder an you will see the files propogate if you have them&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;this time you will have to do the following for the repo to sync:&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;click the cog for settings in the bottom left corner&lt;&#x2F;li&gt;
+&lt;li&gt;goto the community plugins page &amp;gt; search for git&lt;&#x2F;li&gt;
+&lt;li&gt;install the git plugin and dont forget to enable the plugin&lt;&#x2F;li&gt;
+&lt;li&gt;close down the app and restart&lt;&#x2F;li&gt;
+&lt;li&gt;configure the git plugin settings as you did for the previous remote folder that was setup&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;now you can keep doing this for as many repos as you want to create files for!&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>

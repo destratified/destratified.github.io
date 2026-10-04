@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>ink the ghost - NFS</title>
+    <link rel="self" type="application/atom+xml" href="https://inktheghost.com/tags/nfs/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://inktheghost.com"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2025-12-28T00:00:00+00:00</updated>
+    <id>https://inktheghost.com/tags/nfs/atom.xml</id>
+    <entry xml:lang="en">
+        <title>NFS pass-through</title>
+        <published>2025-12-28T00:00:00+00:00</published>
+        <updated>2025-12-28T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/nfspassthrough/"/>
+        <id>https://inktheghost.com/blog/nfspassthrough/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/nfspassthrough/">&lt;h1 id=&quot;nfs-pass-through-in-proxmox-to-arch-linux-vm&quot;&gt;NFS pass-through in proxmox to arch linux vm&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;14-38&quot;&gt;14:38&lt;&#x2F;h2&gt;
+&lt;p&gt;continuing my proxmox install saga...&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;setting-up-nfs&quot;&gt;setting up nfs&lt;&#x2F;h2&gt;
+&lt;p&gt;i got the fans running quietly, now it was time to sort out a few things.  i wanted to migrate my nas container manager data to the new server.  this meant creating a zfs file system raidz1-0 with my big disks (18TBx6) giving me roughly 80gb usable space with redundancy.  i made the zfs &#x2F;storage with the 6 disks selected and voila!  storage.  now i needed to move files to my server.  for this to work i needed to do a couple things.  i needed nfs on my proxmox, so i could serve the folders to both my nas and my future jellyfin instance.  i created a single disk zfs with my 4tb nvme for just transcoding and setup the nfs server on pve host:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;apt install nfs-common
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this downloads the drivers to host, then edit exports file&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;nano &#x2F;etc&#x2F;exports
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;then add your directories in the file:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;# &#x2F;etc&#x2F;exports: the access control list for filesystems which may be exported
+&lt;&#x2F;span&gt;&lt;span&gt;#               to NFS clients.  See exports(5).
+&lt;&#x2F;span&gt;&lt;span&gt;#
+&lt;&#x2F;span&gt;&lt;span&gt;# Example for NFSv2 and NFSv3:
+&lt;&#x2F;span&gt;&lt;span&gt;# &#x2F;srv&#x2F;homes       hostname1(rw,sync,no_subtree_check) hostname2(ro,sync,no_subtree_check)
+&lt;&#x2F;span&gt;&lt;span&gt;#
+&lt;&#x2F;span&gt;&lt;span&gt;# Example for NFSv4:
+&lt;&#x2F;span&gt;&lt;span&gt;# &#x2F;srv&#x2F;nfs4        gss&#x2F;krb5i(rw,sync,fsid=0,crossmnt,no_subtree_check)
+&lt;&#x2F;span&gt;&lt;span&gt;# &#x2F;srv&#x2F;nfs4&#x2F;homes  gss&#x2F;krb5i(rw,sync,no_subtree_check)
+&lt;&#x2F;span&gt;&lt;span&gt;#
+&lt;&#x2F;span&gt;&lt;span&gt;&#x2F;storage&#x2F; 192.168.50.0&#x2F;24(rw,sync,all_squash,no_subtree_check,anonuid=1000,anongid=1000)
+&lt;&#x2F;span&gt;&lt;span&gt;&#x2F;transcode&#x2F; 192.168.50.0&#x2F;24(rw,sync,all_squash,no_subtree_check,anonuid=1000,anongid=1000)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;then i reload nfs with systemctl and export the directories:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;systemctl daemon-reload
+&lt;&#x2F;span&gt;&lt;span&gt;exportfs -arv
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;next you need to chmod and chown your directories:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;chmod 775 -R &#x2F;transcode&#x2F; &#x2F;storage&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;chown -R joe:nfsgroup &#x2F;transcode&#x2F; &#x2F;storage&#x2F;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;the chmod sets to uid1000 basically and i had to create an nfs group nfsgroup and adduser joe so i had gid1000 so the permissions match the export details...this allows easy read writes on jellyfin and all other apps have same permission structure.  the arrs have the storage dir mapped on the client side as well.&lt;&#x2F;p&gt;
+&lt;p&gt;now for the arch client, you have to add the nfs-utils package:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;sudo pacman -Syu nfs-utils
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;then you can add the dirs and edit the etc&#x2F;fstab with &lt;code&gt;nano &#x2F;etc&#x2F;fstab&#x2F;&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;mkdir -p &#x2F;transcode &#x2F;storage
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;192.168.50.2:&#x2F;storage &#x2F;storage nfs rw,defaults,nofail  0 0
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.2:&#x2F;transcode&#x2F; &#x2F;transcode nfs rw,defaults,nofail  0 0
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;add the no fail, so if the nfs blows up or something the mount won&#x27;t bonk the vm boot (i use this on my laptop and desktop too&lt;&#x2F;p&gt;
+&lt;p&gt;at this point you should have the directories setup, so do another &lt;code&gt;systemctl daemon-reload&lt;&#x2F;code&gt; and &lt;code&gt;sudo mount -a&lt;&#x2F;code&gt; to check and make sure everything works.  i like to just put a test file on the server-side before the mount on the client, using &lt;code&gt;touch test.file&lt;&#x2F;code&gt; and that way you should see the file on the clinet side in the directories you just mounted.&lt;&#x2F;p&gt;
+&lt;p&gt;now, some people may have multiple users on the client and the server.  you need to make sure these match.  i also had to make sure the permissions matched on the NAS so when i ran the rsync command all permissions match between server and 2 clients.  at this point i also ran the chmod and chown commands on the clients to assure permission uniformity.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;notes&quot;&gt;notes&lt;&#x2F;h3&gt;
+&lt;p&gt;at this point all should be ready to copy files.  i used a rsync command on my synology NAS that I was ssh&#x27;d into to move all my files over to the server.  i followed trashguides directory structure when i originally setup the &lt;em&gt;arrs&lt;&#x2F;em&gt; on the nas so it looks like this:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#272822;color:#f8f8f2;&quot;&gt;&lt;code&gt;&lt;span&gt;   &#x2F;storage&#x2F;data&#x2F;media
+&lt;&#x2F;span&gt;&lt;span&gt;       &#x2F;books
+&lt;&#x2F;span&gt;&lt;span&gt;       &#x2F;movies
+&lt;&#x2F;span&gt;&lt;span&gt;       &#x2F;music
+&lt;&#x2F;span&gt;&lt;span&gt;       &#x2F;tv
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;update-03-09-2026-07-39&quot;&gt;UPDATE: 03&#x2F;09&#x2F;2026 07:39&lt;&#x2F;h2&gt;
+&lt;p&gt;nfs file mounts in &#x2F;etc&#x2F;fstab:&lt;&#x2F;p&gt;
+&lt;p&gt;the options declarations in the man page state that rw, and defaults are not necessary options...unless you have no other options stated. defaults is a placeholder for the string, and rw is a default.&lt;&#x2F;p&gt;
+&lt;p&gt;so for the mounting of the nfs folders from my server above:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;192.168.50.2:&#x2F;storage &#x2F;storage nfs rw,defaults,nofail  0 0
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.2:&#x2F;transcode&#x2F; &#x2F;transcode nfs rw,defaults,nofail  0 0
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;these can be simplified to:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;192.168.50.2:&#x2F;storage &#x2F;storage nfs nofail  0 0
+&lt;&#x2F;span&gt;&lt;span&gt;192.168.50.2:&#x2F;transcode&#x2F; &#x2F;transcode nfs nofail  0 0
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;as the rw &lt;em&gt;is&lt;&#x2F;em&gt; a default, and defaults is redundant with nofail. if for some reason you did not want to use nofail (though it will save you someday - ask me how i know), you could just enter defaults and rw is implied.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>

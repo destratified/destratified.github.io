@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>ink the ghost - dasharo</title>
+    <link rel="self" type="application/atom+xml" href="https://inktheghost.com/tags/dasharo/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://inktheghost.com"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2026-02-17T00:00:00+00:00</updated>
+    <id>https://inktheghost.com/tags/dasharo/atom.xml</id>
+    <entry xml:lang="en">
+        <title>z790-dasharo-cont</title>
+        <published>2026-02-17T00:00:00+00:00</published>
+        <updated>2026-02-17T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/z790-dasharo-cont/"/>
+        <id>https://inktheghost.com/blog/z790-dasharo-cont/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/z790-dasharo-cont/">&lt;h1 id=&quot;z790-dasharo-continued-ollama-and-gpu-passthru&quot;&gt;z790-dasharo-continued...ollama and gpu passthru&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;12-57&quot;&gt;12:57&lt;&#x2F;h2&gt;
+&lt;p&gt;so starting with the default install of arch using archinstall, i made my own trouble getting the nvidia passthru to work.&lt;&#x2F;p&gt;
+&lt;p&gt;namely, the archinstaller allows you to select the drivers and even though i sort-of recalled runnning across a github dasharo issue on this i went with the default open drivers for nvidia during the setup.&lt;&#x2F;p&gt;
+&lt;p&gt;now, for anyone including me who may deal with this again...if you make the same mistake, there&#x27;s nothing indicating that its not working correctly.  nvidia-smi works on host and with docker exec, it just doesn&#x27;t with cuda. i tried everything. podman, docker uninstall, reinstall etc. literally a full day trying to bring back my ollama and open-webui instance since id replaced the board. of course this matters beyond my own little application, but there ya go.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;fixes&quot;&gt;fixes&lt;&#x2F;h2&gt;
+&lt;p&gt;so after some time i finally came upon this dasharo issue that pointed me in the right direction:
+&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;Dasharo&#x2F;dasharo-issues&#x2F;issues&#x2F;1135&quot;&gt;https:&#x2F;&#x2F;github.com&#x2F;Dasharo&#x2F;dasharo-issues&#x2F;issues&#x2F;1135&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;now according to this, and the issue being corrected with a work-around, i dont think dasharo will be addressing this with their bios upgrades...&lt;&#x2F;p&gt;
+&lt;p&gt;so you have to reinstall nvidia drivers...here&#x27;s what i did to get that going&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;sudo pacman -S nvidia nvidia-settings nvidia-utils cuda
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;i am running cachyos on my laptop, so it looks a little different, but it should show a couple repo options as well as chaotic-AUR (if you have that), and i just hit enter...this should also show you a dependent dkms which you want as well. mine were all of the 580xx variety which is what nvidia stopped propreitary drivers at...this was replacing my 590xx drivers, and when prompted agree to that.&lt;&#x2F;p&gt;
+&lt;p&gt;next i followed along on my jellyfin tutorial to set those up, handy since the other inscance i used this for needed the same drivers.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;inktheghost.com&#x2F;blog&#x2F;jellyfin&#x2F;&quot;&gt;https:&#x2F;&#x2F;inktheghost.com&#x2F;blog&#x2F;jellyfin&#x2F;&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;installing-open-webui-with-bundled-ollama-support&quot;&gt;Installing Open WebUI with Bundled Ollama Support&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;open-webui&#x2F;open-webui?tab=readme-ov-file#installing-open-webui-with-bundled-ollama-support&quot;&gt;&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;This installation method uses a single container image that bundles Open WebUI with Ollama, allowing for a streamlined setup via a single command. Choose the appropriate command based on your hardware setup:&lt;&#x2F;p&gt;
+&lt;p&gt;install docker first:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;sudo pacman -S docker docker-compose
+&lt;&#x2F;span&gt;&lt;span&gt;sudo systemctl enable --now docker
+&lt;&#x2F;span&gt;&lt;span&gt;sudo systemctl start docker
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;then install more nvidia stuff and setup configs:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;paru -S nvidia-container-toolkit
+&lt;&#x2F;span&gt;&lt;span&gt;sudo nvidia-ctk cdi generate --output=&#x2F;etc&#x2F;cdi&#x2F;nvidia.yaml
+&lt;&#x2F;span&gt;&lt;span&gt;sudo nvidia-ctk config --in-place --set nvidia-container-runtime.mode=cdi
+&lt;&#x2F;span&gt;&lt;span&gt;sudo systemctl daemon-reload
+&lt;&#x2F;span&gt;&lt;span&gt;sudo systemctl restart docker
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;i also needed to add my user to docker so i could issue future docker commands without sudo and setup the docker runtime&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;Shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-Shell &quot;&gt;&lt;code class=&quot;language-Shell&quot; data-lang=&quot;Shell&quot;&gt;&lt;span&gt;sudo usermod -aG docker $USER   
+&lt;&#x2F;span&gt;&lt;span&gt;sudo nvidia-ctk runtime configure --runtime=docker
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;i struggled with many different versions of the docker-compose method vs cli and finally settled on the simple solution...duh, found on the open-webui github
+&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;open-webui&#x2F;open-webui#troubleshooting&quot;&gt;https:&#x2F;&#x2F;github.com&#x2F;open-webui&#x2F;open-webui#troubleshooting&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;installing-open-webui-with-bundled-ollama-support-1&quot;&gt;Installing Open WebUI with Bundled Ollama Support&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;open-webui&#x2F;open-webui?tab=readme-ov-file#installing-open-webui-with-bundled-ollama-support&quot;&gt;&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;This installation method uses a single container image that bundles Open WebUI with Ollama, allowing for a streamlined setup via a single command. Choose the appropriate command based on your hardware setup:&lt;&#x2F;p&gt;
+&lt;p&gt;With GPU Support**: Utilize GPU resources by running the following command:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;shell&quot; style=&quot;background-color:#272822;color:#f8f8f2;&quot; class=&quot;language-shell &quot;&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span&gt;docker run -d -p 3000:8080 --gpus=all -v ollama:&#x2F;root&#x2F;.ollama -v open-webui:&#x2F;app&#x2F;backend&#x2F;data --name open-webui --restart always ghcr.io&#x2F;open-webui&#x2F;open-webui:ollama
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;that came up after a couple minutes and i was able to access off my nginxed web address...or &lt;a href=&quot;http:&#x2F;&#x2F;localhost:3000&quot;&gt;http:&#x2F;&#x2F;localhost:3000&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>z790-dasharo</title>
+        <published>2026-01-19T00:00:00+00:00</published>
+        <updated>2026-01-19T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              970uts1d3
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://inktheghost.com/blog/z790-dasharo/"/>
+        <id>https://inktheghost.com/blog/z790-dasharo/</id>
+        
+        <content type="html" xml:base="https://inktheghost.com/blog/z790-dasharo/">&lt;h1 id=&quot;msi-z790p-with-dasharo&quot;&gt;MSI z790p with dasharo&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;11-58&quot;&gt;11:58&lt;&#x2F;h2&gt;
+&lt;p&gt;well i&#x27;m looking at throwing in the towel on devices that aren&#x27;t fully free software based. not just from the operating system, but also bios. i have a system76 lemur13 laptop which is the system76 version of coreboot, and my next objective is to do the same with the desktop and my server, or perhaps a new server. right now i&#x27;ve been pouring over forums and manuals, and found surprisingly that another version of the coreboot os - dasharo - is available on msi-z790 mb. i am currently running a msi-z790 carbon, not the pro version but it looks like my ram and cpu are on the HCL&#x27;s so i ordered a pre-flashed mobo to give it a shot.  3mdeb provides the pre-flashed boards as well as full cpus, and links to laptops, desktops, mini&#x27;s etc for those who are interested.&lt;&#x2F;p&gt;
+&lt;p&gt;looking forward to giving it a shot. hope the RAM works too as RAM is hella expensive rn. there is another question of whether the dGPU i have, NVIDIA 4070ti will work. thankfully i should be able to use some other options AMD6950 etc and different RAM if needed. but looking to get near to the same capability i have rn with existing box. we shall see (im)patiently till the packages arrive.&lt;&#x2F;p&gt;
+&lt;p&gt;research the EFF and total ownership of your devices!&lt;&#x2F;p&gt;
+&lt;p&gt;(UPDATE 02&#x2F;25&#x2F;2026)
+installed and working! i had to switch ram to a different one on the dasharo HCl. then change bios to XMP#1 profile and do a CMOS reset to get to post. happily my 4070ti GPU works out of the box! only small issue is that the fan profile doesnt work from bios, but a quick install of lm_sensors and using pwmconfig i was able to get control. after a little more fooling around i installed the fancontrol app from the cosmic apps and setup a profile with targets for a little better GUI control and responsiveness. everything else works as expected.&lt;&#x2F;p&gt;
+&lt;p&gt;now i&#x27;m going to try and setup my ollama instance again and try using podman this time, was having issues getting docker to utilize the gpu passthru.&lt;&#x2F;p&gt;
+&lt;p&gt;i also was able to restore my win11 vmm in virt-manager so i have access to my work stuff remotely again.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>
