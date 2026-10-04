@@ -40,7 +40,7 @@
             "state": {
               "type": "file-explorer",
               "state": {
-                "sortOrder": "byModifiedTimeReverse",
+                "sortOrder": "byModifiedTime",
                 "autoReveal": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -173,8 +173,8 @@
             "state": {
               "type": "git-view",
               "state": {},
-              "icon": "lucide-ghost",
-              "title": "git-view"
+              "icon": "git-pull-request",
+              "title": "Source Control"
             }
           }
         ],
@@ -196,13 +196,13 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "e2aae20ad6ceafa0",
+  "active": "4ed8f4d9ef379511",
   "lastOpenFiles": [
-    "content/blog/linux-surface fedora pt 2.md",
     "content/about.md",
     "content/blog/Alpine Linux.md",
     "content/blog/linux-surface fedora pt 1.md",
     "content/blog/fedora-snapper-grub-btrfs.md",
+    "content/blog/linux-surface fedora pt 2.md",
     "().md",
     "content/blog/gentoo and btrfs.md",
     "content/blog/gentoo on my laptop.md",
